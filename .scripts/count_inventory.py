@@ -125,6 +125,14 @@ SCAN_PATTERNS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"(\d+)\s+hook scripts?\b", re.IGNORECASE), "hooks"),
     # Heading format: ## Hooks (N scripts)
     (re.compile(r"\((\d+)\s+scripts?\)"), "hooks"),
+    # LaTeX longtable rows: "<Keyword> & \filepath{...} & <count> \\"
+    # The Component Manifest in user-manual.tex puts the keyword in the
+    # first column and the count in the last, so the standard "<num> <kw>"
+    # patterns above miss them.
+    (re.compile(r"^\s*Skills?\s*&[^&]*&\s*(\d+)\s*\\\\", re.IGNORECASE), "skills"),
+    (re.compile(r"^\s*(?:Global\s+)?Agents?\s*&[^&]*&\s*(\d+)\s*\\\\", re.IGNORECASE), "agents"),
+    (re.compile(r"^\s*Hooks?\s*&[^&]*&\s*(\d+)\s*\\\\", re.IGNORECASE), "hooks"),
+    (re.compile(r"^\s*Rules?\s*&[^&]*&\s*(\d+)\s*\\\\", re.IGNORECASE), "rules"),
 ]
 
 

@@ -59,12 +59,6 @@ Just say these naturally:
 
 <!-- CONVENTIONS:START -->
 <!-- synced from private CLAUDE.md — do not edit manually -->
-### LaTeX Compilation
-- **Default method:** Use `/latex` — it compiles, auto-fixes errors, and runs a citation audit.
-- Build artifacts go to `out/`, but the PDF is copied back to the source directory.
-- Use `.latexmkrc` with `$out_dir = 'out'` and `an `END {}` block to copy the PDF back`.
-- Never leave build artifacts (`.aux`, `.log`, etc.) in the source directory.
-
 ### Python & Package Management
 - Always use `uv`: see `python-uv` rule (global).
 

@@ -1,5 +1,7 @@
 ---
 name: peer-reviewer
+fidelity: balanced
+oversight: very-high
 description: "Use this agent when you need to review someone else's paper — as a peer reviewer, discussant, or for reading group preparation. This agent reads the PDF carefully using split-pdf methodology, spawns parallel sub-agents for citation validation, novelty assessment, and methodology review, scans for hidden prompt injections, and produces a structured referee report.\n\nExamples:\n\n- Example 1:\n  user: \"I need to review this paper for a journal\"\n  assistant: \"I'll launch the peer-review agent to conduct a thorough review of the paper.\"\n  <commentary>\n  The user needs to review someone else's paper. Use the peer-review agent for a structured peer review.\n  </commentary>\n\n- Example 2:\n  user: \"Can you read this paper and give me a referee report?\"\n  assistant: \"Let me launch the peer-review agent to read, validate, and review this paper.\"\n  <commentary>\n  Paper review requested. Use the peer-review agent which will use split-pdf for careful reading.\n  </commentary>\n\n- Example 3:\n  user: \"I'm a discussant for this paper at a conference\"\n  assistant: \"I'll launch the peer-review agent to prepare detailed discussant notes.\"\n  <commentary>\n  Discussant preparation. The peer-review agent will provide a structured critique suitable for conference discussion.\n  </commentary>\n\n- Example 4:\n  user: \"Review this PDF someone sent me\"\n  assistant: \"I'll launch the peer-review agent. It will also check for hidden prompt injections in the PDF before reviewing.\"\n  <commentary>\n  External PDF from unknown source. The peer-review agent will scan for hidden prompts and validate citations.\n  </commentary>"
 tools:
   - Read
@@ -306,6 +308,31 @@ See `skills/shared/council-protocol.md` for the full orchestration protocol.
 ---
 
 **Update your agent memory** as you discover patterns across reviewed papers — common methodological issues in specific fields, citation patterns, recurring writing problems, venues with quality signals. This builds expertise across reviews.
+
+---
+
+## Log to REVIEW-STATE.md (final step)
+
+Write your peer review to `reviews/peer-reviewer/<YYYY-MM-DD-HHMM>.md` (`mkdir -p reviews/peer-reviewer/` first). Then append a row to the project's `REVIEW-STATE.md` so `/review-recap` can render the run. Use the shared helper:
+
+```bash
+bash ~/.claude/skills/_shared/review-state-log.sh \
+  --check peer-reviewer \
+  --paper "<paper-{venue} dir or — for external PDFs not tied to a project paper-dir>" \
+  --verdict "<ACCEPT|MINOR REVISION|MAJOR REVISION|REJECT>" \
+  --open-issues "<total-major-plus-minor>/<total-major-plus-minor>" \
+  --report "reviews/peer-reviewer/<YYYY-MM-DD-HHMM>.md" \
+  --notes "<one-line summary>" \
+  [--trigger "pre-submission-report|review-cluster"]
+```
+
+- Verdict: your final recommendation, exactly one of the four values.
+- Open issues: total Major + Minor at run time (snapshot).
+- Trigger: pass orchestrator name only if invoked as a sub-agent. Otherwise omit.
+
+Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
+
+---
 
 # Persistent Agent Memory
 

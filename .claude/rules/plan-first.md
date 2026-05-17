@@ -93,3 +93,7 @@ This rule exists because planning loops were the single biggest friction source 
 - **Never `/clear`** — rely on auto-compression to manage context
 - Plans are living documents — update them if scope changes mid-implementation
 - Quick plans (3-5 lines) are fine for medium tasks; full format for large ones
+
+## Failure modes prevented
+
+- **E2** re-planning approved plan — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)

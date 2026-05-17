@@ -2,6 +2,33 @@
 
 After reading the proposal and completing your notes, **spawn both sub-agents in parallel** using the Task tool. Send both Task tool calls in a single message.
 
+## Standard Forbid-List for All Sub-Agents Below
+
+**Paste this block into every sub-agent prompt below** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Sub-agents do not inherit global rules.
+
+```
+## Scope of action — DO NOT do these things
+
+This sub-agent has a narrow scope: produce the structured findings
+specified below and return them in your final response. Do NOT do
+any of the following:
+
+- Do NOT modify the proposal under review.
+- Do NOT run `git add`, `git commit`, `git push`, or any other git
+  write command. The orchestrator handles git.
+- Do NOT edit `.context/`, `MEMORY.md`, `CLAUDE.md`, `README.md`, or
+  any project-level documentation.
+- Do NOT edit the project's `.bib` file. If you discover relevant
+  references, list them in your findings; the orchestrator decides.
+- Do NOT create files outside the assigned output path.
+
+If you find yourself wanting to do any of these, stop and include
+what you were about to do in your final summary. The orchestrator
+decides.
+```
+
+The orchestrator pastes this block once into each of the two sub-agent prompts below.
+
 ## Sub-Agent 1: Novelty & Literature Assessor
 
 **This is critical for proposals.** Since the work hasn't been done yet, the biggest risk is that someone has already done it (or is doing it concurrently). The proposer may not know.

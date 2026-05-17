@@ -41,10 +41,10 @@ conference_date: null
 location: ''
 ---
 
-## Notes
-
 <one-line summary of the project and co-authors>
 ```
+
+The body is a free-form prose paragraph — **no `## Notes` heading**. This matches the convention used for venue files in the vault: short content sits inline below the frontmatter; `## Sub-section` headings are reserved for genuinely structured content (multi-paragraph entries, distinct topics).
 
 **Never skip this step.** A topic without a submission entry is invisible to the pipeline.
 

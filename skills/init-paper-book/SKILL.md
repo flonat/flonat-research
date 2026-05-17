@@ -18,7 +18,7 @@ For syncing an existing book to a paper revision, use `/audit-paper-book` instea
 1. **No new claims.** The book may rephrase, scaffold, and explain, but never introduce results not in the paper. Numbers and theorems trace to the paper.
 2. **Numeric invariant.** Every numeric claim in the book must match the paper. Mismatches block.
 3. **Paper is canonical.** Source-of-truth is the paper PDF/tex. Edits to the book do not edit the paper. Edits to the paper require `/audit-paper-book` to propagate.
-4. **Atlas slug match.** Book slug = atlas topic filename (lowercase, hyphenated). If project dir and atlas filename disagree, stop and prompt — alignment is required at the source, not a workaround in the book.
+4. **Atlas slug match.** Book slug must equal atlas topic filename (lowercase, hyphenated). The project directory leaf under the research root should also match (warn, don't block). If any of these three disagree, stop and prompt — alignment is required at the source, not a workaround in the book. `/audit-paper-book` pre-flight aborts on book-slug ⇄ atlas-filename drift; the regenerate script aborts at runtime with "SLUG DRIFT".
 
 ### Format — catch in review
 
@@ -29,8 +29,16 @@ For syncing an existing book to a paper revision, use `/audit-paper-book` instea
 9. **Section headings descriptive, never numbered.** Use `## The selection rule`, not `## 4.5 The selection rule`. Cross-references to the paper carry the paper's own numbering inline.
 10. **Mystmd-style callouts.** Use `` ```{important} ``, `` ```{tip} ``, `` ```{note} ``, `` ```{warning} ``, `` ```{caution} ``, `` ```{seealso} ``. Atlas's directive converter handles these. Pandoc-style `::: {.callout-X}` does NOT render — convert if you find it in source material.
 11. **Figure paths are vault-relative.** `figures/<filename>` resolves to `~/Research-Vault/books/<slug>/figures/<filename>` served by atlas's `/book/<slug>/figures/{filename:path}` route.
-12. **Citations as atlas links.** Mystmd `{cite:t}\`Key\`` converts to `[Key](/paper/Key)` automatically. Don't construct paper-detail URLs by hand.
+12. **Citations resolve in-book first.** Mystmd `{cite:t}\`Key\`` converts to `[Key](/book/<slug>/references#ref-Key)` when `Key` is present in the book's local `references.bib` (anchors to the matching `<li id="ref-Key">` card in the auto-rendered `references` chapter). For keys not in the local bib, the converter falls back to `https://atlas.user.com/paper/Key` (the global Paperpile-backed route, behind CF Access). Don't construct citation URLs by hand.
 13. **Affiliations from atlas.** Author affiliations come from the atlas topic's `institution:` field. Never hardcode.
+14. **Accessibility floor.** Chapters must be readable by someone with an undergraduate degree in a quantitative field (linear algebra, probability, basic optimisation/statistics — not necessarily Bayesian methods or domain-specific machinery). Concretely:
+    - Introduce every non-elementary notation/term inline at first use (e.g. "Gaussian process (GP) — a distribution over functions where any finite set of evaluations is jointly Gaussian").
+    - State the intuition before the formal definition.
+    - Avoid acronyms without expansion at first use within each chapter (e.g. "expected hypervolume improvement (EHVI)", not just "EHVI").
+    - Math is allowed but never carries the whole load — every display equation gets a one-line plain reading.
+    - Avoid jargon-on-jargon: don't define one undergraduate-opaque term using two others.
+
+    The Phase 4 verifier checks this floor (see below). Each drafting sub-agent prompt in Phase 3 MUST include the accessibility floor verbatim.
 
 ## When to use
 
@@ -49,10 +57,39 @@ For syncing an existing book to a paper revision, use `/audit-paper-book` instea
 ## Inputs accepted
 
 ```
-/init-paper-book <project-path>     # full path to project dir, e.g. /Volumes/SSD/Dropbox/Research/ASG/audit-gaming-benchmark
-/init-paper-book <slug>             # atlas slug; resolved via atlas topic file's project_path
-/init-paper-book <slug> --dry-run   # plan only, no writes
+/init-paper-book <project-path>          # full path to project dir, e.g. /Volumes/SSD/Dropbox/Research/ASG/audit-gaming-benchmark
+/init-paper-book <slug>                  # atlas slug; resolved via atlas topic file's project_path
+/init-paper-book <slug> --dry-run        # plan only, no writes
+/init-paper-book <slug> --autonomous     # or -y: 4 phases end-to-end, no inter-phase pauses (see Autonomy below)
 ```
+
+## Autonomy
+
+Per the global `--autonomous` / `-y` convention in `~/.claude/rules/phased-work.md` § "Autonomy flag convention". When set:
+
+- **No mid-run `AskUserQuestion`** — every choice point uses the recommended default and logs the decision (chapter scope decisions, screenshot mode, atlas-reload trigger).
+- **No inter-phase confirmation** — Phases 1 → 5 chain without stopping for `continue`, EXCEPT Phase 4 (verification) which can hard-block Phase 5 on any verifier failure (see "Hard correctness gates" below).
+- **Phase 3 sub-agents still fire in parallel** (chapter drafting); they each carry the standard forbid-list (no git, no build outside the chapter file).
+- **Phase 4 verifier runs mandatorily** — even in autonomous mode, the verifier dispatch and report are not skipped. Any verifier failure (numeric drift, missing citation key, claim outside paper scope, accessibility violation) BLOCKS Phase 5 and exits with a clear remediation list.
+- **Pre-flight block-on-fail still applies** — missing atlas topic / project dir / `main.tex` aborts the run with a clear error (this is a correctness gate, not a phase pause).
+- **Phase 5 register + smoke-test still runs** if and only if Phase 4 passed — registry entry, atlas reload, smoke probe; failures are reported at end, not blocked mid-run.
+- **Single end-of-run report** as the only mandatory user-facing output — lists chapters created, verifier findings, registry registration, smoke-test results, any non-fatal warnings.
+
+Hard correctness gates that still fire even with `--autonomous` (any of these aborts the run):
+
+- Pre-flight checks 1–5 (atlas, project, paper-tex, bib, vault-not-already-present)
+- Sub-agent forbid-list (Phase 3 drafters can't touch git, can't run latexmk, can't edit outside `~/Research-Vault/books/<slug>/`)
+- **Phase 4 verifier failure** — any one of: numeric drift, missing citation key, claim outside paper scope, accessibility-floor violation (see Phase 4)
+- After-flight verifier (registry entry exists, atlas serves the book URL)
+
+Recommended invocations:
+
+```
+/init-paper-book article40-access-as-mechanism --autonomous
+/init-paper-book -y article40-access-as-mechanism
+```
+
+Use `--dry-run` first if you want to see the chapter plan before letting it run.
 
 ## Pre-flight (block-on-fail)
 
@@ -88,139 +125,31 @@ BIB=$(find "$PAPER_DIR" -maxdepth 3 -name "*.bib" | head -1)
 Phase 1: Read paper + plan        (direct read of paper tex + atlas topic)
 Phase 2: Scaffold vault           (mkdir, copy bib + figures)
 Phase 3: Draft chapters           (mixed — sub-agents for content-heavy chapters)
-Phase 4: Register + verify        (registry entry, atlas reload, screenshot probe)
+Phase 4: Verify chapters          (read-only sub-agent; HARD GATES Phase 5)
+Phase 5: Register + smoke-test    (registry entry, atlas reload, smoke probe)
 ```
 
 ### Phase 1: Read + plan
 
-Read in this order:
-
-1. **Atlas topic frontmatter** — title, theme, status, paper title, paper-path, co-authors, institution, **`overleaf_link:`** (top-level or per-output), **`outputs[].status`** (per-venue submission status). These set the book's metadata.
-2. **Paper tex** — title, abstract, section structure, headline numerical claims, figure list, theorem statements.
-3. **Project README + CLAUDE.md** if they exist — context for the spine.
-
-#### Overleaf-link handling
-
-The book's intro chapter typically includes an Overleaf source link in the masthead blockquote when the paper is **still in flight** (under review, in revision, drafting). Once the paper is **accepted or published**, the Overleaf source becomes irrelevant for sharing (the canonical artefact is the published PDF / DOI), so the link is dropped.
-
-Decision rule:
-
-- If atlas topic has `overleaf_link:` AND the relevant `outputs[].status` is in `{Idea, Drafting, Submitted, Under Review, R&R, Revising}` → **include** the link in the intro masthead with the format:
-  > `[📝 Overleaf source ↗](<url>)`
-- If `outputs[].status` is in `{Accepted, Camera-ready, Published, Withdrawn}` → **omit** the link.
-- If no `overleaf_link:` is present → omit (and flag once at Phase 4 verification: "No Overleaf link in atlas — add it under outputs/top-level if you want it surfaced in the book").
-
-Pick the relevant `outputs[]` entry by matching `paper_path` to the project's actual paper directory (e.g., `paper-neurips/`, `paper-acm-ccs/`).
-
-Produce a one-paragraph plan in your reasoning trace covering:
-- Exactly which 8 chapter titles you will write (default skeleton is fine; deviate if the paper structure demands).
-- Which figures to copy (paper-cited figures only — don't copy the entire `output/figures/` dir).
-- Audience tier (students / practitioners / adjacent-researchers / the user-future-self).
-- Whether the paper has executable artefacts to reference, or it's a pure-theory book where chapters cite paper sections.
+See [`references/phase-1-read-plan.md`](references/phase-1-read-plan.md).
 
 ### Phase 2: Scaffold
 
-```bash
-mkdir -p ~/Research-Vault/books/"$SLUG"/figures
-cp "$BIB" ~/Research-Vault/books/"$SLUG"/references.bib
-
-# Copy ONLY paper-cited figures. Inspect tex for \includegraphics{...} paths,
-# resolve them, then copy or convert as needed:
-# - if a .png exists at that path, copy directly
-# - if only a .pdf exists (common in NeurIPS/ACM submissions), convert to
-#   .png via pdftoppm so atlas can serve to browsers (PNG/SVG/WebP only)
-grep -oE '\\includegraphics(\[[^]]*\])?\{[^}]+\}' "$PAPER_TEX" \
-  | grep -oE '\{[^}]+\}' | tr -d '{}' \
-  | while read -r fig; do
-      # Resolve to absolute path (project_path-relative or absolute)
-      [[ "$fig" == /* ]] && src="$fig" || src="$PROJECT_PATH/$fig"
-      base=$(basename "$fig" | sed 's/\.[^.]*$//')  # strip extension
-      out=~/Research-Vault/books/"$SLUG"/figures/"$base"
-      # Search for png anywhere — paper tex includes might omit extension or
-      # point to PDF while a PNG twin lives elsewhere in the project tree.
-      png_src=$(find "$PROJECT_PATH" -name "${base}.png" -type f 2>/dev/null | head -1)
-      if [[ -n "$png_src" ]]; then
-          cp "$png_src" "${out}.png"
-          continue
-      fi
-      # Fall back to PDF → PNG conversion via pdftoppm (poppler)
-      pdf_src=$(find "$PROJECT_PATH" -name "${base}.pdf" -type f 2>/dev/null | head -1)
-      if [[ -n "$pdf_src" ]] && command -v pdftoppm >/dev/null; then
-          pdftoppm -png -r 150 "$pdf_src" "$out" 2>/dev/null
-          # pdftoppm appends `-1` (or `-01` for ≥10-page docs) per page; flatten
-          mv "${out}-1.png" "${out}.png" 2>/dev/null \
-            || mv "${out}-01.png" "${out}.png" 2>/dev/null
-      fi
-    done
-```
-
-**Note on PNG vs PDF.** Atlas serves files as-is via FileResponse, but browsers can't render PDF inline as a `<figure>` image — only PNG/SVG/WebP/JPG. Always end with `.png` files in the vault `figures/` dir; never publish a `.pdf` figure expecting it to render.
+See [`references/phase-2-scaffold.md`](references/phase-2-scaffold.md).
 
 ### Phase 3: Draft chapters
 
-Eight chapters. For each, you write substantive prose grounded in the paper, **not placeholders**. Chapter responsibilities:
+See [`references/phase-3-chapter-scaffolding.md`](references/phase-3-chapter-scaffolding.md) for chapter table and requirements.
 
-| Chapter | Role | Length | Key sources from paper |
-|---|---|---|---|
-| `intro.md` | One-chapter version: headline + 3-bullet result + why it matters | ~600 words | abstract, intro §1, contributions list |
-| `background.md` | What the reader needs to know before §3 of the paper | ~800 words | related work, setup primitives |
-| `setup.md` | Notation table, threat model / problem statement, worked example if applicable | ~700 words | §2 / setup section, notation table |
-| `method.md` | Definitions → propositions → theorems with proof sketches and intuition | ~1200 words | §3 / method section, §4 / theorem statements |
-| `results.md` | Headline result, deterministic case study, stress test, figures, comparison tables | ~1000 words | §5 / experiments, figures, tables |
-| `limitations.md` | What's NOT claimed, where the framework cracks, what's next | ~600 words | §6 / discussion, §7 / limitations |
-| `extend.md` | Worked steps for adopting the framework — code skeletons, extension paths, reproducibility checklist | ~900 words | §8 / instructions, reproducibility manifest |
-| `appendix.md` | Notation glossary (consolidated), theorem summary table, reproducibility manifest, links | ~500 words | full paper + atlas topic |
+**Intro masthead format.** See [`references/intro-masthead-format.md`](references/intro-masthead-format.md) for definition-list pattern, preserve marker, regenerate commands, and Overleaf-link handling.
 
-For each chapter:
-- Start with a frontmatter block: `title:` (long) and `short_title:` (~1 word for sidebar).
-- **`intro.md` masthead.** Pull the paper title, authors (with affiliations from the atlas topic's `institution:` field), and venue from atlas `outputs[]`. Add the Overleaf-source line per the decision rule above (omit if accepted/published).
-- Use mystmd-style callouts for asides: `` ```{important} `` for headline statements, `` ```{tip} `` for reading-order hints, `` ```{warning} `` for caveats, `` ```{caution} `` for hazards.
-- Use markdown tables for notation + comparison + result tables. Atlas styles tables with hairline dividers + tabular nums.
-- Use $...$ and $$...$$ for math. Atlas's arithmatex extension preserves these for MathJax.
-- Cross-reference paper sections inline ("paper §4.2") rather than via book chapter numbers.
-- For citations, use mystmd-style `{cite:t}\`Key\`` — atlas converts to `/paper/<key>` links automatically.
+### Phase 4: Verify chapters (MANDATORY; hard-gates Phase 5)
 
-### Phase 4: Register + verify
+See [`references/phase-4-verify-chapters.md`](references/phase-4-verify-chapters.md) for deterministic checks, semantic checks, and hard-gate rules.
 
-```bash
-# Append to registry
-cat >> ~/Research-Vault/books/index.yaml <<EOF
+### Phase 5: Register + smoke-test
 
-${SLUG}:
-  title: "<book title — paper title or descriptive variant>"
-  atlas_topic: "<theme>/<slug>"
-  bibliography: references.bib
-  chapters:
-    - intro
-    - background
-    - setup
-    - method
-    - results
-    - limitations
-    - extend
-    - appendix
-EOF
-
-# Reload atlas (Mac Mini only — see multi-machine rule)
-launchctl bootout gui/$(id -u)/com.user.atlas
-sleep 2
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.user.atlas.plist
-sleep 4
-
-# Smoke test every chapter
-for ch in intro background setup method results limitations extend appendix references; do
-    code=$(curl -s --max-time 8 -o /dev/null -w "%{http_code}" \
-        "http://localhost:8770/book/${SLUG}/${ch}")
-    echo "  ${ch}: ${code}"
-done
-
-# Update atlas topic frontmatter with book_url
-python3 ~/Task-Management/.scripts/update_atlas_book_url.py \
-  --slug "$SLUG" \
-  --url "https://books.user.com/${SLUG}/"
-```
-
-Acceptance: every chapter returns 200; references chapter shows ≥1 ref-card.
+See [`references/phase-5-register.md`](references/phase-5-register.md) for registry append, atlas reload, HTTP smoke test, and Playwright visual check.
 
 ## Anti-patterns
 

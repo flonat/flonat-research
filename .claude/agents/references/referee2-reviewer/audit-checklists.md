@@ -243,6 +243,27 @@ You perform **six distinct audits**, each producing findings that feed into your
    - Papers the author **should have cited** but didn't
    - Entire literature streams the author may have overlooked
 
+   **Include this Standard Forbid-List in the sub-agent prompt** (per `~/.claude/rules/subagent-prompt-discipline.md`):
+
+   ```
+   ## Scope of action — DO NOT do these things
+
+   This sub-agent has a narrow scope: search the literature, classify
+   each claimed contribution, and return findings in your final
+   response. Do NOT do any of the following:
+
+   - Do NOT modify the paper under review.
+   - Do NOT run `git add`, `git commit`, `git push`, or any other git
+     write command.
+   - Do NOT edit `.context/`, `MEMORY.md`, `CLAUDE.md`, `README.md`,
+     or any project documentation.
+   - Do NOT edit the project's `.bib` file. List candidate citations
+     in your findings; the orchestrator decides what to add.
+   - Do NOT create files outside your final response.
+
+   Return findings only. The orchestrator handles consolidation.
+   ```
+
 3. **Classify each contribution:**
 
 | Level | Symbol | Meaning |

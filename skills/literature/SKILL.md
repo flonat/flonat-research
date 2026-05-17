@@ -37,6 +37,25 @@ These rules govern style and consistency. Violation produces fixable artefacts, 
 
 ---
 
+## Sprint Contract — Output Handoff
+
+
+
+**Protocol:**
+
+1. **Pre-commitment (Phase 1.4 hook).** Before generating the search plan, load the contract and paraphrase all 5 acceptance dimensions (D1 `bib_completeness`, D2 `dedup`, D3 `coverage_attestation`, D4 `venue_aligned`, D5 `freshness`). The paraphrase anchors output against the criteria rather than rationalising backwards. Skip in standalone mode where no downstream consumer is declared.
+
+
+3. **Self-check (Phase 4.3 hook).** Before signalling pipeline completion, verify each dimension against its `verification_rule`. F1 (DOI verification fails, severity 90) or F2 (generated-key pattern with no DOI, severity 70) triggers `producer_decision=revise_before_handoff` — re-run Phase 3 verification, do not hand off.
+
+4. **Failure-mode cross-reference** ([`docs/reference/failure-modes.md`](../../docs/reference/failure-modes.md)): contract F1 → taxonomy F1 fabricated citation (⛔ hard fail); contract F2 → taxonomy F4 invented bib key (⚠️ soft fail).
+
+5. **Override ladder.** Round 1: re-run `paperpile search-library` + `scholarly scholarly-verify-dois`. Round 2: dispatch the `claim-verify` agent. Round 3: human review of the literature report.
+
+Full schema + protocol: [`docs/reference/sprint-contract-protocol.md`](../../docs/reference/sprint-contract-protocol.md).
+
+---
+
 ## Modes
 
 | Mode | Invocation | What it does |
@@ -44,10 +63,37 @@ These rules govern style and consistency. Violation produces fixable artefacts, 
 | **Standalone** | `/literature [topic query]` | Search + verify + bib + synthesis. No project context needed. |
 | **Pipeline** | `/literature <topic-slug>` | Full cycle: resolve project → search → verify → bib → bib-validate gate → vault sync → auto-commit. |
 | **Deep** | `/literature --deep [query]` | Standalone or pipeline + iterative gap-filling loop after Phase 3. Also triggered by "deep", "thorough", or "comprehensive review" in the query. |
+| **Autonomous** | `/literature --autonomous <slug>` (or `-y`) | Pipeline + run end-to-end without inter-phase pauses. Stackable with `--deep`. Hard gates still run; defaults used at every choice point. See "Autonomy" below. |
 
-**Mode detection:** if the argument matches an atlas topic slug (`~/Research-Vault/atlas/<slug>.md`), run in Pipeline mode. Otherwise, Standalone. When in doubt, ask. Deep is a flag on either base mode.
+**Mode detection:** if the argument matches an atlas topic slug (`~/Research-Vault/atlas/<slug>.md`), run in Pipeline mode. Otherwise, Standalone. When in doubt, ask. Deep is a flag on either base mode. Autonomous is a flag on either base mode.
 
-**Pipeline mode — project context resolution:** find the atlas topic file (`find ~/Research-Vault/atlas/ -name "<topic-slug>.md"`), read frontmatter (`title`, `project_path`, `outputs`, `connected_topics`), resolve `PROJECT="$(cat ~/.config/task-mgmt/research-root)/<project_path>"`, locate the `.bib` file (ask if multiple). Report context and wait for confirmation before Phase 1.
+**Pipeline mode — project context resolution:** find the atlas topic file (`find ~/Research-Vault/atlas/ -name "<topic-slug>.md"`), read frontmatter (`title`, `project_path`, `outputs`, `connected_topics`), resolve `PROJECT="$(cat ~/.config/task-mgmt/research-root)/<project_path>"`, locate the `.bib` file (ask if multiple). Report context and wait for confirmation before Phase 1 — **unless `--autonomous` is set**, in which case ambiguity is resolved by picking the largest `.bib` file in the project (typically `paper-*/paper/references.bib` or `docs/literature-review/literature_summary.bib`) and logging the choice.
+
+## Autonomy
+
+Per the global `--autonomous` / `-y` convention defined in `~/.claude/rules/phased-work.md` § "Autonomy flag convention". When set:
+
+- **No Phase 1.4 search-plan confirmation** — emit the plan to the session log and proceed
+- **No Phase 2.2 dedup/rank pause** — apply default filters and continue
+- **No Phase 3.5 deep-loop "continue?" prompts** — run up to 3 iterations (default), stop when <3 new papers per iteration
+- **No Phase 4.3 bib-validate "review and continue" pause** — `/bib-validate` still runs as a hard gate; warnings are logged and reported at the end; only `F1 fabricated citation` or `F2 invented bib key` block the run
+- **No `AskUserQuestion` mid-run** — every choice point uses the recommended/default option and logs the decision
+- **Auto-commit at end** in pipeline mode (subject to Phase 4.6 verifier)
+- **Single end-of-run report** is the only mandatory user-facing output
+
+Hard correctness gates that still fire even with `--autonomous`:
+- DOI verification (Phase 3) with title-match — fabricated DOIs are F1/blocker
+- Sprint-contract D1–D5 self-check (Phase 4.3 hook)
+- Phase 4.6 outputs-manifest verifier (manifests must verify or commit is blocked)
+- The forbid-list for sub-agents (still applied)
+
+Recommended invocations:
+
+```
+/literature --autonomous effort-weighted-yield                # pipeline, end-to-end, standard depth
+/literature --deep --autonomous effort-weighted-yield         # exhaustive, end-to-end
+/literature -y effort-weighted-yield                          # short form
+```
 
 ---
 
@@ -108,6 +154,7 @@ For parsing `scholarly` CLI JSON output (mixes stderr log lines with stdout JSON
 Run [`shared/concept-validation-gate.md`](../shared/concept-validation-gate.md) on the topic concept plan. If the plan fails (missing RQ, no theoretical framing, generic AI voice, <300 words, <3 references), pause and request a stronger concept plan before proceeding. Standalone mode skips this — free-form queries don't have a concept plan to validate.
 
 ### 1.4 Search plan + method-fitness gate (pipeline mode only)
+
 
 Present the search plan and wait for confirmation: restate the RQ, list 3-6 queries grouped by **Track A (Substantive) / Track B (Empirical comparanda) / Track C (Methodological precedents)**, list seed authors/venues, propose `year_min` / `year_max` filters (propagated to every search call via `--year-from/--year-to`), flag book coverage if topic has major book-length treatments. Full structure: [`references/search-plan.md`](references/search-plan.md).
 
@@ -184,11 +231,14 @@ Rules: Better BibTeX-format keys; reuse Paperpile keys for entries already held;
 
 Each output gets a [`shared/material-passport.md`](../shared/material-passport.md) header (origin skill, mode, version, produced timestamp) so downstream consumers can detect staleness.
 
+
 ### 4.3 Validate bibliography (HARD GATE)
 
 **Do not proceed to 4.4 or Phase 5 until `/bib-validate` has been invoked and the report reviewed.** Phase 3 verifies papers exist; `/bib-validate` catches a different class (missing BibTeX fields, preprint staleness, DOI problems, author formatting, unused entries). Running synthesis before validation means the narrative may reference entries with broken metadata that survive into the paper.
 
 Mandatory on every `/literature` invocation (standalone, pipeline, deep) every time new entries are added.
+
+**Sprint Contract self-check hook (pipeline mode).** After `/bib-validate` passes, run each contract dimension's `verification_rule` (D1–D5). Any F1 (DOI verification fails) or F2 (generated-key pattern with no DOI) triggers `producer_decision=revise_before_handoff` — go back to Phase 3, do NOT proceed to 4.4. Escalate via the 3-round override ladder if revision still fails.
 
 ### 4.4 Sync to reference managers
 

@@ -48,3 +48,7 @@ When starting a session in a research project:
 ## Why This Matters
 
 the user's context library (`.context/`) is specifically designed to give you everything you need upfront. Ignoring it to do your own research wastes tokens and produces worse results because you miss the curated context.
+
+## Failure modes prevented
+
+- **D3** re-search instead of read-docs — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)

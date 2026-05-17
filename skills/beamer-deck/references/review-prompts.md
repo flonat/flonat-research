@@ -2,6 +2,30 @@
 
 > Sub-agent prompts for Phases 5 and 6 of `/beamer-deck`. Also usable by `/quarto-deck` (Phase 5).
 
+## Standard Forbid-List for All Review Sub-Agents Below
+
+**Paste this block into every review sub-agent prompt below** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Reviewers are read-only on the deck — only the orchestrator applies fixes.
+
+```
+## Scope of action — DO NOT do these things
+
+This sub-agent has a narrow scope: review the deck against the
+assigned dimension and return findings. Do NOT do any of the
+following:
+
+- Do NOT modify the deck `.tex` files. You are read-only.
+- Do NOT run `latexmk` or any build command — the orchestrator
+  handles compilation between rounds.
+- Do NOT run `git add`, `git commit`, `git push`, or any other git
+  write command.
+- Do NOT edit `.context/`, `MEMORY.md`, `CLAUDE.md`, or any project
+  documentation.
+- Do NOT edit the project's `.bib` file.
+- Do NOT create files outside your final response.
+
+Return findings only. The orchestrator applies fixes between rounds.
+```
+
 ## Rhetoric Review (Phase 5)
 
 Launch with `subagent_type: Explore`:

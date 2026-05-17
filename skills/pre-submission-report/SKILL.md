@@ -40,6 +40,7 @@ Run these checks first. If any fail, stop and report — do not proceed to quali
 2. **Citation integrity** — invoke `/bib-validate` in verify mode. Every `\cite{}` key must resolve to a `.bib` entry. Any missing key is a FAIL.
 3. **Section completeness** — check that all standard sections exist and are non-empty (Abstract, Introduction, and at least one body section before Conclusion/References). An empty or missing section is a FAIL.
 4. **Broken references** — grep for `??` in the compiled PDF output or `.log` file (undefined `\ref{}` or `\cite{}`). Any `??` in output is a FAIL.
+5. **Anonymity gate (only if the venue is double-blind)** — load `_shared/double-blind-anonymity-checklist.md` and run **all** P1–P8 paper-side checks. Any FAIL is a hard stop. In particular: P4 (self-citation bib must be blinded if cited paper's author list overlaps the submission's) and P5 (body text must not name authors of self-cited works) — these are the CCS 2026 #1328 desk-reject triggers and require the submission's author list to be loaded from the vault submission frontmatter or prompted from the user. If the artifact has been minted via `/anonymous-artifact`, also confirm A1–A9 ran clean for that artifact (state file at `<project>/.anonymous-artifact-state.json`). Skip this entire step only when the user explicitly says "single-blind" or "non-blind".
 
 **If any check fails:**
 ```
@@ -57,11 +58,82 @@ Fix these and re-run /pre-submission-report.
 
 ### 3. Run Quality Checks
 
-Run these sequentially (each depends on a clean state):
+Two modes:
+
+#### 3a. Sequential (default — fast, deterministic)
+
+Run these in order — each depends on a clean state from the previous:
 
 1. **Compilation** — invoke `/latex` on the main `.tex` file. Record pass/fail and any remaining warnings.
-2. **Citation audit** — invoke `/bib-validate` (full mode — deep verify). Record missing, unused, and suspect keys.
+2. **Citation audit** — invoke `/bib-validate --verify-doi` (DOI resolution mode catches fabricated entries). Record missing, unused, suspect, and unresolved-DOI keys.
 3. **Adversarial review** — launch `paper-critic` agent (via Task tool). Capture the CRITIC-REPORT.md score and findings.
+
+#### 3b. Parallel 7-audit fan-out (`--parallel` flag)
+
+Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Dispatches **7 read-only sub-agents in parallel** via the Task tool, then consolidates findings.
+
+**Hard rules for parallel mode:**
+1. **All 7 sub-agents are read-only** — see `subagent-write-guard.md` rule. They report findings; the orchestrator (this skill) decides what to fix.
+2. **Each sub-agent gets the standard forbid-list** — no git, no latexmk, no edits to files outside their scope.
+3. **Findings consolidate into a P0/P1/P2 fix list** before any edits — single triage point, not 7 streams.
+4. **No edit phase auto-runs** — the user reviews the consolidated report and approves which fixes to apply.
+
+**The 7 sub-agents:**
+
+**Always dispatched (13 sub-agents):**
+
+| # | Agent | Scope | Output |
+|---|---|---|---|
+| 1 | **bib-verifier** | DOI resolution + Crossref/S2 verification of every bib entry via `bib-validate --verify-doi` mode; flag fabricated/unresolvable | List of unverified keys + suggested fixes |
+| 2 | **claim-verifier** | Launch `claim-verify` agent — checks every cited claim against the source paper (citation fidelity, not just key existence) | Per-claim verdicts |
+| 3 | **novelty-scout** | Run `scout novelty "<paper title>" --source openalex`; report score + threats not yet cited | Novelty score + missing-related-work list |
+| 4 | **paper-critic** | Launch `paper-critic` agent — general adversarial CRITIC-REPORT (specialist mode for venue-calibrated review) | Scored CRITIC-REPORT.md |
+| 5 | **domain-reviewer** | Launch `domain-reviewer` agent — math/derivations/assumptions/code-theory alignment | DOMAIN-REVIEW.md |
+| 6 | **referee2-reviewer** | Launch `referee2-reviewer` agent — Reviewer 2 hostile read; top reviewer-attack-surface concerns | Adversarial concerns |
+| 7 | **blindspot** | Launch `blindspot` agent — peripheral-vision audit (vices in plain sight + virtues being overlooked) | Blindspot report |
+| 8 | **code-paper-auditor** | Launch `code-paper-auditor` agent — cross-check quantitative claims against source code outputs | Mismatch table |
+| 9 | **artifact-coherence-auditor** | Launch `artifact-coherence-auditor` agent — paper prose vs replication outputs (catches hallucinated results) | Coherence report |
+| 10 | **reproducibility-auditor** | Launch `reproducibility-auditor` agent — workflow rerunnability (hidden deps, absolute paths, env assumptions) | Reproducibility report |
+| 11 | **anonymity / double-blind checker** | Apply paper-side checks P1-P8 from `_shared/double-blind-anonymity-checklist.md`; verify `[review]` mode if double-blind venue | Pass/fail + leak list |
+| 12 | **page-limit + LaTeX validator** | Verify page count under venue limit; check for compile warnings; check `out/` is current | Page count + warning summary |
+
+**Conditional follow-ups (run after parallel fan-out, opt-in):**
+
+| Trigger | Skill |
+|---|---|
+| Paper has code (detect: non-tex/non-bib files in project) AND venue is double-blind | `/anonymous-artifact` — assemble + sanitize + push to anonymous repo, mint URL |
+| Strategic-revision context (paper has referee comments) | `/strategic-revision` — revision plan after the swarm flags issues |
+
+The conditional follow-ups are NOT in the parallel batch — they're sequential because they may modify files (and so violate the read-only invariant of the parallel sub-agents).
+
+**Dispatch protocol:**
+
+```python
+# Pseudocode for orchestration — see Task tool docs for actual API
+parallel_tasks = [
+    Agent("bib-verifier", subagent_type="general-purpose",
+          prompt=f"Read {paper_path}/references.bib. Run scholarly scholarly-verify-dois on all DOI-bearing entries (batch ≤50). Report unresolvable DOIs, missing DOIs, suspected fabricated entries. READ-ONLY. {forbid_list}"),
+    Agent("novelty-scout", ...),
+    # ... 5 more
+]
+# Wait all → consolidate
+findings = consolidate_p0_p1_p2(parallel_tasks)
+```
+
+Sub-agents run concurrently — total wall-clock is bounded by the slowest (typically novelty-scout at ~2-3 min via OpenAlex).
+
+**Consolidation:** the orchestrator merges findings from all 13 sub-agents into a single P0/P1/P2 fix list:
+- **P0 (block submission):** anonymity leaks (#11), fabricated citations (#1, #2), compilation errors (#12), over-page-limit (#12), code-paper mismatches (#8), prose-replication divergence (#9)
+- **P1 (must fix):** unresolved DOIs (#1), claim-verify failures (#2), novelty threats (#3), critic-report Major issues (#4), domain-review math errors (#5), reproducibility issues (#10), referee2-reviewer concerns (#6)
+- **P2 (should consider):** blindspot virtues + minor vices (#7), AI-detect hot zones (#13), critic-report Moderate/Minor issues (#4), novelty positioning (#3)
+
+**Code-bearing detection:** if the project has non-tex / non-bib files outside `paper-*/` and `notes/` (typical signal: `code/`, `data/`, `scripts/`, `analysis/`, `src/` directories), enable code-side sub-agents (#8 code-paper-auditor, #9 artifact-coherence-auditor, #10 reproducibility-auditor) and queue `/anonymous-artifact` as a conditional follow-up.
+
+**Edit phase (separate, opt-in):** if the user approves any P0/P1 fixes, dispatch a *second* round of edit-agents with **explicit scoped permissions per file** — see `subagent-write-guard.md` for the forbid-list pattern. The orchestrator confirms each edit-agent's scope before dispatch.
+
+**Why parallel:** the 13 audits are independent — sequential is ~10x slower for the same coverage. Reviewer-pool collision risk is zero (read-only sub-agents).
+
+**Skip parallel mode if:** paper is in early drafting (use the sequential 3-audit instead — faster feedback for incomplete drafts), or sub-agents fail repeatedly (fall back to sequential).
 
 ### 4. Aggregate Report
 
@@ -148,6 +220,18 @@ Display the report path and the summary table to the user. If the recommendation
 | Skill/Agent | Role in this workflow |
 |-------------|---------------------|
 | `/latex` | Compilation + auto-fix |
-| `/bib-validate` | Citation cross-reference |
+| `/bib-validate` | Citation cross-reference + self-citation deanonymization scan |
 | `paper-critic` agent | Adversarial content review |
 | `quality-scoring.md` | Verdict thresholds |
+| `_shared/double-blind-anonymity-checklist.md` | P1–P8 / A1–A9 anonymity gate (double-blind venues only) |
+
+## REVIEW-STATE.md propagation (orchestrator-only)
+
+This skill is an **orchestrator** in the REVIEW-STATE.md schema: it does **NOT** stamp a row of its own. Instead, every sub-agent / sub-skill it spawns stamps its own row with `--trigger pre-submission-report` so `/review-recap` can group them as one orchestrated batch.
+
+
+> When you reach your "Log to REVIEW-STATE.md" step, pass `--trigger pre-submission-report` to the helper (you were spawned by /pre-submission-report).
+
+**Do not** invoke the review-state-log helper from this skill directly. The orchestrator stamps nothing; the sub-agents stamp themselves with the orchestrator name in the Trigger column.
+
+Schema: `~/Task-Management/docs/reference/review-state-schema.md`.

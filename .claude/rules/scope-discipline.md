@@ -26,3 +26,7 @@
 ## Why This Matters
 
 Scope overreach forces reverts, wastes time, and erodes trust. Doing less than asked is annoying; doing more than asked is destructive.
+
+## Failure modes prevented
+
+- **S1** scope overreach — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)

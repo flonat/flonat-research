@@ -18,7 +18,7 @@ theme: '[[Theme Name]]'  # Must match a theme in ~/Research-Vault/themes/
 ---
 title: "Topic Name"
 theme: '[[Theme Name]]'  # Wiki-link to theme file
-status: "Idea"  # Idea | Exploring | Drafting | Pre-submission | Submitted | R&R | Accepted | Rejected | Parked | Active Project
+status: "Idea"  # Idea | Exploring | Drafting | Pre-submission | Submitted | R&R | Accepted | In Press | Published | Rejected | Parked | Active Project
 institution: "[University]"  # [University 1] | [University 2] | [University 3] | [University 4] | None
 project_path: "ThemeAbbrev/slug"  # Relative to Projects/
 linked_projects: []
@@ -33,7 +33,7 @@ co_authors:
 outputs:
   - venue: '[[Venue Name]]'
     format: "Full paper"  # Full paper | Extended abstract | Perspective | Working paper
-    status: "Idea"  # Idea | Drafting | Submitted | R&R | Accepted | Rejected | Parked
+    status: "Idea"  # Idea | Drafting | Submitted | R&R | Accepted | In Press | Published | Rejected | Parked
     label: ""  # Optional: short label for multi-output topics
     deadline: ""  # Optional: YYYY-MM-DD
 feasibility: "High"  # High | Medium | Low

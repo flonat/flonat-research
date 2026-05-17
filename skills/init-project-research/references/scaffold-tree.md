@@ -9,6 +9,7 @@
 ├── CLAUDE.md
 ├── README.md
 ├── MEMORY.md
+├── REVIEW-STATE.md      # Per-project review log; populated by 20 review tools; rendered by /review-recap
 ├── .gitignore
 ├── .context/
 │   ├── current-focus.md
@@ -32,8 +33,10 @@
 ├── github-repo/           # (Optional) Separate git repo for public GitHub code release
 ├── knowledge/             # .gitkeep (LLM-maintained wiki — compiled by /compile-knowledge)
 ├── correspondence/
-│   └── internal-reviews/  # .gitkeep (reports from /code-review, fixer, etc.)
-├── reviews/               # .gitkeep (subdirs created on demand by review agents)
+│   └── internal-reviews/  # .gitkeep (HUMAN internal reviews — co-author feedback, supervisor notes; NOT agent reports)
+├── reviews/               # .gitkeep — canonical home for ALL agent/skill review reports.
+│                          # Sub-folders auto-created on first run: reviews/{check-name}/<YYYY-MM-DD-HHMM>.md
+│                          # Schema: ~/Task-Management/docs/reference/review-state-schema.md
 └── to-sort/               # .gitkeep
 ```
 

@@ -116,7 +116,7 @@ If the directory doesn't exist, create it and proceed.
 
 ### Common Core + Conditional Structure
 
-**Common core** (always created): `CLAUDE.md`, `README.md`, `MEMORY.md`, `.gitignore`, `.context/`, `.claude/`, `docs/` (literature-review, readings, venues), `log/`, `paper-{venue}/` (with symlink + `correspondence/referee-reviews/`), `backup/`, `github-repo/` (optional), `knowledge/`, `correspondence/internal-reviews/`, `reviews/`, `to-sort/`.
+**Common core** (always created): `CLAUDE.md`, `README.md`, `MEMORY.md`, `REVIEW-STATE.md`, `.gitignore`, `.context/`, `.claude/`, `docs/` (literature-review, readings, venues), `log/`, `paper-{venue}/` (with symlink + `correspondence/referee-reviews/`), `backup/`, `github-repo/` (optional), `knowledge/`, `correspondence/internal-reviews/`, `reviews/`, `to-sort/`.
 
 | Project type | Adds |
 |--------------|------|
@@ -152,6 +152,7 @@ Full templates: [`templates/seed-files.md`](templates/seed-files.md).
 | `README.md` | Human overview: title, authors, abstract, links, status |
 | `.gitignore` | Standard ignores: OS, IDE, data, paper, Python, R, LaTeX |
 | `MEMORY.md` | Knowledge base: notation, estimands, decisions, pitfalls |
+| `REVIEW-STATE.md` | Per-project review log (header only at scaffold). Populated by 20 review tools. Schema: `~/Task-Management/docs/reference/review-state-schema.md`. Rendered by `/review-recap`. |
 | `.context/current-focus.md` | Initial "just initialised" state |
 | `.context/field-calibration.md` | Per-project domain profile placeholder (`/interview-me` populates) |
 | `.context/project-recap.md` | Research design notes |

@@ -26,6 +26,26 @@ argument-hint: "[no arguments — runs full sweep]"
 
 **Python:** Always use `uv run python` or `uv pip install`. Never bare `python`, `python3`, `pip`, or `pip3`. Include this in sub-agent prompts.
 
+## Autonomy
+
+Per the global `--autonomous` / `-y` convention in `~/.claude/rules/phased-work.md` § "Autonomy flag convention". Invoke as `/system-audit --autonomous` (or `-y`). When set:
+
+- **No inter-phase pauses** — Lint → Dispatch → Collect → Consolidate → Present chain end-to-end.
+- **No `AskUserQuestion` mid-run** — sub-agent count defaults to 7 (the standard fan-out), all sub-agents launch in parallel without confirmation.
+- **No interim "review and continue" pauses** between dispatch and consolidation.
+- **Sub-agent forbid-list still applied** — all 7 sub-agents are read-only (no edits to skills/hooks/agents/rules during the audit).
+- **Report-only invariant preserved** — `--autonomous` does NOT change the skill's read-only nature; it only suppresses confirmation prompts. No fixes are ever applied.
+- **Single end-of-run report** at `log/audits/system-audit-YYYY-MM-DD.md` is the only mandatory user-facing output.
+
+This is one of the safer skills to run autonomously — it's read-only by design, sub-agents have no write access to the system, and the output is a single timestamped report that you can review afterward. Recommended for scheduled monthly runs via `/scheduled-job`.
+
+Recommended invocations:
+
+```
+/system-audit --autonomous                              # full sweep, end-to-end
+/system-audit -y                                        # short form
+```
+
 ---
 
 ## Phase 0: Pre-flight Lints

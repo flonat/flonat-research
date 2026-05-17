@@ -245,6 +245,25 @@ Not created during init — only created on first machine-specific `[LEARN]` tag
 |------|---------|--------|
 ```
 
+## REVIEW-STATE.md
+
+Per-project review log. One row per (skill/agent run). Append-only by convention. Populated by 20 review tools when they execute (paper-critic, referee2-reviewer, /proofread, /bib-validate, etc.). Rendered by `/review-recap`. Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
+
+At scaffold time, write only the header:
+
+```markdown
+# Review State — {project-slug}
+
+> Per-project review log. One row per (skill/agent run). Append-only by convention.
+> See `~/Task-Management/docs/reference/review-state-schema.md` for the schema.
+> `/review-recap` renders this file. Hand-edits welcome (set Source=manual).
+
+| Paper | Check | Last Run | Verdict | Score | Open Issues | Source | Trigger | Report | Notes |
+|-------|-------|----------|---------|-------|-------------|--------|---------|--------|-------|
+```
+
+The first review tool to run on the project will append the first data row.
+
 ## .context/field-calibration.md
 
 Copy the template from `skills/init-project-research/templates/field-calibration.md`, replacing `<Working Title>` with the project title. All other placeholders remain — `/interview-me` Phase 7 populates them.

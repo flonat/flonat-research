@@ -7,7 +7,7 @@ argument-hint: [project-path or tex-file]
 
 # Academic Proofreading
 
-**Report-only skill.** Never edit source files — produce `PROOFREAD-REPORT.md` only.
+**Report-only skill.** Never edit source files — produce `reviews/proofread/<YYYY-MM-DD-HHMM>.md` only.
 
 ## When to Use
 
@@ -27,7 +27,7 @@ argument-hint: [project-path or tex-file]
 1. **Locate files**: Find all `.tex` files in the project (and `.log` files for LaTeX diagnostics)
 2. **Read the document**: Read all `.tex` source files in order
 3. **Run 11 check categories** (below)
-4. **Produce report**: Write `YYYY-MM-DD_PROOFREAD-REPORT.md` in `reviews/proofread/` under the project directory (create the directory if it does not exist). Do NOT overwrite previous reports — each review is dated.
+4. **Produce report**: Write `reviews/proofread/<YYYY-MM-DD-HHMM>.md` under the project directory (create the directory if it does not exist: `mkdir -p reviews/proofread/`). Do NOT overwrite previous reports — each review is timestamped to the minute. Canonical convention: `~/Task-Management/docs/reference/review-state-schema.md`.
 
 ## Check Categories
 
@@ -138,6 +138,21 @@ Verify that mathematical notation is complete and internally consistent.
 - **Subscript/index structure must match the level of observation** — e.g., if the text describes individual-level variation, the equation should have individual subscripts, not county-level
 - **Summation/expectation indices**: verify bounds match the described sample
 - **Consistent notation across equations**: don't switch between β and b for the same coefficient, or between X_i and x_i
+
+### 11a. Anonymity (double-blind venues only)
+
+If the project's vault submission frontmatter or CLAUDE.md indicates a double-blind venue (CCS, NDSS, S&P, USENIX, ICML, NeurIPS, ICLR, FAccT, AAAI, etc.), run paper-side checks P1–P8 from `~/.claude/skills/_shared/double-blind-anonymity-checklist.md` and flag every FAIL as **Critical**:
+
+- **P1** title page anonymized (no `\author{}` with real names)
+- **P2** no `\thanks{}`, `\acknowledgements`, funding, or grant references in body
+- **P3** body uses third-person self-reference (no "we previously showed", "in our prior work")
+- **P4** **self-citation bib entries are blinded** when the cited paper's authors overlap the submission's — this is the CCS 2026 #1328 desk-reject trigger
+- **P5** body text doesn't name authors of self-cited works (no "Burnat and [Collaborator] [N]")
+- **P6** no identifying URLs (personal websites, GitHub repos with handles)
+- **P7** PDF metadata clean (`pdfinfo` shows no Author / identifying Subject)
+- **P8** figures/screenshots have no identifying watermarks
+
+Skip this section only when the user explicitly says single-blind / non-blind.
 
 ### 11. Preprint Staleness
 
@@ -263,6 +278,27 @@ uv run python -m cli_council \
 See `skills/shared/council-protocol.md` for the full orchestration protocol.
 
 **Value:** Diminishing returns for pure formatting — council mode is most valuable when combined with citation voice balance and notation consistency checks, where different models have genuinely different pattern recognition.
+
+## Log to REVIEW-STATE.md (final step)
+
+After writing the proofread report, append a row to the project's `REVIEW-STATE.md`:
+
+```bash
+bash ~/.claude/skills/_shared/review-state-log.sh \
+  --check proofread \
+  --paper "<paper-{venue} dir>" \
+  --verdict "<PASS|ISSUES FOUND>" \
+  --open-issues "<total-issues-across-categories>/<total-issues-across-categories>" \
+  --report "reviews/proofread/<YYYY-MM-DD-HHMM>.md" \
+  --notes "<one-line: e.g. '3 critical, 12 minor; mostly notation §3'>" \
+  [--trigger "pre-submission-report|review-cluster"]
+```
+
+- Verdict: PASS if no issues found across any category; ISSUES FOUND otherwise.
+- Open issues: total count across all 7 (or 11) check categories at run time.
+- Trigger: pass orchestrator name only if invoked via `/pre-submission-report` or `/review-cluster`. Otherwise omit.
+
+Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
 
 ## Cross-References
 

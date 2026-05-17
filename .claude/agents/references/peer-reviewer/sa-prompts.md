@@ -2,6 +2,34 @@
 
 After you have finished reading ALL splits and your notes are complete, **spawn three sub-agents in parallel using the Task tool**. Send all three Task tool calls in a single message.
 
+## Standard Forbid-List for All Sub-Agents Below
+
+**Paste this block into every sub-agent prompt below** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Sub-agents do not inherit global rules — defaults like "found a good source → write it to the bib" leak unauthorised actions unless the prompt negates them affirmatively.
+
+```
+## Scope of action — DO NOT do these things
+
+This sub-agent has a narrow scope: produce the JSON / markdown findings
+specified below and return them in your final response. Do NOT do any
+of the following:
+
+- Do NOT modify the paper under review (any file in the paper directory).
+- Do NOT run `git add`, `git commit`, `git push`, or any other git
+  write command. The orchestrator handles git.
+- Do NOT edit `.context/`, `MEMORY.md`, `CLAUDE.md`, `README.md`, or
+  any project-level documentation.
+- Do NOT edit the project's `.bib` file. If you discover missing
+  references, list them in your findings; the orchestrator decides.
+- Do NOT create files outside the assigned output path (a temp file
+  or your final response).
+
+If you find yourself wanting to do any of these, stop and include
+what you were about to do in your final summary. The orchestrator
+decides.
+```
+
+The orchestrator pastes this block once into each of the three sub-agent prompts below — the templates do not repeat the block per call.
+
 ## Sub-Agent 1: Citation Validator
 
 **Purpose:** Verify that every citation in the paper is real and that the claims attributed to cited papers are accurate.

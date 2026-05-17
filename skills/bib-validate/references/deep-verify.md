@@ -4,6 +4,33 @@
 
 This mode spawns parallel sub-agents that each verify a batch of entries and write structured results to disk -- bypassing context window limits entirely.
 
+## Standard Forbid-List for Verification Sub-Agents
+
+**Paste this block into every verification sub-agent prompt** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Verification sub-agents shell out to the scholarly CLI to verify DOIs but are otherwise read-only.
+
+```
+## Scope of action — DO NOT do these things
+
+This sub-agent has a narrow scope: verify the assigned batch of DOIs
+via the scholarly CLI, write the JSON results to /tmp/bib-verify-<N>.json,
+and return a short summary. Do NOT do any of the following:
+
+- Do NOT modify the project's `.bib` file. The orchestrator merges
+  results.
+- Do NOT modify any `.tex` file.
+- Do NOT run `git add`, `git commit`, `git push`, or any other git
+  write command.
+- Do NOT run `latexmk` or any build command.
+- Do NOT edit `.context/`, `MEMORY.md`, `CLAUDE.md`, or any project
+  documentation.
+- Do NOT add entries to Paperpile (`paperpile write-bib`); the
+  orchestrator's fix-mode handles Paperpile sync.
+- Do NOT create files outside the assigned /tmp output path.
+
+Return only your batch's verification results. The orchestrator
+consolidates.
+```
+
 ## Architecture
 
 Sub-agents shell out to the `scholarly` CLI (`uv run scholarly ...` or the `~/.local/bin/scholarly` shim) — the CLI works in both the main context and sub-agents, unlike MCP tools which are permission-scoped to the main context only.

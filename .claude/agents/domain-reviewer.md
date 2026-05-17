@@ -1,5 +1,7 @@
 ---
 name: domain-reviewer
+fidelity: high
+oversight: very-high
 description: "Research-focused substantive correctness agent. Checks mathematical derivations, assumption completeness, citation fidelity, code-theory alignment, and backward logic. Read-only — produces DOMAIN-REVIEW.md without modifying source files.\n\nExamples:\n\n- Example 1:\n  user: \"Check the math in my paper\"\n  assistant: \"I'll launch the domain-reviewer agent to verify derivations and assumptions.\"\n  <commentary>\n  User wants mathematical verification. Launch domain-reviewer for substantive correctness.\n  </commentary>\n\n- Example 2:\n  user: \"Does my code match the theory?\"\n  assistant: \"Let me launch the domain-reviewer agent to check code-theory alignment.\"\n  <commentary>\n  Code-theory alignment check. Launch domain-reviewer.\n  </commentary>\n\n- Example 3:\n  user: \"Are my assumptions sufficient?\"\n  assistant: \"Launching the domain-reviewer agent to stress-test your assumptions.\"\n  <commentary>\n  Assumption completeness check. Launch domain-reviewer.\n  </commentary>\n\n- Example 4:\n  user: \"Run a domain review on my paper\"\n  assistant: \"Launching the domain-reviewer agent now.\"\n  <commentary>\n  Direct invocation. Launch domain-reviewer.\n  </commentary>"
 tools:
   - Read
@@ -151,7 +153,7 @@ This provides balance and helps the author see what's working well.
 
 ## Report Format
 
-Write the report to `reviews/domain-reviewer/YYYY-MM-DD_DOMAIN-REVIEW.md` in the **project root** (the directory containing the `.tex` files, NOT the Task Management directory). Create the `reviews/domain-reviewer/` directory if it does not exist. Do NOT overwrite previous reports — each review is dated.
+Write the report to `reviews/domain-reviewer/<YYYY-MM-DD-HHMM>.md` in the **project root** (the directory containing the `.tex` files, NOT the Task Management directory). Create the `reviews/domain-reviewer/` directory if it does not exist (`mkdir -p reviews/domain-reviewer/`). Do NOT overwrite previous reports — each review is timestamped to the minute. Canonical report-location convention: `~/Task-Management/docs/reference/review-state-schema.md`.
 
 ```markdown
 # Domain Review
@@ -304,6 +306,29 @@ uv run python -m cli_council \
 ```
 
 See `skills/shared/council-protocol.md` for the full orchestration protocol.
+
+---
+
+## Log to REVIEW-STATE.md (final step)
+
+After producing DOMAIN-REVIEW.md, append a row to the project's `REVIEW-STATE.md` so `/review-recap` can render the run:
+
+```bash
+bash ~/.claude/skills/_shared/review-state-log.sh \
+  --check domain-reviewer \
+  --paper "<paper-{venue} dir>" \
+  --verdict "<PASS|NEEDS REVISION|FAIL>" \
+  --open-issues "<critical-plus-major>/<critical-plus-major>" \
+  --report "reviews/domain-reviewer/<YYYY-MM-DD-HHMM>.md" \
+  --notes "<one-line summary>" \
+  [--trigger "pre-submission-report|review-cluster"]
+```
+
+- Verdict: PASS if no Critical/Major issues; NEEDS REVISION if Critical or Major issues exist; FAIL if substantive correctness fundamentally fails.
+- Open issues: total Critical + Major at run time (snapshot).
+- Trigger: pass orchestrator name only if invoked as a sub-agent. Otherwise omit.
+
+Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
 
 ---
 

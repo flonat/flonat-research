@@ -17,6 +17,13 @@ For NEW books, use `/init-paper-book`. This skill never creates a book that does
 2. **Numeric changes always block.** If the paper changed a result number (mean gap, accuracy, theorem constant), the book reports it but does NOT auto-update. The user verifies the new number is intentional.
 3. **Atlas slug match.** The book's slug must equal the atlas topic filename. Drift in either is a `/init-project-research`-level concern, not this skill's job.
 4. **Read-only is the default.** `--apply` is opt-in; without it, this skill produces a report and changes nothing.
+5. **Accessibility floor.** The book must remain readable by someone with an undergraduate degree in a quantitative field (linear algebra, probability, basic optimisation/statistics — not necessarily Bayesian methods or domain-specific machinery). Concretely:
+    - Every acronym must be expanded at first use within each chapter (e.g. "expected hypervolume improvement (EHVI)").
+    - Every display equation gets a one-line plain reading within 2 sentences.
+    - No jargon-on-jargon sentences (≥3 specialised terms without inline definition).
+    - Intuition before formal definition.
+
+    The audit runs an accessibility check on every chapter (see Phase 2) and reports violations alongside other drift. Violations are reported in the `accessibility` drift bucket (see Phase 3), never auto-fixed. The user decides whether to revise prose or accept the violation.
 
 ## When to use
 
@@ -52,12 +59,33 @@ SLUG="<resolved-slug>"
 grep -q "^${SLUG}:" ~/Research-Vault/books/index.yaml \
     || die "${SLUG} not in books/index.yaml. Add a registry entry first."
 
-# 3. Atlas topic + project_path must resolve
+# 3. Atlas topic + project_path must resolve.
+#    Hard Rule 4 (from /init-paper-book): book slug MUST equal atlas topic
+#    filename. The registry's `atlas_topic:` field is the source of truth — its
+#    leaf must match the book slug exactly. Drift here is an existential
+#    failure; the book and atlas are no longer the same artefact.
+ATLAS_TOPIC_REF=$(awk -v slug="$SLUG" '
+    $0 ~ "^"slug":" {in_block=1; next}
+    in_block && /^[a-z]/ {in_block=0}
+    in_block && /^[[:space:]]+atlas_topic:/ {gsub(/[",'\'']/, ""); print $2; exit}
+' ~/Research-Vault/books/index.yaml)
+ATLAS_TOPIC_LEAF="${ATLAS_TOPIC_REF##*/}"
+[[ "$ATLAS_TOPIC_LEAF" == "$SLUG" ]] \
+    || die "SLUG DRIFT: book '${SLUG}' points at atlas topic '${ATLAS_TOPIC_LEAF}'. Rename one side so they match (Hard Rule 4). See /init-paper-book SKILL.md."
+
 ATLAS_TOPIC=$(find ~/Research-Vault/atlas -name "${SLUG}.md" -type f | head -1)
-[[ -n "$ATLAS_TOPIC" ]] || die "No atlas topic for ${SLUG}."
+[[ -n "$ATLAS_TOPIC" ]] \
+    || die "No atlas topic file at ~/Research-Vault/atlas/*/${SLUG}.md. Either rename the book to match an existing atlas topic, or create the missing topic via /init-project-research."
 PROJECT_PATH=$(grep -E "^project_path:" "$ATLAS_TOPIC" | cut -d' ' -f2- | tr -d "'\"")
 RR=$(cat ~/.config/task-mgmt/research-root)
 [[ -d "$RR/$PROJECT_PATH" ]] || die "project_path in atlas does not resolve."
+
+# 3a. Project-path leaf should also match the slug (warn, don't block — some
+#     projects have been renamed historically and only the book + atlas leaf
+#     are required to match).
+PROJECT_LEAF=$(basename "$PROJECT_PATH")
+[[ "$PROJECT_LEAF" == "$SLUG" ]] \
+    || warn "PROJECT-DIR DRIFT: project_path leaf '${PROJECT_LEAF}' differs from book slug '${SLUG}'. Not a hard violation but worth aligning if the book is being actively maintained."
 
 # 4. Paper tex + bib must exist
 PAPER_DIR=$(ls -d "$RR/$PROJECT_PATH"/paper-* 2>/dev/null | head -1)
@@ -70,172 +98,76 @@ PAPER_BIB=$(find "$PAPER_DIR" -maxdepth 3 -name "*.bib" | head -1)
 ## Phases
 
 ```
-Phase 1: Diff inventory   (compare paper assets to book vault)
-Phase 2: Classify         (mechanical / numeric / structural / new-content)
-Phase 3: Apply or report  (--apply: mechanical fixes; otherwise report-only)
-Phase 4: Verify           (atlas reload + chapter smoke test if --apply ran)
+Phase 1: Diff inventory    (compare paper assets to book vault)
+Phase 2: Accessibility     (acronyms, equation-prose pairing, jargon density)
+Phase 3: Classify          (mechanical / numeric / structural / accessibility / new-content)
+Phase 4: Apply or report   (--apply: mechanical fixes; otherwise report-only)
+Phase 5: Verify            (atlas reload + chapter smoke test if --apply ran)
 ```
 
 ### Phase 1: Diff inventory
 
-Build four diffs.
+See [`references/phase-1-diff-inventory.md`](references/phase-1-diff-inventory.md) for detailed diff protocols (bibliography, figures, numeric drift, section structure, Overleaf-link transitions, masthead format drift, citation-URL drift).
 
-**Bibliography diff:**
+### Phase 2: Accessibility check
+
+See [`references/phase-2-accessibility.md`](references/phase-2-accessibility.md) for detailed accessibility floor checks (acronym expansion, equation-prose pairing, jargon density, sentence length). This phase always runs (regardless of `--apply`).
+
+### Deterministic implementation — `scripts/batch_audit.py`
+
+Phase 1 + Phase 2's deterministic checks are implemented in `scripts/batch_audit.py`. It reads the book registry, resolves each book's `paper_tex` via the atlas topic's `project_path`, and produces a per-book report at `~/Research-Vault/books/<slug>/.audit-report-<date>.md`.
+
 ```bash
-PAPER_BIB="$PAPER_DIR/.../references.bib"
-BOOK_BIB=~/Research-Vault/books/"$SLUG"/references.bib
-diff <(grep -oE "@\w+\{[^,]+," "$PAPER_BIB" | sort) \
-     <(grep -oE "@\w+\{[^,]+," "$BOOK_BIB" | sort)
-# Capture: bib_added, bib_removed, bib_unchanged
+# Audit all 9 books
+~/Task-Management/packages/atlas-workspace/.venv/bin/python \
+    ~/.claude/skills/audit-paper-book/scripts/batch_audit.py
+
+# Audit one book
+~/Task-Management/packages/atlas-workspace/.venv/bin/python \
+    ~/.claude/skills/audit-paper-book/scripts/batch_audit.py <slug>
 ```
 
-**Figures diff:**
-- Walk `\includegraphics{...}` paths in paper tex.
-- Resolve to `<project>/figures/...png` or `<project>/output/figures/...png`.
-- Compare against `~/Research-Vault/books/<slug>/figures/`.
-- Capture: figs_paper_only, figs_book_only, figs_changed (mtime / size differs).
+What the script gets right:
+- **Bib drift** is computed from `\cite{}` keys in `main.tex` (and any `\input{}`-expanded section files), not from a guessed `.bib` filename. Avoids the common "wrong scratch bib" false positive.
+- **Numeric drift** normalises Unicode `±` ↔ LaTeX `\pm`, `%` ↔ `\%`, leading-zero variants (`.91` ↔ `0.91`), and whitespace around `±` before declaring a mismatch. Also skips tokens preceded by `§`, `Section`, `Eq.`, `Fig.`, `Table` (those are cross-references, not numeric claims).
+- **Structural drift** parses paper section numbering by walking `\section{}` / `\subsection{}` linearly (handles `\appendix` reset). Extracts `§X.Y` refs from book chapters and flags any that don't resolve.
+- **Accessibility** accepts both `Full Form (ACRONYM)` and `ACRONYM (Full Form)` expansion forms, and skips all-caps tokens that only appear inside markdown table rows (column headers).
 
-**Numeric drift:**
-- Extract numeric claims from paper abstract + result tables (regex: ranges like `0.85`, `2.82 ± 1.4`, `93.7%`).
-- Grep each book chapter for the same numeric strings.
-- Capture: numbers_in_book_not_paper, numbers_in_paper_not_book.
+What still needs human judgement:
+- Numeric drift hits may still include formatting edge cases (e.g. paper uses `$\mathbf{2.82 \pm 1.4}$` vs book bare-text version).
+- Accessibility allow-list is global; per-domain acronyms (e.g. MOO, MOEA, RVEA, SBX for evolutionary-algorithm books) may need extension. Edit `ACRONYM_ALLOW` at the top of the script.
+- Semantic claim-scope check (paper §X.Y says something the book misstates) is **not** implemented here — that's a Phase 3.5-style LLM sub-agent call, not a regex pass.
 
-**Section structure drift:**
-- Extract `\section{...}` and `\subsection{...}` from paper tex.
-- Compare against the chapter outline declared in `~/Research-Vault/books/index.yaml` for this slug.
-- Capture: paper_sections_added, paper_sections_renamed, book_chapters_orphaned.
+### Phase 3: Classify
 
-**Overleaf-link drift (status transitions):**
-- Read the atlas topic's `outputs[].status` for the paper-path that matches this book.
-- Read the book's `intro.md` masthead — does it currently contain a `https://www.overleaf.com/...` link?
-- Capture cases:
-  - Status is `{Accepted, Camera-ready, Published, Withdrawn}` AND book intro has Overleaf link → **propose removal** (paper accepted; Overleaf source is no longer the canonical artefact).
-  - Status is in-flight (`{Idea, Drafting, Submitted, Under Review, R&R, Revising}`) AND atlas has `overleaf_link:` AND book intro lacks the link → **propose addition**.
-  - Atlas `overleaf_link:` URL has changed AND book intro shows the old URL → **propose update**.
-
-### Phase 2: Classify
-
-Each drift item lands in one of four buckets:
+Each drift item lands in one of six buckets:
 
 | Bucket | What it means | --apply behaviour |
 |---|---|---|
 | **Mechanical** | New bib entries; new figure files; identical-name figures with different content | Auto-applied |
 | **Overleaf-link** | Add / remove / update the masthead Overleaf-source line per status | Auto-applied (one-line edit to `intro.md`) |
+| **Format-convention** | Blockquote masthead → definition-list migration; redundant body H1 stripped; missing required field reported | Migration + H1 strip auto-applied; missing field reported |
+| **Citation-URL** | Hand-constructed `/paper/<key>` link inside chapter prose | Reported with chapter+line; never auto-applied (replacement requires choosing cite-t vs cite-p form) |
 | **Numeric** | A number in the book no longer appears in the paper, or vice versa | Reported, never auto-applied |
 | **Structural** | Section heading renamed; new section added in paper; old section removed | Reported with suggested action ("Update `method.md` to mention §4.5 on the new selection rule") |
+| **Accessibility** | Acronym not expanded; display equation with no prose reading; jargon-dense sentence | Reported with chapter+line; never auto-applied (prose edits require user judgement) |
 | **New content** | Paper has a new theorem, definition, or claim with no echo in any book chapter | Reported with suggested chapter target |
 
 **Overleaf-link is mechanical** because the rule is deterministic: status ∈ accepted-set → remove; status in-flight + link in atlas → ensure present; URL changed → propagate. No editorial judgement.
 
-### Phase 3: Apply (only with --apply) or report
+**Format-convention items are mechanical** because the transformations are deterministic: blockquote masthead → definition-list (preserving field values), body H1 → strip the line. They never touch claims or numbers, only structural markup.
 
-Without `--apply`, write the report to `~/Research-Vault/books/<slug>/.audit-report-YYYY-MM-DD.md` and stop.
+### Phase 4: Apply (only with --apply) or report
 
-With `--apply`:
+See [`references/phase-4-apply-logic.md`](references/phase-4-apply-logic.md) for apply logic (bib copy, figure replacement, masthead updates, format-convention migrations). Write the audit report to `~/Research-Vault/books/<slug>/.audit-report-YYYY-MM-DD.md` so the user has a record of what was applied + what's still pending.
 
-```bash
-# Bib: copy new entries from paper to book
-cp "$PAPER_BIB" ~/Research-Vault/books/"$SLUG"/references.bib
+### Phase 5: Verify (if --apply ran OR --visual-check passed in)
 
-# Figures: copy added figures + replace changed ones
-for fig in $figs_paper_only $figs_changed; do
-    cp "$fig" ~/Research-Vault/books/"$SLUG"/figures/
-done
-
-# Overleaf-link masthead: add / remove / update the Overleaf-source line in intro.md.
-# Status set decides direction:
-#   in-flight = {Idea, Drafting, Submitted, Under Review, R&R, Revising}
-#   terminal  = {Accepted, Camera-ready, Published, Withdrawn}
-# Pseudocode (the actual edit is a one-line sed/Edit in intro.md):
-#   if status ∈ terminal AND intro has Overleaf line     → strip it
-#   if status ∈ in-flight AND atlas has overleaf_link
-#       AND intro lacks Overleaf line                    → insert it
-#   if status ∈ in-flight AND URL drifted                → replace it
-```
-
-Write the same audit report so the user has a record of what was applied + what's still pending.
-
-### Phase 4: Verify (if --apply ran)
-
-```bash
-# Reload atlas (Mac Mini only)
-launchctl bootout gui/$(id -u)/com.user.atlas
-sleep 2
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.user.atlas.plist
-sleep 4
-
-# Smoke-test the references chapter (catches bib parse errors)
-curl -s --max-time 8 -o /dev/null -w "references: %{http_code}\n" \
-    "http://localhost:8770/book/${SLUG}/references"
-
-# Spot-check that any new figure URL serves
-for fig in $figs_paper_only; do
-    name=$(basename "$fig")
-    curl -s --max-time 5 -o /dev/null -w "figures/${name}: %{http_code}\n" \
-        "http://localhost:8770/book/${SLUG}/figures/${name}"
-done
-```
+See [`references/phase-5-verify-smoke-tests.md`](references/phase-5-verify-smoke-tests.md) for HTTP smoke-test and mandatory Playwright visual verification logic.
 
 ## Report format
 
-`~/Research-Vault/books/<slug>/.audit-report-YYYY-MM-DD.md`:
-
-```markdown
-# Audit report — <slug>
-
-**Date:** YYYY-MM-DD
-**Mode:** report-only | applied
-**Paper revision:** <git-sha-or-mtime of paper tex>
-**Book last touched:** <git-sha-or-mtime of book vault dir>
-
-## Summary
-
-| Bucket | Count | Status |
-|---|---:|---|
-| Mechanical (bib + figures) | N | applied / pending |
-| Overleaf-link (masthead) | N | applied / pending |
-| Numeric | N | pending — user triage |
-| Structural | N | pending — user triage |
-| New content | N | pending — user triage |
-
-## Mechanical fixes
-
-### New bib entries (N)
-- `Smith2026-xx` — Smith, J. (2026). Title. *Journal*, 12(3). doi:10.xxxx
-- ...
-
-### New / changed figures (N)
-- `figures/new_plot.png` — added (paper §5)
-- `figures/budget_vs_harm.png` — content changed (mtime newer)
-- ...
-
-## Numeric drift
-
-| Where in book | Old number | New paper number | Action |
-|---|---|---|---|
-| `results.md` line 42 | 2.82 ± 1.4 | 2.78 ± 1.2 | Update `results.md` to match paper §5.1 |
-| ... |
-
-## Structural drift
-
-| Paper change | Affected chapter | Suggested action |
-|---|---|---|
-| §4.5 added "Cost-aware selection" | `method.md` | Add a section after the VOI rule |
-| §6 renamed to "Limitations and ethics" | `limitations.md` | Update chapter title + opening |
-
-## New content (no echo in book)
-
-| Paper element | Book gap | Suggested action |
-|---|---|---|
-| Theorem 3 (paper §3.4) | No mention in `method.md` | Add a callout/short subsection summarising the result |
-
-## Next actions
-
-1. (optional) Re-run with `--apply` to take the mechanical fixes.
-2. Triage numeric drift in `results.md`.
-3. Add a sub-section in `method.md` for Theorem 3.
-4. (optional) Run `/init-paper-book <slug>` only if the paper has restructured drastically — usually `audit` is faster.
-```
+See [`references/report-format-template.md`](references/report-format-template.md) for canonical audit report structure (summary table, mechanical fixes, drift buckets, next actions).
 
 ## Anti-patterns
 
