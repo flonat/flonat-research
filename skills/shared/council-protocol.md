@@ -2,11 +2,11 @@
 
 > Shared protocol for multi-model council mode. Any review agent or skill can opt into this by providing domain-specific system prompts and output formatting. This file defines the generic orchestration flow.
 >
-> **Included backend:** `cli-council` (local CLI tools, free with existing subscriptions). An optional API backend (`llm-council` via OpenRouter) is available separately — see below.
+> **Included backend:** `council-cli` (local CLI tools, free with existing subscriptions). An optional API backend (`council-api` via OpenRouter) is available separately — see below.
 
 ## Core Concept: Cross-Model Agentic Invocation
 
-Claude Code can invoke other LLM providers' CLI tools as subprocess reviewers — a different model reviews work that Claude produced, providing genuine architectural diversity. The system is **extensible**: any CLI tool that accepts a prompt and returns text can be wrapped as a backend (~20 lines of Python following the `BackendSpec` pattern in `packages/cli-council/`). Available backends change as subscriptions change; the architecture does not.
+Claude Code can invoke other LLM providers' CLI tools as subprocess reviewers — a different model reviews work that Claude produced, providing genuine architectural diversity. The system is **extensible**: any CLI tool that accepts a prompt and returns text can be wrapped as a backend (~20 lines of Python following the `BackendSpec` pattern in `packages/council-cli/`). Available backends change as subscriptions change; the architecture does not.
 
 ## What Council Mode Is
 
@@ -20,32 +20,32 @@ The key insight: genuine model diversity (different architectures, training data
 
 ## Infrastructure
 
-### CLI Backend: `cli-council` (Included)
+### CLI Backend: `council-cli` (Included)
 
-Package: `packages/cli-council/`
+Package: `packages/council-cli/`
 
 - `CouncilRunner` — orchestrator that invokes CLI backends via subprocess
 - Pluggable backends: `GeminiBackend`, `ClaudeBackend`, and a dormant `CodexBackend` (OpenAI subscription cancelled Mar 2026; resubscribing would restore it). New backends follow the same `BackendSpec` pattern.
 - `CouncilResult` — Pydantic models for text-based results
-- CLI — `python -m cli_council` for standalone use
+- CLI — `python -m council_cli` for standalone use
 - Uses existing subscriptions — no per-token API costs
 - **Currently active backends:** Gemini (`gemini -p`), Claude (`claude -p`)
 - **Best for:** Ad-hoc reviews, research tasks, quick multi-perspective opinions
 
-### API Backend: `llm-council` (Optional, Separate Install)
+### API Backend: `council-api` (Optional, Separate Install)
 
-> Not included in this repo. Install separately: `pip install llm-council` or clone from GitHub.
+> Not included in this repo. Install separately: `pip install council-api` or clone from GitHub.
 
 - `LLMClient` — generic async OpenRouter client with JSON/text chat and retry logic
 - `CouncilService` — 3-stage orchestration engine with customisable Stage 2/3 prompts
 - `CouncilResult` — Pydantic models for structured JSON results
-- CLI — `python -m llm_council` for standalone use
+- CLI — `python -m council_api` for standalone use
 - Requires `OPENROUTER_API_KEY` in the environment
 - **Best for:** Automated pipelines, structured JSON output, programmatic integration
 
 ### Choosing a Backend
 
-| Factor | `cli-council` (included) | `llm-council` (separate) |
+| Factor | `council-cli` (included) | `council-api` (separate) |
 |--------|--------------------------|--------------------------|
 | Cost | Subscription-included | Per-token (OpenRouter) |
 | Output format | Free-form text | Structured JSON |
@@ -54,7 +54,7 @@ Package: `packages/cli-council/`
 | Model control | Whatever CLIs support | Full OpenRouter catalogue |
 | Offline | Partially (Claude -p works offline) | No |
 
-**Default:** Use `cli-council` (included and free). Use `llm-council` only if you need structured JSON output or are running in an automated pipeline.
+**Default:** Use `council-cli` (included and free). Use `council-api` only if you need structured JSON output or are running in an automated pipeline.
 
 ## When to Use
 
@@ -109,7 +109,7 @@ The **main session** orchestrates council mode. Review agents cannot orchestrate
 
 ### Stage 1: Independent Assessments
 
-The main session invokes the `llm-council` package (via CLI or Python script). The library:
+The main session invokes the `council-api` package (via CLI or Python script). The library:
 
 1. Sends the system prompt + user message to N different LLM models via OpenRouter
 2. Each model independently produces a JSON assessment
@@ -172,13 +172,13 @@ These sections are appended **after** the consumer's standard report content. Do
 
 ## CLI Invocation
 
-### Option A: CLI Backend (`cli-council` — Included)
+### Option A: CLI Backend (`council-cli` — Included)
 
 For ad-hoc reviews using existing subscriptions (no API cost):
 
 ```bash
-cd "packages/cli-council"
-uv run python -m cli_council \
+cd "packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/council-prompt.txt \
     --context-file /tmp/council-context.txt \
     --output /tmp/council-result.json \
@@ -191,14 +191,14 @@ uv run python -m cli_council \
 - Output is free-form text — the markdown report (`--output-md`) is usually more useful than JSON
 - The chairman backend defaults to `claude` (since we're already in Claude Code)
 
-### Option B: API Backend (`llm-council` — Separate Install)
+### Option B: API Backend (`council-api` — Separate Install)
 
-> Requires separate installation: `pip install llm-council` and an `OPENROUTER_API_KEY`.
+> Requires separate installation: `pip install council-api` and an `OPENROUTER_API_KEY`.
 
 For structured JSON output and automated pipelines:
 
 ```bash
-uv run python -m llm_council \
+uv run python -m council_api \
     --system-prompt-file /tmp/council-system.txt \
     --user-message-file /tmp/council-user.txt \
     --models "anthropic/claude-sonnet-4.5,openai/gpt-5,google/gemini-2.5-pro" \
@@ -206,7 +206,7 @@ uv run python -m llm_council \
     --output /tmp/council-result.json
 ```
 
-For advanced cases (custom Stage 2/3 prompts), write a small Python script that imports `llm_council` and calls `CouncilService.run_council()` with `stage2_system` and `stage3_prompt_builder` parameters.
+For advanced cases (custom Stage 2/3 prompts), write a small Python script that imports `council_api` and calls `CouncilService.run_council()` with `stage2_system` and `stage3_prompt_builder` parameters.
 
 ## Issue Resolution Rules (Chairman)
 
@@ -230,7 +230,7 @@ The consumer's chairman prompt should instruct the chairman to apply these rules
 | Chairman model | `anthropic/claude-sonnet-4.5` | `--chairman` CLI flag or user config |
 | Max tokens | 4096 | `--max-tokens` CLI flag |
 
-**User defaults** persist to `~/.config/llm-council/config.json` and override built-in defaults. Manage via `llm-council models --set-defaults` / `--set-chairman` / `--reset`, or interactively with `llm-council models --pricing` to review options first.
+**User defaults** persist to `~/.config/council-api/config.json` and override built-in defaults. Manage via `council-api models --set-defaults` / `--set-chairman` / `--reset`, or interactively with `council-api models --pricing` to review options first.
 
 The library's `config.py` contains the full model registry (17 models across Anthropic, OpenAI, Google) with tiers and live pricing.
 
@@ -251,7 +251,7 @@ Current approach: the same system prompt goes to all models. Personas are docume
 
 ## Consumers
 
-| Consumer | CLI (`cli-council`) | API (`llm-council`) | Notes |
+| Consumer | CLI (`council-cli`) | API (`council-api`) | Notes |
 |----------|---------------------|---------------------|-------|
 | `paper-critic` | Supported | Implemented | First consumer — Technical Rigour, Presentation, Scholarly Standards personas |
 | `referee2-reviewer` | Supported | Supported | 5-audit protocol + council cross-review — highest-value consumer |

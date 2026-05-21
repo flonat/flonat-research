@@ -10,7 +10,7 @@
 ## How It Works
 
 1. The main session collects all `\cite{}` keys and `.bib` entries
-2. The prompt is sent to 3 models via `cli-council`
+2. The prompt is sent to 3 models via `council-cli`
 3. Each model independently cross-references keys, checks for typos, and verifies metadata
 4. Cross-review catches false positives (flagged entries that are actually correct) and surfaces additional issues
 5. Chairman synthesis produces a single `VALIDATION-REPORT.md`
@@ -18,8 +18,8 @@
 ## Invocation (CLI backend -- free)
 
 ```bash
-cd packages/cli-council
-uv run python -m cli_council \
+cd packages/council-cli
+uv run python -m council_cli \
     --prompt-file /tmp/bib-validate-prompt.txt \
     --context-file /tmp/bib-and-tex-content.txt \
     --output-md /tmp/bib-validate-council.md \

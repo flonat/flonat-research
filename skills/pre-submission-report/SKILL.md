@@ -9,6 +9,18 @@ argument-hint: "[path/to/main.tex or no arguments to auto-detect]"
 
 > Aggregates all quality checks into one dated report. Run before submitting to a journal/conference or sharing with collaborators.
 
+## Output Path
+
+Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-scoped to `paper-*/` and `paper/`)):
+
+- **Source slug:** `pre-submission-report`
+- **Write reports to:** `reviews/pre-submission-report/YYYY-MM-DD.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
+- **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
+- **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
+
+
 ## When to Use
 
 - Before submitting a paper to a venue
@@ -73,9 +85,9 @@ Run these in order — each depends on a clean state from the previous:
 Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Dispatches **7 read-only sub-agents in parallel** via the Task tool, then consolidates findings.
 
 **Hard rules for parallel mode:**
-1. **All 7 sub-agents are read-only** — see `subagent-write-guard.md` rule. They report findings; the orchestrator (this skill) decides what to fix.
-2. **Each sub-agent gets the standard forbid-list** — no git, no latexmk, no edits to files outside their scope.
-3. **Findings consolidate into a P0/P1/P2 fix list** before any edits — single triage point, not 7 streams.
+1. **All sub-agents are read-only with respect to project files under review** — see `subagent-write-guard.md` rule. They do NOT modify the paper, bib, code, or any other artefact under review; the orchestrator (this skill) decides what to fix. **They DO write their own per-agent reports** to `reviews/<source-slug>/<YYYY-MM-DD-HHMM>.md` per each agent's "Log to REVIEW-STATE.md (final step)" instruction — this is the durable record + the INDEX.md stamp that `/review-recap` reads. The "read-only" scope is the artefact under review, NOT a prohibition on writing the review report itself.
+2. **Each sub-agent gets the standard forbid-list** — no git, no latexmk, no edits to files outside their scope. The forbid-list explicitly carves out the `reviews/<source-slug>/` path as a permitted write target (the agent's logging step needs it).
+3. **Findings consolidate into a P0/P1/P2 fix list** before any edits — single triage point, not 13 streams. Sub-agents return structured findings to the orchestrator in addition to writing their report file; the consolidate step uses the structured returns.
 4. **No edit phase auto-runs** — the user reviews the consolidated report and approves which fixes to apply.
 
 **The 7 sub-agents:**
@@ -225,13 +237,49 @@ Display the report path and the summary table to the user. If the recommendation
 | `quality-scoring.md` | Verdict thresholds |
 | `_shared/double-blind-anonymity-checklist.md` | P1–P8 / A1–A9 anonymity gate (double-blind venues only) |
 
-## REVIEW-STATE.md propagation (orchestrator-only)
+## REVIEW-STATE.md propagation (orchestrator-side stamping)
 
-This skill is an **orchestrator** in the REVIEW-STATE.md schema: it does **NOT** stamp a row of its own. Instead, every sub-agent / sub-skill it spawns stamps its own row with `--trigger pre-submission-report` so `/review-recap` can group them as one orchestrated batch.
+This skill is an **orchestrator** in the REVIEW-STATE.md schema. As of the 2026-05-19 architecture change, the orchestrator handles all stamping; sub-agents emit directives but do not call the helper themselves.
+
+### Required orchestrator behaviour
+
+When constructing prompts for any sub-agent that is a logging tool (paper-critic, referee2-reviewer, peer-reviewer, domain-reviewer, claim-verify, blindspot, fatal-error-check, code-paper-auditor, artifact-coherence-auditor, reproducibility-auditor, code-review), include this line in the sub-agent prompt:
+
+> Emit a `review-state-stamp` directive at the end of your final response per `skills/_shared/stamp-directive-spec.md`. Set `trigger: pre-submission-report` (or omit — this orchestrator overrides). Do not call the stamping helper yourself.
 
 
-> When you reach your "Log to REVIEW-STATE.md" step, pass `--trigger pre-submission-report` to the helper (you were spawned by /pre-submission-report).
+### After each sub-agent returns
 
-**Do not** invoke the review-state-log helper from this skill directly. The orchestrator stamps nothing; the sub-agents stamp themselves with the orchestrator name in the Trigger column.
+For each agent's return:
+
+1. Write the agent's final response to a temp file (`/tmp/pre-submission-<agent>.md`).
+2. Parse the directive:
+   ```bash
+   ARGS=$(bash ~/.claude/skills/_shared/parse-stamp-directive.sh /tmp/pre-submission-<agent>.md)
+   ```
+   If `parse-stamp-directive.sh` exits non-zero, log a warning ("Agent X return did not contain a review-state-stamp directive — INDEX.md not updated for this run") and continue.
+3. **Verify the `.md` report file exists; reconstruct from return content if missing:**
+   ```bash
+   VERIFY=$(bash ~/.claude/skills/_shared/post-dispatch-verify.sh \
+       --return-file /tmp/pre-submission-<agent>.md \
+       --project "$PROJECT_ROOT" \
+       --agent <agent>)
+   ```
+   If `VERIFY` starts with `RECONSTRUCTED`, append `(report reconstructed by orchestrator — agent skipped Write)` to the `--notes` value before stamping. Guards against the blindspot-class failure mode. See `log/2026-05-21-blindspot-write-fix.md`.
+4. Stamp with the orchestrator's `--trigger` override:
+   ```bash
+   eval bash ~/.claude/skills/_shared/review-state-log.sh "$ARGS" \
+       --trigger pre-submission-report \
+       --source agent \
+       --project "$PROJECT_ROOT"
+   ```
+5. Clean up the temp file.
+
+All sub-agent stamps land in `<project>/reviews/INDEX.md` with `Trigger=pre-submission-report` and roughly the same `Last Run` timestamp.
+
+### Why the orchestrator stamps (not the sub-agent)
+
+Agents have inconsistent Bash tool grants at runtime (the 2026-05-19 harness investigation). The orchestrator always has Bash and always runs after the agents return. Moving stamping here decouples it from agent tool-surface uncertainty and fixes the burying problem (referee2-reviewer's stamping section used to live at line ~475 of a 518-line agent definition; agents reliably forgot to reach it).
 
 Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
+Stamp directive format: `~/Task-Management/skills/_shared/stamp-directive-spec.md`.

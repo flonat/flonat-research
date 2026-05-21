@@ -12,7 +12,7 @@ without access to the author's reasoning.
 |-------|-------------|
 | `domain-reviewer` | Research-focused substantive correctness agent |
 | `fixer` | Generic fix implementer for any critic report |
-| `paper-critic` | Read-only adversarial auditor for LaTeX papers |
+| `paper-critic` | Adversarial auditor for LaTeX papers |
 | `peer-reviewer` | Use this agent when you need to review someone else's paper — as a peer reviewer, discussant, or for reading group preparation |
 | `proposal-reviewer` | Use this agent when you need to review a research proposal, extended abstract, conference submission outline, or pre-paper plan — either his own or someone else's |
 | `referee2-reviewer` | Use this agent when the user wants a rigorous, adversarial academic review of their work — including papers, manuscripts, research designs, code, or arguments |

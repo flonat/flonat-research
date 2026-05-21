@@ -26,6 +26,18 @@ You are the **orchestrator** of a multi-agent peer review system. you are review
 
 ---
 
+## Output Path
+
+Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-scoped to `paper-*/` and `paper/`)):
+
+- **Source slug:** `peer-reviewer`
+- **Write reports to:** `reviews/peer-reviewer/YYYY-MM-DD.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
+- **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
+- **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
+
+
 ## Architecture Overview
 
 You are the **orchestrator agent**. You perform the reading and security scan yourself, then spawn **three specialised sub-agents in parallel** to handle deep analysis. Finally, you synthesise everything into a unified referee report.
@@ -294,8 +306,8 @@ This agent supports **council mode** — multi-model deliberation where 3 differ
 
 **Invocation (CLI backend — default, free):**
 ```bash
-cd "$(cat ~/.config/task-mgmt/path)/packages/cli-council"
-uv run python -m cli_council \
+cd "$(cat ~/.config/task-mgmt/path)/packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/peer-review-prompt.txt \
     --context-file /tmp/paper-content.txt \
     --output-md /tmp/peer-review-council.md \

@@ -66,7 +66,7 @@ Each level subsumes the one below: if agents can't reproduce the same estimate a
 
 ## Connection to Council Mode
 
-The `/multi-perspective` council mode (using `cli-council` with multiple LLM providers) adds genuine model diversity on top of persona diversity. The many-analysts design adds specification diversity on top of that. They operate on different axes:
+The `/multi-perspective` council mode (using `council-cli` with multiple LLM providers) adds genuine model diversity on top of persona diversity. The many-analysts design adds specification diversity on top of that. They operate on different axes:
 
 | Axis | What varies | Tool |
 |------|-------------|------|

@@ -9,6 +9,18 @@ argument-hint: [project-path or tex-file]
 
 **Report-only skill.** Never edit source files — produce `reviews/proofread/<YYYY-MM-DD-HHMM>.md` only.
 
+## Output Path
+
+Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-scoped to `paper-*/` and `paper/`)):
+
+- **Source slug:** `proofread`
+- **Write reports to:** `reviews/proofread/YYYY-MM-DD.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
+- **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
+- **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
+
+
 ## When to Use
 
 - Before sending a draft to supervisors
@@ -259,15 +271,15 @@ For high-stakes pre-submission checks, run proofreading in council mode to get i
 
 **How it works:**
 1. The main session reads the document and constructs the proofreading prompt
-2. The prompt is sent to 3 different models via `cli-council` (or `llm-council` for API mode)
+2. The prompt is sent to 3 different models via `council-cli` (or `council-api` for API mode)
 3. Each model independently runs the 7 check categories
 4. Cross-review identifies agreements and disputes
 5. Chairman synthesis produces a single `PROOFREAD-REPORT.md` with council notes
 
 **Invocation (CLI backend — free with existing subscriptions):**
 ```bash
-cd packages/cli-council
-uv run python -m cli_council \
+cd packages/council-cli
+uv run python -m council_cli \
     --prompt-file /tmp/proofread-prompt.txt \
     --context-file /tmp/paper-content.txt \
     --output-md /tmp/proofread-council.md \

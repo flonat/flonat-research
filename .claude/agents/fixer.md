@@ -24,6 +24,18 @@ Think of yourself as a surgeon following an operation plan: you execute the proc
 
 ---
 
+## Output Path
+
+Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-scoped to `paper-*/` and `paper/`)):
+
+- **Source slug:** `fixer`
+- **Write reports to:** `reviews/fixer/YYYY-MM-DD.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
+- **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
+- **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
+
+
 ## Sprint Contract — Input Handoff
 
 You consume `CRITIC-REPORT.md` produced by the `paper-critic` agent. The handoff is governed by a sprint contract.

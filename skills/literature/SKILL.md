@@ -104,7 +104,7 @@ Five enrichment passes that fire conditionally. They do not get their own phase 
 | Enrichment | Trigger | Integrates after | Reference |
 |-----------|---------|-----------------|-----------|
 | **Perplexity grounding** | `OPENROUTER_API_KEY` set; advisory real-time grounding wanted | Phase 1.2 (pre-search) | [`references/perplexity-grounding.md`](references/perplexity-grounding.md) |
-| **CLI council search** | Broad reviews (20+ papers) or interdisciplinary topics | Phase 2.1 (parallel search) | [`references/cli-council-search.md`](references/cli-council-search.md) |
+| **CLI council search** | Broad reviews (20+ papers) or interdisciplinary topics | Phase 2.1 (parallel search) | [`references/council-cli-search.md`](references/council-cli-search.md) |
 | **Snowball search** | Phase 2 returned <15 papers OR broad review | Phase 2.1 (parallel search) | [`references/snowball-search.md`](references/snowball-search.md) |
 | **SciSciNet enrichment** | `curl -sf http://localhost:8500/health` succeeds | Phase 2.3 (rank), before Phase 3 | [`references/scisciinet-enrichment.md`](references/scisciinet-enrichment.md) |
 | **Iterative deep loop** | Deep mode (`--deep` or keyword); ≥5 verified papers | Phase 3 (verify), before Phase 4 | [`references/deep-loop-protocol.md`](references/deep-loop-protocol.md) |
@@ -279,7 +279,7 @@ Output: `docs/literature-review/literature_summary.md`. Never write synthesis to
 
 Seven steps: (1) identify themes, (2) map intellectual lineage, (3) note current debates, (4) structured gap analysis (methodological / population-context / conceptual, each with "why it matters"), (5) negative evidence per cluster (mandatory — state explicitly if absent), (6) cross-cluster synthesis (tensions + implications), (7) Priority Reading Order (5–7 papers: review → foundational → frontier → gap/controversy).
 
-Output types: narrative summary, literature deck, annotated bibliography, concise field synthesis (~400 words for "quick synthesis" requests). Use `[VERIFY]` tags for uncertain attributions (resolve before publication). For comprehensive reviews, run through `cli-council` for multi-model synthesis. Full protocol: [`references/synthesis.md`](references/synthesis.md).
+Output types: narrative summary, literature deck, annotated bibliography, concise field synthesis (~400 words for "quick synthesis" requests). Use `[VERIFY]` tags for uncertain attributions (resolve before publication). For comprehensive reviews, run through `council-cli` for multi-model synthesis. Full protocol: [`references/synthesis.md`](references/synthesis.md).
 
 ---
 

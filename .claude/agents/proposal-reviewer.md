@@ -197,8 +197,8 @@ This agent supports **council mode** — multi-model deliberation where 3 differ
 
 **Invocation (CLI backend — default, free):**
 ```bash
-cd "$(cat ~/.config/task-mgmt/path)/packages/cli-council"
-uv run python -m cli_council \
+cd "$(cat ~/.config/task-mgmt/path)/packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/proposal-review-prompt.txt \
     --context-file /tmp/proposal-content.txt \
     --output-md /tmp/proposal-review-council.md \

@@ -70,8 +70,8 @@ You still check grammar, notation, and LaTeX issues — but you give them standa
 
 Council mode uses **different LLM providers** (Claude, GPT, Gemini) via OpenRouter, which provides natural perspective diversity. Personas add an optional layer of emphasis differentiation.
 
-**Current approach:** The main session constructs one system prompt combining the paper-critic core instructions (check dimensions, severity tiers, scoring, report format) with the user message (paper content, rubrics). This is sent to all models identically via the `llm-council` package. Each model's different architecture and training produces naturally different assessments.
+**Current approach:** The main session constructs one system prompt combining the paper-critic core instructions (check dimensions, severity tiers, scoring, report format) with the user message (paper content, rubrics). This is sent to all models identically via the `council-api` package. Each model's different architecture and training produces naturally different assessments.
 
 **With personas (optional):** The persona "system prompt additions" above can be prepended to the system prompt to explicitly steer each model's emphasis. This requires programmatic use of the library (not the CLI) since it needs per-model system prompts.
 
-**Future extension:** Per-model system prompt support in the `llm-council` library API.
+**Future extension:** Per-model system prompt support in the `council-api` library API.

@@ -116,7 +116,9 @@ If the directory doesn't exist, create it and proceed.
 
 ### Common Core + Conditional Structure
 
-**Common core** (always created): `CLAUDE.md`, `README.md`, `MEMORY.md`, `REVIEW-STATE.md`, `.gitignore`, `.context/`, `.claude/`, `docs/` (literature-review, readings, venues), `log/`, `paper-{venue}/` (with symlink + `correspondence/referee-reviews/`), `backup/`, `github-repo/` (optional), `knowledge/`, `correspondence/internal-reviews/`, `reviews/`, `to-sort/`.
+**Common core** (always created): `CLAUDE.md`, `README.md`, `MEMORY.md`, `.gitignore`, `.context/`, `.claude/`, `docs/` (literature-review, readings, venues), `log/`, `paper-{venue}/` (with symlink + `correspondence/referee-reviews/`), `github-repo/` (optional), `knowledge/`, `reviews/INDEX.md` (manifest only — per-source subdirs created lazily, per `rules/review-artefact-routing.md`), `correspondence/editorial/`, `correspondence/referee-reviews/`, `to-sort/`.
+
+> **Note:** the legacy `REVIEW-STATE.md` at project root + `reviews/` empty dir + `correspondence/internal-reviews/` layout is superseded by `rules/review-artefact-routing.md`. New projects scaffold the new layout directly; existing projects retrofit via `/tidy-project-reviews`. Per-paper `backup/` directories are created lazily by the LaTeX-compile PostToolUse hook and are gitignored via `paper-*/backup/`.
 
 | Project type | Adds |
 |--------------|------|
@@ -152,7 +154,7 @@ Full templates: [`templates/seed-files.md`](templates/seed-files.md).
 | `README.md` | Human overview: title, authors, abstract, links, status |
 | `.gitignore` | Standard ignores: OS, IDE, data, paper, Python, R, LaTeX |
 | `MEMORY.md` | Knowledge base: notation, estimands, decisions, pitfalls |
-| `REVIEW-STATE.md` | Per-project review log (header only at scaffold). Populated by 20 review tools. Schema: `~/Task-Management/docs/reference/review-state-schema.md`. Rendered by `/review-recap`. |
+| `reviews/INDEX.md` | Review-artefact manifest. Header only at scaffold; populated by review-producing skills/agents writing to `reviews/<source>/YYYY-MM-DD.md`. Maintained by `/review-recap`. See `rules/review-artefact-routing.md`. **Supersedes the legacy `REVIEW-STATE.md` at project root.** |
 | `.context/current-focus.md` | Initial "just initialised" state |
 | `.context/field-calibration.md` | Per-project domain profile placeholder (`/interview-me` populates) |
 | `.context/project-recap.md` | Research design notes |

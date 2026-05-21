@@ -5,8 +5,8 @@ The `scholarly` CLI writes initialization log lines to stderr but they often int
 ## Symptom
 
 ```
-[mcp-scholarly] Loading source adapters...
-[mcp-scholarly] OpenAlex: ready
+[scholarly] Loading source adapters...
+[scholarly] OpenAlex: ready
 {
   "tool": "scholarly-paper-detail",
   "arguments": {...},
@@ -68,12 +68,12 @@ For repeated use, copy the helper into a project-local `code/scholarly_helper.py
 
 ## Why this matters
 
-- `mcp-scholarly` adapter banner (`[mcp-scholarly] Loading...`) is printed unconditionally on init even when calling the CLI binary directly.
+- `scholarly` adapter banner (`[scholarly] Loading...`) is printed unconditionally on init even when calling the CLI binary directly.
 - Pre-existing pattern of `json.load(open(path))` in Phase 2/3 helpers fails silently on noisy output, then returns no candidates — producing zero-result Phase 2 searches that look like "no papers exist on this topic" rather than "parsing broke".
 - Documented after the 2026-05-04 false-name-proof-data-attribution literature pull where this exact failure mode wasted ~15 minutes of debugging.
 
 ## Alternatives considered
 
 - **Pipe through `jq`**: works but requires `jq` available everywhere; adds shell complexity to sub-agent prompts.
-- **Force CLI to silence banner**: `mcp-scholarly` has no `--quiet` flag as of 2026-05-04. Filed as enhancement candidate.
+- **Force CLI to silence banner**: `scholarly` has no `--quiet` flag as of 2026-05-04. Filed as enhancement candidate.
 - **Use Python MCP client directly**: defeats the point of CLI-fronted access from sub-agents (per `subagent-prompt-discipline` rule).

@@ -70,6 +70,22 @@ Run `uv run python scripts/lint-skills.py` and capture the summary line.
 
 If findings > 0, list them in the report under a **Skill-Numbering Lint** section. The linter explains each rule (R1–R9) inline.
 
+### 0.3 review-agent logger-gate lint
+
+Run:
+
+```bash
+grep -E "^After producing (DOMAIN-REVIEW|CODE-REVIEW|your verdict|your referee|the verification)" .claude/agents/*.md
+```
+
+**Pass criteria:** 0 matches. Any match means a review-agent definition is using the stale/fragile logger-gate intro pattern that was fixed by the 5-agent patch (commit `23ebcfff`, 2026-05-17). The fragile pattern conditions the `review-state-log.sh` call on producing a stale top-level filename (`DOMAIN-REVIEW.md`-style) or a soft generic phrase (`"your verdict"`, `"the verification"`); when orchestrators like `/review-cluster` send "Return findings as a structured list, NOT a file write", the gate fails and the helper never fires — leaving a logger gap detectable by `/review-recap`.
+
+If matches > 0, list them in the report under a **Review-Agent Logger-Gate** section with the suggested replacement intro:
+
+> Write [your <X> report] to `reviews/<source-slug>/<YYYY-MM-DD-HHMM>.md` (`mkdir -p reviews/<source-slug>/` first). Then append a row to the project's `REVIEW-STATE.md` so `/review-recap` can render the run. Use the shared helper:
+
+Reference pattern: see `paper-critic.md` line ~432 (already patched).
+
 ---
 
 ## Phase 1: Dispatch Sub-Agents

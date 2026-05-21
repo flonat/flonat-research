@@ -8,7 +8,7 @@ Credentials come from the host shell (Code) or `/etc/credentials.env` (container
 
 ```bash
 # Verify the CLI is on PATH
-command -v paperpile || echo "Missing — install mcp-paperpile and expose via uv tool install"
+command -v paperpile || echo "Missing — install paperpile and expose via uv tool install"
 ```
 
 ## Search by citation key

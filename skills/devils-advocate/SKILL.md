@@ -108,8 +108,8 @@ For the highest-stakes arguments, run the devil's advocate debate across multipl
 
 **Invocation (CLI backend):**
 ```bash
-cd packages/cli-council
-uv run python -m cli_council \
+cd packages/council-cli
+uv run python -m council_cli \
     --prompt-file /tmp/devils-advocate-prompt.txt \
     --context-file /tmp/paper-content.txt \
     --output-md /tmp/devils-advocate-council.md \

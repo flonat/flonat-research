@@ -299,7 +299,7 @@ project/
 
 ```
 ├── bootstrap.py         # Shared init logic — used by CLI + web
-├── config.py            # Settings + re-exports from llm-council
+├── config.py            # Settings + re-exports from council-api
 ```
 
 ---

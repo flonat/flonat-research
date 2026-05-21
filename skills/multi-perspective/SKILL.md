@@ -11,6 +11,18 @@ Spawn 3-5 parallel agents, each with a distinct disciplinary lens and epistemic 
 
 The core insight: a single-perspective analysis inherits the biases of that perspective. Deliberately introducing cognitive diversity — grounded in real disciplinary traditions — produces more robust research designs.
 
+## Output Path
+
+Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-scoped to `paper-*/` and `paper/`)):
+
+- **Source slug:** `multi-perspective`
+- **Write reports to:** `reviews/multi-perspective/YYYY-MM-DD.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
+- **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
+- **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
+
+
 ## When to Use
 
 - Early-stage research design: "Is this the right question? Is this the right method?"
@@ -270,14 +282,14 @@ In standard mode, Phase 3 spawns Claude sub-agents with different personas — b
 **Trigger:** "Council multi-perspective" or "thorough multi-perspective"
 
 **What changes in council mode:**
-- Phase 3 (Parallel Investigation): Each perspective is assigned to a different LLM provider via `cli-council`, not Claude sub-agents
+- Phase 3 (Parallel Investigation): Each perspective is assigned to a different LLM provider via `council-cli`, not Claude sub-agents
 - Phase 3.3 (Cross-Evaluation): Each model evaluates the others' perspectives without knowing which model produced which — genuine blind review
 - Phase 4 (Synthesis): Chairman model reads all perspectives and cross-evaluations, weighted by peer scores
 
 **Invocation (CLI backend):**
 ```bash
-cd packages/cli-council
-uv run python -m cli_council \
+cd packages/council-cli
+uv run python -m council_cli \
     --prompt-file /tmp/perspective-prompt.txt \
     --context-file /tmp/research-context.txt \
     --output-md /tmp/perspectives-council.md \

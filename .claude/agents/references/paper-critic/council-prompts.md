@@ -53,7 +53,7 @@ Rank the 3 reviews from most to least thorough:
 Be honest and specific. Judge the content, not the style. If two reviews flag the same issue, note the agreement.
 ```
 
-**Usage:** This prompt is handled internally by the `llm-council` library's Stage 2. The library provides a default cross-review prompt. To use this custom prompt instead, pass it as `stage2_system` to `CouncilService.run_council()`.
+**Usage:** This prompt is handled internally by the `council-api` library's Stage 2. The library provides a default cross-review prompt. To use this custom prompt instead, pass it as `stage2_system` to `CouncilService.run_council()`.
 
 ## Stage 3: Chairman Synthesis Prompt
 

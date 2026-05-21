@@ -148,7 +148,37 @@ build/
 *.synctex.gz
 *.toc
 out/
+
+# Daily Overleaf snapshots (per `review-artefact-routing` rule + per-paper backup hook)
+paper-*/backup/
+
+# Archived review reports (per `review-artefact-routing` rule)
+reviews/*/archived/
 ```
+
+## reviews/INDEX.md
+
+Seed an empty manifest. `/review-recap` will populate it as reviews accumulate.
+
+```markdown
+# Reviews — <Working Title>
+
+> Manifest of review and audit reports for this project. Maintained by `/review-recap` from the on-disk artefacts in `reviews/<source>/`. See `rules/review-artefact-routing.md` for the convention.
+
+## Latest per source
+
+_No reports yet — run a review to populate this manifest._
+
+## Open issues
+
+_None._
+
+## Stale sources
+
+_None._
+```
+
+Also `mkdir -p reviews/` at scaffold time so the directory exists. Per-source subfolders (`reviews/paper-critic/`, etc.) are created lazily by each skill/agent on its first run.
 
 ## MEMORY.md
 

@@ -373,7 +373,7 @@ Section slugs in `WORKFLOW_TIPS` must match actual heading slugs in `user-manual
 
 ## Library/Package READMEs
 
-For standalone packages (llm-council, cli-council), the README serves as the API reference.
+For standalone packages (council-api, council-cli), the README serves as the API reference.
 
 ### Structure
 

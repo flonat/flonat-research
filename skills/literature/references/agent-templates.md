@@ -423,8 +423,8 @@ PROMPT
 **Step 2:** Run the council:
 
 ```bash
-cd "$TM/packages/cli-council"
-uv run python -m cli_council \
+cd "$TM/packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/lit-council-prompt.txt \
     --output /tmp/lit-council-result.json \
     --output-md /tmp/lit-council-report.md \
@@ -443,7 +443,7 @@ Feed all discovered papers into Phase 3 (deduplication) alongside Phase 2 result
 
 ## Phase 7: CLI Council Synthesis Template (Optional)
 
-For comprehensive reviews, run the narrative synthesis through cli-council to get three independent thematic interpretations.
+For comprehensive reviews, run the narrative synthesis through council-cli to get three independent thematic interpretations.
 
 **Step 1:** Write the paper list to a context file:
 
@@ -478,8 +478,8 @@ PROMPT
 **Step 3:** Run the council:
 
 ```bash
-cd "$TM/packages/cli-council"
-uv run python -m cli_council \
+cd "$TM/packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/lit-synthesis-prompt.txt \
     --context-file /tmp/lit-papers.txt \
     --output-md /tmp/lit-synthesis-report.md \

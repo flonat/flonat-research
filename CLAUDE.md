@@ -183,9 +183,11 @@ This helps me (Claude) pick up where we left off next time.
 | `skills/` | 48 skill definitions |
 | `hooks/` | 9 hook scripts |
 | `.scripts/` | CLI tools for Notion task management |
-| `packages/cli-council/` | Multi-model council via local CLI tools |
-| `packages/llm-council/` | Multi-model council via OpenRouter API |
-| `packages/mcp-scholarly/` | Multi-source scholarly search MCP server (OpenAlex + Scopus + WoS) |
+| `packages/cli-council/` | cli-council |
+| `packages/council-api/` | Multi-model council via OpenRouter API |
+| `packages/council-cli/` | Multi-model council via local CLI tools |
+| `packages/mcp-scholarly/` | mcp-scholarly |
+| `packages/scholarly/` | Multi-source scholarly search MCP server (OpenAlex + Scopus + WoS) |
 | `log/` | Session logs |
 | `docs/` | Documentation |
 <!-- FILE-STRUCTURE:END -->

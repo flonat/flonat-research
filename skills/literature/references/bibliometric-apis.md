@@ -1,6 +1,6 @@
 # Bibliometric API Structured Queries
 
-> Four bibliometric sources are available. The **`scholarly` CLI** (`packages/mcp-scholarly/`) is the preferred interface — `scholarly scholarly-search "<query>" --json` queries all enabled sources in one call with automatic DOI-based dedup; `scholarly scholarly-verify-dois --dois D1,D2 --json` batch-verifies DOIs across all sources.
+> Four bibliometric sources are available. The **`scholarly` CLI** (`packages/scholarly/`) is the preferred interface — `scholarly scholarly-search "<query>" --json` queries all enabled sources in one call with automatic DOI-based dedup; `scholarly scholarly-verify-dois --dois D1,D2 --json` batch-verifies DOIs across all sources.
 
 ## Scholarly CLI Tools (preferred)
 

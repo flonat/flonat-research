@@ -48,11 +48,11 @@ from institutional positions to network centrality [VERIFY: exact claim on p. 12
 
 ## Multi-Model Synthesis (Optional)
 
-For comprehensive literature reviews, run the synthesis through `cli-council` to get three independent interpretations of the literature landscape. Different models identify different themes, debates, and gaps.
+For comprehensive literature reviews, run the synthesis through `council-cli` to get three independent interpretations of the literature landscape. Different models identify different themes, debates, and gaps.
 
 ```bash
-cd "packages/cli-council"
-uv run python -m cli_council \
+cd "packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/lit-synthesis-prompt.txt \
     --context-file /tmp/lit-papers.txt \
     --output-md /tmp/lit-synthesis-report.md \

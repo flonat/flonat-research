@@ -117,7 +117,7 @@ See [`docs/skills.md`](docs/skills.md) for the full catalogue.
 |-------|----------|
 | `domain-reviewer` | Research-focused substantive correctness agent |
 | `fixer` | Generic fix implementer for any critic report |
-| `paper-critic` | Read-only adversarial auditor for LaTeX papers |
+| `paper-critic` | Adversarial auditor for LaTeX papers |
 | `peer-reviewer` | Use this agent when you need to review someone else's paper — as a peer reviewer, discussant, or for reading group preparation |
 | `proposal-reviewer` | Use this agent when you need to review a research proposal, extended abstract, conference submission outline, or pre-paper plan — either his own or someone else's |
 | `referee2-reviewer` | Use this agent when the user wants a rigorous, adversarial academic review of their work — including papers, manuscripts, research designs, code, or arguments |
@@ -211,9 +211,11 @@ claude-research/
 │   └── resources/               # Reference data (journal rankings, etc.)
 ├── .scripts/                    # CLI tools for Notion task management
 ├── packages/
-│   ├── cli-council/             # Multi-model council via local CLI tools
-│   ├── llm-council/             # Multi-model council via OpenRouter API
-│   └── mcp-scholarly/             # Multi-source scholarly search MCP (OpenAlex + Scopus + WoS)
+│   ├── cli-council/             # cli-council
+│   ├── council-api/             # Multi-model council via OpenRouter API
+│   ├── council-cli/             # Multi-model council via local CLI tools
+│   ├── mcp-scholarly/             # mcp-scholarly
+│   └── scholarly/             # Multi-source scholarly search MCP (OpenAlex + Scopus + WoS)
 ├── docs/                        # Component documentation
 ├── log/                         # Session logs (auto-created)
 └── scripts/
@@ -264,7 +266,7 @@ This infrastructure draws on design patterns from several open-source workflows.
 
 ### General Resources
 
-- **[Andrej Karpathy](https://github.com/karpathy/llm-council)** — multi-model council with peer review and synthesis (our fork: [llm-council](https://github.com/user/llm-council), [cli-council](https://github.com/user/cli-council))
+- **[Andrej Karpathy](https://github.com/karpathy/council-api)** — multi-model council with peer review and synthesis (our fork: [council-api](https://github.com/user/council-api), [council-cli](https://github.com/user/council-cli))
 - **[rtk-ai](https://github.com/rtk-ai/rtk)** — RTK rewrite hook for 60–90% token savings on CLI output
 - **[NPC Worldwide](https://github.com/npc-worldwide/npcsh)** (npcsh) — knowledge graph sleep/dream cycles, inspiring the memory consolidation skill
 - **[Boris Cherny](https://github.com/AugmendTech/ChernyCode)** (ChernyCode) — AI coding assistant configuration patterns

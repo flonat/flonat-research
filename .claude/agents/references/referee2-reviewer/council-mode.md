@@ -15,8 +15,8 @@ The 5-audit protocol (code review, replication, paper critique, cross-reference,
 ## Invocation (CLI backend — default, free with existing subscriptions)
 
 ```bash
-cd "$(cat ~/.config/task-mgmt/path)/packages/cli-council"
-uv run python -m cli_council \
+cd "$(cat ~/.config/task-mgmt/path)/packages/council-cli"
+uv run python -m council_cli \
     --prompt-file /tmp/referee2-prompt.txt \
     --context-file /tmp/referee2-paper-and-code.txt \
     --output-md /tmp/referee2-council-report.md \
@@ -27,8 +27,8 @@ uv run python -m cli_council \
 ## Invocation (API backend — structured JSON)
 
 ```bash
-cd "$(cat ~/.config/task-mgmt/path)/packages/llm-council"
-uv run python -m llm_council \
+cd "$(cat ~/.config/task-mgmt/path)/packages/council-api"
+uv run python -m council_api \
     --system-prompt-file /tmp/referee2-system.txt \
     --user-message-file /tmp/referee2-content.txt \
     --models "anthropic/claude-sonnet-4.5,openai/gpt-5,google/gemini-2.5-pro" \
