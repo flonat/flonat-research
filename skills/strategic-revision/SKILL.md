@@ -177,6 +177,23 @@ Populate the Publication Strategy section of `review-analysis.md`:
 9. **Don't write response letters.** The skill produces plans and trackers; writing the rebuttal is the user's job. To inventory *what actually changed* between the submitted and revised manuscript as raw material for the rebuttal, run `/latex-diff` (submitted revision vs working tree) — it reports the change list; it does not write the letter.
 10. **GO/NO-GO gate after Block A.** If empirical foundation changes key conclusions, escalate to authors before advancing.
 
+## Fold-in mode — second-review extension of an existing DAG
+
+When a paper that already has a `/strategic-revision` package receives a **second independent review** (a new referee report, an AI self-review, a co-author critique, a conference discussant, a fresh `paper-critic` / `referee2-reviewer` pass), extend the existing DAG instead of starting over.
+
+**Trigger:** "fold in this review", "process this second review", `/strategic-revision --fold-in <path>`, or recognising the situation from context (existing `plan/revision_tasks*.json` + new review file).
+
+**What it produces** (preserving v1; never overwriting):
+
+- `plan/revision_tasks-v{N}.json` + `plan/revision_dag_analysis-v{N}.json` — incremented version
+- v{N} addendum appended to `plan/REVISION_MASTER_PLAN.md` and `analysis/comment-tracker.md` (the same files, not new ones)
+- A cross-review picture: where the reviews overlap, what each catches that the other misses, and whether either is a superset (usually neither is — the union is the real picture)
+- New review gets its own `reviews/<source-N>.md` and its own row in `reviews/INDEX.md`; v1's row is untouched
+
+**Why this matters:** re-running the full skill loses the v1 verification trail (which findings were checked, which converted to DISAGREE, which got Coaching positions). Fold-in preserves that trail. The DAG itself is the durable artifact; reviews are inputs that grow it.
+
+Full step-by-step (including the OVERLAP / MERGE / NEW disposition axis, versioning convention, and the cross-review picture template): [`references/fold-in-protocol.md`](references/fold-in-protocol.md).
+
 ## Templates
 
 Located in `templates/referee-comments/`:
@@ -196,4 +213,5 @@ Located in `templates/referee-comments/`:
 - `references/rr-routing.md` — R&R routing signal words
 - `references/dag-validation.md` — DAG validator usage + Phase 6 details
 - `references/task-schema.md` — `revision_tasks.json` JSON schema
+- `references/fold-in-protocol.md` — second-review extension protocol (preserves v1 trail; appends v{N} addendums)
 - `scripts/dag_validator.py` — NetworkX-based DAG validator (copy to plan dir before running)

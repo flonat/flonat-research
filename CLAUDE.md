@@ -162,14 +162,7 @@ In `.claude/rules/` — these apply automatically to every session. See [`docs/c
 
 <!-- AFTER-SESSION:START -->
 <!-- synced from private CLAUDE.md — do not edit manually -->
-**Update `.context/current-focus.md`** with:
-- What we worked on
-- Where things were left off
-- What's coming next
-
-**Standard closing sequence:** commit → push → deploy (if needed) → `/session-close`.
-
-This helps me (Claude) pick up where we left off next time.
+Update `.context/current-focus.md` (what we worked on, where left off, what's next), then commit → push → deploy (if needed) → `/session-close`. Full protocol: rule `session-lifecycle.md`.
 <!-- AFTER-SESSION:END -->
 
 ## Tips for Working Together

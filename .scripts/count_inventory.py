@@ -55,13 +55,54 @@ def get_ground_truth(root: Path) -> dict[str, int]:
         if artifacts.is_dir():
             resource_repos += sum(1 for p in artifacts.glob("*/.git"))
 
+    # Packages: immediate subdirectories of packages/ (each is a package,
+    # whether a nested git repo or a local-only dir).
+    packages = 0
+    packages_root = root / "packages"
+    if packages_root.is_dir():
+        packages = sum(
+            1 for p in packages_root.iterdir()
+            if p.is_dir() and not p.name.startswith(".")
+        )
+
     return {
         "skills": skills,
         "agents": agents,
         "rules": rules,
         "hooks": hooks,
         "resource_repos": resource_repos,
+        "packages": packages,
     }
+
+
+def list_packages(root: Path) -> list[str]:
+    """Return the names of all package directories under packages/."""
+    packages_root = root / "packages"
+    if not packages_root.is_dir():
+        return []
+    return sorted(
+        p.name for p in packages_root.iterdir()
+        if p.is_dir() and not p.name.startswith(".")
+    )
+
+
+def check_package_coverage(root: Path) -> list[str]:
+    """Return package dirs that are NOT mentioned in docs/components/packages.md.
+
+    Coverage is name-presence only (the package appears somewhere in the doc),
+    which catches the common drift: a new package added under packages/ that
+    nobody added to the catalogue.
+    """
+    doc = root / "docs" / "components" / "packages.md"
+    if not doc.exists():
+        return []
+    text = doc.read_text(encoding="utf-8")
+    missing = []
+    for name in list_packages(root):
+        # Word-boundary match so e.g. `pdf-clean` isn't matched by `pdf-cleaner`.
+        if not re.search(rf"(?<![\w-]){re.escape(name)}(?![\w-])", text):
+            missing.append(name)
+    return missing
 
 
 # ── Scan configuration ──────────────────────────────────────────────────
@@ -74,6 +115,7 @@ SCAN_FILES = [
     "docs/components/rules.md",
     "docs/components/hooks.md",
     "docs/components/agents.md",
+    "docs/components/packages.md",
     "docs/system.md",
     "docs/guides/installation.md",
     ".context/projects/_index.md",
@@ -97,6 +139,7 @@ EXCLUDE_LINE_PATTERNS = [
     re.compile(r"Referee.2 agent .+never"),  # prose about agent behavior
     re.compile(r"Referee.2 Agent", re.IGNORECASE),  # section title "The Referee~2 Agent"
     re.compile(r"Trail of Bits|linters? for agent", re.IGNORECASE),  # external tool counts
+    re.compile(r"BasicTeX|TeX Live|scheme-full", re.IGNORECASE),  # "~80 packages" = TeX packages, not packages/
 ]
 
 
@@ -123,6 +166,7 @@ SCAN_PATTERNS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"(\d+)\s+auto-loaded\b", re.IGNORECASE), "rules"),
     (re.compile(r"(\d+)\s+hooks?\b", re.IGNORECASE), "hooks"),
     (re.compile(r"(\d+)\s+hook scripts?\b", re.IGNORECASE), "hooks"),
+    (re.compile(r"(\d+)\s+packages?\b", re.IGNORECASE), "packages"),
     # Heading format: ## Hooks (N scripts)
     (re.compile(r"\((\d+)\s+scripts?\)"), "hooks"),
     # Heading format: "### Skills (N total)" — preceded by ### + "Skills"
@@ -254,19 +298,29 @@ def main() -> int:
     root = Path(__file__).resolve().parent.parent
     truth = get_ground_truth(root)
     mismatches = scan(root, truth)
+    uncovered_packages = check_package_coverage(root)
 
     if args.json:
         data = {
             "ground_truth": truth,
             "mismatches": [asdict(m) for m in mismatches],
             "total_mismatches": len(mismatches),
+            "uncovered_packages": uncovered_packages,
         }
         print(json.dumps(data, indent=2))
-        return 1 if mismatches and not args.fix else 0
+        problems = bool(mismatches or uncovered_packages)
+        return 1 if problems and not args.fix else 0
 
     if args.fix:
         if not mismatches:
             print(f"All counts match ground truth: {truth}")
+            if uncovered_packages:
+                print(
+                    f"NOTE: {len(uncovered_packages)} package(s) missing from "
+                    f"packages.md (not auto-fixable — add a description manually): "
+                    + ", ".join(uncovered_packages)
+                )
+                return 1
             return 0
 
         n_fixed = fix(root, mismatches)
@@ -286,18 +340,28 @@ def main() -> int:
 
     # --check (default)
     print(f"Ground truth: {truth}")
-    if not mismatches:
+    if not mismatches and not uncovered_packages:
         print("All counts match.")
         return 0
 
-    print(f"\n{len(mismatches)} stale counts found:\n")
-    current_file = None
-    for m in mismatches:
-        if m.file != current_file:
-            current_file = m.file
-            print(f"  {m.file}:")
-        print(f"    L{m.line_num}: {m.count_key} {m.found} → {m.expected}")
-        print(f"      {m.context}")
+    if mismatches:
+        print(f"\n{len(mismatches)} stale counts found:\n")
+        current_file = None
+        for m in mismatches:
+            if m.file != current_file:
+                current_file = m.file
+                print(f"  {m.file}:")
+            print(f"    L{m.line_num}: {m.count_key} {m.found} → {m.expected}")
+            print(f"      {m.context}")
+
+    if uncovered_packages:
+        print(
+            f"\n{len(uncovered_packages)} package(s) under packages/ "
+            f"missing from docs/components/packages.md:\n"
+        )
+        for name in uncovered_packages:
+            print(f"    - {name}")
+
     return 1
 
 
