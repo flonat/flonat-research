@@ -1,5 +1,13 @@
 # Phase 1: Diff Inventory
 
+**Paper-tex resolution.** The audit needs to know which `.tex` file is the canonical paper. Resolution order:
+
+1. **Registry override.** If the book's entry in `~/Research-Vault/books/index.yaml` has a `paper_tex:` field, it's used as a path relative to the project root (e.g. `paper-acm-gecco/paper/gecco2026.tex`). Set this once at `/init-paper-book` setup when the paper's tex isn't named `main.tex` (common with ACM templates that name files after the venue).
+2. **Canonical layout.** First `paper-*/paper/main.tex` under the project (the Overleaf symlink convention).
+3. **Backup fallback.** First `paper-*/backup/main.tex` (for when the Overleaf symlink is temporarily down).
+
+If none resolve, the book is surfaced in the JSON summary as `{"slug": ..., "error": "no paper tex found"}` rather than silently skipped — fix by adding `paper_tex:` to the registry.
+
 Build four diffs.
 
 **Bibliography diff:**
@@ -34,6 +42,15 @@ diff <(grep -oE "@\w+\{[^,]+," "$PAPER_BIB" | sort) \
   - Status is `{Accepted, In Press, Camera-ready, Published, Withdrawn}` AND book intro has Overleaf link → **propose removal** (paper accepted; Overleaf source is no longer the canonical artefact).
   - Status is in-flight (`{Idea, Drafting, Submitted, Under Review, R&R, Revising}`) AND atlas has `overleaf_link:` AND book intro lacks the link → **propose addition**.
   - Atlas `overleaf_link:` URL has changed AND book intro shows the old URL → **propose update**.
+
+**Published-masthead drift (status = Published):**
+
+When `outputs[0].status` starts with `Published`, the intro masthead must reflect the published state. The audit checks two things:
+
+- **DOI Source line.** Atlas `outputs[0].doi` should appear somewhere in `intro.md`. If atlas has a DOI but the intro doesn't reference it (e.g. the Source line still points at Overleaf, or was dropped without a replacement), **propose addition** of `Source\n: [📄 DOI: <doi> ↗](https://doi.org/<doi>)`.
+- **Venue line freshness.** If `intro.md` has a Venue line that contains stale status markers (`R&R`, `Major Revision`, `In Press`, `Accepted`, `under review`, `under revision`, `In preparation`, `Submitted`, `Drafting`) and does NOT contain the word `Published`, **propose rewrite** to `*<venue>* (<year>) — Published online <publication_date>`.
+
+Both fixes are deterministic and pull from the same atlas fields (`outputs[0].venue`, `.doi`, `.publication_date`). The canonical fix is to invoke `regenerate_intro.py --apply` — see the next paragraph.
 
 **Regenerate via the shared script.** When format-convention drift is found, the canonical fix is to invoke the regenerate script — same one `/init-paper-book` uses, so the format stays in lockstep:
 

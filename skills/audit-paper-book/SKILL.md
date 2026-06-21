@@ -147,6 +147,7 @@ Each drift item lands in one of six buckets:
 |---|---|---|
 | **Mechanical** | New bib entries; new figure files; identical-name figures with different content | Auto-applied |
 | **Overleaf-link** | Add / remove / update the masthead Overleaf-source line per status | Auto-applied (one-line edit to `intro.md`) |
+| **Published-masthead** | Status=Published but intro lacks DOI Source line OR Venue line carries stale marker (R&R, In Press, Accepted, …) | Auto-applied via `regenerate_intro.py --apply` (pulls `doi:` + `publication_date:` from atlas) |
 | **Format-convention** | Blockquote masthead → definition-list migration; redundant body H1 stripped; missing required field reported | Migration + H1 strip auto-applied; missing field reported |
 | **Citation-URL** | Hand-constructed `/paper/<key>` link inside chapter prose | Reported with chapter+line; never auto-applied (replacement requires choosing cite-t vs cite-p form) |
 | **Numeric** | A number in the book no longer appears in the paper, or vice versa | Reported, never auto-applied |
@@ -155,6 +156,8 @@ Each drift item lands in one of six buckets:
 | **New content** | Paper has a new theorem, definition, or claim with no echo in any book chapter | Reported with suggested chapter target |
 
 **Overleaf-link is mechanical** because the rule is deterministic: status ∈ accepted-set → remove; status in-flight + link in atlas → ensure present; URL changed → propagate. No editorial judgement.
+
+**Published-masthead is mechanical** because the transformation is fully driven by atlas data: when `outputs[0].status` starts with `Published`, `regenerate_intro.py` pulls `doi:` and `publication_date:` from the same atlas entry and emits (a) a Venue line `*<venue>* (<year>) — Published online <date>` and (b) a Source line `[📄 DOI: <doi> ↗](https://doi.org/<doi>)` in place of the Overleaf line. No editorial judgement — the canonical form is determined by the atlas state.
 
 **Format-convention items are mechanical** because the transformations are deterministic: blockquote masthead → definition-list (preserving field values), body H1 → strip the line. They never touch claims or numbers, only structural markup.
 

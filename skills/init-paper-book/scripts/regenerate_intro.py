@@ -29,6 +29,12 @@ Conventions
   `chapter.title` in frontmatter by atlas's template).
 * The Source field (Overleaf) is dropped when atlas's status begins with
   one of {Accepted, In Press, Camera-ready, Published, Withdrawn}.
+* When status begins with `Published` AND atlas `outputs[0]` carries a
+  `doi:` field, the Venue line is templated as
+  `*<venue>* (<pub-year>) — Published online <publication_date>` and a
+  Source line `: [📄 DOI: <doi> ↗](https://doi.org/<doi>)` is emitted
+  in place of the dropped Overleaf line. Falls back to the plain
+  `<venue> — Published` form if `publication_date` / `doi` are absent.
 * Author-line format is per-book (per-author affiliations may differ).
   Override via AUTHORS dict below; falls back to a single-institution
   default derived from atlas `institution:` and `co_authors:`.
@@ -38,6 +44,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -134,6 +141,21 @@ def _first_sentence(paragraph: str) -> str:
     return s
 
 
+def _parse_pub_date(raw: str) -> tuple[str, str]:
+    """Return (year, pretty-formatted date) from an ISO-date string.
+    Pretty form is 'D Month YYYY' (e.g. '15 June 2026'). Returns ('','')
+    if raw is not a parseable ISO date; falls back to (year-prefix, raw)
+    if only a year prefix is present."""
+    if not raw:
+        return "", ""
+    try:
+        d = datetime.strptime(raw[:10], "%Y-%m-%d")
+        return f"{d.year}", d.strftime("%-d %B %Y")
+    except ValueError:
+        m = re.match(r"^(\d{4})", raw)
+        return (m.group(1) if m else "", raw)
+
+
 def _default_authors(meta: dict) -> str:
     """Fallback author line when no override is in the AUTHORS dict.
     Uses the atlas `institution:` field for the lead and all co_authors —
@@ -157,6 +179,8 @@ def build_intro(slug: str, entry: dict) -> str:
     status = out0.get("status") or meta.get("status") or "Drafting"
     paper_title = out0.get("paper_title") or meta.get("paper_title") or meta.get("title", "")
     overleaf = out0.get("overleaf_link") or meta.get("overleaf_link") or ""
+    doi = (out0.get("doi") or meta.get("doi") or "").strip()
+    publication_date = str(out0.get("publication_date") or "").strip()
     topic_title = meta.get("title", slug)
 
     desc_full = _extract_description(body)
@@ -167,7 +191,24 @@ def build_intro(slug: str, entry: dict) -> str:
     lede = _clean_wikilinks(lede) or f"A reading guide to {paper_title}."
 
     authors_line = AUTHORS.get(slug) or _default_authors(meta)
-    venue_line = f"{venue} — {status}" if venue else str(status)
+
+    # Venue + Source emission. Status=Published with DOI promotes both:
+    # the Venue line carries a "Published online <date>" suffix, and the
+    # Source line points at the DOI rather than the (now-dropped) Overleaf
+    # working copy. Falls back gracefully if metadata is partial.
+    is_published = str(status).startswith("Published")
+    if is_published and venue:
+        pub_year, pub_date_pretty = _parse_pub_date(publication_date)
+        if pub_date_pretty:
+            venue_line = (
+                f"*{venue}* ({pub_year}) — Published online {pub_date_pretty}"
+                if pub_year
+                else f"*{venue}* — Published online {pub_date_pretty}"
+            )
+        else:
+            venue_line = f"*{venue}* — Published"
+    else:
+        venue_line = f"{venue} — {status}" if venue else str(status)
 
     lines = [
         "Authors", f": {authors_line}", "",
@@ -176,7 +217,11 @@ def build_intro(slug: str, entry: dict) -> str:
     ]
 
     is_terminal = any(str(status).startswith(p) for p in TERMINAL_STATUS_PREFIXES)
-    if not is_terminal and slug not in DROP_SOURCE and overleaf:
+    if is_published and doi and slug not in DROP_SOURCE:
+        # Published + DOI → Source points at the version of record.
+        lines += ["", "Source", f": [📄 DOI: {doi} ↗](https://doi.org/{doi})"]
+    elif not is_terminal and slug not in DROP_SOURCE and overleaf:
+        # In-flight → Source points at the Overleaf working copy.
         lines += ["", "Source", f": [📝 Overleaf ↗]({overleaf})"]
 
     out = [

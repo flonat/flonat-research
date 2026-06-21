@@ -131,7 +131,7 @@ EXCLUDE_LINE_PATTERNS = [
     re.compile(r"Added \d+ new skills"),  # "Added 7 new skills" changelog
     re.compile(r"\d+ agents \+ multiple skills"),  # changelog
     re.compile(r"hugo|sant.anna|clo-author", re.IGNORECASE),  # external refs
-    re.compile(r"shared/"),  # "shared/" references
+    re.compile(r"driven by \d+ hooks", re.IGNORECASE),  # agent-memory row: "4 hooks" = agentmem hooks, NOT the global hook count (false-positive guard)
     re.compile(r"^\s*\|.*category", re.IGNORECASE),  # table rows with category subtotals
     re.compile(r"Research & Writing|Task Management.*Code|Publishing & Submission|Utilities", re.IGNORECASE),  # skill category subtotal lines
     re.compile(r"^\s*#"),  # comment-only lines in code blocks
@@ -172,10 +172,13 @@ SCAN_PATTERNS: list[tuple[re.Pattern, str]] = [
     # Heading format: "### Skills (N total)" — preceded by ### + "Skills"
     # Disambiguated by the immediately-preceding "Skills"/"Agents"/etc. token,
     # not the parenthesised number alone (which is too generic).
-    (re.compile(r"Skills?\s*\((\d+)\s+total\)", re.IGNORECASE), "skills"),
-    (re.compile(r"Agents?\s*\((\d+)\s+total\)", re.IGNORECASE), "agents"),
-    (re.compile(r"Rules?\s*\((\d+)\s+total\)", re.IGNORECASE), "rules"),
-    (re.compile(r"Hooks?\s*\((\d+)\s+total\)", re.IGNORECASE), "hooks"),
+    # `total` need not be immediately followed by `)` — the header
+    # "## Rules (54 total — 34 always-load, 20 path-scoped)" continues with an
+    # em-dash breakdown, so anchor on the `total` word, not the closing paren.
+    (re.compile(r"Skills?\s*\((\d+)\s+total\b", re.IGNORECASE), "skills"),
+    (re.compile(r"Agents?\s*\((\d+)\s+total\b", re.IGNORECASE), "agents"),
+    (re.compile(r"Rules?\s*\((\d+)\s+total\b", re.IGNORECASE), "rules"),
+    (re.compile(r"Hooks?\s*\((\d+)\s+total\b", re.IGNORECASE), "hooks"),
     # LaTeX longtable rows: "<Keyword> & \filepath{...} & <count> \\"
     # The Component Manifest in user-manual.tex puts the keyword in the
     # first column and the count in the last, so the standard "<num> <kw>"

@@ -2,7 +2,7 @@
 
 Multi-source scholarly search — dual frontend (MCP server + `scholarly` CLI) over 15 providers: OpenAlex, Semantic Scholar, Crossref, Scopus, Web of Science, CORE, ORCID, Altmetric, Zenodo, Unpaywall, OpenCitations, DBLP, OpenReview, arXiv, Exa.
 
-39 tools total (35 without an Exa API key). Both frontends call the same neutral handlers — see [`EXPLAINER.md`](EXPLAINER.md) for architecture.
+39 tools total (36 without an Exa API key). Both frontends call the same neutral handlers — see [`EXPLAINER.md`](EXPLAINER.md) for architecture.
 
 ## Install
 
@@ -78,9 +78,13 @@ Grouped by provider. Full schemas via `scholarly <cmd> --help`.
 **Multi-source** (fanout across all active providers):
 `scholarly_search`, `scholarly_verify_dois`, `scholarly_similar_works`, `scholarly_source_status`, `scholarly_citations`, `scholarly_references`, `scholarly_paper_detail`, `scholarly_author_papers`, `scholarly_search_scopus`, `scholarly_search_wos`
 
+> **Cross-source dedup:** `scholarly_search` fans out across active providers and a cascade of query variants (ASCII-normalised, de-dashed, simplified), merging results and deduplicating by lowercased DOI. Papers without a DOI are kept as-is (not deduped).
+
 **OpenAlex:** `openalex_search_works`, `openalex_author_works`, `openalex_author_profile`, `openalex_institution_output`, `openalex_trends`, `openalex_lookup_doi`, `openalex_citing_works`
 
 **Crossref:** `crossref_lookup_doi`
+
+**CORE** (if `CORE_API_KEY` set): `core_search_fulltext`, `core_get_fulltext`
 
 **OpenReview:** `openreview_venue_submissions`, `openreview_paper_reviews`, `openreview_search`
 
@@ -94,9 +98,11 @@ Grouped by provider. Full schemas via `scholarly <cmd> --help`.
 
 **arXiv:** `arxiv_search`, `arxiv_get_paper`, `arxiv_search_category`
 
-**Exa** (if `EXA_API_KEY` set): `exa_search`, `exa_get_contents`, plus 2 more
+**Exa** (if `EXA_API_KEY` set): `exa_search`, `exa_search_papers`, `exa_get_contents`
 
-**ORCID, Altmetric**: registered when credentials present.
+**ORCID** (if `ORCID_CLIENT_ID`/`_SECRET` set): `orcid_search_researchers`, `orcid_get_researcher`
+
+**Altmetric** (if `ALTMETRIC_API_KEY`/`_PASSWORD` set): `altmetric_search`, `altmetric_attention_summary`
 
 ## Testing
 

@@ -1,6 +1,6 @@
-# LLM Council
+# council-api
 
-A Python package for multi-model LLM deliberation. Orchestrates independent assessments from multiple AI models, conducts anonymous peer review, and synthesises consensus through a chairman model.
+A Python package for multi-model LLM deliberation (formerly `llm-council`). Orchestrates independent assessments from multiple AI models, conducts anonymous peer review, and synthesises consensus through a chairman model.
 
 Routes across **OpenRouter, OpenAI, Anthropic, Gemini, and Mistral** via OpenAI-compatible endpoints — use a single OpenRouter key for everything, or mix native provider keys.
 

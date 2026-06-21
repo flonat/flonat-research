@@ -53,8 +53,18 @@ def _atlas_topic_path(slug: str, entry: dict) -> Path | None:
 
 
 def _resolve_paper_tex(slug: str) -> Path | None:
-    """Resolve the active paper's main.tex path from the atlas topic's
-    project_path. Picks the first paper-*/paper/main.tex (or backup variant)."""
+    """Resolve the active paper's main.tex path.
+
+    Resolution order:
+      1. Registry entry's `paper_tex:` field (path relative to project root).
+         Set this when the paper's .tex isn't named main.tex (e.g. ACM
+         templates name it after the venue like `gecco2026.tex`).
+      2. First `paper-*/paper/main.tex` under the project (canonical layout).
+      3. First `paper-*/backup/main.tex` (fallback if Overleaf symlink down).
+
+    Returns None if no candidate exists — the caller (audit driver)
+    surfaces this as a visible error in the JSON summary.
+    """
     reg = _registry()
     entry = reg.get(slug, {})
     topic = _atlas_topic_path(slug, entry)
@@ -66,9 +76,20 @@ def _resolve_paper_tex(slug: str) -> Path | None:
     if not project_path:
         return None
     project = _research_root() / project_path
+
+    # 1. Registry override
+    override = (entry.get("paper_tex") or "").strip()
+    if override:
+        candidate = project / override
+        if candidate.exists():
+            return candidate
+        # Fall through with a hint left in the caller's error path.
+
+    # 2. Canonical Overleaf-symlink layout
     candidates = sorted(project.glob("paper-*/paper/main.tex"))
     if candidates:
         return candidates[0]
+    # 3. Backup fallback
     candidates = sorted(project.glob("paper-*/backup/main.tex"))
     return candidates[0] if candidates else None
 
@@ -431,6 +452,8 @@ def audit_book(slug: str, paper_tex_path: str) -> dict:
     out0 = (atlas_meta.get("outputs") or [{}])[0]
     atlas_status = out0.get("status") or atlas_meta.get("status") or "Drafting"
     atlas_overleaf = out0.get("overleaf_link") or atlas_meta.get("overleaf_link") or ""
+    atlas_doi = (out0.get("doi") or atlas_meta.get("doi") or "").strip()
+    atlas_pubdate = str(out0.get("publication_date") or "").strip()
 
     # 1. Bibliography drift — cited in paper, missing from book bib
     bib_drift_keys = sorted(cited_keys - book_bib_keys)
@@ -500,6 +523,32 @@ def audit_book(slug: str, paper_tex_path: str) -> dict:
         re.search(r"^>\s+\*\*(Paper|Authors|Venue)\.\*\*", intro, re.MULTILINE)
     )
 
+    # 6b. Published-masthead drift. When atlas status is Published the intro
+    # masthead should (a) carry a Source line pointing at the DOI rather than
+    # Overleaf, and (b) have a Venue line that says "Published online" rather
+    # than carrying a stale R&R / In Press / Accepted marker. Both fixes are
+    # deterministic — re-run regenerate_intro.py --apply to apply.
+    is_published = str(atlas_status).startswith("Published")
+    published_masthead_notes: list[str] = []
+    if is_published:
+        if atlas_doi and atlas_doi not in intro:
+            published_masthead_notes.append(
+                f"Atlas DOI '{atlas_doi}' not referenced in intro — add Source line via regenerate_intro.py."
+            )
+        STALE_VENUE_MARKERS = (
+            "R&R", "Major Revision", "In Press", "under revision",
+            "under review", "In preparation", "Submitted", "Drafting",
+            "Accepted",  # accepted-but-not-yet-published is now stale
+        )
+        venue_m = re.search(r"^Venue\s*\n:\s*([^\n]+)", intro, re.MULTILINE)
+        venue_line = venue_m.group(1) if venue_m else ""
+        if venue_line and "Published" not in venue_line and any(
+            marker in venue_line for marker in STALE_VENUE_MARKERS
+        ):
+            published_masthead_notes.append(
+                f"Venue line is stale ('{venue_line.strip()}') — should reference 'Published online'."
+            )
+
     # 7. Citation-URL drift
     citation_url_hits: list[dict] = []
     for ch_path in _chapter_files(slug, book_dir):
@@ -538,6 +587,7 @@ def audit_book(slug: str, paper_tex_path: str) -> dict:
         "figs_only_in_book": len(figs_only_in_book),
         "structural_drift": len(structural_drift),
         "overleaf_drift": 1 if overleaf_drift else 0,
+        "published_masthead_drift": len(published_masthead_notes),
         "blockquote_masthead": 1 if has_blockquote_mast else 0,
         "masthead_ok": masthead_ok,
         "citation_url_hand_constructed": len(citation_url_hits),
@@ -553,6 +603,7 @@ def audit_book(slug: str, paper_tex_path: str) -> dict:
         "figs_only_in_book": figs_only_in_book,
         "structural_drift": structural_drift[:50],
         "overleaf_drift_note": overleaf_drift,
+        "published_masthead_notes": published_masthead_notes,
         "citation_url_hits": citation_url_hits[:30],
         "numeric_drift_hits": numeric_drift[:30],
         "acc_block_sample": acc_block[:50],
@@ -591,6 +642,7 @@ def render(slug: str, audit: dict) -> str:
         f"| Figures only in book | {s['figs_only_in_book']} | {'informational' if s['figs_only_in_book'] else 'clean'} |",
         f"| **Structural drift** (book §X.Y refs to non-existent paper sections) | **{s['structural_drift']}** | {'pending — chapter prose edits' if s['structural_drift'] else 'clean'} |",
         f"| Overleaf-link | {s['overleaf_drift']} | {'pending' if s['overleaf_drift'] else 'clean'} |",
+        f"| **Published-masthead** (DOI Source line + Venue freshness) | {s['published_masthead_drift']} | {'pending — regenerate' if s['published_masthead_drift'] else 'clean'} |",
         f"| Format — blockquote masthead | {s['blockquote_masthead']} | {'pending — regenerate' if s['blockquote_masthead'] else 'clean'} |",
         f"| Format — masthead fields complete | {'yes' if s['masthead_ok'] else 'NO'} | {'clean' if s['masthead_ok'] else 'pending'} |",
         f"| Citation-URL hand-constructed | {s['citation_url_hand_constructed']} | {'pending' if s['citation_url_hand_constructed'] else 'clean'} |",
@@ -608,6 +660,11 @@ def render(slug: str, audit: dict) -> str:
                 d["structural_drift"],
                 lambda h: f"- `{h['chapter']}:{h['line']}` — book says `§{h['ref']}` — {h['note']}"),
         f"## Overleaf-link drift\n\n{d['overleaf_drift_note'] or '_(clean)_'}\n",
+        section(
+            "Published-masthead drift (DOI Source line + Venue freshness)",
+            d["published_masthead_notes"],
+            lambda n: f"- {n}",
+        ),
         section("Citation-URL drift — hand-constructed `/paper/<key>`",
                 d["citation_url_hits"],
                 lambda h: f"- `{h['chapter']}:{h['line']}` — `[{h['label']}](/paper/{h['key']})` → `` {{cite:t}}`{h['key']}` ``"),
@@ -648,8 +705,13 @@ def main():
             continue
         tex_path = _resolve_paper_tex(slug)
         if not tex_path:
-            print(f"  {slug}: could not resolve paper main.tex — skipping",
-                  file=sys.stderr)
+            msg = ("no paper tex found — add `paper_tex:` to the registry "
+                   "entry pointing at the canonical .tex (path relative to "
+                   "project root), or rename to paper-*/paper/main.tex.")
+            print(f"  {slug}: {msg}", file=sys.stderr)
+            # Surface in JSON so audits never silently drop a registered book.
+            summaries.append({"slug": slug, "error": msg,
+                              "atlas_status": "unknown"})
             continue
         audit = audit_book(slug, str(tex_path))
         if "error" in audit:

@@ -262,7 +262,7 @@
 | `grade-assignment` | Grade banded-rubric student submissions (e.g., PB130 Mixed Methods Poster) with two-tier output (instructor + student feedback), parallel isolated review, and calibration pass |
 | `course-reading-list` | Parse a syllabus, extract topics + learning outcomes, search scholarly + Paperpile per section, produce Markdown reading list with summaries and discussion questions |
 
-**Total: 179 skills across 17 categories.**
+**Total: 177 skills across 17 categories.**
 
 ## Shared References (not skills — cross-cutting protocols)
 

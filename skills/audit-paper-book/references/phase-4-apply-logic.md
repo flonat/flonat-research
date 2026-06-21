@@ -40,6 +40,21 @@ done
 #      index.yaml already supplies the heading; a body H1 produces a
 #      duplicate.
 #
+# Published-masthead refresh (auto-applied via regenerate script):
+#
+#  (e) Published-masthead drift. When atlas `outputs[0].status` starts
+#      with `Published` and either (i) atlas has a `doi:` field that's
+#      not referenced anywhere in intro.md, or (ii) the Venue line
+#      carries a stale status marker without "Published", regenerate
+#      via:
+#        ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
+#          ~/.claude/skills/init-paper-book/scripts/regenerate_intro.py \
+#          <slug> --apply
+#      This emits the canonical Published-state masthead pulling
+#      `venue`, `doi`, `publication_date` from atlas `outputs[0]`. Any
+#      hand-written content below the `<!-- preserve-below: ... -->`
+#      marker is re-appended verbatim — only the masthead is touched.
+#
 # Format-convention reports (not auto-applied):
 #
 #  (c) Missing required masthead field. Intro masthead lacks `Authors`

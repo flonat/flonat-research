@@ -109,7 +109,18 @@ RR=$(cat ~/.config/task-mgmt/research-root)
 PAPER_DIR=$(ls -d "$RR/$PROJECT_PATH"/paper-* 2>/dev/null | head -1)
 PAPER_TEX="$PAPER_DIR/paper/main.tex"
 [[ -f "$PAPER_TEX" ]] || PAPER_TEX="$PAPER_DIR/backup/main.tex"
-[[ -f "$PAPER_TEX" ]] || die "No main.tex in $PAPER_DIR/{paper,backup}/."
+# If neither default exists, ask the user once at setup what the canonical
+# .tex filename is. Some papers (ACM templates etc.) name the file after the
+# venue (e.g. `gecco2026.tex`) rather than main.tex. Record the answer as
+# `paper_tex: <path-relative-to-project-root>` in the registry entry — the
+# audit script reads it from there on every subsequent run. Do NOT try to
+# auto-guess; ambiguity is a setup-time question, not a runtime one.
+if [[ ! -f "$PAPER_TEX" ]]; then
+    # AskUserQuestion: "What's the canonical .tex filename for this paper?"
+    # Example answer: paper-acm-gecco/paper/gecco2026.tex
+    # On answer → write `paper_tex: <answer>` into the registry entry below.
+    die "No main.tex in $PAPER_DIR/{paper,backup}/. Ask the user for the paper_tex path and store it in the registry."
+fi
 
 # 4. Bibliography exists
 BIB=$(find "$PAPER_DIR" -maxdepth 3 -name "*.bib" | head -1)

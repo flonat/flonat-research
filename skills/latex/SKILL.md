@@ -61,7 +61,7 @@ Start at 100, deduct per issue found, apply verdict. Include the Score Block in 
    ```
    If a `.latexmkrc` already exists, verify it sets `$out_dir = 'out'` and has the `END {}` block. If either is missing, add it. Do not overwrite other settings.
 4. **Create `out/` directory** if it doesn't exist: `mkdir -p <project-dir>/out`.
-5. **Identify the `.bib` file(s)** referenced in the document (scan for `\bibliography{}`, `\addbibresource{}`, or `\bibinput{}`). Note their paths for Phase 4.
+5. **Identify the `.bib` file(s)** referenced in the document (scan for `\bibliography{}`, `\addbibresource{}`, or `\bibinput{}`). Note their paths for Phase 5.
 
 ### Phase 2: Compile-Fix Loop
 
@@ -188,7 +188,61 @@ The only safe auto-fix is inserting `\usepackage{microtype}` when genuinely abse
 
 ---
 
-### Phase 4: Citation Audit (clean builds only)
+### Phase 4: Visual-Fragility Source Lint (clean builds only)
+
+**Only run if Phase 2 ended with zero errors.** Sits between the final report (Phase 3) and the citation audit (Phase 5). Catches LaTeX source patterns that compile clean but produce visually fragile output — the failure class the title-page incident (2026-06-19) exposed.
+
+Full detector catalogue with regex signatures, severity tiers, remediation, and false-positive caveats: [`references/source-pathologies.md`](references/source-pathologies.md).
+
+#### What to run
+
+1. **Nine grep-based source-pathology detectors** against `main.tex` plus any `\input`/`\include`'d files:
+
+   | # | Pattern | Tier |
+   |---|---|---|
+   | 1 | Spacing hacks fighting global spacing (`\onehalfspacing` + local `\\[-Xcm]` / `\vspace{-…}`) | Major |
+   | 2 | Manual vertical-rhythm surgery (repeated `\vspace`/`\vskip`/`\pagebreak` in body) | Moderate–Major |
+   | 3 | Line breaks as layout engine (`\\` / `\newline` / `\linebreak` inside `\section`/`\caption`) | Moderate–Major |
+   | 4 | Forced-float carpet bombing (`[H]`/`[!h]` pinning, `\FloatBarrier` overuse) | Moderate |
+   | 5 | Shrink-to-fit tables/figures (`\resizebox{\textwidth}{!}{…}`, `\adjustbox{width=\textwidth}`) | Major |
+   | 6 | Tiny-table typography hacks (`\scriptsize`/`\tiny` in tables; negative `\tabcolsep`; `\arraystretch<0.9`) | Moderate–Major |
+   | 7 | Absolute / overlap positioning (`\raisebox`, `\makebox[0pt]`, `\llap`, `\rlap`, `\smash`, `\hspace*`) outside math | Major |
+   | 8 | Fixed-width layout assumptions (`p{Xcm}`, `\begin{minipage}{Xcm}`, `\parbox{Xcm}`) | Moderate |
+   | 9 | Label-before-caption inside floats (`\label{…}` precedes `\caption{…}` in a `figure`/`table` block) | Major |
+
+2. **`chktex`** if installed: `chktex -q -n8 -n44 main.tex 2>&1 | grep -v "^$"`. Advisory only — collect warnings; deduct -1 each, capped at -10. Skip if `chktex` not on PATH.
+
+3. **`latexindent -k`** if installed: `latexindent -k main.tex 2>&1; echo "Exit: $?"`. Source-cleanliness smoke test. Non-zero exit → -3 once. Skip if `latexindent` not on PATH.
+
+#### Output
+
+Append a **Source pathologies** subsection to the Phase 3 report:
+
+```markdown
+### Source pathologies
+
+| Pattern | Location | Detail | Tier |
+|---------|----------|--------|------|
+| 1 Spacing-hacks | titlepage, line 56 | `\\[-0.3cm]` under global `\onehalfspacing` (line 43) | Major |
+| 9 Label-before-caption | tab:results, line 412 | `\label` at L410 precedes `\caption` at L413 | Major |
+```
+
+If no findings: "No source pathologies detected." If `chktex` or `latexindent` ran, note their PASS/N-warnings status.
+
+#### Auto-fix scope
+
+Phase 4 is **report-only**, with one exception: Pattern 1 ("Spacing hacks fighting global spacing") has a deterministic remediation (wrap the affected block in `\begin{singlespace}…\end{singlespace}`, delete the negative kerns). The skill **offers** this as an opt-in fix in the final report; the user accepts or declines per case. Do not auto-apply.
+
+For Patterns 2–9 and tool findings: report only.
+
+#### When to skip
+
+- Compile failed in Phase 2 (pathology lint is meaningless without a build).
+- User explicitly invoked `/latex --no-lint`.
+
+---
+
+### Phase 5: Citation Audit (clean builds only)
 
 **Only run this phase if Phase 2 ended with zero errors.**
 
@@ -207,12 +261,12 @@ The only safe auto-fix is inserting `\usepackage{microtype}` when genuinely abse
 
 ---
 
-### Phase 5: Quality Score
+### Phase 6: Quality Score
 
 After all phases complete, compute the quality score:
 
 1. Read [`references/quality-rubric.md`](references/quality-rubric.md) for deduction mappings.
-2. Log every issue from Phases 2-4 (unresolved errors, remaining warnings, overfull/underfull boxes from the Phase 3 box report, citation mismatches). The rubric deducts per box by severity (`>10pt: -5`, `1-10pt: -2`, underfull: `-1`) — feed it the box report, not a `Warning` count.
+2. Log every issue from Phases 2-5 (unresolved errors, remaining warnings, overfull/underfull boxes from the Phase 3 box report, citation mismatches). The rubric deducts per box by severity (`>10pt: -5`, `1-10pt: -2`, underfull: `-1`) — feed it the box report, not a `Warning` count.
 3. Compute score (100 - total deductions), apply verdict per [`../shared/quality-scoring.md`](../shared/quality-scoring.md).
 4. Append the Score Block to the compilation report:
 
@@ -232,7 +286,7 @@ After all phases complete, compute the quality score:
 | | **Total deductions** | | **-XX** | |
 ```
 
-#### 5.1 Output verification (before commit)
+#### 6.1 Output verification (before commit)
 
 When the compile produced a PDF (and any backup copy), emit an outputs manifest and run the shared verifier per [`_shared/verify-outputs.md`](../_shared/verify-outputs.md):
 

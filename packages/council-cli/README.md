@@ -18,8 +18,8 @@ Install the CLI tools you want to use:
 
 | Backend | Install | Auth |
 |---------|---------|------|
-| **Gemini CLI** | `npm install -g @google/generative-ai-cli` | `gemini` (Google account) |
-| **Codex CLI** | `npm install -g @openai/codex-cli` | `codex login` (ChatGPT Plus) |
+| **Gemini CLI** | `npm install -g @google/gemini-cli` | `gemini` (Google account) |
+| **Codex CLI** | `npm install -g @openai/codex` | `codex login` (ChatGPT Plus) |
 | **Claude Code** | `npm install -g @anthropic-ai/claude-code` | `claude` (Claude Pro) |
 
 Check availability:
