@@ -156,7 +156,7 @@ See [`docs/hooks.md`](docs/hooks.md) for full documentation.
 
 **Rules** (`.claude/rules/`) — Always-on policies enforcing good research practices. See [`docs/rules.md`](docs/rules.md).
 
-**Research Vault** — Obsidian-style markdown vault (`~/Research-Vault`) for tasks, pipeline, submissions, venues, people, and themes. Accessed via the `taskflow` MCP server.
+**Research Vault** — Obsidian-style markdown vault (`~/vault`) for tasks, pipeline, submissions, venues, people, and themes. Accessed via the `taskflow` MCP server.
 
 **Biblio MCP** — Multi-source scholarly search server (OpenAlex + optional Scopus & Web of Science). See [`docs/bibliography-setup.md`](docs/bibliography-setup.md).
 
