@@ -136,7 +136,7 @@ async function main() {
         process.exit(2);
     }
 
-    const vaultDir = join(homedir(), 'Research-Vault', 'books', values.slug);
+    const vaultDir = join(homedir(), 'vault', 'books', values.slug);
     if (!existsSync(vaultDir)) {
         console.error(`Vault dir not found: ${vaultDir}`);
         process.exit(2);
