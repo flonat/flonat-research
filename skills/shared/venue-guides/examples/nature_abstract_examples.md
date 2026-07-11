@@ -9,19 +9,19 @@ Examples of well-crafted abstracts for high-impact multidisciplinary journals. T
 **Topic**: CRISPR gene editing discovery
 
 ```
-The ability to precisely edit DNA sequences in living cells has transformed 
-biological research and holds promise for treating genetic diseases. However, 
-current genome editing tools can introduce unwanted mutations at off-target 
-sites, limiting their clinical potential. Here we describe prime editing, a 
-versatile and precise genome editing method that directly writes new genetic 
-information into a specified DNA site using a reverse transcriptase fused to a 
-CRISPR nickase. Prime editing can make all 12 types of point mutations, as 
-well as small insertions and deletions, with minimal off-target editing and 
-without requiring double-strand breaks or donor DNA templates. In human cells, 
-we used prime editing to correct the primary genetic causes of sickle cell 
-disease and Tay-Sachs disease, and to install protective mutations that 
-reduce risk of prion disease. Prime editing expands the scope and capabilities 
-of genome editing and may address approximately 89% of known human genetic 
+The ability to precisely edit DNA sequences in living cells has transformed
+biological research and holds promise for treating genetic diseases. However,
+current genome editing tools can introduce unwanted mutations at off-target
+sites, limiting their clinical potential. Here we describe prime editing, a
+versatile and precise genome editing method that directly writes new genetic
+information into a specified DNA site using a reverse transcriptase fused to a
+CRISPR nickase. Prime editing can make all 12 types of point mutations, as
+well as small insertions and deletions, with minimal off-target editing and
+without requiring double-strand breaks or donor DNA templates. In human cells,
+we used prime editing to correct the primary genetic causes of sickle cell
+disease and Tay-Sachs disease, and to install protective mutations that
+reduce risk of prion disease. Prime editing expands the scope and capabilities
+of genome editing and may address approximately 89% of known human genetic
 disease variants.
 ```
 
@@ -39,19 +39,19 @@ disease variants.
 **Topic**: Memory consolidation mechanism
 
 ```
-Sleep is essential for memory consolidation, yet how the sleeping brain 
-transforms labile memories into stable long-term representations remains 
-poorly understood. We used multi-site electrophysiology in freely behaving 
-mice to record the activity of thousands of neurons across hippocampus and 
-cortex during learning and subsequent sleep. We discovered that specific 
-neurons that encode a newly learned memory reactivate in precisely timed 
-sequences during slow-wave sleep, with hippocampal reactivation preceding 
-cortical reactivation by 10-15 milliseconds. Optogenetic disruption of this 
-temporal coordination impaired memory retention by 78%, whereas artificial 
-enhancement of the temporal relationship strengthened memories beyond normal 
-levels. These results reveal that the temporal ordering of hippocampal-cortical 
-replay is not merely correlative but causally necessary for memory 
-consolidation. Our findings suggest new therapeutic approaches for memory 
+Sleep is essential for memory consolidation, yet how the sleeping brain
+transforms labile memories into stable long-term representations remains
+poorly understood. We used multi-site electrophysiology in freely behaving
+mice to record the activity of thousands of neurons across hippocampus and
+cortex during learning and subsequent sleep. We discovered that specific
+neurons that encode a newly learned memory reactivate in precisely timed
+sequences during slow-wave sleep, with hippocampal reactivation preceding
+cortical reactivation by 10-15 milliseconds. Optogenetic disruption of this
+temporal coordination impaired memory retention by 78%, whereas artificial
+enhancement of the temporal relationship strengthened memories beyond normal
+levels. These results reveal that the temporal ordering of hippocampal-cortical
+replay is not merely correlative but causally necessary for memory
+consolidation. Our findings suggest new therapeutic approaches for memory
 disorders based on optimizing the temporal dynamics of sleep.
 ```
 
@@ -70,19 +70,19 @@ disorders based on optimizing the temporal dynamics of sleep.
 **Topic**: Carbon cycle feedback
 
 ```
-Arctic permafrost contains approximately 1,500 billion tonnes of organic 
-carbon—twice the amount currently in the atmosphere. As the Arctic warms, 
-this carbon may be released to the atmosphere, accelerating global warming 
-through a positive feedback loop. However, the magnitude and timing of this 
-feedback remain highly uncertain because microbial decomposition rates in 
-thawing permafrost are poorly constrained. Here we present a 15-year 
-field experiment across 25 sites spanning the Arctic, tracking carbon 
-fluxes in warming permafrost under natural conditions. We find that 
-microbial respiration increases exponentially with temperature until soils 
-reach 3°C, then plateaus due to substrate limitation—a threshold effect 
-not captured by current Earth system models. Our results suggest that 
-permafrost carbon feedback will be 30-50% lower than current projections 
-during this century, providing more time to limit warming, but will 
+Arctic permafrost contains approximately 1,500 billion tonnes of organic
+carbon—twice the amount currently in the atmosphere. As the Arctic warms,
+this carbon may be released to the atmosphere, accelerating global warming
+through a positive feedback loop. However, the magnitude and timing of this
+feedback remain highly uncertain because microbial decomposition rates in
+thawing permafrost are poorly constrained. Here we present a 15-year
+field experiment across 25 sites spanning the Arctic, tracking carbon
+fluxes in warming permafrost under natural conditions. We find that
+microbial respiration increases exponentially with temperature until soils
+reach 3°C, then plateaus due to substrate limitation—a threshold effect
+not captured by current Earth system models. Our results suggest that
+permafrost carbon feedback will be 30-50% lower than current projections
+during this century, providing more time to limit warming, but will
 accelerate dramatically if deep permafrost begins to thaw.
 ```
 
@@ -100,19 +100,19 @@ accelerate dramatically if deep permafrost begins to thaw.
 **Topic**: Room-temperature superconductivity
 
 ```
-Superconductivity—the flow of electricity without resistance—has been 
-confined to extremely low temperatures since its discovery over a century 
-ago, limiting practical applications. The recent demonstration of 
-superconductivity in hydrogen-rich materials at high pressure has raised 
-hopes for higher transition temperatures, but achieving room-temperature 
-superconductivity at ambient pressure has remained elusive. Here we report 
-superconductivity at 21°C (294 K) in a nitrogen-doped lutetium hydride 
-(Lu-N-H) compound at pressures of approximately 1 GPa—nearly ambient 
-conditions. Electrical resistance drops to zero below the transition 
-temperature with a sharp transition width of 2 K, and we observe the Meissner 
-effect confirming bulk superconductivity. Density functional theory 
-calculations suggest that nitrogen incorporation stabilizes the high-symmetry 
-structure that enables strong electron-phonon coupling. These results 
+Superconductivity—the flow of electricity without resistance—has been
+confined to extremely low temperatures since its discovery over a century
+ago, limiting practical applications. The recent demonstration of
+superconductivity in hydrogen-rich materials at high pressure has raised
+hopes for higher transition temperatures, but achieving room-temperature
+superconductivity at ambient pressure has remained elusive. Here we report
+superconductivity at 21°C (294 K) in a nitrogen-doped lutetium hydride
+(Lu-N-H) compound at pressures of approximately 1 GPa—nearly ambient
+conditions. Electrical resistance drops to zero below the transition
+temperature with a sharp transition width of 2 K, and we observe the Meissner
+effect confirming bulk superconductivity. Density functional theory
+calculations suggest that nitrogen incorporation stabilizes the high-symmetry
+structure that enables strong electron-phonon coupling. These results
 establish a pathway toward practical room-temperature superconductors.
 ```
 
@@ -131,20 +131,20 @@ establish a pathway toward practical room-temperature superconductors.
 **Topic**: Rapid evolution in response to climate
 
 ```
-Climate change is driving rapid shifts in the geographic distributions of 
-species, but whether organisms can adapt quickly enough to keep pace with 
-warming remains a critical question for biodiversity conservation. Here we 
-document real-time evolution in wild populations of a widespread forest tree, 
-Scots pine, along a 1,000 km latitudinal gradient in Scandinavia. By combining 
-whole-genome sequencing with phenotypic measurements across 25 common gardens, 
-we detect signatures of selection at 47 loci associated with cold tolerance, 
-phenology, and drought resistance over just 50 years—approximately 
-five tree generations. Alleles conferring warmer-adapted phenotypes have 
-increased in frequency by 4-12% across northern populations, matching 
-predictions from models of climate-driven selection. However, migration of 
-warm-adapted genotypes from the south appears limited by geographic barriers. 
-These results demonstrate that trees can evolve rapidly in response to 
-climate change but suggest that assisted gene flow may be necessary to 
+Climate change is driving rapid shifts in the geographic distributions of
+species, but whether organisms can adapt quickly enough to keep pace with
+warming remains a critical question for biodiversity conservation. Here we
+document real-time evolution in wild populations of a widespread forest tree,
+Scots pine, along a 1,000 km latitudinal gradient in Scandinavia. By combining
+whole-genome sequencing with phenotypic measurements across 25 common gardens,
+we detect signatures of selection at 47 loci associated with cold tolerance,
+phenology, and drought resistance over just 50 years—approximately
+five tree generations. Alleles conferring warmer-adapted phenotypes have
+increased in frequency by 4-12% across northern populations, matching
+predictions from models of climate-driven selection. However, migration of
+warm-adapted genotypes from the south appears limited by geographic barriers.
+These results demonstrate that trees can evolve rapidly in response to
+climate change but suggest that assisted gene flow may be necessary to
 prevent local maladaptation.
 ```
 
@@ -210,4 +210,3 @@ prevent local maladaptation.
 
 - `nature_science_style.md` - Comprehensive Nature/Science writing guide
 - `venue_writing_styles.md` - Style comparison across venues
-

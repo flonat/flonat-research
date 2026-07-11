@@ -16,7 +16,7 @@
 | `interdisciplinary-bridge` | Import concepts from adjacent fields to solve open problems |
 | `future-research-agenda` | Generate provocative, fundable future research directions from a corpus |
 | `atlas-audit` | Full audit of all topics across 4 systems |
-| `atlas-deploy` | Manual-only schema validation + Mac Mini launchd restart for `atlas-workspace` (atlas.user.com). No compile/push step — atlas-workspace reads vault directly via Syncthing. |
+| `atlas-deploy` | Manual-only schema validation + Mac Mini launchd restart for `atlas-workspace` (atlas.example.com). No compile/push step — atlas-workspace reads vault directly via Syncthing. |
 | `hypothesis-generation` | Generate competing testable hypotheses from observations with experimental designs and predictions |
 | `scout-pulse` | Daily/weekly research pulse for a monitored topic: scans arXiv + target venues, generates ranked ideas, persistent profile + observations diary |
 | `bridges` | Find cross-project connections: shared methods, overlapping papers, conceptual bridges via Paperpile vector search + atlas metadata |
@@ -76,7 +76,7 @@
 | Skill | Purpose |
 |-------|---------|
 | `talk-deck` | Build a conference/seminar talk deck in the `paper-{venue}/talk/` convention — scaffold + rhetoric-driven Beamer deck (`user-beamer`) |
-| `talk-page` | Generate a conference-talk landing page at `links.user.com/{venue}{year}` — mobile-first HTML, QR code, matching thank-you slide |
+| `talk-page` | Generate a conference-talk landing page at `links.example.com/{venue}{year}` — mobile-first HTML, QR code, matching thank-you slide |
 | `beamer-deck` | Rhetoric-driven Beamer slides using `user-beamer.sty` unified template with multi-agent review |
 | `quarto-deck` | Reveal.js HTML presentations (teaching, informal talks) |
 | `quarto-course` | Quarto course websites with slides and exercises |
@@ -120,7 +120,7 @@
 | `preprint` | Create a preprint / working-paper variant of an existing paper; forks the Overleaf project with `your-template` template and wires a local symlink |
 | `archive-paper-draft` | Archive a paper draft after deferral/rejection/withdrawal: snapshot to `archive/`, drop Overleaf symlink, prompt to delete Overleaf project |
 
-### Project Setup & Session (24)
+### Project Setup & Session (27)
 
 | Skill | Purpose |
 |-------|---------|
@@ -128,14 +128,17 @@
 | `init-project-course` | Course/module folder scaffold |
 | `init-project-light` | Lightweight scaffold (CLAUDE.md only, no git/vault) |
 | `init-project-orchestration` | Add project agents, commands, and planning to a research project |
-| `init-paper-book` | Scaffold a new educational companion book for a paper; vault-rendered via atlas, deployed to `books.user.com/<slug>/` |
+| `init-paper-book` | Scaffold a new educational companion book for a paper; vault-rendered via atlas, deployed to `books.example.com/<slug>/` |
 | `project-safety` | Safety rules and folder structures to prevent data loss |
 | `session-log` | Timestamped progress logs for session continuity |
 | `session-close` | End-of-session closing protocol — auto-detects project type (general vs research) and runs appropriate checks |
 | `update-focus` | Structured update to current-focus.md |
 | `session-health` | On-demand session health check |
 | `project-status` | Per-project recap to resume work: venue, deadlines, where you left off, recent activity, open issues, next 3 actions. Read-only synthesis from CLAUDE.md + atlas + vault + reviews/INDEX.md + logs + git |
-| `handoff` | Write a one-shot handoff.md in cwd; next session's SessionStart hook reads it and deletes it |
+| `handoff` | Persistent shared handoff for Claude→Claude, Codex→Codex, and cross-client/cross-machine continuation |
+| `codex-handoff` | Target-specific `$handoff` alias for a receiving Codex session |
+| `claude-handoff` | Target-specific `$handoff` alias for a receiving Claude session |
+| `sync-ai-infra` | Diagnose, render, import, and deploy shared Claude/Codex infrastructure on either machine |
 | `save-context` | Save information to context library files |
 | `task-management` | Daily planning, weekly reviews, meeting actions, vault |
 | `ideas` | Capture improvement ideas for the infrastructure |
@@ -147,7 +150,7 @@
 | `decision-toolkit` | Structured decision-making frameworks with bias checking and scenario analysis |
 | `file-organizer` | Organize files and directories: analyze, deduplicate, restructure with safety checks |
 | `portfolio-briefing` | Monday-morning research portfolio briefing: atlas state, deadlines, stale-but-active projects, novelty-scout deltas, suggested venue retargets |
-| `process-inbox` | Triage the maintenance inbox at `atlas.user.com/inbox` interactively; action each item (done/drop/snooze) with side-effects to atlas, vault submissions, venue files, tasks |
+| `process-inbox` | Triage the maintenance inbox at `atlas.example.com/inbox` interactively; action each item (done/drop/snooze) with side-effects to atlas, vault submissions, venue files, tasks |
 
 ### Code & Analysis (11)
 
@@ -279,7 +282,7 @@
 | `grade-assignment` | Grade banded-rubric student submissions (e.g., PB130 Mixed Methods Poster) with two-tier output (instructor + student feedback), parallel isolated review, and calibration pass |
 | `course-reading-list` | Parse a syllabus, extract topics + learning outcomes, search scholarly + Paperpile per section, produce Markdown reading list with summaries and discussion questions |
 
-**Total: 195 skills across 18 categories.**
+**Total: 198 skills across 18 categories.**
 
 ## Shared References (not skills — cross-cutting protocols)
 

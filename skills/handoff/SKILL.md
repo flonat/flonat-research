@@ -1,87 +1,50 @@
 ---
 name: handoff
-description: "Use when you need to pass state to the next session in the current working directory. Writes a handoff.md file that the next session's SessionStart hook will read and delete."
-allowed-tools: Read, Write, Bash(pwd), Bash(ls*), Bash(git status*), Bash(git log*)
-argument-hint: [optional-note]
+description: "Create, receive, or update a persistent project handoff between AI sessions. Supports Claude-to-Claude, Codex-to-Codex, Claude-to-Codex, and Codex-to-Claude through the same `.context/ai-handoff.md` protocol. Use for 'handoff', 'continue in a new session', 'hand this to Claude', 'hand this to Codex', or cross-machine continuation."
 ---
 
-# Handoff Skill
+# Project Handoff
 
-> Write a one-shot handoff note to the next session, in the current working directory.
+Use one client-neutral handshake for every route. Before acting, read `../shared/cross-client-handoff.md` completely and follow its schema and state machine.
 
-## Purpose
+## Choose the route
 
-Bridge state across a restart or `/exit` when a full session log is overkill. The next session's SessionStart hook (`handoff-read.sh`) reads `handoff.md`, injects its contents as additional context, then **deletes** the file. One read, gone.
+- If the user names Claude or Codex, use that client as `to`.
+- If the user asks for the next or a fresh session without naming a client, set `to` to the current client. This is the default for Claude-to-Claude and Codex-to-Codex continuation.
+- Use `to: either` only when the task is deliberately client-agnostic.
+- Set `from` to the current client, or `human` when invoked outside a client session.
 
-Use this when:
-- You need to restart (e.g., MCP server re-enable, permission change, context pressure)
-- You want to hand off mid-task state to the next session without polluting `log/`
-- A quick note is enough — not a full `/session-close`
+All routes write `<project-root>/.context/ai-handoff.md`. Do not create a separate client-specific handoff file.
 
-## When NOT to Use
+## Prepare a handoff
 
-- End of a substantive work session → use `/session-close` (proper logs, git commit)
-- Permanent decisions or learnings → use MEMORY.md with `[LEARN]` tags
-- Cross-project notes → use `.context/agent-messages.md`
+1. Resolve the project root from the current working directory or the named project.
+2. Read only the relevant durable guidance and state: `CLAUDE.md`, `AGENTS.md`, the latest approved plan, current focus, recent log, and any existing handshake. Never inspect restricted `data/raw/` content.
+3. Use the supplied outcome. If none is supplied, infer the highest-priority open loop; ask only if different choices would materially change scope.
+4. Reconcile the existing handshake. Preserve still-valid decisions and its log, then create a new `handoff_id` and set `status: ready`.
+5. Record the source and target client, source and target machine, branch, commit, exact working-tree ownership, observable acceptance criteria, real commands, and the first concrete action.
+6. Validate the YAML frontmatter and Markdown sections against the shared protocol. Check that the file contains no secrets, credentials, transcripts, caches, or restricted data.
 
-## Workflow
+Never overwrite project-owned `CLAUDE.md` or `AGENTS.md`: they remain durable client guidance. Never auto-commit or push the handshake.
 
-### Step 1: Gather state
+## Receive a handoff
 
-Collect:
-- **Current working directory** (`pwd`) — the handoff lives here
-- **What was happening** — the immediate task, not a session recap
-- **What's next** — the specific next action
-- **Open loops** — files mid-edit, background processes, pending confirmations
-- **Blockers** — why the session is ending (e.g., "Paperpile MCP needs restart")
+When `.context/ai-handoff.md` targets the current client or `either`:
 
-### Step 2: Write `handoff.md` in cwd
+1. Read both native guidance files and the handshake before editing.
+2. Compare the recorded branch, commit, machine, and changed-file ownership with the actual working tree.
+3. Set `status: accepted` and append a timestamped log entry before substantive work.
+4. Set `status: in_progress` when execution begins.
+5. Maintain acceptance criteria and the log. Finish with `complete`, or use `blocked` with the precise blocker and safe next action.
 
-Use this template:
+## Transport and launch
 
-```markdown
-# Handoff — <YYYY-MM-DD HH:MM>
+- Same machine: start the receiving client in the project root.
+- Dropbox project: let the project sync, then verify the recorded branch/commit and file ownership.
+- Git project on another machine: verify the remote, commit/push only with normal authorization, pull there, and run `$sync-ai-infra` on that machine before starting the receiving client.
 
-## Where we are
-<1-3 sentences on current task state>
+Report the handshake path, route, outcome, status, transport needed, and launch command. A completed handshake stays as a short audit trail until the next handoff reconciles it.
 
-## Next action
-<The single next thing to do — be specific>
+## Compatibility
 
-## Open loops
-- <file.py mid-edit at line N>
-- <background job: description>
-- <HPC job $SLURM_JOB_ID on your-hpc: submitted/running/completed; OUT_DIR=~/projects/<name>/out/<jobid>/>
-- <pending user confirmation: question>
-
-## Blockers / context the next session needs
-<Why the handoff exists. API keys set? MCP restarted? Permission added?>
-
-## Files touched this session
-- <path:line> — <what changed>
-
-## Scratch
-<Anything else — half-formed thoughts, commands to try, URLs>
-```
-
-Keep it tight. The next session reads this once as SessionStart context — it should be skimmable in 10 seconds.
-
-### Step 3: Confirm
-
-Tell the user: "Handoff written to `<cwd>/handoff.md`. Next session in this directory will read and delete it."
-
-## Hook Behavior
-
-The companion hook `handoff-read.sh` fires on **every** SessionStart (startup + resume + compact). If `handoff.md` exists in the session's cwd:
-
-1. Reads contents
-2. Injects as `additionalContext` with the header `# Handoff from previous session`
-3. Deletes `handoff.md` (scratch)
-
-Zero token cost when no handoff exists.
-
-## Important
-
-- Handoff is **ephemeral** — one-shot. If you need durable state, write to `log/` or MEMORY.md instead.
-- `handoff.md` should NOT be committed. Add to `.gitignore` if the directory has one.
-- If the next session's cwd differs, the handoff won't fire — always `cd` to the same directory before restarting.
+Legacy root `handoff.md` files remain readable by Claude's hook during migration, but new handoffs must use `.context/ai-handoff.md`. The legacy file is Claude-only and cannot support Codex-to-Codex or cross-client state tracking.

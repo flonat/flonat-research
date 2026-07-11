@@ -362,7 +362,7 @@ Example: 8cm chord, bend=40 -> depth = 4 * 0.364 = 1.456cm
 
 ### Bézier-First for matplotlib Arrows
 
-When labelling curved arrows using `connectionstyle='arc3,rad=R'`, compute the actual curve position before placing labels. The same "Claude cannot eyeball where a curve passes" rule from Pass 1 applies to Python figures.
+When labelling curved arrows using `connectionstyle='arc3,rad=R'`, compute the actual curve position before placing labels. The same "an AI agent cannot eyeball where a curve passes" rule from Pass 1 applies to Python figures.
 
 **Control point formula:**
 

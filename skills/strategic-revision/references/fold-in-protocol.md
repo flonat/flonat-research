@@ -115,7 +115,7 @@ Read the new output. Compare to v{N−1}:
 
 ### Step 8 — Stamp the new review independently
 
-Run the review-state-log helper for the new review's report file (per `rules/stamp-after-review-dispatch.md` if dispatched via the Task tool, or directly otherwise). The fold-in *does not* re-stamp v1 — that row stays in `reviews/INDEX.md` exactly as written. The new review gets its own row.
+Run the review-state-log helper for the new review's report file (per `rules/stamp-after-review-dispatch.md` if dispatched to a sub-agent, or directly otherwise). The fold-in *does not* re-stamp v1 — that row stays in `reviews/INDEX.md` exactly as written. The new review gets its own row.
 
 ## Cross-review picture — what to write
 

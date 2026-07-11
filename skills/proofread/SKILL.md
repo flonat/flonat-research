@@ -159,7 +159,7 @@ If the project's vault submission frontmatter or CLAUDE.md indicates a double-bl
 - **P2** no `\thanks{}`, `\acknowledgements`, funding, or grant references in body
 - **P3** body uses third-person self-reference (no "we previously showed", "in our prior work")
 - **P4** self-citations are cited in the third person with the **real bib entry kept** — do *not* flag a named self-cite entry as a violation; naming the authors in a third-person citation is correct (anonymity comes from the author block, not the bibliography). Blind the entry only if the venue's CFP explicitly requires it (rare; some security venues). See `rules/double-blind-self-citation.md`.
-- **P5** self-references use third-person *voice*: flag first-person ("we previously showed", "in our prior work [N]") near a self-cite — **not** the author names themselves ("Burnat and [Collaborator] [N] show X" is fine)
+- **P5** self-references use third-person *voice*: flag first-person ("we previously showed", "in our prior work [N]") near a self-cite — **not** the author names themselves ("[Author] and [Collaborator] [N] show X" is fine)
 - **P6** no identifying URLs (personal websites, GitHub repos with handles)
 - **P7** PDF metadata clean (`pdfinfo` shows no Author / identifying Subject)
 - **P8** figures/screenshots have no identifying watermarks
@@ -265,31 +265,9 @@ One deduction for the pattern (not 8 separate deductions). Escalation still appl
 
 ## Council Mode (Optional)
 
-For high-stakes pre-submission checks, run proofreading in council mode to get independent assessments from multiple LLM providers. Council mode surfaces formatting issues that any single model might miss.
+For high-stakes pre-submission checks, run in council mode — 3 LLM providers independently run the 7 check categories, cross-review, and a chairman synthesises one `PROOFREAD-REPORT.md`. **Trigger:** "council proofread" / "thorough proofread". Full orchestration + invocation: [`../shared/council-protocol.md`](../shared/council-protocol.md).
 
-**Trigger:** "Council proofread my paper" or "thorough proofread"
-
-**How it works:**
-1. The main session reads the document and constructs the proofreading prompt
-2. The prompt is sent to 3 different models via `council-cli` (or `council-api` for API mode)
-3. Each model independently runs the 7 check categories
-4. Cross-review identifies agreements and disputes
-5. Chairman synthesis produces a single `PROOFREAD-REPORT.md` with council notes
-
-**Invocation (CLI backend — free with existing subscriptions):**
-```bash
-cd packages/council-cli
-uv run python -m council_cli \
-    --prompt-file /tmp/proofread-prompt.txt \
-    --context-file /tmp/paper-content.txt \
-    --output-md /tmp/proofread-council.md \
-    --chairman claude \
-    --timeout 180
-```
-
-See `skills/shared/council-protocol.md` for the full orchestration protocol.
-
-**Value:** Diminishing returns for pure formatting — council mode is most valuable when combined with citation voice balance and notation consistency checks, where different models have genuinely different pattern recognition.
+**Value:** Diminishing returns for pure formatting — most valuable combined with citation-voice-balance and notation-consistency checks, where different models have genuinely different pattern recognition.
 
 ## Log to REVIEW-STATE.md (final step)
 

@@ -6,12 +6,12 @@ Creates the research topic in all systems: local file → vault atlas → Venues
 
 ## 7a. Create Atlas Topic File
 
-1. Read theme files from `~/Research-Vault/themes/` — current themes and their metadata
-2. Glob `~/Research-Vault/atlas/**/*.md` — existing slugs (avoid duplicates)
+1. Read theme files from `~/vault/themes/` — current themes and their metadata
+2. Glob `~/vault/atlas/**/*.md` — existing slugs (avoid duplicates)
 3. Determine the **slug** (kebab-case, 2-5 words). Pattern: `{contribution}-{domain-object}`. Names the idea, not venue/output/method. Within clusters (e.g., carbon, elicitation), each slug needs a unique distinguishing word. Anti-patterns: acronyms (`efficient-pe`), bare fields (`smart-meters`), venue names (`facct-paper`). Good: `carbon-collusion`, `elicitation-cost-tradeoffs`.
-4. Write `~/Research-Vault/atlas/{theme-dir}/{slug}.md` using the YAML frontmatter template from [`atlas-schema.md`](atlas-schema.md). Include `## Description`, `## Key References`, `## Open Questions`.
-5. **Validate the topic file** before proceeding: run `uv run python packages/atlas-vault/schema.py ~/Research-Vault/atlas/{theme-dir}/{slug}.md` from `$TM/packages/atlas-vault/`. If validation fails, fix the file before syncing to vault.
-6. If new theme needed: create the theme directory under `~/Research-Vault/atlas/` and add a theme file at `~/Research-Vault/themes/{slug}.md`. The topic file created in step 4 is sufficient — no separate slug list to maintain.
+4. Write `~/vault/atlas/{theme-dir}/{slug}.md` using the YAML frontmatter template from [`atlas-schema.md`](atlas-schema.md). Include `## Description`, `## Key References`, `## Open Questions`.
+5. **Validate the topic file** before proceeding: run `uv run python packages/atlas-vault/schema.py ~/vault/atlas/{theme-dir}/{slug}.md` from `$TM/packages/atlas-vault/`. If validation fails, fix the file before syncing to vault.
+6. If new theme needed: create the theme directory under `~/vault/atlas/` and add a theme file at `~/vault/themes/{slug}.md`. The topic file created in step 4 is sufficient — no separate slug list to maintain.
 
 ## 7b. Create vault Atlas Entry (if syncing to vault)
 
@@ -25,7 +25,7 @@ Atlas entries in the vault are synced from the local markdown files via `/sync-a
 
 **Always create a submission entry — regardless of topic status (even Idea stage).** This makes the topic visible to taskflow MCP queries, deadline tracking, and portfolio views.
 
-Write `~/Research-Vault/submissions/{slug}.md`:
+Write `~/vault/submissions/{slug}.md`:
 
 ```yaml
 ---
@@ -57,7 +57,7 @@ RESEARCH_ROOT="$(cat ~/.config/task-mgmt/research-root)"
 mkdir -p "$RESEARCH_ROOT/{ThemeAbbrev}/{slug}"
 ```
 
-Theme abbreviations: ASG, BDS, EnvEcon, HAI, IO, MechDes, NLP, OR, OrgStrat, PolSci. Folder name must be the kebab-case slug (same as the atlas topic filename).
+Theme abbreviations: T1, T2, T3, T4, T5, T6, T7, T8, T9, T10 (define your own theme codes). Folder name must be the kebab-case slug (same as the atlas topic filename).
 
 ## 7d. Regenerate RECAP.md
 

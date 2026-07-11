@@ -122,11 +122,11 @@ Also handle **multi-key citations**: `\citep{key1, key2, key3}`
 
 When `--double-blind` is set OR when a `paper-*` directory's vault submission frontmatter shows the venue is double-blind, run a self-citation scan. **Default expectation: the author CAN and SHOULD cite their own prior work — keep the real bib entry and cite it in the third person.** Anonymity comes from removing the author block, not from blinding the bibliography; a `{Anonymous}` entry actually *advertises* the self-citation. See `rules/double-blind-self-citation.md` and `_shared/double-blind-anonymity-checklist.md` §P4–P5.
 
-1. **Load submission author list.** Read `~/Research-Vault/submissions/<paper-slug>-<venue>-<year>.md` `authors:` / `coauthors:` field. If absent, prompt: `Submission author surnames (comma-separated):`.
+1. **Load submission author list.** Read `~/vault/submissions/<paper-slug>-<venue>-<year>.md` `authors:` / `coauthors:` field. If absent, prompt: `Submission author surnames (comma-separated):`.
 2. **Identify self-citations.** For each `.bib` entry, parse `author = {...}`, tokenize by `and`, extract surnames; mark entries whose authors overlap the submission's as *self-citations* — these are expected, not violations.
 3. **Scan the `.tex` body near each self-cite `\cite{<key>}` (±200 chars) for FIRST-PERSON voice** — "our"/"we previously"/"in earlier work of ours". That first-person voice is the actual de-anonymizer, not the names.
 4. **Severity:**
-   - **Info / no action** — self-citation cited in the third person with the real entry kept. This is the correct finished state. Naming the authors ("Burnat and [Collaborator] [2] show X") in the third person is fine.
+   - **Info / no action** — self-citation cited in the third person with the real entry kept. This is the correct finished state. Naming the authors ("[Author] and [Collaborator] [2] show X") in the third person is fine.
    - **Critical** — first-person voice near a self-cite → rewrite to third person (the citation and the real entry stay).
    - **Critical (CFP-conditional)** — *only* if the venue's CFP explicitly requires anonymizing self-citations (some security venues, e.g. CCS) → then also blind the entry. Do **not** blind by default.
 5. **Output format (first-person-voice case):**

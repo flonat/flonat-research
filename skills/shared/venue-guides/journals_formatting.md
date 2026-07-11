@@ -10,8 +10,8 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### Nature
 
-**Journal Type**: Top-tier multidisciplinary science journal  
-**Publisher**: Nature Publishing Group  
+**Journal Type**: Top-tier multidisciplinary science journal
+**Publisher**: Nature Publishing Group
 **Impact Factor**: ~64 (varies by year)
 
 **Formatting Requirements**:
@@ -26,7 +26,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 - **References**: Nature style (abbreviated journal names)
   - Format: Author, A. A., Author, B. B. & Author, C. C. Article title. *Journal Abbrev.* **vol**, pages (year).
   - Example: Watson, J. D. & Crick, F. H. C. Molecular structure of nucleic acids. *Nature* **171**, 737–738 (1953).
-- **Figures**: 
+- **Figures**:
   - Format: TIFF, EPS, PDF (vector preferred)
   - Resolution: 300-600 dpi for photos, 1000 dpi for line art
   - Color: RGB or CMYK
@@ -43,7 +43,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### Nature Communications
 
-**Journal Type**: Open-access multidisciplinary journal  
+**Journal Type**: Open-access multidisciplinary journal
 **Publisher**: Nature Publishing Group
 
 **Formatting Requirements**:
@@ -78,11 +78,11 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### Science
 
-**Journal Type**: Top-tier multidisciplinary science journal  
+**Journal Type**: Top-tier multidisciplinary science journal
 **Publisher**: American Association for the Advancement of Science (AAAS)
 
 **Formatting Requirements**:
-- **Length**: 
+- **Length**:
   - Research Articles: 2,500 words (text only, excluding refs/figs)
   - Reports: 2,500 words maximum
 - **Structure**: Title, Authors, Affiliations, Abstract (≤125 words), Main text, Materials and Methods, References, Acknowledgments, Supplementary Materials
@@ -94,7 +94,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 - **References**: Science style (no article titles in main refs, moved to supplementary)
   - Format: A. Author, B. Author, *Journal Abbrev.* **vol**, pages (year).
   - Example: J. D. Watson, F. H. C. Crick, *Nature* **171**, 737 (1953).
-- **Figures**: 
+- **Figures**:
   - Format: PDF, EPS, TIFF
   - Resolution: 300 dpi minimum
   - Color: RGB
@@ -111,7 +111,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### Science Advances
 
-**Journal Type**: Open-access multidisciplinary journal  
+**Journal Type**: Open-access multidisciplinary journal
 **Publisher**: AAAS
 
 **Formatting Requirements**:
@@ -132,7 +132,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### PLOS ONE
 
-**Journal Type**: Open-access multidisciplinary journal  
+**Journal Type**: Open-access multidisciplinary journal
 **Publisher**: Public Library of Science
 
 **Formatting Requirements**:
@@ -176,11 +176,11 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### Cell
 
-**Journal Type**: Top-tier biology journal  
+**Journal Type**: Top-tier biology journal
 **Publisher**: Cell Press (Elsevier)
 
 **Formatting Requirements**:
-- **Length**: 
+- **Length**:
   - Articles: ~5,000 words (excluding Methods, References)
   - Short Articles: ~2,500 words
 - **Structure**: Summary (≤150 words), Keywords, Introduction, Results, Discussion, Experimental Procedures, Acknowledgments, Author Contributions, Declaration of Interests, References
@@ -216,7 +216,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### IEEE Transactions on [Various Topics]
 
-**Journal Type**: Engineering and computer science journals  
+**Journal Type**: Engineering and computer science journals
 **Publisher**: Institute of Electrical and Electronics Engineers
 
 **Formatting Requirements**:
@@ -225,7 +225,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 - **Format**: Two-column
 - **Font**: Times New Roman, 10pt
 - **Column spacing**: 0.17 inch (4.23 mm)
-- **Margins**: 
+- **Margins**:
   - Top: 19 mm (0.75 in)
   - Bottom: 25 mm (1 in)
   - Side: 17 mm (0.67 in)
@@ -249,7 +249,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### IEEE Access
 
-**Journal Type**: Open-access multidisciplinary engineering journal  
+**Journal Type**: Open-access multidisciplinary engineering journal
 **Publisher**: IEEE
 
 **Formatting**: Similar to IEEE Transactions
@@ -265,7 +265,7 @@ Comprehensive formatting requirements and submission guidelines for major scient
 
 ### ACM Transactions
 
-**Journal Type**: Computer science transactions  
+**Journal Type**: Computer science transactions
 **Publisher**: Association for Computing Machinery
 
 **Formatting Requirements**:
@@ -483,4 +483,3 @@ Many journals provide official LaTeX templates:
 - **Springer**: svjour3 class (journal website)
 
 Check journal's "For Authors" or "Submit" page for the most current templates.
-

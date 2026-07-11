@@ -6,7 +6,7 @@ The Notion-backed CLI tools that lived here previously (`task`, `tasks`,
 `done`, `inbox`, `query`, `week`, `conf`, plus `daily_digest.py`,
 `extract_meeting_actions.py`, `notion_helpers.py`, `config.py`,
 `generate-codex-agents-md.py`) were retired in 2026-04. The Research Vault
-(`~/Research-Vault`) and the `taskflow` MCP server replaced them.
+(`~/vault`) and the `taskflow` MCP server replaced them.
 
 ## Active scripts
 
@@ -23,7 +23,6 @@ The Notion-backed CLI tools that lived here previously (`task`, `tasks`,
 | `skill-log-miner.py` | Mine skill outcome logs for failure patterns |
 | `sync-resources.sh` | Pull latest from cloned resource repos |
 | `sync-template.sh` | Sync templates between locations |
-| `sync-to-codex.sh` | Sync infrastructure to the Codex CLI |
 | `venue-metrics` | Pull venue-level metrics |
 
 ## Shared libraries

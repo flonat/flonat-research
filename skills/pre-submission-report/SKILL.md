@@ -89,6 +89,7 @@ Use when (a) the paper is near submission and you want a comprehensive scan, or 
 2. **Each sub-agent gets the standard forbid-list** — no git, no latexmk, no edits to files outside their scope. The forbid-list explicitly carves out the `reviews/<paper-slug>/<check>/` path as a permitted write target (the agent's logging step needs it), where `<paper-slug>` is the paper being reviewed (passed in the dispatch) and `<check>` is the agent name.
 3. **Findings consolidate into a P0/P1/P2 fix list** before any edits — single triage point, not 13 streams. Sub-agents return structured findings to the orchestrator in addition to writing their report file; the consolidate step uses the structured returns.
 4. **No edit phase auto-runs** — the user reviews the consolidated report and approves which fixes to apply.
+5. **Evidence contract + spot-verify** (per [`_shared/audit-integrity.md`](../_shared/audit-integrity.md) Rule 2). Each sub-agent's dispatch prompt MUST require **every finding to cite `path:line` (or `§`) AND quote the exact text/code verbatim** — unanchored findings are inadmissible. Before consolidating (rule 3), the orchestrator **spot-verifies a random sample** of returned findings (≥3, or 20%, weighted to P0/P1): open the cited location, confirm the quote is there and the claim follows. Any miss ⇒ widen to that agent's full set and **drop** what can't be grounded. Record `Integrity: N sampled, M dropped` in the consolidated report.
 
 **The 7 sub-agents:**
 
@@ -240,6 +241,7 @@ Display the report path and the summary table to the user. If the recommendation
 | `paper-critic` agent | Adversarial content review |
 | `quality-scoring.md` | Verdict thresholds |
 | `_shared/double-blind-anonymity-checklist.md` | P1–P8 / A1–A9 anonymity gate (double-blind venues only) |
+| `_shared/audit-integrity.md` | Fan-out integrity contract — each of the 13 review agents must cite `path:line` + verbatim evidence (Rule 2); the orchestrator spot-verifies before including a finding in the report |
 
 ## REVIEW-STATE.md propagation (orchestrator-side stamping)
 

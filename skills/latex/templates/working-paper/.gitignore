@@ -1,0 +1,16 @@
+out/
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.run.xml
+*.bcf
+
+# Session logs — contain absolute paths and private references
+log/
+
+# Memory files — contain session-specific context
+MEMORY.md

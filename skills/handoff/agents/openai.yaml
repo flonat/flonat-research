@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff"
+  short_description: "Create a shared Claude or Codex project handoff"
+  default_prompt: "Use $handoff to prepare or receive the next AI session in this project."

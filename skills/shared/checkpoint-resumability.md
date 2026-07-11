@@ -138,7 +138,7 @@ Some phases produce partial output (e.g., verified 14/23 papers before crash). T
 # Before phase
 [check if this phase is already complete in checkpoint → skip if so]
 
-# After phase succeeds  
+# After phase succeeds
 [save checkpoint: phase complete, record outputs]
 
 # On phase failure

@@ -233,3 +233,4 @@ Show the user:
 | `/insights-deck` | Maintenance findings can feed into system insights presentations |
 | `/repo-doc-audit friends` | Dedicated deep audit for friends-repo — Sub-agent 7 is a quick health check; the audit skill is the full version |
 | `/sync-friends-repo` | Fix freshness issues found by Sub-agent 7 |
+| [`_shared/audit-integrity.md`](../_shared/audit-integrity.md) | Fan-out integrity contract — the Inventory Auditor's counts must come from `count_inventory.py` (Rule 1), never a sub-agent's own tally; findings cite evidence (Rule 2) |

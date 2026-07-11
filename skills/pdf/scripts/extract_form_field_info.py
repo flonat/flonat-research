@@ -22,7 +22,7 @@ def make_field_dict(field, field_id):
     if ft == "/Tx":
         field_dict["type"] = "text"
     elif ft == "/Btn":
-        field_dict["type"] = "checkbox"  
+        field_dict["type"] = "checkbox"
         states = field.get("/_States_", [])
         if len(states) == 2:
             if "/Off" in states:
@@ -100,7 +100,7 @@ def get_field_info(reader: PdfReader):
             rect = f.get("rect") or [0, 0, 0, 0]
         adjusted_position = [-rect[1], rect[0]]
         return [f.get("page"), adjusted_position]
-    
+
     sorted_fields = fields_with_location + list(radio_fields_by_id.values())
     sorted_fields.sort(key=sort_key)
 

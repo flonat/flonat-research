@@ -1,0 +1,100 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{flonat-wp}
+\usepackage[harvard]{flonat-bib}
+
+\begin{document}
+
+\begin{titlepage}
+
+    \title{[PAPER TITLE]\thanks{[Acknowledgements and funding information.]}}
+
+    \author{[AUTHOR NAME]\thanks{[Affiliation and email.]} \and [AUTHOR NAME]\thanks{[Affiliation and email.]}}
+
+    \date{\today}
+
+    \maketitle
+
+    \begin{abstract}
+        \noindent [Abstract text.]
+
+        \bigskip
+        \noindent\textbf{Keywords:} keyword1, keyword2, keyword3
+
+        % \noindent\textbf{JEL Codes:} X00, Y00
+    \end{abstract}
+
+    \setcounter{page}{0}
+    \thispagestyle{empty}
+
+\end{titlepage}
+
+\clearpage
+
+\doublespacing
+
+
+\section{Introduction}
+\input{sections/introduction}
+
+\section{Literature Review}
+\input{sections/literature}
+
+% \section{Theory}
+% \input{sections/theory}
+
+% \section{Model}
+% \input{sections/model}
+
+\section{Data}
+\input{sections/data}
+
+\section{Results}
+\input{sections/results}
+
+\section{Discussion}
+\input{sections/discussion}
+
+\section{Conclusion}
+\input{sections/conclusion}
+
+
+\singlespacing
+\printbibliography
+
+
+
+\clearpage
+
+\onehalfspacing
+
+\phantomsection
+\section*{Tables} \label{sec:tab}
+\addcontentsline{toc}{section}{Tables}
+
+
+
+\clearpage
+
+\phantomsection
+\section*{Figures} \label{sec:fig}
+\addcontentsline{toc}{section}{Figures}
+
+%\begin{figure}[hp]
+%  \centering
+%  \includegraphics[width=.6\textwidth]{../fig/placeholder.pdf}
+%  \caption{Placeholder}
+%  \label{fig:placeholder}
+%\end{figure}
+
+
+
+\clearpage
+
+\phantomsection
+\section*{Appendix A. Placeholder} \label{sec:appendixa}
+\addcontentsline{toc}{section}{Appendix A}
+
+
+
+\end{document}

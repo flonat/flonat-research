@@ -2,6 +2,10 @@
 
 # Biblio MCP Server Setup
 
+> This page describes the optional Claude MCP adapter. Codex should use the
+> equivalent scholarly CLI route; the framework does not present MCP tools as
+> callable in Codex.
+
 The Biblio MCP server (`.mcp-server-biblio/`) provides scholarly search across up to 3 sources. OpenAlex is always available (free, no key required). Scopus and Web of Science are optional — add API keys to unlock them.
 
 ## 1. Update the Email Address
@@ -23,7 +27,7 @@ In `.mcp.json` (project root) or `~/.claude.json` (global access):
   "mcpServers": {
     "biblio": {
       "command": "/opt/homebrew/bin/uv",
-      "args": ["run", "--frozen", "--directory", "/path/to/claude-research/.mcp-server-biblio", "python", "server.py"],
+      "args": ["run", "--frozen", "--directory", "/path/to/flonat-research/.mcp-server-biblio", "python", "server.py"],
       "env": {}
     }
   }

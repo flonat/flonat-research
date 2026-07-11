@@ -85,6 +85,28 @@ Produce a structured report with only the surviving critiques (stands + partiall
 - [Critiques that were resolved in Round 2, listed briefly for transparency]
 ```
 
+## Output Path & Stamping
+
+When run on a paper in a research project (a `paper-*/` directory exists), persist the report and stamp it into the review log — the same wiring as `/proofread` and `/bib-validate`, so `/review-recap` renders it as a first-class review (not a manual slot).
+
+1. **Write the report** to `reviews/<scope>/devils-advocate/<YYYY-MM-DD-HHMM>.md`, where `<scope>` is the in-scope paper slug (e.g. `paper-prima`) or `_project` for a project-level argument. Create the dir first (`mkdir -p reviews/<scope>/devils-advocate/`). Never overwrite — each run is timestamped to the minute. Per `rules/review-artefact-routing.md`, never write to the project root.
+2. **Stamp `reviews/INDEX.md`:**
+   ```bash
+   bash ~/.claude/skills/_shared/review-state-log.sh \
+     --check devils-advocate \
+     --paper "<scope>" \
+     --verdict "<PASS|ISSUES FOUND>" \
+     --open-issues "<surviving-critiques>/<total-critiques-raised>" \
+     --report "reviews/<scope>/devils-advocate/<YYYY-MM-DD-HHMM>.md" \
+     --notes "<one line: e.g. '2 Critical, 1 Major survive; identification strategy weakest'>" \
+     [--trigger "review-cluster|pre-submission-report"]
+   ```
+   - **Verdict:** `PASS` if no critiques survive adjudication (all dismissed); `ISSUES FOUND` otherwise.
+   - **Open issues:** surviving critiques (Critical+Major+Minor) over total raised in Round 1.
+   - **Trigger:** pass an orchestrator name only if invoked via `/review-cluster` or `/pre-submission-report`; otherwise omit.
+
+Skip stamping only for **non-paper use** (challenging a bare argument with no project context) or **single-shot mode** on a paragraph — then the report stays inline. Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
+
 ## Single-Shot Mode
 
 For quick checks (e.g., "just poke holes in this argument"), skip the multi-turn protocol and produce a direct critique. Use when the user says "quick", "just challenge this", or the input is a paragraph rather than a full paper.
@@ -97,29 +119,9 @@ For quick checks (e.g., "just poke holes in this argument"), skip the multi-turn
 
 ## Council Mode (Optional)
 
-For the highest-stakes arguments, run the devil's advocate debate across multiple LLM providers. Different models have genuinely different reasoning patterns — a critique that Claude finds weak, GPT may find devastating, and vice versa. This produces adversarial tension that a single model cannot replicate internally.
+For the highest-stakes arguments, run the debate across multiple LLM providers — different models have genuinely different reasoning patterns, producing adversarial tension a single model cannot replicate. Each model plays Adversarial Critic, cross-reviews the others, and a chairman ranks surviving critiques by cross-model agreement. **Trigger:** "council devil's advocate" / "thorough challenge". Full orchestration + invocation: [`../shared/council-protocol.md`](../shared/council-protocol.md).
 
-**Trigger:** "Council devil's advocate" or "thorough challenge"
-
-**How it works:**
-1. Each model independently plays Adversarial Critic (Round 1) using the same paper/argument
-2. Cross-review: each model evaluates the others' critiques — identifying which challenges are strongest
-3. Chairman synthesis: produces a single report with surviving critiques ranked by cross-model agreement
-
-**Invocation (CLI backend):**
-```bash
-cd packages/council-cli
-uv run python -m council_cli \
-    --prompt-file /tmp/devils-advocate-prompt.txt \
-    --context-file /tmp/paper-content.txt \
-    --output-md /tmp/devils-advocate-council.md \
-    --chairman claude \
-    --timeout 180
-```
-
-See `skills/shared/council-protocol.md` for the full orchestration protocol.
-
-**Value:** High — the multi-turn debate protocol (Round 1→2→3) becomes genuinely adversarial when different models play different roles. A critique that survives cross-model scrutiny is almost certainly a real weakness.
+**Value:** High — the multi-turn debate becomes genuinely adversarial when different models play different roles. A critique that survives cross-model scrutiny is almost certainly a real weakness.
 
 ## Cross-References
 
