@@ -43,11 +43,11 @@ if command_exists pdfinfo; then
     PAGE_SIZE=$(pdfinfo "$POSTER_FILE" 2>/dev/null | grep "Page size")
     if [ -n "$PAGE_SIZE" ]; then
         echo "    $PAGE_SIZE"
-        
+
         # Extract dimensions and check common sizes
         WIDTH=$(echo "$PAGE_SIZE" | awk '{print $3}')
         HEIGHT=$(echo "$PAGE_SIZE" | awk '{print $5}')
-        
+
         # Check against common poster sizes (approximate)
         if [ "$WIDTH" = "2384" ] && [ "$HEIGHT" = "3370" ]; then
             echo -e "    ${GREEN}✓ Detected: A0 Portrait${NC}"
@@ -89,7 +89,7 @@ if command_exists ls; then
     FILE_SIZE=$(ls -lh "$POSTER_FILE" | awk '{print $5}')
     FILE_SIZE_BYTES=$(ls -l "$POSTER_FILE" | awk '{print $5}')
     echo "    Size: $FILE_SIZE"
-    
+
     # Check if file is too large for email
     if [ "$FILE_SIZE_BYTES" -gt 52428800 ]; then  # 50MB
         echo -e "    ${YELLOW}⚠ Large file (>50MB) - may need compression for email${NC}"
@@ -110,7 +110,7 @@ if command_exists pdffonts; then
     echo "$FONT_OUTPUT" | tail -20 | while IFS= read -r line; do
         echo "    $line"
     done
-    
+
     # Check for non-embedded fonts
     NON_EMBEDDED=$(echo "$FONT_OUTPUT" | tail -n +3 | awk '{if ($4 == "no") print $0}')
     if [ -n "$NON_EMBEDDED" ]; then
@@ -132,7 +132,7 @@ if command_exists pdfimages; then
         echo "    Found $IMAGE_COUNT image(s)"
         echo "    Image details:"
         pdfimages -list "$POSTER_FILE" 2>/dev/null | head -20
-        
+
         # Note: DPI calculation would require page size knowledge
         echo -e "    ${BLUE}  Verify images are at least 300 DPI for printing${NC}"
         echo -e "    ${BLUE}  Formula: DPI = pixels / (inches in poster)${NC}"
@@ -211,4 +211,3 @@ echo -e "For full checklist, see: ${BLUE}assets/poster_quality_checklist.md${NC}
 echo ""
 
 exit 0
-

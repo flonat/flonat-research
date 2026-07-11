@@ -57,13 +57,13 @@ Most major medical journals require **structured abstracts** with labeled sectio
 ```
 Background: [Why this study was needed - 1-2 sentences]
 
-Methods: [Study design, setting, participants, intervention, 
+Methods: [Study design, setting, participants, intervention,
 main outcomes - 2-4 sentences]
 
-Results: [Primary and key secondary outcomes with statistics - 
+Results: [Primary and key secondary outcomes with statistics -
 3-5 sentences]
 
-Conclusions: [Clinical implications, with appropriate hedging - 
+Conclusions: [Clinical implications, with appropriate hedging -
 1-2 sentences]
 ```
 
@@ -81,29 +81,29 @@ Conclusions: [Clinical implications, with appropriate hedging -
 
 ```
 BACKGROUND
-Type 2 diabetes is associated with increased cardiovascular risk, but 
-the effects of intensive glucose control on cardiovascular outcomes 
+Type 2 diabetes is associated with increased cardiovascular risk, but
+the effects of intensive glucose control on cardiovascular outcomes
 remain uncertain.
 
 METHODS
-We randomly assigned 10,251 patients with type 2 diabetes and established 
-cardiovascular disease to receive intensive glucose-lowering therapy 
-(target HbA1c <6.0%) or standard therapy (target HbA1c 7.0-7.9%). The 
-primary outcome was a composite of nonfatal myocardial infarction, 
+We randomly assigned 10,251 patients with type 2 diabetes and established
+cardiovascular disease to receive intensive glucose-lowering therapy
+(target HbA1c <6.0%) or standard therapy (target HbA1c 7.0-7.9%). The
+primary outcome was a composite of nonfatal myocardial infarction,
 nonfatal stroke, or death from cardiovascular causes.
 
 RESULTS
-After a median follow-up of 3.5 years, the primary outcome occurred in 
-352 patients (6.9%) in the intensive-therapy group and in 371 patients 
-(7.2%) in the standard-therapy group (hazard ratio, 0.90; 95% CI, 0.78 
-to 1.04; P=0.16). Severe hypoglycemia was more common with intensive 
-therapy (3.1% vs. 1.0%; P<0.001). All-cause mortality was similar 
+After a median follow-up of 3.5 years, the primary outcome occurred in
+352 patients (6.9%) in the intensive-therapy group and in 371 patients
+(7.2%) in the standard-therapy group (hazard ratio, 0.90; 95% CI, 0.78
+to 1.04; P=0.16). Severe hypoglycemia was more common with intensive
+therapy (3.1% vs. 1.0%; P<0.001). All-cause mortality was similar
 between groups (5.0% vs. 4.8%; hazard ratio, 1.04; 95% CI, 0.87 to 1.24).
 
 CONCLUSIONS
-In patients with type 2 diabetes and established cardiovascular disease, 
-intensive glucose lowering did not significantly reduce major 
-cardiovascular events compared with standard therapy and was associated 
+In patients with type 2 diabetes and established cardiovascular disease,
+intensive glucose lowering did not significantly reduce major
+cardiovascular events compared with standard therapy and was associated
 with increased severe hypoglycemia.
 ```
 
@@ -176,7 +176,7 @@ with increased severe hypoglycemia.
 Include NNT for clinically important outcomes:
 
 ```
-"The intervention prevented one additional death for every 40 patients 
+"The intervention prevented one additional death for every 40 patients
 treated (NNT=40; 95% CI, 28 to 67)."
 ```
 
@@ -197,10 +197,10 @@ treated (NNT=40; 95% CI, 28 to 67)."
 - Why this matters clinically
 
 ```
-"Type 2 diabetes affects more than 450 million adults worldwide and is 
-a leading cause of cardiovascular disease, renal failure, and premature 
-death. Despite advances in glucose-lowering therapies, patients with 
-diabetes continue to face a two- to four-fold increased risk of 
+"Type 2 diabetes affects more than 450 million adults worldwide and is
+a leading cause of cardiovascular disease, renal failure, and premature
+death. Despite advances in glucose-lowering therapies, patients with
+diabetes continue to face a two- to four-fold increased risk of
 cardiovascular events compared with the general population."
 ```
 
@@ -215,9 +215,9 @@ cardiovascular events compared with the general population."
 - Primary outcome stated
 
 ```
-"We therefore conducted a randomized, controlled trial to evaluate 
-whether intensive glucose-lowering therapy, compared with standard 
-therapy, would reduce major cardiovascular events in patients with 
+"We therefore conducted a randomized, controlled trial to evaluate
+whether intensive glucose-lowering therapy, compared with standard
+therapy, would reduce major cardiovascular events in patients with
 type 2 diabetes and established cardiovascular disease."
 ```
 
@@ -264,12 +264,12 @@ METHODS
 ### Example Methods Paragraph
 
 ```
-We enrolled adults aged 40 years or older with type 2 diabetes (defined 
-as HbA1c ≥6.5% or use of glucose-lowering medication) and established 
-cardiovascular disease (previous myocardial infarction, stroke, or 
-revascularization procedure). Patients were excluded if they had an 
-HbA1c level below 7.5% or above 11.0%, estimated glomerular filtration 
-rate below 30 ml per minute per 1.73 m² of body-surface area, or a 
+We enrolled adults aged 40 years or older with type 2 diabetes (defined
+as HbA1c ≥6.5% or use of glucose-lowering medication) and established
+cardiovascular disease (previous myocardial infarction, stroke, or
+revascularization procedure). Patients were excluded if they had an
+HbA1c level below 7.5% or above 11.0%, estimated glomerular filtration
+rate below 30 ml per minute per 1.73 m² of body-surface area, or a
 cardiovascular event within the past 30 days.
 ```
 
@@ -303,17 +303,17 @@ cardiovascular event within the past 30 days.
 ### Example Results Paragraph
 
 ```
-Of 12,537 patients assessed for eligibility, 10,251 underwent 
-randomization: 5,128 were assigned to intensive therapy and 5,123 to 
-standard therapy (Figure 1). Baseline characteristics were similar 
-between groups (Table 1). Median follow-up was 3.5 years (interquartile 
+Of 12,537 patients assessed for eligibility, 10,251 underwent
+randomization: 5,128 were assigned to intensive therapy and 5,123 to
+standard therapy (Figure 1). Baseline characteristics were similar
+between groups (Table 1). Median follow-up was 3.5 years (interquartile
 range, 2.8 to 4.2), with vital status available for 99.2% of patients.
 
 The primary outcome occurred in 352 patients (6.9%) in the intensive-
-therapy group and 371 patients (7.2%) in the standard-therapy group 
-(hazard ratio, 0.90; 95% confidence interval [CI], 0.78 to 1.04; 
-P=0.16). The absolute difference was 0.3 percentage points (95% CI, 
--0.7 to 1.4). Results were consistent across pre-specified subgroups 
+therapy group and 371 patients (7.2%) in the standard-therapy group
+(hazard ratio, 0.90; 95% confidence interval [CI], 0.78 to 1.04;
+P=0.16). The absolute difference was 0.3 percentage points (95% CI,
+-0.7 to 1.4). Results were consistent across pre-specified subgroups
 (Figure 3).
 ```
 
@@ -350,14 +350,14 @@ P=0.16). The absolute difference was 0.3 percentage points (95% CI,
 ### Example Limitations Paragraph
 
 ```
-Our study has several limitations. First, despite randomization, we 
-cannot exclude residual confounding from unmeasured factors. Second, 
-the open-label design may have introduced bias in outcome assessment 
-for subjective endpoints, though the primary outcome of death was 
-objective. Third, our findings may not generalize to patients without 
-established cardiovascular disease or to healthcare settings with 
-different resources. Fourth, the 3.5-year follow-up may have been 
-insufficient to detect cardiovascular benefits that emerge over 
+Our study has several limitations. First, despite randomization, we
+cannot exclude residual confounding from unmeasured factors. Second,
+the open-label design may have introduced bias in outcome assessment
+for subjective endpoints, though the primary outcome of death was
+objective. Third, our findings may not generalize to patients without
+established cardiovascular disease or to healthcare settings with
+different resources. Fourth, the 3.5-year follow-up may have been
+insufficient to detect cardiovascular benefits that emerge over
 longer periods.
 ```
 
@@ -532,4 +532,3 @@ Standard presentation:
 - `journals_formatting.md` - Technical formatting requirements
 - `reviewer_expectations.md` - What medical reviewers seek
 - Reporting guideline resources: consort-statement.org, strobe-statement.org
-

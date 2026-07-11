@@ -352,12 +352,12 @@ Reviewers check for:
 ### Rebuttal Template
 
 ```
-We thank the reviewers for their constructive feedback. We address 
+We thank the reviewers for their constructive feedback. We address
 the main concerns below:
 
 **R1/R2 Concern: [Shared concern from multiple reviewers]**
 
-[Your response with specific actions taken and references to where 
+[Your response with specific actions taken and references to where
 changes are made in the revised manuscript]
 
 **R1-1: [Specific point]**
@@ -414,4 +414,3 @@ Before submitting, review your paper as a reviewer would:
 - `nature_science_style.md` - Nature/Science detailed guide
 - `ml_conference_style.md` - ML conference detailed guide
 - `medical_journal_styles.md` - Medical journal detailed guide
-

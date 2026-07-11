@@ -1,7 +1,7 @@
 ---
 name: latex-template
 description: "Use when you need to compare a project's LaTeX preamble against the working paper template."
-allowed-tools: 
+allowed-tools:
   - Read
   - Glob
   - Grep

@@ -103,9 +103,9 @@ See [`references/review-consistency.md`](references/review-consistency.md) for c
 
 ### 2.5 Conditional structure (by project type)
 
-**Experimental:** `code/`, `code/python/` or `code/R/`, `data/`, `data/raw/`, `data/processed/`, `output/`, `output/figures/`.  
-**Computational:** `src/`, `tests/`, `experiments/`, `results/`, `pyproject.toml`.  
-**Python tooling:** flag `requirements.txt` as Degraded.  
+**Experimental:** `code/`, `code/python/` or `code/R/`, `data/`, `data/raw/`, `data/processed/`, `output/`, `output/figures/`.
+**Computational:** `src/`, `tests/`, `experiments/`, `results/`, `pyproject.toml`.
+**Python tooling:** flag `requirements.txt` as Degraded.
 **Theoretical:** no additional checks.
 
 ### 2.6 Permissions audit (read-only)
@@ -306,4 +306,4 @@ Per rules/submission-file-archive.md § Topic-folder layout, audit:
 1. **No stray submission artifacts** outside `paper-<venue>/` — flag any `docs/submission-history/`, `docs/venues/*/submission/`, or root-level as-submitted PDFs.
 2. **Archive dirs resolve** — every `files:`/`submitted_files:` pointer in the project's vault submissions + atlas outputs exists on disk under `paper-<venue>/submission/archive/` (or `published/`, `correspondence/`, `talk/`, `presentations/`).
 3. **`PAPER-HISTORY.md` freshness** — run `uv run "$(head -1 ~/.config/task-mgmt/path)/scripts/generate-paper-history.py" --project . --check`; report `stale`/`missing` (fix = regenerate, one command).
-4. **Filename taxonomy** — archived files follow `{surface}-{stage}[-{role}]` (no exemptions).
+4. **Filename taxonomy (mechanical, no exemptions)** — every basename referenced from `files:`/`submitted_files:` must match `{surface}-{stage}[-{role}].{ext}` per `rules/submission-file-archive.md` (stage ∈ `initial·round1·round2·camera-ready·accepted·published·v{N}·reg·talk`, spelled out — never `r1`/`cr`; role ∈ `manuscript·cover·response·rebuttal·reviews·decision·deck`, omitted only when unambiguous). **Item 3's `--check` run reports each non-conforming basename as a `naming` warning** — surface them as `NAMING` findings (fix = `git mv` to the canonical name + repoint the `files:` entry, preserving history). Additionally verify the **reviews layout** (`rules/submission-file-archive.md` § reviews): `correspondence/referee-reviews/` holds **only** `{surface}-round{N}/` folders (no loose files), each containing the reviews **pair** — `{surface}-round{N}-reviews.pdf` (the original, the only timeline artifact) and `{surface}-round{N}-reviews.md` (parsed transcription, on disk, off-timeline). Flag loose files or a missing `.md` transcription as `REVIEWS_LAYOUT`.

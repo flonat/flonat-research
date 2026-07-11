@@ -1,8 +1,8 @@
 # Agents
 
-> 15 specialised review agents with separate context and persistent memory.
+> 15 neutral agent definitions with client-specific adapters.
 
-Agents are autonomous sub-processes that run in a separate context via Claude Code's Task tool.
+Compatible agents render to Claude Markdown and Codex TOML.
 Unlike skills, agents solve the "grading your own homework" problem — they review work
 without access to the author's reasoning.
 
@@ -28,7 +28,7 @@ without access to the author's reasoning.
 
 ## How Agents Work
 
-1. The main session spawns an agent via the Task tool
+1. The main session selects an agent supported by its client
 2. The agent runs in a separate context with its own instructions
 3. The agent produces a report (never modifies source files)
 4. The report is returned to the main session for review
@@ -41,7 +41,7 @@ but only when explicitly invoked.
 
 ## Creating a New Agent
 
-Create a `.md` file in `.claude/agents/` with YAML frontmatter:
+Create a `.md` file in `agents/` with YAML frontmatter:
 
 ```yaml
 ---
@@ -50,4 +50,4 @@ description: "What this agent does"
 ---
 ```
 
-Agents are available globally via symlink: `~/.claude/agents/` points to this repo's `.claude/agents/`.
+Declare clients and required capabilities before rendering. `codex-research` remains Claude-only because it delegates externally to Codex CLI.

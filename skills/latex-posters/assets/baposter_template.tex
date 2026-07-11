@@ -29,21 +29,21 @@
   % ============================================================================
   % POSTER CONFIGURATION
   % ============================================================================
-  
+
   % Grid and columns
   grid=false,                    % Set to true for debugging layout
   columns=3,                     % Number of columns
   colspacing=1.5em,              % Space between columns
-  
+
   % Background
   background=plain,              % plain, shadetb, shadelr
   bgColorOne=white,
   bgColorTwo=white,
-  
+
   % Borders
   borderColor=blue!50!black,
   linewidth=2pt,
-  
+
   % Header
   headerColorOne=blue!70!black,
   headerColorTwo=blue!60!black,
@@ -53,13 +53,13 @@
   headershade=plain,             % plain, shadetb, shadelr
   headerborder=closed,           % open, closed
   headerfont=\Large\sf\bf,
-  
+
   % Boxes
   boxColorOne=white,
   boxColorTwo=blue!10,
   boxshade=plain,
   textborder=roundedleft,        % none, rectangle, rounded, roundedleft, roundedright
-  
+
   % Eye catcher
   eyecatcher=true
 }
@@ -93,19 +93,19 @@
 
 \headerbox{Introduction}{name=intro,column=0,row=0}{
   \textbf{Background}
-  
+
   Brief context establishing the importance of your research area (1-2 sentences).
-  
+
   \vspace{0.3cm}
-  
+
   \textbf{Problem Statement}
-  
+
   What gap or challenge does your work address? (1-2 sentences)
-  
+
   \vspace{0.3cm}
-  
+
   \textbf{Objective}
-  
+
   Clear statement of your research goal (1 sentence).
 }
 
@@ -116,18 +116,18 @@
     \item Sample: n = X participants/samples
     \item Key procedures
   \end{itemize}
-  
+
   \vspace{0.3cm}
-  
+
   \textbf{Analysis}
   \begin{itemize}
     \item Statistical methods
     \item Software: R 4.3, Python 3.10
     \item Significance: p < 0.05
   \end{itemize}
-  
+
   \vspace{0.3cm}
-  
+
   \begin{center}
     \includegraphics[width=0.9\linewidth]{methods_flowchart.pdf}
   \end{center}
@@ -139,13 +139,13 @@
 
 \headerbox{Results: Main Finding}{name=results1,column=1,row=0,span=2}{
   Brief description of your primary result. What is the key observation?
-  
+
   \vspace{0.3cm}
-  
+
   \begin{center}
     \includegraphics[width=0.95\linewidth]{figure1.pdf}
   \end{center}
-  
+
   \textbf{Figure 1:} Descriptive caption explaining the main result. Include statistics (Mean ± SD, n=X, **p<0.01).
 }
 
@@ -155,11 +155,11 @@
 
 \headerbox{Results: Finding 2}{name=results2,column=1,below=results1}{
   Brief description of second key result.
-  
+
   \begin{center}
     \includegraphics[width=0.9\linewidth]{figure2.pdf}
   \end{center}
-  
+
   \textbf{Figure 2:} Supporting result or comparison.
 }
 
@@ -169,11 +169,11 @@
 
 \headerbox{Results: Finding 3}{name=results3,column=2,below=results1}{
   Brief description of third result or validation.
-  
+
   \begin{center}
     \includegraphics[width=0.9\linewidth]{figure3.pdf}
   \end{center}
-  
+
   \textbf{Figure 3:} Additional finding.
 }
 
@@ -189,26 +189,26 @@
       \item Main conclusion 2 with impact
       \item Main conclusion 3 with implications
     \end{itemize}
-    
+
     \vspace{0.3cm}
-    
+
     \textbf{Limitations}
     \begin{itemize}
       \item Study constraints
       \item Interpretation context
     \end{itemize}
-    
+
     \columnbreak
-    
+
     \textbf{Future Directions}
     \begin{itemize}
       \item Ongoing studies
       \item Broader applications
       \item Next research questions
     \end{itemize}
-    
+
     \vspace{0.3cm}
-    
+
     \textbf{Clinical/Practical Implications}
     \begin{itemize}
       \item Real-world applications
@@ -238,15 +238,15 @@
       \item Author B et al. (2024). Title. \textit{Conference}.
       \item Author C et al. (2022). Title. \textit{Journal}, 15(3), 456-478.
     \end{enumerate}
-    
+
     \columnbreak
-    
+
     \textbf{Acknowledgments}
-    
+
     Funded by Grant Agency (Grant \#12345). Thanks to collaborators at Institution X.
-    
+
     \vspace{0.3cm}
-    
+
     \textbf{Contact:} presenter.email@university.edu | labname.university.edu
   \end{multicols}
 }
@@ -254,4 +254,3 @@
 \end{poster}
 
 \end{document}
-

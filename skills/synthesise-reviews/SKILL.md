@@ -83,6 +83,16 @@ For each report, extract the issue list:
 - Parse the comment tracker table
 - Each referee comment becomes an issue with severity from the tracker
 
+### Step 2.5: Spot-verify findings against their cited location (integrity gate)
+
+Per [`_shared/audit-integrity.md`](../_shared/audit-integrity.md) Rule 2, a review sub-agent's finding is not trusted until its evidence is confirmed — reviewers can emit plausible findings with a fabricated `path:line`. Before synthesising, **spot-verify a random sample** of the parsed issues (≥3, or 20% — whichever is larger, weighted toward Critical/Major):
+
+1. For each sampled issue, open its cited `Location` (`path:line`) and confirm the quoted text/code is actually there and the issue follows from it.
+2. **Any sample miss** (cited line doesn't exist, quote isn't there, or the claim doesn't follow) ⇒ that report is suspect: widen the check to all of that reviewer's findings and **drop** every one that can't be grounded.
+3. Findings with **no `Location`/quotable anchor at all** are dropped, not synthesised — a finding you cannot point at is inadmissible.
+
+Record a one-line `Integrity: N sampled, M dropped` note in the synthesis output. If reports lack locations entirely and nothing can be verified, say so rather than silently trusting them.
+
 ### Step 3: Cross-Reference and Consensus Escalation
 
 Match issues across reports by semantic similarity (same underlying problem, possibly described differently):

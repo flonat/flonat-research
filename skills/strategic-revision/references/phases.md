@@ -10,7 +10,7 @@
 
 **Goal:** scaffold the output directories and copy (never move) the source PDF.
 
-1. Gather inputs. If not provided, ask via `AskUserQuestion`:
+1. Gather inputs. If not provided, ask the user directly; use the client's structured-input capability when available:
    - Reviews PDF path — try auto-discovery first (`to-sort/*.pdf`, then `correspondence/referee-reviews/{venue}-round{n}/*.pdf`, then `correspondence/referee-reviews/*.pdf`)
    - Project path — auto-detect from cwd if a `CLAUDE.md` or `paper*/` is present
    - Venue slug (e.g., `ejor`, `facct-2026`)

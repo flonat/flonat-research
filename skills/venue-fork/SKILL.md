@@ -104,9 +104,16 @@ Multi-system completeness — all of these, then verify:
    `paper_id`, and a body **concurrency clause**: which venue notifies first and the withdrawal
    obligation. Link the primary submission entry.
 2. **Atlas topic** `outputs[]`: new venue entry, `status: Submitted` (output-ladder canon only),
-   same dates, notes carrying the concurrency clause. (Do NOT bump `last_reviewed` — a venue
-   swap is not topic-file curation; only `/update-topic-file` writes that field.) Validate with
-   `atlas-vault/schema.py`.
+   same dates, notes carrying the concurrency clause, **and the full submission-join set** per
+   `rules/atlas-status-vocabulary.md` § submission-join completeness: `paper_id` (same as the
+   vault entry), `paper_title` (must equal the registry `canonical_title`), and — if the venue is
+   a Conference/Workshop — `cycle: <Venue> <edition-year>` (journals exempt). (Do NOT bump
+   `last_reviewed` — a venue swap is not topic-file curation; only `/update-topic-file` writes
+   that field.) Validate with `atlas-vault/schema.py`; `validate-portfolio-registry.py` catches
+   any missed join as `cycle-gap`/`title-gap` at the next `/session-close`.
+   If the fork target has **no venue file** yet, create `~/vault/venues/<slug>.md` with
+   canon-only ranking fields (`cabs`/`core`/`scimago`/`venue_type` from the fixed sets — lookup
+   caveats go in `#` comments after a canon value, never in the value).
 3. **Submitted-PDF archive**: verify the HotCRP/CMT-downloaded PDF page-matches the local build,
    file at `<project>/paper-{venue}/submitted-YYYY-MM-DD.pdf` (outside the Overleaf symlink),
    add a pointer line in the vault entry.

@@ -1,8 +1,8 @@
 # Rules
 
-> 18 auto-loaded instruction files that shape Claude's behavior in every session.
+> 18 neutral policy files rendered into client-appropriate guidance.
 
-Rule files live in `.claude/rules/` and are automatically loaded into every Claude Code session.
+Canonical rules live in `rules/`. Claude receives rule files; Codex receives applicable guidance through `AGENTS.md`.
 
 ## Overview
 
@@ -29,13 +29,13 @@ Rule files live in `.claude/rules/` and are automatically loaded into every Clau
 
 ## How Rules Work
 
-- All `.md` files in `.claude/rules/` are auto-loaded as system instructions
-- They apply before any user message is processed
-- Rules are global via symlink: `~/.claude/rules/` points to this repo's `.claude/rules/`
+- Claude-compatible rules install as managed copies under `~/.claude/rules/`
+- Codex-compatible rules are rendered into its guidance surface
+- Missing client metadata fails contract validation
 
 ## Creating New Rules
 
-1. Create a `.md` file in `.claude/rules/`
+1. Create a `.md` file in `rules/`
 2. Write clear, directive instructions (imperative mood)
 3. Include "When This Applies" and "When to Skip" sections
 

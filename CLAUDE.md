@@ -1,6 +1,10 @@
-# Claude Code for Academic Research
+# Claude Code adapter
 
-> This file is automatically read when you open this folder with Claude Code.
+This file uses the shared `AI.md` guidance.
+
+# flonat-research project guidance
+
+> This file is automatically read when you open this folder with the configured AI coding client.
 > Customise it with your own details — see comments marked with `<!-- CUSTOMISE -->`.
 
 ## Before You Start
@@ -37,7 +41,7 @@ Read these context files to understand the user's situation:
 <!-- synced from private CLAUDE.md — do not edit manually -->
 Just say these naturally:
 
-| You say | Claude does |
+| You say | the AI assistant does |
 |---------|-------------|
 | "Plan my day" | Reads context, queries vault, asks questions, creates a plan |
 | "What should I work on?" | Reviews priorities and helps you decide |
@@ -186,7 +190,6 @@ Update `.context/current-focus.md` (what we worked on, where left off, what's ne
 | `skills/` | 109 skill definitions |
 | `hooks/` | 9 hook scripts |
 | `.scripts/` | CLI tools for Notion task management |
-| `packages/cli-council/` | cli-council |
 | `packages/council-api/` | Multi-model council via OpenRouter API |
 | `packages/council-cli/` | Multi-model council via local CLI tools |
 | `packages/mcp-scholarly/` | mcp-scholarly |

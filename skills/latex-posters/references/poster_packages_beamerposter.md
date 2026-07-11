@@ -66,39 +66,39 @@ beamerposter extends the popular Beamer presentation class for poster-sized docu
 
 \begin{document}
 \begin{frame}[t]
-  
+
   % Title block
   \begin{block}{}
     \maketitle
   \end{block}
-  
+
   \begin{columns}[t]
     \begin{column}{.45\linewidth}
-      
+
       \begin{block}{Introduction}
         Your introduction text here...
       \end{block}
-      
+
       \begin{block}{Methods}
         Your methods text here...
       \end{block}
-      
+
     \end{column}
-    
+
     \begin{column}{.45\linewidth}
-      
+
       \begin{block}{Results}
         Your results text here...
         \includegraphics[width=\linewidth]{figure.pdf}
       \end{block}
-      
+
       \begin{block}{Conclusions}
         Your conclusions here...
       \end{block}
-      
+
     \end{column}
   \end{columns}
-  
+
 \end{frame}
 \end{document}
 ```
@@ -223,29 +223,29 @@ tikzposter is built on the powerful TikZ graphics package, offering modern desig
 % First column
 \begin{columns}
   \column{0.5}
-  
+
   \block{Introduction}{
     Your introduction text here...
   }
-  
+
   \block{Methods}{
     Your methods text here...
   }
-  
+
   % Second column
   \column{0.5}
-  
+
   \block{Results}{
     Your results text here...
     \begin{tikzfigure}
       \includegraphics[width=0.9\linewidth]{figure.pdf}
     \end{tikzfigure}
   }
-  
+
   \block{Conclusions}{
     Your conclusions here...
   }
-  
+
 \end{columns}
 
 \end{document}
@@ -387,4 +387,3 @@ tikzposter is built on the powerful TikZ graphics package, offering modern desig
   \end{tikzpicture}
 }
 ```
-

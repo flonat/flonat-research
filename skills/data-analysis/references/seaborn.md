@@ -668,4 +668,3 @@ This skill includes reference materials for deeper exploration:
 - `examples.md` - Common use cases and code patterns for different analysis scenarios
 
 Load reference files as needed for detailed function signatures, advanced parameters, or specific examples.
-

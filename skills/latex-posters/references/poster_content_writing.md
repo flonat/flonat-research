@@ -117,7 +117,7 @@ Treatment increased response by 23.5% (95% CI: 18.2-28.8%, p<0.001, n=150)
 
 **Callout Boxes**:
 ```latex
-\begin{tcolorbox}[colback=yellow!10, colframe=orange!80, 
+\begin{tcolorbox}[colback=yellow!10, colframe=orange!80,
                   title=Key Finding]
 Our method reduces errors by 34\% compared to state-of-the-art.
 \end{tcolorbox}
@@ -282,4 +282,3 @@ Effective poster content:
 - **Actionable**: Clear implications and next steps
 
 Remember: Your poster is a conversation starter, not a comprehensive treatise. Design content to intrigue, engage, and invite discussion.
-

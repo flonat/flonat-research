@@ -414,4 +414,3 @@ For issues or questions:
 LaTeX Poster Skill v1.0
 Compatible with: beamerposter, tikzposter, baposter
 Last updated: January 2025
-

@@ -68,17 +68,17 @@ Write as flowing prose covering:
 ### Example Abstract (Nature Style)
 
 ```
-The origins of multicellular life remain one of biology's greatest mysteries. 
-How individual cells first cooperated to form complex organisms has been 
-difficult to study because the transition occurred over 600 million years ago. 
-Here we show that the unicellular alga Chlamydomonas reinhardtii can evolve 
-simple multicellular structures within 750 generations when exposed to 
-predation pressure. Using experimental evolution with the predator Paramecium, 
-we observed the emergence of stable multicellular clusters in 5 of 10 
-replicate populations. Genomic analysis revealed that mutations in just two 
-genes—encoding cell adhesion proteins—were sufficient to trigger this 
-transition. These results demonstrate that the evolution of multicellularity 
-may require fewer genetic changes than previously thought, providing insight 
+The origins of multicellular life remain one of biology's greatest mysteries.
+How individual cells first cooperated to form complex organisms has been
+difficult to study because the transition occurred over 600 million years ago.
+Here we show that the unicellular alga Chlamydomonas reinhardtii can evolve
+simple multicellular structures within 750 generations when exposed to
+predation pressure. Using experimental evolution with the predator Paramecium,
+we observed the emergence of stable multicellular clusters in 5 of 10
+replicate populations. Genomic analysis revealed that mutations in just two
+genes—encoding cell adhesion proteins—were sufficient to trigger this
+transition. These results demonstrate that the evolution of multicellularity
+may require fewer genetic changes than previously thought, providing insight
 into one of life's major transitions.
 ```
 
@@ -108,9 +108,9 @@ into one of life's major transitions.
 
 ```
 Example:
-"The ability to predict protein structure from sequence alone has been a grand 
-challenge of biology for over 50 years. Accurate predictions would transform 
-drug discovery, enable understanding of disease mechanisms, and illuminate the 
+"The ability to predict protein structure from sequence alone has been a grand
+challenge of biology for over 50 years. Accurate predictions would transform
+drug discovery, enable understanding of disease mechanisms, and illuminate the
 fundamental rules governing molecular self-assembly."
 ```
 
@@ -121,11 +121,11 @@ fundamental rules governing molecular self-assembly."
 
 ```
 Example:
-"Significant progress has been made through template-based methods that 
-leverage known structures of homologous proteins. However, for the estimated 
-30% of proteins without detectable homologs, prediction accuracy has remained 
-limited. Deep learning approaches have shown promise, achieving improved 
-accuracy on benchmark datasets, yet still fall short of experimental accuracy 
+"Significant progress has been made through template-based methods that
+leverage known structures of homologous proteins. However, for the estimated
+30% of proteins without detectable homologs, prediction accuracy has remained
+limited. Deep learning approaches have shown promise, achieving improved
+accuracy on benchmark datasets, yet still fall short of experimental accuracy
 for many protein families."
 ```
 
@@ -135,9 +135,9 @@ for many protein families."
 
 ```
 Example:
-"Despite these advances, the fundamental question remains: can we predict 
-protein structure with experimental-level accuracy for proteins across all 
-of sequence space? This capability would democratize structural biology and 
+"Despite these advances, the fundamental question remains: can we predict
+protein structure with experimental-level accuracy for proteins across all
+of sequence space? This capability would democratize structural biology and
 enable rapid characterization of newly discovered proteins."
 ```
 
@@ -147,11 +147,11 @@ enable rapid characterization of newly discovered proteins."
 
 ```
 Example:
-"Here we present AlphaFold2, a neural network architecture that predicts 
-protein structure with atomic-level accuracy. In the CASP14 blind assessment, 
-AlphaFold2 achieved a median GDT score of 92.4, matching experimental 
-accuracy for most targets. We show that this system can be applied to predict 
-structures across entire proteomes, opening new avenues for understanding 
+"Here we present AlphaFold2, a neural network architecture that predicts
+protein structure with atomic-level accuracy. In the CASP14 blind assessment,
+AlphaFold2 achieved a median GDT score of 92.4, matching experimental
+accuracy for most targets. We show that this system can be applied to predict
+structures across entire proteomes, opening new avenues for understanding
 protein function at scale."
 ```
 
@@ -188,12 +188,12 @@ Organize by **finding**, not by the chronological order of experiments:
 ### Example Results Paragraph
 
 ```
-To test whether protein X is required for cell division, we generated 
-knockout cell lines using CRISPR-Cas9 (Fig. 1a). Cells lacking protein X 
-showed a 73% reduction in division rate compared to controls (P < 0.001, 
-n = 6 biological replicates; Fig. 1b). Live-cell imaging revealed that 
-knockout cells arrested in metaphase, with 84% showing abnormal spindle 
-morphology (Fig. 1c,d). These results demonstrate that protein X is 
+To test whether protein X is required for cell division, we generated
+knockout cell lines using CRISPR-Cas9 (Fig. 1a). Cells lacking protein X
+showed a 73% reduction in division rate compared to controls (P < 0.001,
+n = 6 biological replicates; Fig. 1b). Live-cell imaging revealed that
+knockout cells arrested in metaphase, with 84% showing abnormal spindle
+morphology (Fig. 1c,d). These results demonstrate that protein X is
 essential for proper spindle assembly and cell division.
 ```
 
@@ -285,10 +285,10 @@ Nature values **conceptual figures** alongside data:
 
 ```
 Figure 1 | Protein X controls cell division through spindle assembly.
-a, Schematic of the experimental approach. b, Quantification of cell 
-division rate in control (grey) and knockout (blue) cells. Data are 
-mean ± s.e.m., n = 6 biological replicates. ***P < 0.001, two-tailed 
-t-test. c,d, Representative images of spindle morphology in control (c) 
+a, Schematic of the experimental approach. b, Quantification of cell
+division rate in control (grey) and knockout (blue) cells. Data are
+mean ± s.e.m., n = 6 biological replicates. ***P < 0.001, two-tailed
+t-test. c,d, Representative images of spindle morphology in control (c)
 and knockout (d) cells. Scale bars, 10 μm.
 ```
 
@@ -304,10 +304,10 @@ and knockout (d) cells. Scale bars, 10 μm.
 ### Reference Format
 
 ```
-1. Watson, J. D. & Crick, F. H. C. Molecular structure of nucleic acids. 
+1. Watson, J. D. & Crick, F. H. C. Molecular structure of nucleic acids.
    Nature 171, 737–738 (1953).
 
-2. Smith, A. B., Jones, C. D. & Williams, E. F. Discovery of protein X. 
+2. Smith, A. B., Jones, C. D. & Williams, E. F. Discovery of protein X.
    Science 380, 123–130 (2023).
 ```
 
@@ -402,4 +402,3 @@ and knockout (d) cells. Scale bars, 10 μm.
 - `venue_writing_styles.md` - Master style overview
 - `journals_formatting.md` - Technical formatting requirements
 - `reviewer_expectations.md` - What Nature/Science reviewers seek
-

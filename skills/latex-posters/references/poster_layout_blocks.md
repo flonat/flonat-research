@@ -95,7 +95,7 @@
 \begin{block}{Title}
   % beamerposter with rounded
   \setbeamertemplate{block begin}[rounded]
-  
+
 % Sharp corners (formal, traditional)
   \setbeamertemplate{block begin}[default]
 
@@ -386,4 +386,3 @@ Effective layout design:
 - Adapts to different poster sizes and orientations
 
 Remember: Layout should support content, not compete with it. When viewers focus on your research rather than your design, you've succeeded.
-

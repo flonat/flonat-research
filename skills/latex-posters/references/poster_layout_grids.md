@@ -49,7 +49,7 @@ Effective poster layout organizes content for maximum impact and comprehension. 
       % Content
     \end{block}
   \end{column}
-  
+
   \begin{column}{.48\linewidth}
     \begin{block}{Results}
       % Content
@@ -105,11 +105,11 @@ Effective poster layout organizes content for maximum impact and comprehension. 
   \column{0.33}
   \block{Introduction}{...}
   \block{Methods}{...}
-  
+
   \column{0.33}
   \block{Results Part 1}{...}
   \block{Results Part 2}{...}
-  
+
   \column{0.33}
   \block{Results Part 3}{...}
   \block{Discussion}{...}
@@ -159,14 +159,14 @@ Effective poster layout organizes content for maximum impact and comprehension. 
 **LaTeX Implementation (baposter)**:
 ```latex
 \begin{poster}{columns=4, colspacing=1em, ...}
-  
+
   \headerbox{Intro}{name=intro, column=0, row=0}{...}
   \headerbox{Methods}{name=methods, column=1, row=0}{...}
   \headerbox{Results 1}{name=res1, column=2, row=0}{...}
   \headerbox{Results 2}{name=res2, column=3, row=0}{...}
-  
+
   % Continue with below=... for stacking
-  
+
 \end{poster}
 ```
 
@@ -218,7 +218,7 @@ Effective poster layout organizes content for maximum impact and comprehension. 
   \block{Introduction and Methods}{
     % Combined narrative section
   }
-  
+
   \column{0.35}
   \block{}{
     % Key figure with minimal text
@@ -265,7 +265,7 @@ Effective poster layout organizes content for maximum impact and comprehension. 
 \usepackage{tikz}
 \AddToShipoutPictureBG{
   \begin{tikzpicture}[remember picture, overlay]
-    \draw[help lines, step=5cm, very thin, gray!30] 
+    \draw[help lines, step=5cm, very thin, gray!30]
       (current page.south west) grid (current page.north east);
   \end{tikzpicture}
 }
@@ -277,4 +277,3 @@ Effective poster layout organizes content for maximum impact and comprehension. 
 - [Visual Flow and Reading Patterns](poster_layout_flow.md) — Z/F/Gutenberg patterns, directional cues
 - [Spatial Organization](poster_layout_spatial.md) — Header, content area, footer strategies
 - [Layout Blocks & Patterns](poster_layout_blocks.md) — Blocks, patterns, and testing
-

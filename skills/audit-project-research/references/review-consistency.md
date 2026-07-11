@@ -1,118 +1,90 @@
 # Phase 4.6: Review Process Consistency
 
 > Detailed check for `/audit-project-research` Phase 4.6.
+> Canonical layout: `rules/submission-file-archive.md` § "per-round folder". Retrofit tool: `/tidy-project-reviews`.
 
-If `correspondence/referee-reviews/` exists and is non-empty, verify that review documents follow the `/strategic-revision` skill's expected structure. Also detect misplaced review files elsewhere in the project.
+If `correspondence/referee-reviews/` exists and is non-empty, verify it matches the **nested per-round** convention and detect legacy/flat layouts that need retrofitting.
 
-## Expected structure per round
-
-The `/strategic-revision` skill outputs this structure:
+## Canonical structure (per review cycle)
 
 ```
-correspondence/referee-reviews/{venue}-round{n}/
-+-- reviews-original.pdf              (copy of referee reports)
-+-- rebuttal.md                       (response draft -- may not exist yet)
-+-- analysis/
-    +-- comment-tracker.md            (atomic comment matrix)
-    +-- review-analysis.md            (strategic overview)
-    +-- reviewer-comments-verbatim.tex (LaTeX transcription)
+correspondence/referee-reviews/{surface}-round{N}/
+├── {surface}-round{N}-reviews.pdf     # REQUIRED — original; the ONLY timeline artifact
+├── {surface}-round{N}-reviews.md      # REQUIRED — parsed transcription
+├── {surface}-round{N}-rebuttal.md     # optional — appears when response work starts
+├── analysis/                          # optional — comment-tracker, review-analysis, verbatim
+└── plan/                              # optional — DAG revision-task JSONs (strategic-revision)
 ```
 
-## Step 1: Validate round directories
+`{surface}` = short venue slug (`aies`, `emnlp`, `ejor`); `{N}` = sequential review-cycle counter (`round1`, `round2`, …), never `initial`. `referee-reviews/` contains **only** `{surface}-round{N}/` folders — no loose files.
 
-List directories inside `correspondence/referee-reviews/`. Each should match the pattern `{venue}-round{n}` (e.g., `ejor-round1`, `facct-2026-round2`).
+## Step 1: `referee-reviews/` contains only round folders
+
+List the immediate children of `correspondence/referee-reviews/`.
 
 | Condition | Severity |
 |-----------|----------|
-| Directory matches `*-round*` pattern | OK -- check contents |
-| Directory does not match pattern | **Info** -- "unrecognized directory in correspondence/referee-reviews/" |
-| No directories found (only `.gitkeep` or empty) | **Info** -- "correspondence/referee-reviews/ exists but has no round directories" |
+| Only `{surface}-round{N}/` dirs (+ optional `.gitkeep`) | OK — check each round |
+| **Loose file** directly under `referee-reviews/` matching `*-round*-reviews.{pdf,md}` | **Degraded (retrofit)** — "flat review file — move into `{surface}-round{N}/` via `/tidy-project-reviews`" |
+| Loose file `reviews-original.*` (legacy name) | **Degraded (retrofit)** — "legacy `reviews-original.*` — rename to `{surface}-round{N}-reviews.*` inside a round folder" |
+| Any other loose file (dissection memo, response draft at this level) | **Degraded (retrofit)** — "response-prep file loose in `referee-reviews/` — belongs inside its `{surface}-round{N}/` (rebuttal → `{surface}-round{N}-rebuttal.md`; analysis → `{round}/analysis/`)" |
+| Dir not matching `*-round*` | **Info** — "unrecognized directory in `referee-reviews/`" |
+| Empty (only `.gitkeep`) | **Info** — "no round directories yet" |
 
-## Step 2: Check required files per round
+## Step 2: Required members per round folder
 
-For each round directory, check:
+For each `{surface}-round{N}/`:
 
-| File | Required | Severity if absent |
-|------|----------|-------------------|
-| `reviews-original.pdf` | Yes | **Missing** -- "no original reviews PDF in {round}/" |
-| `analysis/` | Yes | **Missing** -- "no analysis/ subdirectory in {round}/" |
-| `analysis/comment-tracker.md` | Yes | **Missing** -- "no comment tracker in {round}/analysis/" |
-| `analysis/review-analysis.md` | Yes | **Missing** -- "no review analysis in {round}/analysis/" |
-| `analysis/reviewer-comments-verbatim.tex` | Yes | **Missing** -- "no verbatim transcription in {round}/analysis/" |
-| `rebuttal.md` | No | Not flagged if absent (created when response work begins) |
+| Member | Required | Severity if absent |
+|--------|----------|-------------------|
+| `{surface}-round{N}-reviews.pdf` | **Yes** | **Missing** — "no reviews PDF in `{round}/`" |
+| `{surface}-round{N}-reviews.md` | **Yes** | **Missing** — "no parsed reviews `.md` in `{round}/` (the pair is incomplete)" |
+| `{surface}-round{N}-rebuttal.md` | No | not flagged — appears when response work begins |
+| `analysis/`, `plan/` | No | not flagged — strategic-revision workspace, present only after that skill runs |
 
-## Step 3: Check for build artifacts
+**Naming drift:** a reviews PDF/MD present but not named `{surface}-round{N}-reviews.*` (e.g. `reviews-original.pdf`, `ARR-official-reviews.pdf`) → **Degraded (retrofit)** — "review file misnamed — rename to taxonomy via `/tidy-project-reviews`".
 
-Scan each round directory for LaTeX build artifacts that should be in `out/` or absent:
+## Step 3: History pointer is PDF-only
 
-```
-*.aux, *.bbl, *.blg, *.fdb_latexmk, *.fls, *.log, *.synctex.gz, *.dvi
-```
-
-| Condition | Severity |
-|-----------|----------|
-| Build artifacts in `analysis/` (not inside `out/`) | **Degraded** -- "build artifacts in analysis/ -- should be in analysis/out/ or cleaned" |
-| `analysis/out/` exists with artifacts | OK -- correct location |
-
-## Step 4: Detect misplaced review files
-
-Scan `docs/venues/` for files that look like they belong in `correspondence/referee-reviews/`:
-
-```bash
-# Patterns that suggest misplaced review documents
-find "<project>/docs/venues/" -type f \( \
-  -name "reviewer-comment*" -o -name "comment-tracker*" \
-  -o -name "review-analysis*" -o -name "*reviewer-reports*" \
-  -o -name "*referee-report*" -o -name "reviews-original*" \
-\) 2>/dev/null
-```
-
-Also check for directories named `reviewer-comments/` or `reviews/` inside `docs/venues/`:
-
-```bash
-find "<project>/docs/venues/" -type d \( \
-  -name "reviewer-comments" -o -name "reviews" \
-\) 2>/dev/null
-```
+Cross-check the paper's vault submission `history:` `reviews-in` row (if resolvable):
 
 | Condition | Severity |
 |-----------|----------|
-| Review files found in `docs/venues/` | **Degraded** -- "review file found in docs/venues/ -- should be in correspondence/referee-reviews/{venue}-round{n}/" |
-| `reviewer-comments/` directory in `docs/venues/` | **Degraded** -- "reviewer-comments/ directory found in docs/venues/ -- review documents belong in correspondence/referee-reviews/" |
+| `reviews-in` `files:` lists the `{round}/…-reviews.pdf` only | OK |
+| `files:` also lists the `.md` | **Degraded** — "parsed `.md` on the timeline — history lists the PDF original only" |
+| `files:` path doesn't resolve on disk | **Degraded** — "reviews-in points at a missing file (path drift after a move?)" |
+| `round:` token ≠ folder number (`round2/` but `round: r1`) | **Info** — "history `round:` doesn't mirror the folder" |
 
-## Step 5: Check for version consistency
+## Step 4: Build artifacts in the workspace
 
-If multiple versions of the same file exist (e.g., `comment-tracker.md` and `comment-tracker-v2.md`), report as **Info** -- "multiple versions found -- verify latest is current".
+Scan each round folder for stray LaTeX build artifacts (`*.aux *.bbl *.blg *.fdb_latexmk *.fls *.log *.synctex.gz`) outside an `out/` dir → **Degraded** — "build artifacts in `{round}/` — should be in `out/` or cleaned".
+
+## Step 5: Misplaced review files elsewhere
+
+Scan `docs/venues/` and project root for files that belong in a round folder (`reviewer-comment*`, `comment-tracker*`, `review-analysis*`, `*referee-report*`, `reviews-original*`) → **Degraded** — "review file outside `referee-reviews/{round}/` — relocate via `/tidy-project-reviews`".
 
 ## Report format
 
 ```
-Review Process Consistency:
-  correspondence/referee-reviews/ejor-round1/
-    reviews-original.pdf       present
-    analysis/                  present
-      comment-tracker.md       present
-      review-analysis.md       present
-      reviewer-comments-verbatim.tex  present
-    rebuttal.md                not yet created
-
-  Misplaced files:             none found in docs/venues/
+Review Process Consistency (nested per-round):
+  referee-reviews/ contains only round folders   OK
+  emnlp-round1/
+    emnlp-round1-reviews.pdf     present
+    emnlp-round1-reviews.md      present
+    emnlp-round1-rebuttal.md     present (optional)
+    analysis/                    present (optional)
+  history reviews-in → PDF-only  OK
 ```
 
-Or when issues are found:
-
+Retrofit needed:
 ```
-Review Process Consistency:
-  correspondence/referee-reviews/ejor-round1/
-    reviews-original.pdf       present
-    analysis/                  missing
-
-  Misplaced files:
-    docs/venues/ejor/revision-1/reviewer-comments/comment-tracker.md
-      -> should be in correspondence/referee-reviews/ejor-round1/analysis/
+Review Process Consistency (RETROFIT NEEDED):
+  referee-reviews/aies-round1-reviews.pdf   flat file — move into aies-round1/
+  referee-reviews/aies-round1-reviews.md    flat file — move into aies-round1/
+  → run /tidy-project-reviews to migrate
 ```
 
 ## When to skip
 
-- If `correspondence/referee-reviews/` does not exist -- Phase 2.2 already flags this as Missing
-- If the project is theoretical with no venue history
+- `correspondence/referee-reviews/` does not exist — Phase 2.2 flags it Missing.
+- Theoretical project with no venue review history.

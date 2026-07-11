@@ -65,17 +65,17 @@ ML conferences prioritize **novelty**, **rigorous empirical evaluation**, and **
 ### Example Abstract (NeurIPS Style)
 
 ```
-Transformers have achieved remarkable success in sequence modeling but 
-suffer from quadratic computational complexity, limiting their application 
-to long sequences. We introduce FlashAttention-2, an IO-aware exact 
-attention algorithm that achieves 2x speedup over FlashAttention and up 
-to 9x speedup over standard attention on sequences up to 16K tokens. Our 
-key insight is to reduce memory reads/writes by tiling and recomputation, 
-achieving optimal IO complexity. On the Long Range Arena benchmark, 
-FlashAttention-2 enables training with 8x longer sequences while matching 
-standard attention accuracy. Combined with sequence parallelism, we train 
-GPT-style models on sequences of 64K tokens at near-linear cost. We 
-release optimized CUDA kernels achieving 80% of theoretical peak FLOPS 
+Transformers have achieved remarkable success in sequence modeling but
+suffer from quadratic computational complexity, limiting their application
+to long sequences. We introduce FlashAttention-2, an IO-aware exact
+attention algorithm that achieves 2x speedup over FlashAttention and up
+to 9x speedup over standard attention on sequences up to 16K tokens. Our
+key insight is to reduce memory reads/writes by tiling and recomputation,
+achieving optimal IO complexity. On the Long Range Arena benchmark,
+FlashAttention-2 enables training with 8x longer sequences while matching
+standard attention accuracy. Combined with sequence parallelism, we train
+GPT-style models on sequences of 64K tokens at near-linear cost. We
+release optimized CUDA kernels achieving 80% of theoretical peak FLOPS
 on A100 GPUs. Code is available at [anonymous URL].
 ```
 
@@ -105,12 +105,12 @@ ML introductions have a distinctive structure with **numbered contributions**.
 - Set up the technical challenge
 
 ```
-"Large language models have demonstrated remarkable capabilities in 
-natural language understanding and generation. However, their quadratic 
-attention complexity presents a fundamental bottleneck for processing 
-long documents, multi-turn conversations, and reasoning over extended 
-contexts. As models scale to billions of parameters and context lengths 
-extend to tens of thousands of tokens, efficient attention mechanisms 
+"Large language models have demonstrated remarkable capabilities in
+natural language understanding and generation. However, their quadratic
+attention complexity presents a fundamental bottleneck for processing
+long documents, multi-turn conversations, and reasoning over extended
+contexts. As models scale to billions of parameters and context lengths
+extend to tens of thousands of tokens, efficient attention mechanisms
 become critical for practical deployment."
 ```
 
@@ -120,11 +120,11 @@ become critical for practical deployment."
 - Technical analysis of limitations
 
 ```
-"Prior work has addressed this through sparse attention patterns, 
-linear attention approximations, and low-rank factorizations. While 
-these methods reduce theoretical complexity, they often sacrifice 
-accuracy, require specialized hardware, or introduce approximation 
-errors that compound in deep networks. Exact attention remains 
+"Prior work has addressed this through sparse attention patterns,
+linear attention approximations, and low-rank factorizations. While
+these methods reduce theoretical complexity, they often sacrifice
+accuracy, require specialized hardware, or introduce approximation
+errors that compound in deep networks. Exact attention remains
 preferable when computational resources permit."
 ```
 
@@ -134,10 +134,10 @@ preferable when computational resources permit."
 - Why should it succeed?
 
 ```
-"We observe that the primary bottleneck in attention is not computation 
-but rather memory bandwidth—reading and writing the large N×N attention 
-matrix dominates runtime on modern GPUs. We propose FlashAttention-2, 
-which eliminates this bottleneck through a novel tiling strategy that 
+"We observe that the primary bottleneck in attention is not computation
+but rather memory bandwidth—reading and writing the large N×N attention
+matrix dominates runtime on modern GPUs. We propose FlashAttention-2,
+which eliminates this bottleneck through a novel tiling strategy that
 computes attention block-by-block without materializing the full matrix."
 ```
 
@@ -148,23 +148,23 @@ This is **mandatory and distinctive** for ML conferences:
 ```
 Our contributions are as follows:
 
-• We propose FlashAttention-2, an IO-aware exact attention algorithm 
-  that achieves optimal memory complexity O(N²d/M) where M is GPU 
+• We propose FlashAttention-2, an IO-aware exact attention algorithm
+  that achieves optimal memory complexity O(N²d/M) where M is GPU
   SRAM size.
 
-• We provide theoretical analysis showing that our algorithm achieves 
-  2-4x fewer HBM accesses than FlashAttention on typical GPU 
+• We provide theoretical analysis showing that our algorithm achieves
+  2-4x fewer HBM accesses than FlashAttention on typical GPU
   configurations.
 
-• We demonstrate 2x speedup over FlashAttention and up to 9x over 
-  standard PyTorch attention across sequence lengths from 256 to 64K 
+• We demonstrate 2x speedup over FlashAttention and up to 9x over
+  standard PyTorch attention across sequence lengths from 256 to 64K
   tokens.
 
-• We show that FlashAttention-2 enables training with 8x longer 
-  contexts on the same hardware, unlocking new capabilities for 
+• We show that FlashAttention-2 enables training with 8x longer
+  contexts on the same hardware, unlocking new capabilities for
   long-range modeling.
 
-• We release optimized CUDA kernels and PyTorch bindings at 
+• We release optimized CUDA kernels and PyTorch bindings at
   [anonymous URL].
 ```
 
@@ -339,16 +339,16 @@ FlashAttention-1 (baseline)          |   1.0x  |  1.0x
 ### Example Structure
 
 ```
-**Efficient Attention Mechanisms.** Prior work on efficient attention 
-falls into three categories: sparse patterns (Beltagy et al., 2020; 
-Zaheer et al., 2020), linear approximations (Katharopoulos et al., 2020; 
-Choromanski et al., 2021), and low-rank factorizations (Wang et al., 
-2020). Our work differs in that we focus on IO-efficient exact 
+**Efficient Attention Mechanisms.** Prior work on efficient attention
+falls into three categories: sparse patterns (Beltagy et al., 2020;
+Zaheer et al., 2020), linear approximations (Katharopoulos et al., 2020;
+Choromanski et al., 2021), and low-rank factorizations (Wang et al.,
+2020). Our work differs in that we focus on IO-efficient exact
 attention rather than approximations.
 
-**Memory-Efficient Training.** Gradient checkpointing (Chen et al., 2016) 
-and activation recomputation (Korthikanti et al., 2022) reduce memory 
-by trading compute. We adopt similar ideas but apply them within the 
+**Memory-Efficient Training.** Gradient checkpointing (Chen et al., 2016)
+and activation recomputation (Korthikanti et al., 2022) reduce memory
+by trading compute. We adopt similar ideas but apply them within the
 attention operator itself.
 ```
 
@@ -373,14 +373,14 @@ attention operator itself.
 ### Example Limitations Section
 
 ```
-**Limitations.** While FlashAttention-2 provides substantial speedups, 
-several limitations remain. First, our implementation is optimized for 
-NVIDIA GPUs and does not support AMD or other hardware. Second, the 
-speedup is most pronounced for medium to long sequences; for very short 
-sequences (<256 tokens), the overhead of our kernel launch dominates. 
-Third, we focus on dense attention; extending our approach to sparse 
-attention patterns remains future work. Finally, our theoretical 
-analysis assumes specific GPU memory hierarchy parameters that may not 
+**Limitations.** While FlashAttention-2 provides substantial speedups,
+several limitations remain. First, our implementation is optimized for
+NVIDIA GPUs and does not support AMD or other hardware. Second, the
+speedup is most pronounced for medium to long sequences; for very short
+sequences (<256 tokens), the overhead of our kernel launch dominates.
+Third, we focus on dense attention; extending our approach to sparse
+attention patterns remains future work. Finally, our theoretical
+analysis assumes specific GPU memory hierarchy parameters that may not
 hold for future hardware generations.
 ```
 
@@ -404,20 +404,20 @@ Most ML conferences require a reproducibility checklist covering:
 
 **Hyperparameters**:
 ```
-"We train with Adam (β₁=0.9, β₂=0.999, ε=1e-8) and learning rate 3e-4 
-with linear warmup over 1000 steps and cosine decay. Batch size is 256 
+"We train with Adam (β₁=0.9, β₂=0.999, ε=1e-8) and learning rate 3e-4
+with linear warmup over 1000 steps and cosine decay. Batch size is 256
 across 8 A100 GPUs. We train for 100K steps (approximately 24 hours)."
 ```
 
 **Random Seeds**:
 ```
-"All experiments are averaged over 3 random seeds (0, 1, 2) with 
+"All experiments are averaged over 3 random seeds (0, 1, 2) with
 standard deviation reported in parentheses."
 ```
 
 **Compute**:
 ```
-"Experiments were conducted on 8 NVIDIA A100-80GB GPUs. Total training 
+"Experiments were conducted on 8 NVIDIA A100-80GB GPUs. Total training
 time was approximately 500 GPU-hours."
 ```
 
@@ -553,4 +553,3 @@ ML conferences have author response periods. Tips:
 - `venue_writing_styles.md` - Master style overview
 - `conferences_formatting.md` - Technical formatting requirements
 - `reviewer_expectations.md` - What ML reviewers seek
-

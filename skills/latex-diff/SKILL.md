@@ -2,7 +2,7 @@
 name: latex-diff
 description: "Use when you need to see what changed between two versions of a LaTeX document — two files, two project directories, or two git revisions. Produces a human-readable change summary plus a machine-readable, severity-graded list of semantic changes."
 allowed-tools: Bash(latexdiff-agent:*), Bash(git show:*), Bash(git diff:*), Bash(git worktree:*), Bash(git log:*), Bash(mktemp*), Bash(mkdir*), Bash(ls*), Bash(rm*), Read, Glob, Grep
-argument-hint: [old] [new]  (files, dirs, or git revisions)
+argument-hint: "[old] [new] (files, dirs, or git revisions)"
 ---
 
 # LaTeX Diff

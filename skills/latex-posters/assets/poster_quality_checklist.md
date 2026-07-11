@@ -355,4 +355,3 @@ _________________________________________________________
 
 ## Checklist Version
 Version 1.0 - For use with LaTeX poster packages (beamerposter, tikzposter, baposter)
-

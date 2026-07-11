@@ -9,7 +9,7 @@ argument-hint: '[path/to/file.tex]'
 
 **Purpose**: Find and fix residual visual collisions in TikZ figures in a given `.tex` file. Labels on arrows, text inside boxes, arrows crossing arrows — this skill catches them using measurement, not intuition.
 
-**The fundamental rule**: Claude cannot reliably eyeball where TikZ elements land. All placement must be verified mathematically before declaring it safe.
+**The fundamental rule**: an AI agent cannot reliably eyeball where TikZ elements land. All placement must be verified mathematically before declaring it safe.
 
 ---
 
@@ -193,7 +193,7 @@ Also check:
 
 ### Pass 6: Debug bounding-box verification
 
-**Do NOT attempt to visually inspect the PDF by "eyeballing."** Claude cannot reliably see TikZ collisions in rendered PDFs. Instead, use a debug bounding-box approach:
+**Do NOT attempt to visually inspect the PDF by "eyeballing."** An AI agent cannot reliably see TikZ collisions in rendered PDFs. Instead, use a debug bounding-box approach:
 
 1. **Temporarily add red debug outlines** around every node to make bounding boxes structurally visible:
 

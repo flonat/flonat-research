@@ -265,31 +265,9 @@ One deduction for the pattern (not 8 separate deductions). Escalation still appl
 
 ## Council Mode (Optional)
 
-For high-stakes pre-submission checks, run proofreading in council mode to get independent assessments from multiple LLM providers. Council mode surfaces formatting issues that any single model might miss.
+For high-stakes pre-submission checks, run in council mode — 3 LLM providers independently run the 7 check categories, cross-review, and a chairman synthesises one `PROOFREAD-REPORT.md`. **Trigger:** "council proofread" / "thorough proofread". Full orchestration + invocation: [`../shared/council-protocol.md`](../shared/council-protocol.md).
 
-**Trigger:** "Council proofread my paper" or "thorough proofread"
-
-**How it works:**
-1. The main session reads the document and constructs the proofreading prompt
-2. The prompt is sent to 3 different models via `council-cli` (or `council-api` for API mode)
-3. Each model independently runs the 7 check categories
-4. Cross-review identifies agreements and disputes
-5. Chairman synthesis produces a single `PROOFREAD-REPORT.md` with council notes
-
-**Invocation (CLI backend — free with existing subscriptions):**
-```bash
-cd packages/council-cli
-uv run python -m council_cli \
-    --prompt-file /tmp/proofread-prompt.txt \
-    --context-file /tmp/paper-content.txt \
-    --output-md /tmp/proofread-council.md \
-    --chairman claude \
-    --timeout 180
-```
-
-See `skills/shared/council-protocol.md` for the full orchestration protocol.
-
-**Value:** Diminishing returns for pure formatting — council mode is most valuable when combined with citation voice balance and notation consistency checks, where different models have genuinely different pattern recognition.
+**Value:** Diminishing returns for pure formatting — most valuable combined with citation-voice-balance and notation-consistency checks, where different models have genuinely different pattern recognition.
 
 ## Log to REVIEW-STATE.md (final step)
 

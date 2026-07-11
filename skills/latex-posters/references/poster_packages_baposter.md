@@ -137,16 +137,16 @@ baposter (Box Area Poster) uses a box-based layout system with automatic positio
   grid=false,                    % Show layout grid (debug)
   columns=3,                     % Number of columns
   colspacing=1em,                % Space between columns
-  
+
   % Background
   background=plain,              % plain, shadetb, shadelr, user
   bgColorOne=white,
   bgColorTwo=lightgray,
-  
+
   % Borders
   borderColor=blue!50,
   linewidth=2pt,
-  
+
   % Header
   headerColorOne=blue!80,
   headerColorTwo=blue!70,
@@ -155,13 +155,13 @@ baposter (Box Area Poster) uses a box-based layout system with automatic positio
   headershape=roundedright,      % rectangle, rounded, roundedright, roundedleft
   headershade=plain,             % plain, shadetb, shadelr
   headerborder=open,             % open, closed
-  
+
   % Boxes
   boxColorOne=white,
   boxColorTwo=blue!10,
   boxshade=plain,                % plain, shadetb, shadelr
   textborder=roundedleft,        % none, rectangle, rounded, roundedleft, roundedright
-  
+
   % Eye catcher
   eyecatcher=true
 }
@@ -361,4 +361,3 @@ All three packages are excellent choices for different scenarios:
 - **baposter**: Best for structured, professional multi-section posters
 
 Choose based on your specific needs, aesthetic preferences, and time constraints. When in doubt, start with tikzposter for modern conferences or beamerposter for traditional academic venues.
-

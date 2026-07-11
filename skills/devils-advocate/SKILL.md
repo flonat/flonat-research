@@ -119,29 +119,9 @@ For quick checks (e.g., "just poke holes in this argument"), skip the multi-turn
 
 ## Council Mode (Optional)
 
-For the highest-stakes arguments, run the devil's advocate debate across multiple LLM providers. Different models have genuinely different reasoning patterns — a critique that Claude finds weak, GPT may find devastating, and vice versa. This produces adversarial tension that a single model cannot replicate internally.
+For the highest-stakes arguments, run the debate across multiple LLM providers — different models have genuinely different reasoning patterns, producing adversarial tension a single model cannot replicate. Each model plays Adversarial Critic, cross-reviews the others, and a chairman ranks surviving critiques by cross-model agreement. **Trigger:** "council devil's advocate" / "thorough challenge". Full orchestration + invocation: [`../shared/council-protocol.md`](../shared/council-protocol.md).
 
-**Trigger:** "Council devil's advocate" or "thorough challenge"
-
-**How it works:**
-1. Each model independently plays Adversarial Critic (Round 1) using the same paper/argument
-2. Cross-review: each model evaluates the others' critiques — identifying which challenges are strongest
-3. Chairman synthesis: produces a single report with surviving critiques ranked by cross-model agreement
-
-**Invocation (CLI backend):**
-```bash
-cd packages/council-cli
-uv run python -m council_cli \
-    --prompt-file /tmp/devils-advocate-prompt.txt \
-    --context-file /tmp/paper-content.txt \
-    --output-md /tmp/devils-advocate-council.md \
-    --chairman claude \
-    --timeout 180
-```
-
-See `skills/shared/council-protocol.md` for the full orchestration protocol.
-
-**Value:** High — the multi-turn debate protocol (Round 1→2→3) becomes genuinely adversarial when different models play different roles. A critique that survives cross-model scrutiny is almost certainly a real weakness.
+**Value:** High — the multi-turn debate becomes genuinely adversarial when different models play different roles. A critique that survives cross-model scrutiny is almost certainly a real weakness.
 
 ## Cross-References
 

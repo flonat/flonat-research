@@ -9,6 +9,10 @@ allowed-tools: Bash(uv*, mkdir*, ls*, kill*), Read, Write
 
 To test local web applications, write native Python Playwright scripts.
 
+Use this skill when the task needs local server lifecycle management, custom
+Python assertions, or a repeatable test script. For ad-hoc browser navigation
+and interaction that does not need custom Python, use `$playwright-cli`.
+
 **Helper Scripts Available**:
 - `scripts/with_server.py` - Manages server lifecycle (supports multiple servers)
 
@@ -23,7 +27,7 @@ User task → Is it static HTML?
     │         └─ Fails/Incomplete → Treat as dynamic (below)
     │
     └─ No (dynamic webapp) → Is the server already running?
-        ├─ No → Run: python scripts/with_server.py --help
+        ├─ No → Run: uv run python scripts/with_server.py --help
         │        Then use the helper + write simplified Playwright script
         │
         └─ Yes → Reconnaissance-then-action:
@@ -39,15 +43,15 @@ To start a server, run `--help` first, then use the helper:
 
 **Single server:**
 ```bash
-python scripts/with_server.py --server "npm run dev" --port 5173 -- python your_automation.py
+uv run python scripts/with_server.py --server "npm run dev" --port 5173 -- uv run python your_automation.py
 ```
 
 **Multiple servers (e.g., backend + frontend):**
 ```bash
-python scripts/with_server.py \
-  --server "cd backend && python server.py" --port 3000 \
+uv run python scripts/with_server.py \
+  --server "cd backend && uv run python server.py" --port 3000 \
   --server "cd frontend && npm run dev" --port 5173 \
-  -- python your_automation.py
+  -- uv run python your_automation.py
 ```
 
 To create an automation script, include only Playwright logic (servers are managed automatically):
@@ -83,7 +87,7 @@ with sync_playwright() as p:
 
 ## Best Practices
 
-- **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly. 
+- **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly.
 - Use `sync_playwright()` for synchronous scripts
 - Always close the browser when done
 - Use descriptive selectors: `text=`, `role=`, CSS selectors, or IDs

@@ -83,6 +83,10 @@ Why these four (and not more):
 - **code-paper-auditor** is excluded — a separate `/code-suite` skill exists for code-side review.
 - **proofread** is excluded — editorial issues are too noisy mid-draft; deferred to pre-submission.
 
+### Dispatch contract (evidence-grounded findings)
+
+When dispatching the 4 agents (Phase 2), each prompt MUST carry the evidence clause from [`_shared/audit-integrity.md`](../_shared/audit-integrity.md): **every finding cites `path:line` (or `§section`) AND quotes the exact text it is about, verbatim** — no quotable anchor, no finding. Phase 4 (`/synthesise-reviews`) spot-verifies a sample and **drops** anything it cannot ground, so an agent that emits unanchored findings simply loses them. Tell the agents this up front so they anchor everything.
+
 ## Phase 1: Pre-flight
 
 ```bash
@@ -183,6 +187,7 @@ Save to `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = p
 | `/verify-math` | Phase 3 node for theory papers — machine-verifies the math (R1/R2/R3 rungs the agents can't run); self-stamps its own report |
 | `/code-suite` | Code-side counterpart for projects with code |
 | `subagent-write-guard.md` | Sub-agents follow this rule (read-only forbid-list) |
+| [`_shared/audit-integrity.md`](../_shared/audit-integrity.md) | Rule 2 (finding-grounding): each reviewer must cite `path:line` + a verbatim quote; the orchestrator spot-verifies a sample before trusting findings |
 | `/proofread` | Editorial polish — run AFTER cluster review, before pre-submission-report |
 
 ## REVIEW-STATE.md propagation (orchestrator-side stamping)

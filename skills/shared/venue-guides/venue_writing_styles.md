@@ -317,5 +317,3 @@ When targeting Nature/Science/Cell from a specialized venue:
 - `ml_conference_style.md` - NeurIPS, ICML, ICLR, CVPR conventions
 - `cs_conference_style.md` - ACL, CHI, SIGKDD guide
 - `reviewer_expectations.md` - What reviewers look for by venue
-
-

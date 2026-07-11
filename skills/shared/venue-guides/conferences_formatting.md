@@ -10,11 +10,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### NeurIPS (Neural Information Processing Systems)
 
-**Conference Type**: Top-tier machine learning conference  
+**Conference Type**: Top-tier machine learning conference
 **Frequency**: Annual (December)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Main paper: 8 pages (excluding references)
   - References: Unlimited
   - Appendix/Supplementary: Unlimited (optional, reviewed at discretion)
@@ -30,14 +30,14 @@ Comprehensive formatting requirements and submission guidelines for major academ
   - Remove acknowledgments revealing identity
 - **Citations**: Numbered in square brackets [1], [2-4]
 - **References**: Any consistent style (commonly uses numbered references)
-- **Figures**: 
+- **Figures**:
   - High resolution (300+ dpi)
   - Colorblind-friendly palettes recommended
   - Can span both columns if needed
 - **Tables**: Clear, readable at publication size
 - **Equations**: Numbered if referenced
 - **LaTeX Class**: `neurips_2024.sty` (updated annually)
-- **Supplementary Materials**: 
+- **Supplementary Materials**:
   - Code strongly encouraged (GitHub, anonymous repo for review)
   - Additional experiments, proofs
   - Not counted toward page limit
@@ -56,11 +56,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### ICML (International Conference on Machine Learning)
 
-**Conference Type**: Top-tier machine learning conference  
+**Conference Type**: Top-tier machine learning conference
 **Frequency**: Annual (July)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Main paper: 8 pages (excluding references and appendix)
   - References: Unlimited
   - Appendix: Unlimited (optional)
@@ -88,11 +88,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### ICLR (International Conference on Learning Representations)
 
-**Conference Type**: Top-tier deep learning conference  
+**Conference Type**: Top-tier deep learning conference
 **Frequency**: Annual (April/May)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Main paper: 8 pages (excluding references, appendix, ethics statement)
   - References: Unlimited
   - Appendix: Unlimited
@@ -117,11 +117,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### CVPR (Computer Vision and Pattern Recognition)
 
-**Conference Type**: Top-tier computer vision conference  
+**Conference Type**: Top-tier computer vision conference
 **Frequency**: Annual (June)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Main paper: 8 pages (including figures and tables, excluding references)
   - References: Unlimited (separate section)
 - **Format**: Two-column
@@ -133,7 +133,7 @@ Comprehensive formatting requirements and submission guidelines for major academ
 - **Citations**: Numbered [1]
 - **Figures**: High resolution, can be color
 - **LaTeX Template**: CVPR official template (changes yearly)
-- **Supplementary Material**: 
+- **Supplementary Material**:
   - Video demonstrations encouraged
   - Additional results, code
   - 100 MB limit for all supplementary files
@@ -146,11 +146,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### AAAI (Association for the Advancement of Artificial Intelligence)
 
-**Conference Type**: Major AI conference  
+**Conference Type**: Major AI conference
 **Frequency**: Annual (February)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Technical papers: 7 pages (excluding references)
   - References: Unlimited
 - **Format**: Two-column
@@ -169,7 +169,7 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### IJCAI (International Joint Conference on Artificial Intelligence)
 
-**Conference Type**: Major AI conference  
+**Conference Type**: Major AI conference
 **Frequency**: Annual
 
 **Formatting Requirements**:
@@ -185,11 +185,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### ACM CHI (Human-Computer Interaction)
 
-**Conference Type**: Premier HCI conference  
+**Conference Type**: Premier HCI conference
 **Frequency**: Annual (April/May)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Papers: 10 pages (excluding references)
   - Late-Breaking Work: 4 pages
 - **Format**: Single-column ACM format
@@ -208,11 +208,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### SIGKDD (Knowledge Discovery and Data Mining)
 
-**Conference Type**: Top data mining conference  
+**Conference Type**: Top data mining conference
 **Frequency**: Annual (August)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Research Track: 9 pages (excluding references)
   - Applied Data Science: 9 pages
 - **Format**: Two-column
@@ -230,11 +230,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### EMNLP (Empirical Methods in Natural Language Processing)
 
-**Conference Type**: Top NLP conference  
+**Conference Type**: Top NLP conference
 **Frequency**: Annual (November/December)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Long papers: 8 pages (+ unlimited references and appendix)
   - Short papers: 4 pages (+ unlimited references)
 - **Format**: Two-column
@@ -255,7 +255,7 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### ACL (Association for Computational Linguistics)
 
-**Conference Type**: Premier NLP conference  
+**Conference Type**: Premier NLP conference
 **Frequency**: Annual (July)
 
 **Formatting Requirements**:
@@ -271,11 +271,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### USENIX Security Symposium
 
-**Conference Type**: Top security conference  
+**Conference Type**: Top security conference
 **Frequency**: Annual (August)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Papers: No strict limit (typically 15-20 pages including everything)
   - Well-written, concise papers preferred
 - **Format**: Two-column
@@ -293,11 +293,11 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### SIGIR (Information Retrieval)
 
-**Conference Type**: Top information retrieval conference  
+**Conference Type**: Top information retrieval conference
 **Frequency**: Annual (July)
 
 **Formatting Requirements**:
-- **Page Limit**: 
+- **Page Limit**:
   - Full papers: 10 pages (excluding references)
   - Short papers: 4 pages (excluding references)
 - **Format**: Single-column ACM format
@@ -313,12 +313,12 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### ISMB (Intelligent Systems for Molecular Biology)
 
-**Conference Type**: Premier computational biology conference  
+**Conference Type**: Premier computational biology conference
 **Frequency**: Annual (July)
 
 **Formatting Requirements**:
 - **Publication**: Proceedings published in *Bioinformatics* journal
-- **Page Limit**: 
+- **Page Limit**:
   - Typically 7-8 pages including figures and references
 - **Format**: Two-column
 - **Font**: Times, 10pt
@@ -336,12 +336,12 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### RECOMB (Research in Computational Molecular Biology)
 
-**Conference Type**: Top computational biology conference  
+**Conference Type**: Top computational biology conference
 **Frequency**: Annual (April/May)
 
 **Formatting Requirements**:
 - **Publication**: Proceedings published as Springer LNCS (Lecture Notes in Computer Science)
-- **Page Limit**: 
+- **Page Limit**:
   - Extended abstracts: 12-15 pages (including references)
 - **Format**: Single-column
 - **Font**: Based on Springer LNCS template
@@ -358,7 +358,7 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### PSB (Pacific Symposium on Biocomputing)
 
-**Conference Type**: Biomedical informatics conference  
+**Conference Type**: Biomedical informatics conference
 **Frequency**: Annual (January)
 
 **Formatting Requirements**:
@@ -424,7 +424,7 @@ Comprehensive formatting requirements and submission guidelines for major academ
 
 ### AAAS Annual Meeting
 
-**Conference Type**: Broad scientific conference  
+**Conference Type**: Broad scientific conference
 **Formatting**: Varies by symposium (typically extended abstracts)
 
 ---
@@ -535,7 +535,7 @@ After acceptance:
 ## Notes
 
 1. **Annual updates**: Conference requirements change; always check current year's CFP
-2. **Deadline types**: 
+2. **Deadline types**:
    - Abstract deadline (often 1 week before paper deadline)
    - Paper deadline (firm, no extensions typically)
    - Supplementary deadline (may be a few days after paper)
@@ -561,4 +561,3 @@ After acceptance:
 - **Tier 2**: PSB, WABI
 
 (Tiers are informal and field-dependent; not official rankings)
-

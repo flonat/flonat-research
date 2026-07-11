@@ -1,0 +1,949 @@
+{
+  "entries": [
+    {
+      "client": "claude",
+      "source": "skills/audit-paper-book",
+      "target": ".claude/skills/audit-paper-book"
+    },
+    {
+      "client": "claude",
+      "source": "skills/audit-project-research",
+      "target": ".claude/skills/audit-project-research"
+    },
+    {
+      "client": "claude",
+      "source": "skills/beamer-deck",
+      "target": ".claude/skills/beamer-deck"
+    },
+    {
+      "client": "claude",
+      "source": "skills/bib-coverage",
+      "target": ".claude/skills/bib-coverage"
+    },
+    {
+      "client": "claude",
+      "source": "skills/bib-filter",
+      "target": ".claude/skills/bib-filter"
+    },
+    {
+      "client": "claude",
+      "source": "skills/bib-parse",
+      "target": ".claude/skills/bib-parse"
+    },
+    {
+      "client": "claude",
+      "source": "skills/bib-validate",
+      "target": ".claude/skills/bib-validate"
+    },
+    {
+      "client": "claude",
+      "source": "skills/brief-compliance-check",
+      "target": ".claude/skills/brief-compliance-check"
+    },
+    {
+      "client": "claude",
+      "source": "skills/camera-ready",
+      "target": ".claude/skills/camera-ready"
+    },
+    {
+      "client": "claude",
+      "source": "skills/causal-design",
+      "target": ".claude/skills/causal-design"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/checkpoint.md",
+      "target": ".claude/commands/checkpoint.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/checkpoint",
+      "target": ".claude/shared-skills/checkpoint"
+    },
+    {
+      "client": "codex",
+      "source": "skills/checkpoint",
+      "target": ".agents/skills/checkpoint"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/code-archaeology.md",
+      "target": ".claude/commands/code-archaeology.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/code-archaeology",
+      "target": ".claude/shared-skills/code-archaeology"
+    },
+    {
+      "client": "codex",
+      "source": "skills/code-archaeology",
+      "target": ".agents/skills/code-archaeology"
+    },
+    {
+      "client": "claude",
+      "source": "skills/codex-math",
+      "target": ".claude/skills/codex-math"
+    },
+    {
+      "client": "claude",
+      "source": "skills/compile-knowledge",
+      "target": ".claude/skills/compile-knowledge"
+    },
+    {
+      "client": "claude",
+      "source": "skills/computational-experiments",
+      "target": ".claude/skills/computational-experiments"
+    },
+    {
+      "client": "claude",
+      "source": "skills/cross-language-check",
+      "target": ".claude/skills/cross-language-check"
+    },
+    {
+      "client": "claude",
+      "source": "skills/data-analysis",
+      "target": ".claude/skills/data-analysis"
+    },
+    {
+      "client": "claude",
+      "source": "skills/devils-advocate",
+      "target": ".claude/skills/devils-advocate"
+    },
+    {
+      "client": "claude",
+      "source": "skills/docs-consistency",
+      "target": ".claude/skills/docs-consistency"
+    },
+    {
+      "client": "claude",
+      "source": "skills/docx",
+      "target": ".claude/skills/docx"
+    },
+    {
+      "client": "claude",
+      "source": "skills/experiment-design",
+      "target": ".claude/skills/experiment-design"
+    },
+    {
+      "client": "claude",
+      "source": "skills/gather-readings",
+      "target": ".claude/skills/gather-readings"
+    },
+    {
+      "client": "claude",
+      "source": "skills/grill-me",
+      "target": ".claude/skills/grill-me"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/handoff.md",
+      "target": ".claude/commands/handoff.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/handoff",
+      "target": ".claude/shared-skills/handoff"
+    },
+    {
+      "client": "codex",
+      "source": "skills/handoff",
+      "target": ".agents/skills/handoff"
+    },
+    {
+      "client": "claude",
+      "source": "skills/ideas",
+      "target": ".claude/skills/ideas"
+    },
+    {
+      "client": "claude",
+      "source": "skills/init-paper-book",
+      "target": ".claude/skills/init-paper-book"
+    },
+    {
+      "client": "claude",
+      "source": "skills/init-project",
+      "target": ".claude/skills/init-project"
+    },
+    {
+      "client": "claude",
+      "source": "skills/init-project-course",
+      "target": ".claude/skills/init-project-course"
+    },
+    {
+      "client": "claude",
+      "source": "skills/init-project-light",
+      "target": ".claude/skills/init-project-light"
+    },
+    {
+      "client": "claude",
+      "source": "skills/init-project-research",
+      "target": ".claude/skills/init-project-research"
+    },
+    {
+      "client": "claude",
+      "source": "skills/insights-deck",
+      "target": ".claude/skills/insights-deck"
+    },
+    {
+      "client": "claude",
+      "source": "skills/interview-me",
+      "target": ".claude/skills/interview-me"
+    },
+    {
+      "client": "claude",
+      "source": "skills/knowledge-lint",
+      "target": ".claude/skills/knowledge-lint"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex",
+      "target": ".claude/skills/latex"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/latex-diff.md",
+      "target": ".claude/commands/latex-diff.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex-diff",
+      "target": ".claude/shared-skills/latex-diff"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex-diff",
+      "target": ".agents/skills/latex-diff"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex-health-check",
+      "target": ".claude/skills/latex-health-check"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex-polish",
+      "target": ".claude/skills/latex-polish"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex-posters",
+      "target": ".claude/skills/latex-posters"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex-scaffold",
+      "target": ".claude/skills/latex-scaffold"
+    },
+    {
+      "client": "claude",
+      "source": "skills/latex-template",
+      "target": ".claude/skills/latex-template"
+    },
+    {
+      "client": "claude",
+      "source": "skills/lean-check",
+      "target": ".claude/skills/lean-check"
+    },
+    {
+      "client": "claude",
+      "source": "skills/literature",
+      "target": ".claude/skills/literature"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/math-proof.md",
+      "target": ".claude/commands/math-proof.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/math-proof",
+      "target": ".claude/shared-skills/math-proof"
+    },
+    {
+      "client": "codex",
+      "source": "skills/math-proof",
+      "target": ".agents/skills/math-proof"
+    },
+    {
+      "client": "claude",
+      "source": "skills/mcp-builder",
+      "target": ".claude/skills/mcp-builder"
+    },
+    {
+      "client": "claude",
+      "source": "skills/memory-cleanup",
+      "target": ".claude/skills/memory-cleanup"
+    },
+    {
+      "client": "claude",
+      "source": "skills/method-audit",
+      "target": ".claude/skills/method-audit"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/minutes-cleanup.md",
+      "target": ".claude/commands/minutes-cleanup.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-cleanup",
+      "target": ".claude/shared-skills/minutes-cleanup"
+    },
+    {
+      "client": "codex",
+      "source": "skills/minutes-cleanup",
+      "target": ".agents/skills/minutes-cleanup"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-debrief",
+      "target": ".claude/skills/minutes-debrief"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/minutes-list.md",
+      "target": ".claude/commands/minutes-list.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-list",
+      "target": ".claude/shared-skills/minutes-list"
+    },
+    {
+      "client": "codex",
+      "source": "skills/minutes-list",
+      "target": ".agents/skills/minutes-list"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-prep",
+      "target": ".claude/skills/minutes-prep"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-recap",
+      "target": ".claude/skills/minutes-recap"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/minutes-search.md",
+      "target": ".claude/commands/minutes-search.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-search",
+      "target": ".claude/shared-skills/minutes-search"
+    },
+    {
+      "client": "codex",
+      "source": "skills/minutes-search",
+      "target": ".agents/skills/minutes-search"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-verify",
+      "target": ".claude/skills/minutes-verify"
+    },
+    {
+      "client": "claude",
+      "source": "skills/minutes-weekly",
+      "target": ".claude/skills/minutes-weekly"
+    },
+    {
+      "client": "claude",
+      "source": "skills/multi-perspective",
+      "target": ".claude/skills/multi-perspective"
+    },
+    {
+      "client": "claude",
+      "source": "skills/numerical-check",
+      "target": ".claude/skills/numerical-check"
+    },
+    {
+      "client": "claude",
+      "source": "skills/pdf",
+      "target": ".claude/skills/pdf"
+    },
+    {
+      "client": "claude",
+      "source": "skills/pipeline-manifest",
+      "target": ".claude/skills/pipeline-manifest"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/playwright-cli.md",
+      "target": ".claude/commands/playwright-cli.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/playwright-cli",
+      "target": ".claude/shared-skills/playwright-cli"
+    },
+    {
+      "client": "codex",
+      "source": "skills/playwright-cli",
+      "target": ".agents/skills/playwright-cli"
+    },
+    {
+      "client": "claude",
+      "source": "skills/postmortem",
+      "target": ".claude/skills/postmortem"
+    },
+    {
+      "client": "claude",
+      "source": "skills/pre-commit-audit",
+      "target": ".claude/skills/pre-commit-audit"
+    },
+    {
+      "client": "claude",
+      "source": "skills/pre-submission-report",
+      "target": ".claude/skills/pre-submission-report"
+    },
+    {
+      "client": "claude",
+      "source": "skills/preprint",
+      "target": ".claude/skills/preprint"
+    },
+    {
+      "client": "claude",
+      "source": "skills/preregister",
+      "target": ".claude/skills/preregister"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/project-deck.md",
+      "target": ".claude/commands/project-deck.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/project-deck",
+      "target": ".claude/shared-skills/project-deck"
+    },
+    {
+      "client": "codex",
+      "source": "skills/project-deck",
+      "target": ".agents/skills/project-deck"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/project-safety.md",
+      "target": ".claude/commands/project-safety.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/project-safety",
+      "target": ".claude/shared-skills/project-safety"
+    },
+    {
+      "client": "codex",
+      "source": "skills/project-safety",
+      "target": ".agents/skills/project-safety"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/proof-readability.md",
+      "target": ".claude/commands/proof-readability.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/proof-readability",
+      "target": ".claude/shared-skills/proof-readability"
+    },
+    {
+      "client": "codex",
+      "source": "skills/proof-readability",
+      "target": ".agents/skills/proof-readability"
+    },
+    {
+      "client": "claude",
+      "source": "skills/proofread",
+      "target": ".claude/skills/proofread"
+    },
+    {
+      "client": "claude",
+      "source": "skills/python-env",
+      "target": ".claude/skills/python-env"
+    },
+    {
+      "client": "claude",
+      "source": "skills/quarto-deck",
+      "target": ".claude/skills/quarto-deck"
+    },
+    {
+      "client": "claude",
+      "source": "skills/rename-project-research",
+      "target": ".claude/skills/rename-project-research"
+    },
+    {
+      "client": "claude",
+      "source": "skills/reorg",
+      "target": ".claude/skills/reorg"
+    },
+    {
+      "client": "claude",
+      "source": "skills/replication-audit",
+      "target": ".claude/skills/replication-audit"
+    },
+    {
+      "client": "claude",
+      "source": "skills/replication-package",
+      "target": ".claude/skills/replication-package"
+    },
+    {
+      "client": "claude",
+      "source": "skills/retarget-journal",
+      "target": ".claude/skills/retarget-journal"
+    },
+    {
+      "client": "claude",
+      "source": "skills/review-cluster",
+      "target": ".claude/skills/review-cluster"
+    },
+    {
+      "client": "claude",
+      "source": "skills/review-response",
+      "target": ".claude/skills/review-response"
+    },
+    {
+      "client": "claude",
+      "source": "skills/save-context",
+      "target": ".claude/skills/save-context"
+    },
+    {
+      "client": "claude",
+      "source": "skills/session-close",
+      "target": ".claude/skills/session-close"
+    },
+    {
+      "client": "claude",
+      "source": "skills/session-health",
+      "target": ".claude/skills/session-health"
+    },
+    {
+      "client": "claude",
+      "source": "skills/session-log",
+      "target": ".claude/skills/session-log"
+    },
+    {
+      "client": "claude",
+      "source": "skills/skill-creator",
+      "target": ".claude/skills/skill-creator"
+    },
+    {
+      "client": "claude",
+      "source": "skills/skill-extract",
+      "target": ".claude/skills/skill-extract"
+    },
+    {
+      "client": "claude",
+      "source": "skills/skill-health",
+      "target": ".claude/skills/skill-health"
+    },
+    {
+      "client": "claude",
+      "source": "skills/skill-preflight",
+      "target": ".claude/skills/skill-preflight"
+    },
+    {
+      "client": "claude",
+      "source": "skills/split-pdf",
+      "target": ".claude/skills/split-pdf"
+    },
+    {
+      "client": "claude",
+      "source": "skills/strategic-revision",
+      "target": ".claude/skills/strategic-revision"
+    },
+    {
+      "client": "claude",
+      "source": "skills/symbolic-check",
+      "target": ".claude/skills/symbolic-check"
+    },
+    {
+      "client": "claude",
+      "source": "skills/sync-permissions",
+      "target": ".claude/skills/sync-permissions"
+    },
+    {
+      "client": "claude",
+      "source": "skills/synthesise-reviews",
+      "target": ".claude/skills/synthesise-reviews"
+    },
+    {
+      "client": "claude",
+      "source": "skills/synthetic-data",
+      "target": ".claude/skills/synthetic-data"
+    },
+    {
+      "client": "claude",
+      "source": "skills/system-audit",
+      "target": ".claude/skills/system-audit"
+    },
+    {
+      "client": "claude",
+      "source": "skills/tailscale-mosh-recover",
+      "target": ".claude/skills/tailscale-mosh-recover"
+    },
+    {
+      "client": "claude",
+      "source": "skills/task-management",
+      "target": ".claude/skills/task-management"
+    },
+    {
+      "client": "claude",
+      "source": "skills/test-iterate-loop",
+      "target": ".claude/skills/test-iterate-loop"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/tikz.md",
+      "target": ".claude/commands/tikz.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/tikz",
+      "target": ".claude/shared-skills/tikz"
+    },
+    {
+      "client": "codex",
+      "source": "skills/tikz",
+      "target": ".agents/skills/tikz"
+    },
+    {
+      "client": "claude",
+      "source": "skills/update-focus",
+      "target": ".claude/skills/update-focus"
+    },
+    {
+      "client": "claude",
+      "source": "skills/update-project-doc",
+      "target": ".claude/skills/update-project-doc"
+    },
+    {
+      "client": "claude",
+      "source": "skills/venue-fork",
+      "target": ".claude/skills/venue-fork"
+    },
+    {
+      "client": "claude",
+      "source": "skills/verify-math",
+      "target": ".claude/skills/verify-math"
+    },
+    {
+      "client": "claude",
+      "source": "skills/voice-analyzer",
+      "target": ".claude/skills/voice-analyzer"
+    },
+    {
+      "client": "claude",
+      "source": "skills/voice-editor",
+      "target": ".claude/skills/voice-editor"
+    },
+    {
+      "client": "claude",
+      "source": "skills/weakness-scanner",
+      "target": ".claude/skills/weakness-scanner"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/webapp-testing.md",
+      "target": ".claude/commands/webapp-testing.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/webapp-testing",
+      "target": ".claude/shared-skills/webapp-testing"
+    },
+    {
+      "client": "codex",
+      "source": "skills/webapp-testing",
+      "target": ".agents/skills/webapp-testing"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/wiki-curate.md",
+      "target": ".claude/commands/wiki-curate.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/wiki-curate",
+      "target": ".claude/shared-skills/wiki-curate"
+    },
+    {
+      "client": "codex",
+      "source": "skills/wiki-curate",
+      "target": ".agents/skills/wiki-curate"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/wiki-grow.md",
+      "target": ".claude/commands/wiki-grow.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/wiki-grow",
+      "target": ".claude/shared-skills/wiki-grow"
+    },
+    {
+      "client": "codex",
+      "source": "skills/wiki-grow",
+      "target": ".agents/skills/wiki-grow"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/wiki-merge.md",
+      "target": ".claude/commands/wiki-merge.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/wiki-merge",
+      "target": ".claude/shared-skills/wiki-merge"
+    },
+    {
+      "client": "codex",
+      "source": "skills/wiki-merge",
+      "target": ".agents/skills/wiki-merge"
+    },
+    {
+      "client": "claude",
+      "source": "skills/wire-shared-package",
+      "target": ".claude/skills/wire-shared-package"
+    },
+    {
+      "client": "claude",
+      "source": "skills/xlsx",
+      "target": ".claude/skills/xlsx"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/artifact-coherence-auditor.md",
+      "target": ".claude/agents/artifact-coherence-auditor.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/blindspot.md",
+      "target": ".claude/agents/blindspot.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/claim-verify.md",
+      "target": ".claude/agents/claim-verify.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/code-paper-auditor.md",
+      "target": ".claude/agents/code-paper-auditor.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/code-review.md",
+      "target": ".claude/agents/code-review.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/codex-research.md",
+      "target": ".claude/agents/codex-research.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/domain-reviewer.md",
+      "target": ".claude/agents/domain-reviewer.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/fatal-error-check.md",
+      "target": ".claude/agents/fatal-error-check.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/fixer.md",
+      "target": ".claude/agents/fixer.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/gemini-research.md",
+      "target": ".claude/agents/gemini-research.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/paper-critic.md",
+      "target": ".claude/agents/paper-critic.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/peer-reviewer.md",
+      "target": ".claude/agents/peer-reviewer.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/proposal-reviewer.md",
+      "target": ".claude/agents/proposal-reviewer.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/referee2-reviewer.md",
+      "target": ".claude/agents/referee2-reviewer.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/agents/reproducibility-auditor.md",
+      "target": ".claude/agents/reproducibility-auditor.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/audit-before-fix.md",
+      "target": ".claude/rules/audit-before-fix.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/design-before-results.md",
+      "target": ".claude/rules/design-before-results.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/doi-verification.md",
+      "target": ".claude/rules/doi-verification.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/ignore-external-agent-files.md",
+      "target": ".claude/rules/ignore-external-agent-files.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/latex-hygiene.md",
+      "target": ".claude/rules/latex-hygiene.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/lean-claude-md.md",
+      "target": ".claude/rules/lean-claude-md.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/learn-tags.md",
+      "target": ".claude/rules/learn-tags.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/mark-unverified.md",
+      "target": ".claude/rules/mark-unverified.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/no-hardcoded-results.md",
+      "target": ".claude/rules/no-hardcoded-results.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/overleaf-separation.md",
+      "target": ".claude/rules/overleaf-separation.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/paper-code-consistency.md",
+      "target": ".claude/rules/paper-code-consistency.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/plan-first.md",
+      "target": ".claude/rules/plan-first.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/python-uv.md",
+      "target": ".claude/rules/python-uv.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/read-docs-first.md",
+      "target": ".claude/rules/read-docs-first.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/scope-discipline.md",
+      "target": ".claude/rules/scope-discipline.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/severity-gradient.md",
+      "target": ".claude/rules/severity-gradient.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/spec-before-quality.md",
+      "target": ".claude/rules/spec-before-quality.md"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/rules/subagent-write-guard.md",
+      "target": ".claude/rules/subagent-write-guard.md"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/block-destructive-git.sh",
+      "target": ".claude/hooks/block-destructive-git.sh"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/context-monitor.py",
+      "target": ".claude/hooks/context-monitor.py"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/handoff-read.sh",
+      "target": ".claude/hooks/handoff-read.sh"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/postcompact-restore.py",
+      "target": ".claude/hooks/postcompact-restore.py"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/precompact-autosave.py",
+      "target": ".claude/hooks/precompact-autosave.py"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/promise-checker.sh",
+      "target": ".claude/hooks/promise-checker.sh"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/protect-source-files.sh",
+      "target": ".claude/hooks/protect-source-files.sh"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/resume-context-loader.sh",
+      "target": ".claude/hooks/resume-context-loader.sh"
+    },
+    {
+      "client": "claude",
+      "source": "hooks/startup-context-loader.sh",
+      "target": ".claude/hooks/startup-context-loader.sh"
+    },
+    {
+      "client": "claude",
+      "source": "CLAUDE.md",
+      "target": ".claude/CLAUDE.md"
+    },
+    {
+      "client": "codex",
+      "source": "AGENTS.md",
+      "target": ".codex/AGENTS.md"
+    }
+  ],
+  "files_first_context": [
+    "MEMORY.md",
+    ".context",
+    ".context/ai-handoff.md"
+  ],
+  "legacy_names": [
+    "claude-research"
+  ],
+  "product": "flonat-research",
+  "version": 1
+}

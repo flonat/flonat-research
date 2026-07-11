@@ -23,7 +23,6 @@ The Notion-backed CLI tools that lived here previously (`task`, `tasks`,
 | `skill-log-miner.py` | Mine skill outcome logs for failure patterns |
 | `sync-resources.sh` | Pull latest from cloned resource repos |
 | `sync-template.sh` | Sync templates between locations |
-| `sync-to-codex.sh` | Sync infrastructure to the Codex CLI |
 | `venue-metrics` | Pull venue-level metrics |
 
 ## Shared libraries

@@ -1,7 +1,6 @@
 ---
 name: strategic-revision
 description: "Use when you receive referee comments for a paper (R&R, revise-and-resubmit) and need a DAG-validated revision master plan — atomic task extraction, dependency mapping, computational critical-path analysis, execution blocks, venue strategy. Merges /parse-reviews ingestion with Sihvonen's strategic-revision architecture."
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(mkdir*), Bash(cp*), Bash(ls*), Bash(latexmk*), Bash(python*), Bash(uv*), AskUserQuestion, Task
 argument-hint: "[path-to-reviews-pdf or no arguments for guided setup]"
 ---
 

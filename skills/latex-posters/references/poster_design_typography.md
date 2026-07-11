@@ -407,4 +407,3 @@ Match university or department colors:
 \definecolor{cambridge-blue}{RGB}{163,193,173}
 \definecolor{cambridge-lblue}{RGB}{212,239,223}
 ```
-

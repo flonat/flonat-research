@@ -37,8 +37,8 @@ Make posters accessible to screen readers (for digital versions):
 % Add alt text to figures
 \includegraphics[width=\linewidth]{figure.pdf}
 % Alternative: Include detailed caption
-\caption{Bar graph showing mean±SD of treatment outcomes. 
-Control group (blue): 45±5\%; Treatment group (orange): 78±6\%. 
+\caption{Bar graph showing mean±SD of treatment outcomes.
+Control group (blue): 45±5\%; Treatment group (orange): 78±6\%.
 Asterisks indicate significance: *p<0.05, **p<0.01.}
 ```
 
@@ -189,7 +189,7 @@ Strategic use of icons enhances comprehension:
   bodyverticalshift=0pt, roundedcorners=10, linewidth=2pt,
   titleinnersep=8mm, bodyinnersep=8mm
 }{
-  \draw[draw=blocktitlebgcolor, fill=blockbodybgcolor, 
+  \draw[draw=blocktitlebgcolor, fill=blockbodybgcolor,
         rounded corners=\blockroundedcorners, line width=\blocklinewidth]
        (blockbody.south west) rectangle (blocktitle.north east);
 }
@@ -402,4 +402,3 @@ Effective poster design requires balancing aesthetics, readability, and scientif
 6. **Test early**: Print at reduced scale and gather feedback
 
 Remember: A poster is an advertisement for your research and a conversation starter—not a substitute for reading the full paper.
-

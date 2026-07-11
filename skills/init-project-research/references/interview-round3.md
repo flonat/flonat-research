@@ -31,4 +31,3 @@
 Ask the relevant subset of the above based on which types apply.
 
 ## Storing the Answers
-

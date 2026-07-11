@@ -1,0 +1,268 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{flonat-bib}[2026/02/18 Bibliography config — biblatex, Paperpile, Harvard]
+
+% ============================================
+% Options
+% ============================================
+\newif\ifharvard
+\harvardtrue  % default: Harvard ON
+
+\DeclareOption{harvard}{\harvardtrue}
+\DeclareOption{noharvard}{\harvardfalse}
+\ProcessOptions\relax
+
+% ============================================
+% Bibliography - biblatex/biber
+% ============================================
+\RequirePackage[
+  style=authoryear,
+  uniquename=false,
+  sortcites=false,
+  sorting=nyt,
+  backend=biber,
+  natbib=true,
+  maxcitenames=2,
+  mincitenames=1,
+  maxbibnames=99,
+  minbibnames=1,
+  giveninits=true,
+]{biblatex}
+
+\addbibresource{paperpile.bib}
+
+% Remove "In:" for articles
+\renewbibmacro*{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}%
+}
+
+% Source mapping to clean Paperpile exports
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    % Remove prefix patterns like "1~"
+    \map{
+        \step[fieldsource=month, match=\regexp{^\s*\d+~\s*}, replace={}]
+    }
+    % Convert month names to numbers
+    \map{
+      \step[fieldsource=month, match=\regexp{\bjan(uary)?\b}, replace={1}]
+      \step[fieldsource=month, match=\regexp{\bfeb(ruary)?\b}, replace={2}]
+      \step[fieldsource=month, match=\regexp{\bmar(ch)?\b}, replace={3}]
+      \step[fieldsource=month, match=\regexp{\bapr(il)?\b}, replace={4}]
+      \step[fieldsource=month, match=\regexp{\bmay\b}, replace={5}]
+      \step[fieldsource=month, match=\regexp{\bjun(e)?\b}, replace={6}]
+      \step[fieldsource=month, match=\regexp{\bjul(y)?\b}, replace={7}]
+      \step[fieldsource=month, match=\regexp{\baug(ust)?\b}, replace={8}]
+      \step[fieldsource=month, match=\regexp{\bsep(tember)?\b}, replace={9}]
+      \step[fieldsource=month, match=\regexp{\boct(ober)?\b}, replace={10}]
+      \step[fieldsource=month, match=\regexp{\bnov(ember)?\b}, replace={11}]
+      \step[fieldsource=month, match=\regexp{\bdec(ember)?\b}, replace={12}]
+    }
+    % Clean up anything that's not a number between 1 and 12
+    \map{
+      \step[fieldsource=month, match=\regexp{[^\d]+}, replace={}]
+    }
+    % Final validation - if month is not a number between 1-12, remove it
+    \map{
+      \step[fieldsource=month,
+            match=\regexp{^(?!1|2|3|4|5|6|7|8|9|10|11|12).*$},
+            replace={}]
+    }
+    % Author cleanup (remove numeric suffixes)
+    \map{
+      \step[fieldsource=author, match=\regexp{-\d+}, replace={}]
+    }
+    % Journal cleanup (remove subtitles after colon)
+    \map{
+      \step[fieldsource=journal, match=\regexp{([^:]+)(:.*?)}, replace=\regexp{$1}]
+    }
+  }
+}
+
+% Field clearing for all entries
+\AtEveryBibitem{%
+  \ifentrytype{book}{%
+    \clearfield{month}%
+  }{}%
+  \iffieldundef{month}{%
+    \clearfield{month}%
+  }{}%
+  \clearfield{language}%
+  \clearfield{note}%
+  \clearfield{issn}%
+  \clearfield{isbn}%
+  \ifentrytype{article}{%
+    \clearlist{translator}%
+    \clearlist{editor}%
+  }{}%
+}
+
+\DeclareFieldFormat{language}{}
+
+% Possessive citations (e.g., "Smith's (2020) study")
+\DeclareNameWrapperFormat{labelname:poss}{#1's}
+
+\DeclareFieldFormat{shorthand:poss}{%
+  \ifnameundef{labelname}{#1's}{#1}}
+
+\DeclareFieldFormat{citetitle:poss}{\mkbibemph{#1}'s}
+
+\DeclareFieldFormat{label:poss}{#1's}
+
+\newrobustcmd*{\posscitealias}{%
+  \AtNextCite{%
+    \DeclareNameWrapperAlias{labelname}{labelname:poss}%
+    \DeclareFieldAlias{shorthand}{shorthand:poss}%
+    \DeclareFieldAlias{citetitle}{citetitle:poss}%
+    \DeclareFieldAlias{label}{label:poss}}}
+
+\newrobustcmd*{\posscite}{%
+  \posscitealias%
+  \textcite}
+
+\newrobustcmd*{\Posscite}{\bibsentence\posscite}
+
+\newrobustcmd*{\posscites}{%
+  \posscitealias%
+  \textcites}
+
+% ============================================
+% Harvard-specific formatting (conditional)
+% ============================================
+\ifharvard
+
+% Based on the authoryear style with Harvard conventions:
+%   - Family-Given name order
+%   - No dashed repeated authors
+%   - Year in parentheses after author
+%   - Bold volume, (number), pp. pages
+%   - "Available at:" for DOI/URL
+
+% Basic settings
+\DeclareNameAlias{sortname}{family-given}
+\DeclareDelimFormat{nameyeardelim}{\addcomma\space}
+
+% Disable dashes for repeated authors
+\ExecuteBibliographyOptions{dashed=false}
+
+% Remove dot after year
+\renewbibmacro*{date+extrayear}{%
+  \iffieldundef{year}
+    {}
+    {\setunit{\addspace}%
+     \printtext[parens]{%
+       \printfield{year}}%
+     \setunit{\addspace}}%
+  \clearfield{year}%
+  \clearfield{month}%
+  \clearfield{day}}
+
+% Format titles and journals
+\DeclareFieldFormat{journaltitle}{\textit{#1}}
+\DeclareFieldFormat[article]{title}{#1}
+\DeclareFieldFormat[inproceedings]{booktitle}{\textit{#1}}
+\DeclareFieldFormat[inproceedings]{title}{#1}
+
+% Format volume, number, and pages
+\DeclareFieldFormat[article]{volume}{\textbf{#1}}
+\DeclareFieldFormat[article]{number}{(#1)}
+\DeclareFieldFormat{pages}{pp.~#1}
+
+% Fix journal formatting and remove double pages
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\space}%
+  \iffieldundef{volume}
+    {}
+    {\printfield{volume}%
+     \printfield{number}}%
+  \setunit{\addcomma\space}%
+  \iffieldundef{pages}
+    {}
+    {\printfield{pages}}%
+  \clearfield{pages}%
+  \newunit}
+
+% URL and DOI formatting
+\DeclareFieldFormat{doi}{\url{https://doi.org/#1}}
+\DeclareFieldFormat{url}{\url{#1}}
+\DeclareFieldFormat[misc]{howpublished}{Available at: #1}
+\DeclareFieldFormat[book]{url}{Available at: \url{#1}}
+
+% Prevent standard URL/DOI printing
+\renewbibmacro*{url}{}
+\newbibmacro*{doi}{}
+\renewbibmacro*{eprint}{}
+\renewbibmacro*{doi+eprint+url}{}
+\newbibmacro*{doi+url+eprint}{}
+\renewbibmacro*{url+urldate}{}
+
+% DOI/URL handling
+\renewbibmacro*{doi+url+eprint}{%
+  \newunit\newblock
+  \printtext{\addperiod\space Available at: }%
+  \iftoggle{bbx:doi}{%
+    \iffieldundef{doi}
+      {\usebibmacro{url+urldate}}
+      {\printfield{doi}}%
+  }{%
+    \iffieldundef{url}
+      {}
+      {\printfield{url}}%
+  }%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+}
+
+% Remove URL/DOI from note+url bibmacro
+\newbibmacro*{note+url}{%
+  \printfield{note}%
+  \newunit}
+
+% Print URL/DOI at the end of entries
+\renewbibmacro*{finentry}{%
+  \setunit{\finentrypunct}%
+  \newunit\newblock
+  \iffieldundef{doi}
+    {\iffieldundef{url}
+      {}
+      {\printtext{Available at: }\printfield{url}}}
+    {\printtext{Available at: }\printfield{doi}}%
+  \finentry
+}
+
+% Author name formatting
+\DeclareNameFormat{author}{%
+  \nameparts{#1}%
+  \usebibmacro{name:family-given}
+    {\namepartfamily}
+    {\namepartgiveni}
+    {\namepartprefix}
+    {\namepartsuffix}%
+  \ifthenelse{\value{listcount}<\value{liststop}}
+    {\addcomma\space}
+    {}}
+
+% Author delimiter
+\renewcommand*{\finalnamedelim}{%
+  \ifnumgreater{\value{liststop}}{2}{\finalandcomma}{}%
+  \addspace\bibstring{and}\space}
+
+% Punctuation
+\renewcommand*{\newunitpunct}{\addperiod\space}
+
+% Remove extra punctuation
+\DeclareDelimFormat[bib]{nametitledelim}{\addspace}
+
+% URL date format
+\DeclareFieldFormat{urldate}{[Accessed \mkbibdatelong{#1}]}
+
+\fi % end \ifharvard
+
+% ============================================
+% natbib fallback (COMMENTED OUT)
+% ============================================
+% If you need natbib instead of biblatex, do not load this package.
+% Instead, use \usepackage{natbib} in your preamble and
+% \bibliographystyle{agsm} + \bibliography{paperpile} in main.tex.

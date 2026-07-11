@@ -277,29 +277,9 @@ Create `reviews/<scope>/multi-perspective/` if it does not exist (`mkdir -p`), w
 
 ## Council Mode Enhancement
 
-In standard mode, Phase 3 spawns Claude sub-agents with different personas — but they all share the same underlying model. Council mode upgrades this to genuine model diversity: different LLM providers (Claude, GPT, Gemini) bring genuinely different reasoning patterns, training biases, and knowledge bases.
+Standard mode spawns Claude sub-agents with different personas — all sharing one underlying model. Council mode upgrades this to genuine model diversity: each perspective is assigned to a different LLM provider via `council-cli` (Phase 3), models blind-review each other's perspectives (Phase 3.3), and a chairman synthesises weighted by peer scores (Phase 4). **Trigger:** "council multi-perspective" / "thorough multi-perspective". Full orchestration + invocation: [`../shared/council-protocol.md`](../shared/council-protocol.md).
 
-**Trigger:** "Council multi-perspective" or "thorough multi-perspective"
-
-**What changes in council mode:**
-- Phase 3 (Parallel Investigation): Each perspective is assigned to a different LLM provider via `council-cli`, not Claude sub-agents
-- Phase 3.3 (Cross-Evaluation): Each model evaluates the others' perspectives without knowing which model produced which — genuine blind review
-- Phase 4 (Synthesis): Chairman model reads all perspectives and cross-evaluations, weighted by peer scores
-
-**Invocation (CLI backend):**
-```bash
-cd packages/council-cli
-uv run python -m council_cli \
-    --prompt-file /tmp/perspective-prompt.txt \
-    --context-file /tmp/research-context.txt \
-    --output-md /tmp/perspectives-council.md \
-    --chairman claude \
-    --timeout 180
-```
-
-See `skills/shared/council-protocol.md` for the full orchestration protocol.
-
-**Value:** High — this skill is the natural fit for council mode. The whole point of multi-perspective analysis is cognitive diversity, and using genuinely different models instead of persona-differentiated instances of the same model is a strict upgrade.
+**Value:** High — the natural fit for council mode. Multi-perspective analysis is about cognitive diversity, so genuinely different models beat persona-differentiated instances of one model: a strict upgrade.
 
 ## Cross-References
 

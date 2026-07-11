@@ -222,6 +222,10 @@ mosh <host> -- tmux a -t <session-name>    # connects; tmux session intact
 
 Full Layer 3 protocol — detection greps, per-location fix table, VPS health-check verification — plus three related failure modes (macOS resolver stuck `Not Reachable` after Tailscale restart → `dscacheutil -flushcache` + `killall -HUP mDNSResponder`; RustDesk/VNC relay blocked by MDM → connect via Tailscale direct-IP; `mosh-server: command not found` → Homebrew PATH in `~/.zshenv`), the worked 2026-05-18 example, and edge-case notes: [`references/extended-diagnostics.md`](references/extended-diagnostics.md).
 
+## Layer 4 — Dropbox EPERM (FDA on `mosh-server`)
+
+A distinct mosh-server failure, not an IP-change one: mid-session, every Bash access to `/Volumes/SSD/Dropbox/…` returns **"Operation not permitted" (EPERM)** while the same paths work from the user's own SSH terminal, and `dangerouslyDisableSandbox` doesn't help (so it's NOT the sandbox). Cause: Dropbox File-Provider re-adopted a folder (usually after a **rename**) → provider-managed files require Full Disk Access, and TCC attributes access to the **`mosh-server`** responsible process, **not tmux**. Fix: grant FDA to `/opt/homebrew/bin/mosh-server` (+ tmux), then start a **new** mosh-server (`tmux kill-server`, fully disconnect + reconnect — TCC grants only apply at process launch). Full mechanism, verification, wrong turns, and prevention: [`references/dropbox-fda-eperm.md`](references/dropbox-fda-eperm.md).
+
 ## Anti-Patterns
 
 - **Don't reach for `tailscale up --reset` first.** It resets state on the coordination server, including all advertised routes / exit-node approvals. Use it only when nothing else recovers the daemon.

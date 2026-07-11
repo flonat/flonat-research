@@ -34,7 +34,7 @@ Before the Phase 2 CLI pre-fetch, generate 3-5 hypothetical paper descriptions:
 Given this research question:
 [QUERY]
 
-Generate 3-5 hypothetical paper abstracts (each 2-3 sentences) that would 
+Generate 3-5 hypothetical paper abstracts (each 2-3 sentences) that would
 directly address this question. Each abstract should:
 - Use different terminology and framing than the others
 - Come from a different disciplinary perspective (e.g., economics, psychology, computer science, management)

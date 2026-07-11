@@ -1,8 +1,9 @@
 # Hooks
 
-> 9 hook scripts that run automatically at key moments in Claude Code sessions.
+> 9 optional Claude Code hook scripts over the shared files-first context layer.
 
 Hook scripts live in `hooks/` and are configured in `~/.claude/settings.json` under the `"hooks"` key.
+They are not active in Codex and are not required for cross-client continuity.
 
 ## Overview
 
@@ -10,13 +11,13 @@ Hook scripts live in `hooks/` and are configured in `~/.claude/settings.json` un
 |------|---------|-------------|
 | `block-destructive-git.sh` | Before Bash | catches dangerous git/shell commands |
 | `context-monitor.py` | After tool use | tracks tool call count as a heuristic for context usage |
-| `handoff-read.sh` | SessionStart | if handoff.md exists in cwd, read it into additionalContext |
+| `handoff-read.sh` | SessionStart | surface the shared project handoff when it targets Claude |
 | `postcompact-restore.py` | After compact | restores state after context compression |
 | `precompact-autosave.py` | Before compact | saves state before context compression |
 | `promise-checker.sh` | Session stop | catches "performative compliance": Claude says it remembered/noted/saved |
 | `protect-source-files.sh` | Before edit/write | prompts confirmation for files outside |
 | `resume-context-loader.sh` | Session resume | surfaces current focus and latest session log |
-| `startup-context-loader.sh` | Session start | auto-detects and surfaces project documentation |
+| `startup-context-loader.sh` | Unknown | Compatibility-named, fail-open adapter to the files-first neutral context core |
 
 ## Hook Events
 

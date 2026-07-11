@@ -120,7 +120,7 @@
 | `preprint` | Create a preprint / working-paper variant of an existing paper; forks the Overleaf project with `your-template` template and wires a local symlink |
 | `archive-paper-draft` | Archive a paper draft after deferral/rejection/withdrawal: snapshot to `archive/`, drop Overleaf symlink, prompt to delete Overleaf project |
 
-### Project Setup & Session (24)
+### Project Setup & Session (27)
 
 | Skill | Purpose |
 |-------|---------|
@@ -135,7 +135,10 @@
 | `update-focus` | Structured update to current-focus.md |
 | `session-health` | On-demand session health check |
 | `project-status` | Per-project recap to resume work: venue, deadlines, where you left off, recent activity, open issues, next 3 actions. Read-only synthesis from CLAUDE.md + atlas + vault + reviews/INDEX.md + logs + git |
-| `handoff` | Write a one-shot handoff.md in cwd; next session's SessionStart hook reads it and deletes it |
+| `handoff` | Persistent shared handoff for Claude→Claude, Codex→Codex, and cross-client/cross-machine continuation |
+| `codex-handoff` | Target-specific `$handoff` alias for a receiving Codex session |
+| `claude-handoff` | Target-specific `$handoff` alias for a receiving Claude session |
+| `sync-ai-infra` | Diagnose, render, import, and deploy shared Claude/Codex infrastructure on either machine |
 | `save-context` | Save information to context library files |
 | `task-management` | Daily planning, weekly reviews, meeting actions, vault |
 | `ideas` | Capture improvement ideas for the infrastructure |
@@ -279,7 +282,7 @@
 | `grade-assignment` | Grade banded-rubric student submissions (e.g., PB130 Mixed Methods Poster) with two-tier output (instructor + student feedback), parallel isolated review, and calibration pass |
 | `course-reading-list` | Parse a syllabus, extract topics + learning outcomes, search scholarly + Paperpile per section, produce Markdown reading list with summaries and discussion questions |
 
-**Total: 195 skills across 18 categories.**
+**Total: 198 skills across 18 categories.**
 
 ## Shared References (not skills — cross-cutting protocols)
 

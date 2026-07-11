@@ -2,7 +2,7 @@
 
 > 109 reusable workflow definitions available across all projects.
 
-Skills are structured instruction sets (`SKILL.md` files) that turn Claude into a specialised tool for specific tasks — from compiling LaTeX to bootstrapping research projects.
+Skills are client-neutral instruction sets (`SKILL.md` files). The contract exposes each skill only to clients with the capabilities it requires.
 
 ## Overview
 
@@ -31,7 +31,7 @@ Skills are structured instruction sets (`SKILL.md` files) that turn Claude into 
 | `experiment-design` | Use when you need power analysis, pre-analysis plans, QSF parsing, or survey design |
 | `gather-readings` | Use when you need to gather PDFs from Paperpile into a project's articles/ folder |
 | `grill-me` | Use when you want to be interrogated ONE question at a time — either to (a) defend your own research (viva, job talk, seminar Q&A, hostile-referee prep) or (b) study a class / subject you're learning (exam revision, active recall). An interactive adversarial/Socratic oral drill grounded in your actual material, escalating on weak answers, then a study sheet of what you fumbled with model answers. Triggers: 'grill me', 'grill me on X', 'viva prep', 'defend my paper', 'quiz me on this class', 'test me on <topic>', 'exam revision', 'help me study X'. Distinct from /devils-advocate (stress-tests arguments in prose) and referee2-reviewer / paper-critic (produce a WRITTEN critique) — here YOU answer aloud |
-| `handoff` | Use when you need to pass state to the next session in the current working directory. Writes a handoff.md file that the next session's SessionStart hook will read and delete |
+| `handoff` | Create, receive, or update a persistent project handoff between AI sessions. Supports Claude-to-Claude, Codex-to-Codex, Claude-to-Codex, and Codex-to-Claude through the same `.context/ai-handoff.md` protocol. Use for 'handoff', 'continue in a new session', 'hand this to Claude', 'hand this to Codex', or cross-machine continuation |
 | `ideas` | Use when you need to capture or integrate improvement ideas for Claude Code infrastructure |
 | `init-paper-book` | Use when you need to scaffold a NEW educational companion book for a LaTeX paper. Reads the paper, drafts 8 substantive chapters into the vault at ~/vault/books/{slug}/, copies bib + figures, registers the book, and verifies atlas serves it. Source-of-truth is the paper PDF/tex; the book is a reading companion, never a re-statement of new claims. For syncing an existing book to a paper revision, use /audit-paper-book |
 | `init-project` | Bootstrap a new research project. Interview for details, scaffold directory structure, create Overleaf symlink, initialise git, and create project context files |
@@ -108,8 +108,8 @@ Skills are structured instruction sets (`SKILL.md` files) that turn Claude into 
 | `update-project-doc` | Use when you need to update a project's own CLAUDE.md, README.md, or docs/ to reflect current state |
 | `venue-fork` | Fork an existing conference/journal paper into a second-venue submission variant: verify both CFPs' concurrent-submission policies, create a separate Overleaf project, convert the document class (LIPIcs/LNCS/acmart → target format), refit to the new page budget by relocating content to appendices (never cutting prose), run compile + anonymity + render-level QA, and write back vault submission + atlas output with concurrency/withdrawal clauses. Use for: 'submit this paper also to X', 'concurrent submission', 'make the WINE/EC/conference version', 'reformat for another venue'. NOT for preprints/arXiv (use /preprint), NOT for moving a paper to a new target (use /retarget-journal), NOT post-acceptance (use /camera-ready) |
 | `verify-math` | Use when you need to VERIFY a self-authored mathematical result end-to-end — route each claim to the right rung of the verification spectrum (R0 adversarial review, R1 numerical falsification, R2 symbolic/CAS, R3 Lean proof) and aggregate into one verification report. The umbrella over /numerical-check, /symbolic-check, /lean-check, and the domain-reviewer agent. Triggers: /verify-math, 'verify this theorem/proposition/conjecture', 'check all the math in my paper', 'is this result correct'. Use when you have a claim and want the right method(s) chosen and combined; for a single known method, call that skill directly |
-| `voice-analyzer` | Use when you need to analyze writing samples to create a portable voice profile. Analyze writing samples to create a portable voice profile and style guide. Use when setting up voice-matched AI writing, onboarding to a new project, or refreshing an outdated style guide |
-| `voice-editor` | Use when you need to edit content to match a specific voice profile. Edit auto-generated or draft content to match a voice profile. Use when transforming generic AI output into authentic voice-matched content, or when editing drafts to sound more like you |
+| `voice-analyzer` | >- Use when you need to analyze writing samples to create a portable voice profile. Analyze writing samples to create a portable voice profile and style guide. Use when setting up voice-matched AI writing, onboarding to a new project, or refreshing an outdated style guide |
+| `voice-editor` | >- Use when you need to edit content to match a specific voice profile. Edit auto-generated or draft content to match a voice profile. Use when transforming generic AI output into authentic voice-matched content, or when editing drafts to sound more like you |
 | `weakness-scanner` | Use when you need to identify the weakest arguments across a literature |
 | `webapp-testing` | Use when you need to interact with or test a local web application using Playwright |
 | `wiki-curate` | Use when you need to audit the vault wiki (~/vault/concepts/) for fragmentation, missing tags, write-only concepts, and draft/anatomy conformance. Read-only — produces a markdown report at /tmp/wiki-curate-report.md. Companion to /wiki-grow (which writes) and /wiki-merge (which fixes overlap clusters) |
@@ -130,12 +130,12 @@ Skills are structured instruction sets (`SKILL.md` files) that turn Claude into 
 Each skill is a directory in `skills/` containing a `SKILL.md` file with:
 
 1. **YAML frontmatter** — name, description, and allowed tools
-2. **Markdown body** — structured instructions Claude follows
+2. **Markdown body** — structured, client-neutral workflow instructions
 
 ## Creating New Skills
 
 1. Create a directory: `skills/<skill-name>/`
 2. Add a `SKILL.md` with YAML frontmatter and markdown instructions
-3. The skill is immediately available via `/skill-name`
+3. Declare its clients and requirements in the capability contract
 
 See any existing skill for the format.

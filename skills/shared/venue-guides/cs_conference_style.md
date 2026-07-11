@@ -47,16 +47,16 @@ NLP papers balance empirical rigor with linguistic insight. Human evaluation is 
 ### Example Abstract
 
 ```
-Coreference resolution remains challenging for pronouns with distant or 
-ambiguous antecedents. Prior neural approaches struggle with these 
-difficult cases due to limited context modeling. We introduce 
-LongContext-Coref, a retrieval-augmented coreference model that 
-dynamically retrieves relevant context from document history. On the 
-OntoNotes 5.0 benchmark, LongContext-Coref achieves 83.4 F1, improving 
-over the previous state-of-the-art by 1.2 points. On the challenging 
-WinoBias dataset, we reduce gender bias by 34% while maintaining 
-accuracy. Qualitative analysis reveals that our model successfully 
-resolves pronouns requiring world knowledge, a known weakness of 
+Coreference resolution remains challenging for pronouns with distant or
+ambiguous antecedents. Prior neural approaches struggle with these
+difficult cases due to limited context modeling. We introduce
+LongContext-Coref, a retrieval-augmented coreference model that
+dynamically retrieves relevant context from document history. On the
+OntoNotes 5.0 benchmark, LongContext-Coref achieves 83.4 F1, improving
+over the previous state-of-the-art by 1.2 points. On the challenging
+WinoBias dataset, we reduce gender bias by 34% while maintaining
+accuracy. Qualitative analysis reveals that our model successfully
+resolves pronouns requiring world knowledge, a known weakness of
 prior approaches.
 ```
 
@@ -155,18 +155,18 @@ HCI papers are fundamentally **user-centered**. Technology novelty alone is insu
 ### Focus on Users and Impact
 
 ```
-Video calling has become essential for remote collaboration, yet 
-current interfaces poorly support the peripheral awareness that makes 
-in-person work effective. Through formative interviews with 24 remote 
-workers, we identified three key challenges: difficulty gauging 
-colleague availability, lack of ambient presence cues, and interruption 
-anxiety. We designed AmbientOffice, a peripheral display system that 
-conveys teammate presence through subtle ambient visualizations. In a 
-two-week deployment study with 18 participants across three distributed 
-teams, AmbientOffice increased spontaneous collaboration by 40% and 
-reduced perceived isolation (p<0.01). Participants valued the system's 
-non-intrusive nature and reported feeling more connected to remote 
-colleagues. We discuss implications for designing ambient awareness 
+Video calling has become essential for remote collaboration, yet
+current interfaces poorly support the peripheral awareness that makes
+in-person work effective. Through formative interviews with 24 remote
+workers, we identified three key challenges: difficulty gauging
+colleague availability, lack of ambient presence cues, and interruption
+anxiety. We designed AmbientOffice, a peripheral display system that
+conveys teammate presence through subtle ambient visualizations. In a
+two-week deployment study with 18 participants across three distributed
+teams, AmbientOffice increased spontaneous collaboration by 40% and
+reduced perceived isolation (p<0.01). Participants valued the system's
+non-intrusive nature and reported feeling more connected to remote
+colleagues. We discuss implications for designing ambient awareness
 systems and the tension between visibility and privacy in remote work.
 ```
 
@@ -235,9 +235,9 @@ systems and the tension between visibility and privacy in remote work.
 ### Quotes in Findings
 Use direct quotes to ground findings:
 ```
-Participants valued the ambient nature of the display. As P7 described: 
-"It's like having a window to my teammate's office. I don't need to 
-actively check it, but I know they're there." This passive awareness 
+Participants valued the ambient nature of the display. As P7 described:
+"It's like having a window to my teammate's office. I don't need to
+actively check it, but I know they're there." This passive awareness
 reduced the barrier to initiating contact.
 ```
 
@@ -245,11 +245,11 @@ reduced the barrier to initiating contact.
 Translate findings into actionable guidance:
 ```
 **Implication 1: Support peripheral awareness without demanding attention.**
-Ambient displays should be visible in peripheral vision but not require 
+Ambient displays should be visible in peripheral vision but not require
 active monitoring. Designers should consider calm technology principles.
 
 **Implication 2: Balance visibility with privacy.**
-Users want to share presence but fear surveillance. Systems should 
+Users want to share presence but fear surveillance. Systems should
 provide granular controls and make visibility mutual.
 ```
 
@@ -290,17 +290,17 @@ Data mining papers emphasize **scalability**, **real-world applicability**, and 
 ### Emphasize Scale and Application
 
 ```
-Fraud detection in e-commerce requires processing millions of 
-transactions in real-time while adapting to evolving attack patterns. 
-We present FraudShield, a graph neural network framework for real-time 
-fraud detection that scales to billion-edge transaction graphs. Unlike 
-prior methods that require full graph access, FraudShield uses 
-incremental updates with O(1) inference cost per transaction. On a 
-proprietary dataset of 2.3 billion transactions from a major e-commerce 
-platform, FraudShield achieves 94.2% precision at 80% recall, 
-outperforming production baselines by 12%. The system has been deployed 
-at [Company], processing 50K transactions per second and preventing 
-an estimated $400M in annual fraud losses. We release an anonymized 
+Fraud detection in e-commerce requires processing millions of
+transactions in real-time while adapting to evolving attack patterns.
+We present FraudShield, a graph neural network framework for real-time
+fraud detection that scales to billion-edge transaction graphs. Unlike
+prior methods that require full graph access, FraudShield uses
+incremental updates with O(1) inference cost per transaction. On a
+proprietary dataset of 2.3 billion transactions from a major e-commerce
+platform, FraudShield achieves 94.2% precision at 80% recall,
+outperforming production baselines by 12%. The system has been deployed
+at [Company], processing 50K transactions per second and preventing
+an estimated $400M in annual fraud losses. We release an anonymized
 benchmark dataset and code.
 ```
 
@@ -460,4 +460,3 @@ All CS venues increasingly expect:
 - `ml_conference_style.md` - NeurIPS/ICML style guide
 - `conferences_formatting.md` - Technical formatting requirements
 - `reviewer_expectations.md` - What CS reviewers seek
-

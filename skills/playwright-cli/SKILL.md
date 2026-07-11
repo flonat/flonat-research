@@ -6,6 +6,10 @@ allowed-tools: Bash(playwright-cli:*) Bash(npx:*) Bash(npm:*)
 
 # Browser Automation with playwright-cli
 
+Use this skill for ad-hoc browser navigation, inspection, and interaction using
+CLI snapshots. When a local application needs managed server startup, custom
+Python assertions, or a repeatable Python test script, use `$webapp-testing`.
+
 ## Quick start
 
 ```bash

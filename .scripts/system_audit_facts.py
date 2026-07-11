@@ -41,6 +41,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 # ─── Roots ─────────────────────────────────────────────────────────────────
 
 TM = Path(__file__).resolve().parent.parent
@@ -423,13 +425,25 @@ def section_ecosystem() -> EcosystemSection:
                 pass
     s.mcp_configured = sorted(configured)
 
-    # Known cloud-only aliases
+    # Known cloud-only aliases plus runtime/plugin MCPs declared by the
+    # canonical matrix. Plugin-owned servers are intentionally not present in
+    # Task Management's static config and therefore are not phantom refs.
     cloud_aliases = {"claude_ai_vault", "claude_ai_Gamma", "claude_ai_Canva",
                      "claude_ai_Gmail", "claude_ai_Google_Calendar",
                      "claude_ai_Google_Drive", "claude_ai_Sentry",
                      "claude_ai_Spotify", "claude_ai_Consensus"}
+    runtime_aliases: set[str] = set()
+    matrix_path = TM / "docs/reference/mcp-matrix.yaml"
+    if matrix_path.is_file():
+        try:
+            matrix = yaml.safe_load(matrix_path.read_text(encoding="utf-8")) or {}
+            for names in (matrix.get("optional_servers") or {}).values():
+                if isinstance(names, list):
+                    runtime_aliases.update(str(name) for name in names)
+        except (OSError, ValueError, yaml.YAMLError):
+            pass
     s.mcp_phantom_refs = sorted(
-        r for r in refs if r not in configured and r not in cloud_aliases
+        r for r in refs if r not in configured and r not in cloud_aliases and r not in runtime_aliases
     )
 
     # Staleness (>90 days)

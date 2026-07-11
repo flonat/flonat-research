@@ -131,7 +131,7 @@ Diagonal: whichever side has more space.
 
 **For matplotlib/Python figures**: The same principle applies. When positioning `ax.text()` calls near `FancyBboxPatch` or `Circle` objects, compute the patch boundary and verify clearance. Text with `va='center'` extends roughly half its font height above and below the anchor — account for this.
 
-**Sub-rule: Bézier-first for matplotlib arrows (the arc3 formula).** The TikZ Bézier workflow (Pass 1) has an exact equivalent for matplotlib's `arc3` connectionstyle. You MUST compute curve positions before placing labels — the same "Claude cannot eyeball where a curve passes" rule applies to Python figures.
+**Sub-rule: Bézier-first for matplotlib arrows (the arc3 formula).** The TikZ Bézier workflow (Pass 1) has an exact equivalent for matplotlib's `arc3` connectionstyle. You MUST compute curve positions before placing labels — the same "an AI agent cannot eyeball where a curve passes" rule applies to Python figures.
 
 **Matplotlib arc3 control point formula:**
 ```python
@@ -275,7 +275,7 @@ Or better: don't scale. Design at intended size.
 
 ### Rule 7: Bézier Curves (see Pass 1 above)
 
-The fundamental problem: Claude cannot eyeball where a curve passes. The formula is the only reliable method. DO NOT trust intuition on curved arrows.
+The fundamental problem: an AI agent cannot eyeball where a curve passes. The formula is the only reliable method. DO NOT trust intuition on curved arrows.
 
 ### Rule 8: Arrows Crossing Arrows
 
