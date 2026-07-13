@@ -26,7 +26,7 @@ Large papers (20+ pages), pre-submission reviews, or when a previous single-agen
 Done by the main session, not the sub-agent.
 
 1. Read all `.tex` files and construct a single content payload
-2. Launch all 6 sub-agents in parallel via the Agent tool, each with its dimension checklist and the paper content
+2. Launch all 6 sub-agents in parallel through the client's fresh-context agent mechanism, each with its dimension checklist and the paper content
 3. Each sub-agent returns findings tagged `[CRITICAL]`, `[MAJOR]`, `[MINOR]` with exact quotes
 4. The main session consolidates with this priority order:
    - `[CRITICAL]` from Causal Claims first (highest reviewer attack surface)
@@ -39,7 +39,7 @@ Done by the main session, not the sub-agent.
 
 ## Standard Forbid-List for Specialist Sub-Agents
 
-Per `~/.claude/rules/subagent-prompt-discipline.md`, sub-agents do not inherit global rules. Include this block in each of the 6 specialist sub-agent prompts:
+Per the subagent-prompt-discipline policy in loaded guidance, sub-agents do not inherit global rules. Include this block in each of the 6 specialist sub-agent prompts:
 
 ```
 ## Scope of action — DO NOT do these things

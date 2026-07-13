@@ -6,7 +6,7 @@ system: the original shipped as `extract_block.sh`; reimplemented in stdlib Pyth
 robust LaTeX-environment parsing).
 
 Usage:
-    python3 extract_block.py <file.tex> <pattern>
+    uv run python extract_block.py <file.tex> <pattern>
 
 <pattern> matches either a label (`\\label{<pattern>}`) or literal text appearing on the
 line that opens the block (e.g. "Theorem 1", "prop:concavity"). The script prints, to

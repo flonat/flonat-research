@@ -7,10 +7,10 @@
 ## How to Orchestrate
 
 1. Run **pre-flight**: hard gates (compilation, references, citations, page limit). If any fails, stop.
-2. Read the shared council protocol: `~/.claude/skills/shared/council-protocol.md`
+2. Read the shared council protocol: `skills/shared/council-protocol.md`
 3. Read the reference files (siblings to this one):
-   - Personas: `~/.claude/agents/references/paper-critic/council-personas.md`
-   - Prompts: `~/.claude/agents/references/paper-critic/council-prompts.md`
+   - Personas: `references/paper-critic/council-personas.md`
+   - Prompts: `references/paper-critic/council-prompts.md`
 4. Construct a **system prompt** from the agent's core instructions (Check Dimensions, Severity Tiers, Scoring, Report Format)
 5. Construct a **user message** from the paper content (all `.tex` files, `.bib` files, `.log` warnings)
 6. Invoke `council-api` via CLI or Python — the library handles all 3 stages via OpenRouter:

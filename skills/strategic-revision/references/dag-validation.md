@@ -23,7 +23,7 @@ Runs a cycle check and exits. Use this to fail fast before investing effort in P
 
 ```bash
 cd correspondence/referee-reviews/{venue}-round{n}/plan
-python dag_validator.py revision_tasks.json --validate-only
+uv run python dag_validator.py revision_tasks.json --validate-only
 ```
 
 Output:
@@ -60,10 +60,10 @@ By this point Phase 9 has assigned execution blocks, so `revision_tasks.json` sh
 
 ```bash
 # Default output path
-python dag_validator.py revision_tasks.json
+uv run python dag_validator.py revision_tasks.json
 
 # Custom output path
-python dag_validator.py revision_tasks.json --output my_analysis.json
+uv run python dag_validator.py revision_tasks.json --output my_analysis.json
 ```
 
 The script produces:

@@ -141,9 +141,9 @@ make all
    - Place files in `data/raw/` matching the filenames listed above
 4. **Run scripts in order:**
    ```bash
-   python code/01_clean_data.py
+   uv run python code/01_clean_data.py
    Rscript code/02_analysis.R
-   python code/03_figures.py
+   uv run python code/03_figures.py
    Rscript code/04_robustness.R
    ```
    Or use the master script: `bash run_all.sh`

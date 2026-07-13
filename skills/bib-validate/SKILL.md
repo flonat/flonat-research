@@ -1,7 +1,7 @@
 ---
 name: bib-validate
 description: "Use when you need to validate a paper's bibliography — cross-references \\cite{} keys against .bib files or embedded \\bibitem entries, finds missing/unused/typo'd keys, and checks every key against the Paperpile library via the local resolver. Deep verification mode spawns parallel agents for DOI/metadata validation at scale. Fix mode rekeys drifted keys to canonical and stages missing entries for Paperpile."
-allowed-tools: Read, Glob, Grep, Task, Write, Bash(mkdir*), Bash(ls*), Bash(rm*), Bash(paperpile*), Bash(python3*), Bash(latexmk*)
+allowed-tools: Read, Glob, Grep, Task, Write, Bash(mkdir*), Bash(ls*), Bash(rm*), Bash(paperpile*), Bash(uv:*), Bash(latexmk*)
 argument-hint: "[project-path or tex-file] [--verify-doi] [--fix]"
 ---
 
@@ -41,7 +41,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 - **Finding new references** — use `/literature` for discovery
 - **Building a bibliography from scratch** — use `/literature` with `.bib` generation
-- **General proofreading** — use `/proofread` (which also flags citation format issues)
+- **General proofreading** belongs to `/proofread` (which also flags citation format issues)
 
 ## Phase 0: Session Log (Suggested)
 
@@ -173,7 +173,7 @@ Common typo patterns:
 After the disk-based cross-reference, check every `.bib` key against the Paperpile library with ONE dry-run of the canonical resolver:
 
 ```bash
-python3 "$(cat ~/.config/task-mgmt/path)/scripts/bib/rekey_to_canonical.py" <project.bib>
+uv run python "$(cat ~/.config/task-mgmt/path)/scripts/bib/rekey_to_canonical.py" <project.bib>
 ```
 
 Produces the full status table (HEALTHY / DRIFT / SUGGESTED / AMBIGUOUS / NOT_FOUND) in ~5s with no per-key CLI calls. Fallback lookups, status semantics, and staleness caveat: [`references/ref-manager-crossref.md`](references/ref-manager-crossref.md)
@@ -272,7 +272,7 @@ Compute the score and include the Score Block in the report after the summary ta
 Write the bib-validate report to `reviews/<paper-slug>/bib-validate/<YYYY-MM-DD-HHMM>.md` (where `<paper-slug>` is the paper directory slug, e.g., `paper-jtp`, `paper-philtech`; create `mkdir -p reviews/<paper-slug>/bib-validate/` first). Then append a row to the project's `REVIEW-STATE.md`:
 
 ```bash
-bash ~/.claude/skills/_shared/review-state-log.sh \
+bash <skills-root>/_shared/review-state-log.sh \
   --check bib-validate \
   --paper "<paper-{venue} dir>" \
   --verdict "<PASS|ISSUES FOUND>" \

@@ -3,6 +3,24 @@
 > Reference for designing new skills. Read this before writing any SKILL.md.
 > Loaded on demand by `/skill-extract` and when manually creating skills.
 
+## Client-neutral authoring
+
+Canonical skill bodies describe operations, not one client's tool spelling.
+Use “structured-question mechanism,” “web search,” “web fetch,”
+“fresh-context sub-agent mechanism,” and “skill-routing mechanism” in prose.
+Claude-specific `allowed-tools` frontmatter remains packaging metadata and is
+ignored by Codex adapters.
+
+Use `<skill-dir>` for the directory containing the active `SKILL.md`,
+`<skills-root>` for its deployed skills root, `<rules-root>` for deployed
+rules, and `<agent-references-root>` for agent reference material. The active
+client resolves these placeholders before executing an example; canonical
+bodies must not name `~/.claude` or `~/.agents` paths.
+
+All Python commands use `uv run python`, including examples and bundled-script
+usage text. External capabilities should name the CLI command first; an MCP or
+app adapter may be listed as an optional client-specific route.
+
 ## Structural Patterns
 
 Choose based on what the skill does. Most skills fit one pattern; some combine two.
@@ -51,7 +69,7 @@ Coordinator → Subagent A (generate) → Subagent B (critique) → Coordinator 
 **When to use:** Tasks where quality benefits from separation of concerns — writing with editing, analysis with critique, multi-perspective evaluation.
 
 **Key elements:**
-- `agents/` directory or Task tool delegation with focused system prompts
+- `agents/` directory or fresh-context sub-agent mechanism delegation with focused system prompts
 - Each subagent does one thing well
 - Coordinator synthesizes outputs
 
@@ -256,7 +274,7 @@ Follow principle of least privilege:
 | Report-only | `Read`, `Glob`, `Grep` |
 | File-creating | + `Write`, `Edit` |
 | Shell-needing | + specific `Bash(command*)` patterns |
-| Interactive | + `AskUserQuestion` |
+| Interactive | + `the available structured-question mechanism` |
 | Delegating | + `Task` |
 
 ---

@@ -17,7 +17,7 @@
 
 **Python:** Always use `uv run python`. Never bare `python`, `python3`, `pip`, or `pip3`.
 
-Use the Python client only for workflows not exposed via MCP (citation networks, institution analysis):
+Use the Python client only for workflows not exposed by the stable CLI (citation networks, institution analysis):
 
 ```bash
 uv run python -c "

@@ -42,12 +42,12 @@ description: Use when you need to create a preprint / working-paper variant of a
 3. **Refuse if target already populated.** If `<existing-folder>/preprint/main.tex` exists:
    - Read it, hash it, compare to a fresh template-only baseline.
    - If it has manual edits → list them, ask whether to refresh template files only (keep main.tex), refresh all (overwrite main.tex too), or abort.
-4. **Verify Template source exists.** Confirm Template is at the correct Dropbox path for this machine — on Mac Mini that's `/Volumes/SSD/Dropbox/Apps/Overleaf/Template/`, on MacBook `~/Library/CloudStorage/Dropbox/Apps/Overleaf/Template/`. Resolve via `hostname` check per `multi-machine.md`. Must contain `your-template.sty`, `your-bib-template.sty`, `.latexmkrc`. If not → abort with instructions to clone Template from Overleaf first.
+4. **Verify Template source exists.** Read the machine's Overleaf root from `~/.config/task-mgmt/overleaf-root`, then verify `<overleaf-root>/Template/` contains `your-template.sty`, `your-bib-template.sty`, and `.latexmkrc`. If the registry or template is absent, abort with instructions to run path setup or clone Template from Overleaf first.
 5. **No separate paper-wp/ directory.** The preprint lives entirely inside the existing Overleaf project as `<existing-folder>/preprint/`, accessed locally via `<source-paper-dir>/preprint/` (the existing `paper-{venue}/paper/` symlink already covers it). The tracked PDF backup goes to `<source-paper-dir-parent>/backup/preprint-vcurrent.pdf` (e.g., `paper-ieee-sp/backup/preprint-vcurrent.pdf`) — alongside the conference paper's backup PDF in the same `backup/` directory.
 
 ## Phase 2 — Stage Template into `preprint/`
 
-Copy the following from `~/Library/CloudStorage/Dropbox/Apps/Overleaf/Template/` into `<existing-folder>/preprint/`:
+Copy the following from `<overleaf-root>/Template/` into `<existing-folder>/preprint/`:
 
 | File | Action |
 |------|--------|

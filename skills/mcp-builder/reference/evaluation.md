@@ -428,7 +428,7 @@ The evaluation script (`scripts/evaluation.py`) supports three transport types:
 For locally-run MCP servers (script launches the server automatically):
 
 ```bash
-python scripts/evaluation.py \
+uv run python scripts/evaluation.py \
   -t stdio \
   -c python \
   -a my_mcp_server.py \
@@ -437,7 +437,7 @@ python scripts/evaluation.py \
 
 With environment variables:
 ```bash
-python scripts/evaluation.py \
+uv run python scripts/evaluation.py \
   -t stdio \
   -c python \
   -a my_mcp_server.py \
@@ -451,7 +451,7 @@ python scripts/evaluation.py \
 For SSE-based MCP servers (you must start the server first):
 
 ```bash
-python scripts/evaluation.py \
+uv run python scripts/evaluation.py \
   -t sse \
   -u https://example.com/mcp \
   -H "Authorization: Bearer token123" \
@@ -464,7 +464,7 @@ python scripts/evaluation.py \
 For HTTP-based MCP servers (you must start the server first):
 
 ```bash
-python scripts/evaluation.py \
+uv run python scripts/evaluation.py \
   -t http \
   -u https://example.com/mcp \
   -H "Authorization: Bearer token123" \
@@ -519,7 +519,7 @@ The evaluation script generates a detailed report including:
 ### Save Report to File
 
 ```bash
-python scripts/evaluation.py \
+uv run python scripts/evaluation.py \
   -t stdio \
   -c python \
   -a my_server.py \
@@ -560,7 +560,7 @@ export ANTHROPIC_API_KEY=your_api_key
 3. **Run evaluation**:
 
 ```bash
-python scripts/evaluation.py \
+uv run python scripts/evaluation.py \
   -t stdio \
   -c python \
   -a github_mcp_server.py \

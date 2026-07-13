@@ -82,7 +82,7 @@ Each checkpoint is a JSON file at `.checkpoints/<skill>/<run-id>.json`:
         └── pw-2026-04-09-1600.json
 ```
 
-For skills invoked outside a project directory, use `~/.claude/checkpoints/` instead.
+For skills invoked outside a project directory, use `~/.local/state/ai-workflows/checkpoints/` instead.
 
 ## Operations
 
@@ -149,7 +149,7 @@ Some phases produce partial output (e.g., verified 14/23 papers before crash). T
 
 | Skill | Phases | Crash risk | Priority |
 |-------|--------|-----------|----------|
-| `/literature` (pipeline) | 6 phases | High (sub-agents, MCP calls) | P0 |
+| `/literature` (pipeline) | 6 phases | High (sub-agents, external CLI calls) | P0 |
 | `/computational-experiments` | 5 phases | Medium (long runs) | P1 |
 | `/pre-submission-report` | 4 agents | High (multi-agent orchestration) | P1 |
 | `/replication-package` | 4 phases | Low (mostly file ops) | P3 |

@@ -1,7 +1,7 @@
 ---
 name: replication-audit
 description: "Use when you need to audit which findings in a literature have been replicated or failed."
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(python*), Task, WebSearch, WebFetch, Bash(paperpile*)
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
 ---
 
@@ -60,7 +60,7 @@ For each key finding, search for replication attempts:
 1. **Forward citations** — use `scholarly scholarly-citations` on the original paper's DOI
 2. **Keyword search** — search for "replication" + key terms from the finding via `scholarly scholarly-search`
 3. **Replication databases** — search for the paper on:
-   - ReplicationWiki (via WebSearch)
+   - ReplicationWiki (via web search)
    - Many Labs projects
    - Replication registries in the relevant field
 4. **Author self-replication** — check if the original authors replicated in a new sample
@@ -181,7 +181,7 @@ Papers building on shaky foundations:
 Write the replication audit to `reviews/<scope>/replication-audit/<YYYY-MM-DD-HHMM>.md` (`mkdir -p reviews/<scope>/replication-audit/` first), where `<scope>` is the paper slug or `_project`. Then append a row to the project's `REVIEW-STATE.md`:
 
 ```bash
-bash ~/.claude/skills/_shared/review-state-log.sh \
+bash <skills-root>/_shared/review-state-log.sh \
   --check replication-audit \
   --paper "<paper-{venue} dir, or — for project-level audits>" \
   --verdict "<PASS|PARTIAL|FAIL>" \

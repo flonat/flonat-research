@@ -2,7 +2,7 @@
 # meeting-transcribe pipeline health check.
 # Checks binaries, models, package venv, watcher, and folders.
 
-PASS="PASS"; FAIL="FAIL"; WARN="WARN"
+PASS="PASS"; FAIL="FAIL"; WARN="WARN"; SKIP="SKIPPED(not this host)"
 errors=0
 
 check() {
@@ -14,12 +14,35 @@ check() {
   return 0
 }
 
-PKG="$HOME/Task-Management/packages/meeting-transcribe"
-MODELS="$HOME/.config/meeting-transcribe/models"
-INBOX="/Volumes/SSD/Dropbox/Apps/meetings-inbox"
+TM="$(head -1 "$HOME/.config/task-mgmt/path" 2>/dev/null)"
+PKG="$TM/packages/meeting-transcribe"
+MODELS="${MEETING_MODEL_DIR:-$HOME/.config/meeting-transcribe/models}"
+PLIST="$PKG/launchd/com.user.meeting-transcribe.plist"
+INBOX="${MEETING_INBOX_DIR:-}"
+if [ -z "$INBOX" ] && [ -f "$PLIST" ]; then
+  INBOX="$(/usr/libexec/PlistBuddy -c 'Print :WatchPaths:0' "$PLIST" 2>/dev/null || true)"
+fi
+OUTPUT="${MEETING_OUTPUT_DIR:-$HOME/vault/meetings}"
+HOST_ROLE="${TM_HOST_ROLE:-}"
+if [ -z "$HOST_ROLE" ]; then
+  host_name="$(scutil --get LocalHostName 2>/dev/null || hostname -s)"
+  case "$(printf '%s' "$host_name" | tr '[:upper:]' '[:lower:]')" in
+    *mini*) HOST_ROLE="mini" ;;
+    *) HOST_ROLE="non-mini" ;;
+  esac
+fi
 
 echo "meeting-transcribe health check"
 echo "================================"
+
+if [ "$HOST_ROLE" != "mini" ]; then
+  check "pipeline host" "$SKIP" "watcher, models, and inbox are Mini-only"
+  [ -d "$OUTPUT" ] && check "synced meetings output" "$PASS" "$OUTPUT" \
+                   || check "synced meetings output" "$WARN" "missing: $OUTPUT"
+  echo "================================"
+  echo "No local failure: run the full verifier on the Mac mini."
+  exit 0
+fi
 
 # Binaries
 for bin in whisper-cli ffmpeg uv; do
@@ -64,10 +87,14 @@ else
 fi
 
 # Folders
-[ -d "$INBOX" ] && check "inbox folder" "$PASS" "$INBOX" \
-                || check "inbox folder" "$WARN" "missing: $INBOX"
-[ -d "$HOME/vault/meetings" ] && check "meetings output dir" "$PASS" \
-                        || check "meetings output dir" "$WARN" "missing: ~/vault/meetings"
+if [ -n "$INBOX" ]; then
+  [ -d "$INBOX" ] && check "inbox folder" "$PASS" "$INBOX" \
+                  || check "inbox folder" "$WARN" "missing: $INBOX"
+else
+  check "inbox folder" "$WARN" "MEETING_INBOX_DIR/WatchPaths not configured"
+fi
+[ -d "$OUTPUT" ] && check "meetings output dir" "$PASS" "$OUTPUT" \
+                 || check "meetings output dir" "$WARN" "missing: $OUTPUT"
 
 echo "================================"
 if [ "$errors" -eq 0 ]; then

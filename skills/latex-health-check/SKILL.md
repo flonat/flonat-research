@@ -152,7 +152,7 @@ When writing the report file, emit an outputs manifest and run the shared verifi
 2. Run:
 
    ```bash
-   python3 "$HOME/.claude/skills/_shared/verify_outputs.py" \
+   uv run python "<skills-root>/_shared/verify_outputs.py" \
        --manifest "$MANIFEST" \
        --project-root "$PROJECT_ROOT"
    ```

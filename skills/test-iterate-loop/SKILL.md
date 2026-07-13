@@ -34,7 +34,7 @@ argument-hint: "[project-path] [--max-iter N] [--mock-hpc] [--container <image>]
 ## When NOT to Use
 
 - The test suite itself is broken (fix the tests first, or you'll loop trying to fix code to match wrong tests)
-- The failure root cause is *external* (network, third-party API, hardware) — Claude can't fix those
+- The failure root cause is *external* (network, third-party API, hardware) — the active agent cannot fix those
 - You want to *write* tests, not fix them — use `/computational-experiments` or direct work
 - The fix requires research / design decisions, not just code adjustment
 
@@ -183,13 +183,13 @@ Report your changes as a diff. The orchestrator runs the tests.
 | Skill / Rule | Relationship |
 |---|---|
 | `subagent-write-guard.md` | Sub-agent dispatch (when needed) follows this rule |
-| `/code-review` | Run AFTER test-iterate-loop terminates PASS — quality scorecard |
+| the `code-review` agent | Run AFTER test-iterate-loop terminates PASS — quality scorecard |
 | `/computational-experiments` | The skill that *writes* the tests this loop iterates on |
 | `code-paper-auditor` agent | Code-paper consistency check — orthogonal concern |
 
 ## Anti-Patterns
 
-- **Don't** loop without a same-error-repeat detector — Claude can spin on the same issue forever.
+- **Don't** loop without a same-error-repeat detector — an agent can spin on the same issue forever.
 - **Don't** auto-commit even on PASS — leave the clean tree for the user to review and stage as they want.
 - **Don't** treat warnings as failures — only test exit code 0 means PASS. Warnings get logged but don't trigger iterations.
 - **Don't** apply fixes to test files — that's a smell that you're fitting tests to broken code. Fix the code.

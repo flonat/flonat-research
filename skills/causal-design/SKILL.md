@@ -3,6 +3,7 @@ name: causal-design
 description: "Use when you need to design or audit an identification strategy for an observational study."
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Task
 argument-hint: "[project-path or tex-file] [--mode design|audit]"
+agent-dependencies: [domain-reviewer]
 ---
 
 # Causal Design
@@ -97,7 +98,7 @@ This memo is what `/data-analysis` Phase 3 checks for before allowing estimation
 
 The reviewer follows [`shared/escalation-protocol.md`](../shared/escalation-protocol.md) — when identification is vague or assumptions are hand-waved, the reviewer escalates rather than accommodating.
 
-Delegate an adversarial review to the `domain-reviewer` agent. Read `references/causal-audit-prompt.md` and pass it as the prompt to the Task tool:
+Delegate an adversarial review to the `domain-reviewer` agent. Read `references/causal-audit-prompt.md` and pass it as the prompt to the fresh-context sub-agent mechanism:
 
 ```
 Launch the domain-reviewer agent with this prompt:

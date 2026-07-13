@@ -64,7 +64,7 @@ Add the hypothetical-derived queries to the existing Phase 2 CLI calls:
 
 ### Step 4: Pass to Sub-Agents
 
-Include the hypothetical abstracts in the sub-agent prompts as "concept expansions" — the agents use them as additional search variations for WebSearch.
+Include the hypothetical abstracts in the sub-agent prompts as "concept expansions" — the agents use them as additional search variations for web search.
 
 ## Example
 
@@ -89,4 +89,4 @@ These queries capture terminology (algorithm aversion, verification cascade, Par
 
 ## Provenance
 
-Adapted from `pre_retrieval_processing()` in SciSciGPT's `backend/tools/literature.py`. The original uses HyDE with Pinecone vector search; our adaptation uses the hypothetical texts as query expansions for API-based search (`scholarly` CLI, WebSearch). The principle is identical — bridge the vocabulary gap between research questions and paper abstracts.
+Adapted from `pre_retrieval_processing()` in SciSciGPT's `backend/tools/literature.py`. The original uses HyDE with Pinecone vector search; our adaptation uses the hypothetical texts as query expansions for API-based search (`scholarly` CLI, web search). The principle is identical — bridge the vocabulary gap between research questions and paper abstracts.

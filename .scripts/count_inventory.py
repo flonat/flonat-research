@@ -142,6 +142,7 @@ EXCLUDE_LINE_PATTERNS = [
     re.compile(r"Referee.2 agent performs"),  # prose about what an agent does
     re.compile(r"Referee.2 agent .+never"),  # prose about agent behavior
     re.compile(r"Referee.2 Agent", re.IGNORECASE),  # section title "The Referee~2 Agent"
+    re.compile(r"\b(?:review|code-review|review-cluster|spawn(?:ed)?|dispatch(?:ed)?|parallel|specialists?)\b.*\b\d+\s+agents?\b", re.IGNORECASE),  # workflow/review team size, not the global agent inventory
     re.compile(r"Trail of Bits|linters? for agent", re.IGNORECASE),  # external tool counts
     re.compile(r"BasicTeX|TeX Live|scheme-full", re.IGNORECASE),  # "~80 packages" = TeX packages, not packages/
     re.compile(r"Absolute Dropbox path", re.IGNORECASE),  # architecture.md portability table: "8 agents / 12 skills use absolute paths" = subset metric, NOT the global total

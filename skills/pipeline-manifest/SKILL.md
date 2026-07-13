@@ -21,7 +21,7 @@ Build and maintain a `pipeline.md` that maps every script in a research project 
 
 - Pure theory projects with no empirical pipeline
 - Single-script projects (no pipeline to map)
-- **Code quality review** — use `/code-review` instead (this skill maps structure, not quality)
+- **Code quality review** — use the `code-review` agent instead (this skill maps structure, not quality)
 
 ## Modes
 
@@ -220,7 +220,7 @@ If `pipeline.md` already exists:
 
 ## Cross-References
 
-- **`/code-review`** — Quality review for individual scripts (checks header presence in Category 2: Script Structure)
+- **the `code-review` agent** — Quality review for individual scripts (checks header presence in Category 2: Script Structure)
 - **`/code-archaeology`** — For understanding unfamiliar code before building the manifest
 - **`/pre-submission-report`** — Pipeline manifest helps verify the replication package is complete
 - **`/init-project-research`** — New projects can run `/pipeline-manifest` once scripts exist

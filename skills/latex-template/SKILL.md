@@ -30,7 +30,8 @@ argument-hint: "[project-path] [--apply]"
 
 ## When NOT to Use
 
-- **Setting up a new project** — use `/init-project-research` instead (it copies the template)
+- **Setting up a new project** — the separate `init-project-research` workflow
+  copies the template; this skill audits an existing project
 - **Fixing compilation errors** — use `/latex` first, then run this
 - **Non-LaTeX projects** — this skill is LaTeX-specific
 
@@ -39,7 +40,7 @@ argument-hint: "[project-path] [--apply]"
 ## Critical Rules
 
 1. **Never edit without `--apply`.** Default mode is report-only. Without `--apply`, the skill produces a report and exits.
-2. **Never auto-apply Conflict items.** Conflicts always require explicit user confirmation via `AskUserQuestion`.
+2. **Never auto-apply Conflict items.** Conflicts always require explicit user confirmation via `the available structured-question mechanism`.
 3. **Semantic comparison, not line-by-line.** Compare packages, options, commands, and environments as logical units — not raw text diffs.
 4. **Preserve project-specific additions.** Items classified as **Keep** are informational. Never suggest removing them unless they conflict with a template feature.
 5. **Template is the reference, not the authority.** Projects may legitimately diverge. The skill reports differences — the user decides what to act on.
@@ -156,7 +157,7 @@ Apply changes in dependency order to avoid compilation breakage:
 1. **Package options** (e.g., add `dvipsnames` to xcolor)
 2. **Missing packages** (insert in correct position relative to existing packages)
 3. **Hyperref configuration** (update `\hypersetup{}` block)
-4. **Bibliography changes** (only if user approves — always `AskUserQuestion` for system changes)
+4. **Bibliography changes** (only if user approves — always `the available structured-question mechanism` for system changes)
 5. **Custom commands** (append after existing commands section)
 6. **Theorem environments** (append after existing theorem section)
 7. **`.latexmkrc`** (create or update)
@@ -165,7 +166,7 @@ Apply changes in dependency order to avoid compilation breakage:
 #### Apply Rules
 
 - **Show a summary first.** Before making any edits, present the full list of changes to be applied (Adopt + Drop items) and ask for confirmation.
-- **Conflicts are always individual.** Each Conflict item gets its own `AskUserQuestion` with the template version, project version, and context.
+- **Conflicts are always individual.** Each Conflict item gets its own `the available structured-question mechanism` with the template version, project version, and context.
 - **Keep items are never touched.** They appear in the report but are skipped during apply.
 - **Preserve comments and whitespace.** When inserting packages, match the project's existing formatting style (e.g., if packages are grouped with comment headers, add to the right group).
 - **Log what was changed.** After applying, list every edit made.
@@ -186,7 +187,8 @@ After applying changes:
 ## What This Skill Does NOT Do
 
 - **Does not rewrite `main.tex` structure.** Only checks `\input{settings}` and bibliography commands.
-- **Does not check content quality.** Use `/proofread` for that.
+- **Does not check content quality.** The separate `proofread` workflow covers
+  prose quality when that additional review is wanted.
 - **Does not manage `.bib` files.** Use `/bib-validate` for bibliography key issues.
 - **Does not handle journal-specific formatting.** Use `/retarget-journal` for that.
 - **Does not compare across projects.** Checks one project at a time against the template.
@@ -227,5 +229,6 @@ Run on each project individually. This skill checks one project at a time.
 - **`/latex`** — used in Phase 7 to verify compilation after applying changes
 - **`/audit-project-research`** — complementary: checks directory structure, this checks LaTeX preamble
 - **`/bib-validate`** — complementary: checks citation keys, this checks bibliography system config
-- **`/init-project-research`** — creates projects from the template; this skill verifies ongoing compliance
+- **`init-project-research`** — creates projects from the template; this skill
+  verifies ongoing compliance
 - **`/retarget-journal`** — handles journal-specific formatting (different concern)

@@ -155,7 +155,7 @@ Brief description (1-3 sentences).
 ---
 name: skill-name
 description: "One-line description of what the skill does."
-allowed-tools: Read, Edit, Write, Glob, Grep, Bash(pattern*), AskUserQuestion
+allowed-tools: Read, Edit, Write, Glob, Grep, Bash(pattern*), the available structured-question mechanism
 argument-hint: <topic> [--flag]
 ---
 ```

@@ -100,11 +100,11 @@ This skill writes files. Before any auto-commit, emit an outputs manifest and ru
 2. Run:
 
    ```bash
-   python3 "$HOME/.claude/skills/_shared/verify_outputs.py" \
+   uv run python "<skills-root>/_shared/verify_outputs.py" \
        --manifest "$MANIFEST" \
        --project-root "$PROJECT_ROOT"
    ```
 
-3. If the verifier exits non-zero, **do not commit** — surface the missing-files list to the user and stop. The verifier has already logged an `error` entry to `~/.claude/ecc/skill-outcomes.jsonl`, which feeds the launcher dashboard.
+3. If the verifier exits non-zero, **do not commit** — surface the missing-files list to the user and stop. The verifier has already logged an `error` entry to `~/.local/state/ai-workflows/skill-outcomes.jsonl`, which feeds the shared skill-health dashboard.
 
 **Why:** closes the "hallucinated outputs" failure class (commit `b2cff75`, 2026-04-18).

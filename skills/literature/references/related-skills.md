@@ -13,8 +13,8 @@
 | `council-cli` | Multi-model search (Phase 2b) and synthesis (Phase 7) — `packages/council-cli/` |
 | `paperpile` CLI | Search personal Paperpile library, extract PDF text/annotations, export BibTeX. Use in Phase 1 to check what's already in the library before searching externally. GROBID tools (`parse_pdf_metadata`, `parse_pdf_references`) extract structured metadata and bibliographies from PDFs — use after downloading to auto-extract refs without manual reading |
 | `shared/reference-resolution.md` | Canonical lookup + filing sequence used by Phase 1 and Phase 6c |
-| arXiv MCP tools | `scholarly arxiv-search`, `scholarly arxiv-get-paper`, `scholarly arxiv-search-category` — preprint search. See [references/arxiv-api-guide.md](arxiv-api-guide.md) |
-| Exa MCP tools | `scholarly exa-search`, `scholarly exa-search-papers`, `scholarly exa-get-contents` — semantic web search, grey literature. Requires `EXA_API_KEY` |
+| arXiv CLI commands | `scholarly arxiv-search`, `scholarly arxiv-get-paper`, `scholarly arxiv-search-category` — preprint search. See [references/arxiv-api-guide.md](arxiv-api-guide.md) |
+| Exa CLI commands | `scholarly exa-search`, `scholarly exa-search-papers`, `scholarly exa-get-contents` — semantic web search, grey literature. Requires `EXA_API_KEY` |
 | Deep loop protocol | [references/deep-loop-protocol.md](deep-loop-protocol.md) — iterative gap analysis + targeted search |
 | `shared/worker-critic-protocol.md` | Inline review of synthesis output before reporting done |
 | `shared/sources-cache.md` | Cache search results to avoid redundant API calls across sessions |

@@ -21,7 +21,7 @@ Packer.toBuffer(doc).then(buffer => fs.writeFileSync("doc.docx", buffer));
 
 After creating the file, validate it. If validation fails, unpack, fix the XML, and repack.
 ```bash
-python scripts/office/validate.py doc.docx
+uv run python scripts/office/validate.py doc.docx
 ```
 
 ## Page Size

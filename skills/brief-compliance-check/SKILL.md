@@ -4,7 +4,7 @@ description: "Use when you need to check a LaTeX submission against a PDF assess
 allowed-tools:
   - Read
   - Glob
-  - Bash(python3*)
+  - Bash(uv:*)
   - Bash(ls*)
 ---
 
@@ -158,7 +158,7 @@ Produce a compliance table per task. Then summarise overall status.
 Write the brief-compliance report to `reviews/<paper-slug>/brief-compliance-check/<YYYY-MM-DD-HHMM>.md` (where `<paper-slug>` is extracted from the paper directory, e.g. `paper-jtp`; create `mkdir -p reviews/<paper-slug>/brief-compliance-check/` first). Then append a row to the project's `REVIEW-STATE.md`:
 
 ```bash
-bash ~/.claude/skills/_shared/review-state-log.sh \
+bash <skills-root>/_shared/review-state-log.sh \
   --check brief-compliance-check \
   --paper "<paper-{venue} dir>" \
   --verdict "<PASS|PARTIAL|FAIL>" \

@@ -14,7 +14,7 @@ or `scholarly source-status --json` for the scholarly stack). If it times out or
 mark that server as unavailable for the session.
 ```
 
-**Note:** `scholarly`, `paperpile`, and `taskflow` now run as CLI shims (not MCP). Probe them with the matching CLI command. Only the genuinely MCP-backed servers (Gmail, Calendar, GitHub, agent-memory, etc.) need the `mcp__*` probe.
+**Note:** `scholarly`, `paperpile`, and `taskflow-cli` are the default portable routes. Probe them with the matching CLI command. For connector-only services (mail, calendar, GitHub, agent-memory), use the active client's registered adapter when one exists.
 
 Do this **once**, at the beginning of the skill — not before every call.
 
@@ -44,9 +44,9 @@ For each skipped phase, suggest what the user can do manually:
 
 | Unavailable | Fallback |
 |-------------|----------|
-| taskflow MCP | "Run `vault sync (edit vault files directly)` later when vault is accessible" |
-| OpenAlex MCP | "Use `/literature` with web search mode instead" |
-| `scholarly` CLI | "Use `/literature` with web search mode instead" |
+| `taskflow-cli` | "Edit the vault file directly later when the vault is accessible" |
+| `scholarly` OpenAlex route | "Use web search mode instead" |
+| `scholarly` CLI | "Use web search mode instead" |
 
 ### Step 5: Summarize at End
 
@@ -64,9 +64,9 @@ These skills should reference this pattern:
 
 | Skill | MCP Server | What depends on it |
 |-------|------------|-------------------|
-| `vault sync` | vault | Steps 3, 5 (search + update) |
-| `task-management` | vault | Daily planning, task creation, pipeline queries |
-| `init-project-research` | vault | Pipeline entry creation |
+| vault workflows | `taskflow-cli` | Search and update steps |
+| `task-management` | `taskflow-cli` | Daily planning, task creation, pipeline queries |
+| `init-project-research` | `taskflow-cli` | Pipeline entry creation |
 | `literature` | `scholarly` CLI | Citation search, DOI verification |
 | `atlas-audit` | vault | Pipeline cross-reference |
 

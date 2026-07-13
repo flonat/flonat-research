@@ -18,7 +18,7 @@ Conduct a structured interview to help formalise a research idea into a concrete
 
 This is a **conversational** skill. Instead of producing a report immediately, you conduct an interview by asking questions one at a time, probing deeper based on answers, and building toward a structured research specification.
 
-**Do NOT use AskUserQuestion.** Ask questions directly in your text responses, one or two at a time. Wait for the user to respond before continuing.
+**Do NOT use the available structured-question mechanism.** Ask questions directly in your text responses, one or two at a time. Wait for the user to respond before continuing.
 
 Before starting, read `.context/profile.md` and `.context/projects/_index.md` to understand the researcher's areas and active projects. If the topic relates to an existing project, read its context file too.
 

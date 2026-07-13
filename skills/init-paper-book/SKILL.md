@@ -65,9 +65,9 @@ For syncing an existing book to a paper revision, use `/audit-paper-book` instea
 
 ## Autonomy
 
-Per the global `--autonomous` / `-y` convention in `~/.claude/rules/phased-work.md` § "Autonomy flag convention". When set:
+Per the global `--autonomous` / `-y` convention in `<rules-root>/phased-work.md` § "Autonomy flag convention". When set:
 
-- **No mid-run `AskUserQuestion`** — every choice point uses the recommended default and logs the decision (chapter scope decisions, screenshot mode, atlas-reload trigger).
+- **No mid-run `the available structured-question mechanism`** — every choice point uses the recommended default and logs the decision (chapter scope decisions, screenshot mode, atlas-reload trigger).
 - **No inter-phase confirmation** — Phases 1 → 5 chain without stopping for `continue`, EXCEPT Phase 4 (verification) which can hard-block Phase 5 on any verifier failure (see "Hard correctness gates" below).
 - **Phase 3 sub-agents still fire in parallel** (chapter drafting); they each carry the standard forbid-list (no git, no build outside the chapter file).
 - **Phase 4 verifier runs mandatorily** — even in autonomous mode, the verifier dispatch and report are not skipped. Any verifier failure (numeric drift, missing citation key, claim outside paper scope, accessibility violation) BLOCKS Phase 5 and exits with a clear remediation list.
@@ -116,7 +116,7 @@ PAPER_TEX="$PAPER_DIR/paper/main.tex"
 # audit script reads it from there on every subsequent run. Do NOT try to
 # auto-guess; ambiguity is a setup-time question, not a runtime one.
 if [[ ! -f "$PAPER_TEX" ]]; then
-    # AskUserQuestion: "What's the canonical .tex filename for this paper?"
+    # the available structured-question mechanism: "What's the canonical .tex filename for this paper?"
     # Example answer: paper-acm-gecco/paper/gecco2026.tex
     # On answer → write `paper_tex: <answer>` into the registry entry below.
     die "No main.tex in $PAPER_DIR/{paper,backup}/. Ask the user for the paper_tex path and store it in the registry."
@@ -188,8 +188,8 @@ When the rendered output is ready, suggest committing the vault changes (`git ad
 
 ## Logging
 
-Append outcome to `~/.claude/ecc/skill-outcomes.jsonl` per `skill-outcome-logging` rule:
+Append outcome to `~/.local/state/ai-workflows/skill-outcomes.jsonl` per `skill-outcome-logging` rule:
 
 ```bash
-mkdir -p ~/.claude/ecc && echo '{"skill":"init-paper-book","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","outcome":"success","session":"'"${CLAUDE_SESSION_ID:-}"'","project":"'"$(basename "$PWD")"'","note":""}' >> ~/.claude/ecc/skill-outcomes.jsonl
+mkdir -p ~/.local/state/ai-workflows && echo '{"skill":"init-paper-book","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","outcome":"success","session":"'"${AI_SESSION_ID:-${CLAUDE_SESSION_ID:-}}"'","project":"'"$(basename "$PWD")"'","note":""}' >> ~/.local/state/ai-workflows/skill-outcomes.jsonl
 ```

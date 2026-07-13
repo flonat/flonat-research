@@ -1,10 +1,10 @@
 # Proposal Reviewer Sub-Agent Prompt Templates
 
-After reading the proposal and completing your notes, **spawn both sub-agents in parallel** using the Task tool. Send both Task tool calls in a single message.
+After reading the proposal and completing your notes, **spawn both sub-agents in parallel** through the client's fresh-context agent mechanism. Send both dispatches in one parallel operation.
 
 ## Standard Forbid-List for All Sub-Agents Below
 
-**Paste this block into every sub-agent prompt below** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Sub-agents do not inherit global rules.
+**Paste this block into every sub-agent prompt below** (per the subagent-prompt-discipline policy in loaded guidance). Sub-agents do not inherit global rules.
 
 ```
 ## Scope of action — DO NOT do these things
@@ -33,7 +33,7 @@ The orchestrator pastes this block once into each of the two sub-agent prompts b
 
 **This is critical for proposals.** Since the work hasn't been done yet, the biggest risk is that someone has already done it (or is doing it concurrently). The proposer may not know.
 
-**Prompt template for the Task tool:**
+**Prompt template for fresh-context agent dispatch:**
 
 ```
 You are a Novelty & Literature Assessor sub-agent for a proposal review.
@@ -98,7 +98,7 @@ OUTPUT FORMAT:
 
 **Purpose:** Assess whether the proposed approach can actually deliver on the promised contributions. This is the "can they actually do this?" check.
 
-**Prompt template for the Task tool:**
+**Prompt template for fresh-context agent dispatch:**
 
 ```
 You are a Feasibility & Methods Assessor sub-agent for a proposal review.
@@ -173,4 +173,4 @@ OUTPUT FORMAT:
 
 ## Launching Sub-Agents
 
-**CRITICAL: Launch both sub-agents in a SINGLE message using two parallel Task tool calls.**
+**CRITICAL: Launch both sub-agents in one parallel dispatch.**

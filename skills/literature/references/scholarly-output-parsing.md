@@ -57,8 +57,8 @@ scholarly arxiv-get-paper --arxiv-id 1904.02868 > /tmp/lit/ghorbani-zou.json 2>&
 uv run python -c "
 from pathlib import Path
 import sys
-sys.path.insert(0, '$HOME/.claude/skills/literature/references')
-exec(Path('$HOME/.claude/skills/literature/references/scholarly-output-parsing.md').read_text().split('\`\`\`python')[1].split('\`\`\`')[0])
+sys.path.insert(0, '<skills-root>/literature/references')
+exec(Path('<skills-root>/literature/references/scholarly-output-parsing.md').read_text().split('\`\`\`python')[1].split('\`\`\`')[0])
 data = get_paper_data('/tmp/lit/ghorbani-zou.json')
 print(data['title'], '|', data['doi'])
 "
@@ -76,4 +76,4 @@ For repeated use, copy the helper into a project-local `code/scholarly_helper.py
 
 - **Pipe through `jq`**: works but requires `jq` available everywhere; adds shell complexity to sub-agent prompts.
 - **Force CLI to silence banner**: `scholarly` has no `--quiet` flag as of 2026-05-04. Filed as enhancement candidate.
-- **Use Python MCP client directly**: defeats the point of CLI-fronted access from sub-agents (per `subagent-prompt-discipline` rule).
+- **Use the package's Python adapter directly**: defeats the point of stable CLI-fronted access from sub-agents (per `subagent-prompt-discipline` rule).

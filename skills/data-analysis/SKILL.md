@@ -3,6 +3,7 @@ name: data-analysis
 description: "Use when you need an end-to-end analysis pipeline: EDA, estimation, or publication output."
 allowed-tools: Bash(uv*, Rscript*, R*, stata*, julia*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[data-path or project-path] [--mode eda|estimation|full]"
+agent-dependencies: [code-review]
 ---
 
 # Data Analysis Pipeline
@@ -101,7 +102,7 @@ Generate publication-ready tables and figures. Read `shared/publication-output.m
 ### Phase 5: Save & Review
 
 1. **Verify outputs exist:** Check all expected files in `paper/tables/` and `paper/figures/`
-2. **Run `/code-review`** on all generated scripts (auto-invoke via Skill tool)
+2. **Run the `code-review` agent** on all generated scripts (auto-invoke via skill-routing mechanism)
 3. **Log the analysis:** Record what was done, which scripts were created, which outputs were generated
 4. **Suggest next steps:** compilation with `/latex`, or additional analyses
 
@@ -135,7 +136,7 @@ Every generated script follows this header template:
 | `data-sensitivity` rule | Phase 1 (data access) |
 | `no-hardcoded-results` rule | Phase 4 (output routing) |
 | `overleaf-separation` rule | Phase 4 (file placement) |
-| `/code-review` skill | Phase 5 (auto-invoked) |
+| the `code-review` agent | Phase 5 (auto-invoked) |
 | `/experiment-design` skill | Suggested if no design exists |
 | `/causal-design` skill | Suggested if no design exists |
 | `/econ-plots` skill | Economics-specific figures |

@@ -6,7 +6,7 @@
 
 ## Standard Forbid-List for All Sub-Agent Templates Below
 
-**Every sub-agent prompt below must include this block** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Sub-agents do not inherit global rules — defaults like "found references → commit them" leak into unauthorised actions unless the prompt negates them affirmatively.
+**Every sub-agent prompt below must include this block** (per `<rules-root>/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Sub-agents do not inherit global rules — defaults like "found references → commit them" leak into unauthorised actions unless the prompt negates them affirmatively.
 
 ```
 ## Scope of action — DO NOT do these things
@@ -75,7 +75,7 @@ prompt: |
   Search Semantic Scholar and arXiv for academic papers on: [TOPIC]
 
   [Same structure as Agent 1, but targeting these specific sources]
-  Use WebSearch with site:semanticscholar.org and site:arxiv.org queries.
+  Use web search with site:semanticscholar.org and site:arxiv.org queries.
 
   Skip these already-known papers: [LIST OF EXISTING CITATION KEYS]
 
@@ -109,7 +109,7 @@ prompt: |
 
   Your tasks:
   1. Run scholarly CLI searches and extract: title, authors, year, journal, DOI, citation count
-  2. Supplement with WebSearch for papers that may be missing from bibliometric databases
+  2. Supplement with web search for papers that may be missing from bibliometric databases
      (very recent papers, working papers, interdisciplinary work)
   3. Search Semantic Scholar (site:semanticscholar.org) for additional coverage
 
@@ -129,7 +129,7 @@ prompt: |
   Search Semantic Scholar and arXiv for academic papers on: [TOPIC]
 
   [Same structure as Agent 1, but targeting these specific sources]
-  Use WebSearch with site:semanticscholar.org and site:arxiv.org queries.
+  Use web search with site:semanticscholar.org and site:arxiv.org queries.
 
   Skip these already-known papers: [LIST OF EXISTING CITATION KEYS]
 
@@ -183,8 +183,8 @@ prompt: |
      a. **Crossref API (most reliable — ALWAYS try this first):** Run:
         `curl -sL "https://api.crossref.org/works?query.bibliographic=TITLE+AUTHOR&rows=3"`
         Parse the JSON response — the first result's `DOI` field is the correct DOI.
-        This uses publisher metadata and is far more reliable than web search or MCP tools.
-        **Do NOT use MCP `scholarly scholarly-search` for specific known papers** — it returns
+        This uses publisher metadata and is far more reliable than broad search tools.
+        **Do NOT use broad `scholarly scholarly-search` for specific known papers** — it returns
         noisy, irrelevant results. Crossref is the gold standard for targeted lookups.
      b. **Publisher page:** Visit the journal's website and search for the paper.
      c. **Web search (last resort):** Search for the paper + "DOI". But DOIs from
@@ -200,8 +200,8 @@ prompt: |
      working paper series, search for a published journal or conference version.
      Check Google Scholar, the DOI, and the author's publication page.
      Use the `scholarly` CLI (`scholarly scholarly-search "<title>" --json`),
-     Crossref API, or WebSearch. The CLI works inside sub-agents; the legacy
-     MCP tool bindings do not.
+     Crossref API, or web search. The CLI works inside sub-agents; the legacy
+     client-scoped connector bindings do not.
      - If a published version exists: use that version's metadata instead
        (journal, year, volume, pages, DOI)
      - If no published version exists: keep the preprint, but note it as
@@ -265,7 +265,7 @@ prompt: |
 
 ### Gap Analysis (runs in main context, not a sub-agent)
 
-The orchestrator runs gap analysis directly — it needs access to the verified paper list and MCP tools.
+The orchestrator runs gap analysis directly — it needs access to the verified paper list and bibliography CLIs.
 
 ```
 Given these {N} verified papers on "{topic}":
@@ -312,7 +312,7 @@ prompt: |
 
   Your tasks:
   1. Search for papers addressing this gap using `scholarly` CLI and/or pre-fetched results
-  2. Supplement with WebSearch for papers the bibliometric databases may miss:
+  2. Supplement with web search for papers the bibliometric databases may miss:
      - Working papers, policy reports, grey literature
      - Very recent publications (last 6 months)
      - Interdisciplinary work that crosses database boundaries
@@ -493,10 +493,10 @@ uv run python -m council_cli \
 
 ## Scaling Guide
 
-| Request size | Search agents | CLI Council (Phase 2b) | DOI pre-verify (MCP) | Verification waves | PDF waves |
+| Request size | Search agents | CLI Council (Phase 2b) | DOI pre-verify (CLI) | Verification waves | PDF waves |
 |---|---|---|---|---|---|
-| 5 papers | 1 (MCP cross-source) | Skip | 1 call | 1 wave (1 agent) | 1 wave |
-| 10-15 papers | 2 (Scholar + MCP) | Skip | 1 call | 1 wave (2-3 agents) | 1 wave |
+| 5 papers | 1 (multi-source CLI) | Skip | 1 call | 1 wave (1 agent) | 1 wave |
+| 10-15 papers | 2 (Scholar + CLI) | Skip | 1 call | 1 wave (2-3 agents) | 1 wave |
 | 20-25 papers | 2-3 | Recommended | 1 call | 1-2 waves | 2 waves |
 | 30+ papers | 3 | Recommended | 1 call (50 DOI limit) | 2+ waves | 3+ waves |
 

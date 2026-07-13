@@ -31,14 +31,18 @@ Ask the user which mode to run:
 
 | Mode | Scope | What it does |
 |------|-------|-------------|
-| **Project** (default) | Single project's `MEMORY.md` + `.claude/state/personal-memory.md` | Consolidate both tiers |
-| **Global** | All `MEMORY.md` + personal-memory files across projects + Task Management | Consolidate all, cross-pollinate shared patterns |
+| **Project** (default) | Project `MEMORY.md` + its portable `.context/auto-memory/<project-id>/` copy | Consolidate project knowledge and its shared continuity copy |
+| **Global** | Portable memory for all manifest-discovered projects + Task Management | Consolidate all and cross-pollinate shared patterns |
 
 ## Workflow
 
 ### Phase 1: Sleep (Consolidation)
 
-Read the target `MEMORY.md` file(s) and `.claude/state/personal-memory.md` (if it exists) and perform:
+Resolve Task Management with `head -1 ~/.config/task-mgmt/path`, then read the
+target `MEMORY.md` file(s) and their manifest-owned portable copies under
+`$TM/.context/auto-memory/<project-id>/`. Use `config/ai-context.toml` and the
+memory-status command as the source of project coverage; never reconstruct a
+client's private cache path by hand.
 
 #### 1.1 Duplicate Detection
 
@@ -77,16 +81,18 @@ Find entries that are no longer relevant.
 
 Check whether entries are in the correct tier (see `learn-tags` rule for the two-tier system).
 
-**Promotion candidates** (personal-memory → MEMORY.md):
-- Entries in `.claude/state/personal-memory.md` that would help a collaborator on a different machine
+**Promotion candidates** (portable project memory → project/global MEMORY.md):
+- Entries that would help a collaborator or a different client
 - Local workarounds that turned out to be general conventions
-- Tool quirks that apply to all machines (not just this one)
+- Tool quirks that apply to all machines
 
-**Demotion candidates** (MEMORY.md → personal-memory):
+**Local-only candidates** (remove from portable memory only with approval):
 - Entries in `MEMORY.md` that reference local paths, machine-specific tool versions, or environment quirks
 - Workarounds that only apply to this specific setup
 
-**Action:** Present promotion/demotion suggestions to the user. Move entries only after explicit approval.
+**Action:** Present promotion/local-only suggestions to the user. Move or remove
+entries only after explicit approval. Never copy machine-specific material into
+the Git-synchronised portable tree.
 
 #### 1.5 Strengthening
 
@@ -144,7 +150,8 @@ Rewrite `MEMORY.md` with:
 3. **Regular entries** in their standard sections (Notation Registry, Citations, Key Decisions, Anti-Patterns, Code Pitfalls)
 4. **Stale entries removed** (only those confirmed by user)
 
-If `.claude/state/personal-memory.md` exists, also rewrite it with consolidated machine-specific entries. Apply any user-approved promotions (move to MEMORY.md) and demotions (move from MEMORY.md to personal-memory).
+Also rewrite the matching portable memory file when the user approved the same
+consolidation there. Do not edit undocumented client-local cache files.
 
 #### 3.2 Diff Report
 
@@ -161,8 +168,8 @@ Before writing, show a summary:
 | Stale entries removed | X (user-confirmed) |
 | Entries strengthened | X |
 | Abstractions generated | X |
-| Tier promotions (personal → generic) | X |
-| Tier demotions (generic → personal) | X |
+| Promotions (portable project → project/global) | X |
+| Local-only removals from portable memory | X |
 | Cross-project promotions | X (global mode) |
 
 ### Entries Before: XX
@@ -174,87 +181,50 @@ Before writing, show a summary:
 
 **Always show the full proposed MEMORY.md before writing.** Wait for explicit approval. The user may want to keep entries flagged as stale, adjust abstractions, or revert merges.
 
-### Phase 4: Propagate to Shared Auto-Memory
+### Phase 4: Converge Portable Memory
 
-**Why:** `scripts/sync-push-memory.sh` append-merges `MEMORY.md`. Deletions propagate via **tombstones**: each shared dir carries a git-tracked `.tombstones` file (one filename per line, `#` comments allowed) that both sync scripts honour since 2026-07-03 — tombstoned entries are removed from both sides on every sync, so other machines self-clean instead of resurrecting deleted entries. This phase mirrors the cleanup to shared AND writes the tombstones.
+The client-neutral memory engine owns local/shared selection, newest-wins
+convergence, conflict copies, privacy preflight, and tombstones. This skill may
+edit approved canonical memory content and append explicit tombstones, but it
+must never copy whole client directories or implement its own merge loop.
 
-**When to run:** Whenever this skill deletes files or shortens `MEMORY.md` (not needed for pure additions). If only adding entries, the normal append-merge sync handles it.
+1. Resolve the engine:
 
-**What to do:**
+   ```bash
+   TM="$(head -1 "$HOME/.config/task-mgmt/path")"
+   ENGINE="$TM/scripts/ai-context.py"
+   ```
 
-1. Identify the shared copy location(s) that correspond to the local scope:
-   - Task Management auto-memory (`~/.claude/projects/-Users-user-*Task-Management/memory/`) → `$TM/.context/auto-memory/task-management/`
-   - Global auto-memory (`~/.claude/projects/*/memory/` for non-TM projects) → `$TM/.context/auto-memory/global/`
+2. Before writing, require a clean read-only status:
 
-2. Mirror local → shared for each location:
-   - **MEMORY.md and MEMORY-ARCHIVE.md:** force-copy from local to shared (overwrites, bypasses append-merge)
-   - **Deletions:** delete from shared **only the entries this cleanup explicitly removed** (the user-confirmed removal set from Phase 3). Track those filenames as you go, and **append each to `$shared_dir/.tombstones`** with a dated `#` comment — this is what makes the deletion stick on other machines.
-   - **Reconcile UP:** any entry present in shared but NOT in local, NOT in the removal set, **and NOT listed in `.tombstones`** (a tombstoned name is a confirmed prior deletion, not a missing entry — re-delete it, don't pull it), is a legit entry this machine never pulled (shared aggregates across machines/sessions). **Pull it into local + flag it for indexing — never delete it.**
-   - **Mirror entry files:** copy any local entry file that's newer/missing into shared.
+   ```bash
+   uv run --no-sync --project "$TM" python "$ENGINE" memory-status --json
+   ```
 
-> ⚠️ **Do NOT infer deletion from a local/shared set difference.** The naive
-> `[ ! -f local/$name ] && rm shared/$name` is a data-loss bug: shared is a
-> *union* across machines, so a shared-only file is usually a real entry local
-> is missing, not something to delete. Real incident 2026-05-31: that loop
-> silently deleted a legit `reference_hermes_vps.md` (created in another
-> session) before it was caught in git. Delete only what Phase 3 explicitly removed.
+   If it reports divergence, conflicts, missing metadata, or pending
+   tombstones, stop and run the normal memory-sync workflow before editing.
 
-3. Commit the shared-copy changes to the Task Management repo with a message explaining it's a cleanup propagation (so the log is clear about why entries vanished).
+3. Apply only the approved consolidation to the project `MEMORY.md` and/or the
+   matching `$TM/.context/auto-memory/<project-id>/` files. A shared-only file
+   is valid data from another machine, never evidence of deletion.
 
-**Example (Task Management scope):**
+4. For an explicitly approved whole-file deletion, append that filename to the
+   matching portable directory's `.tombstones` file with a dated comment. Do
+   not infer tombstones from set differences, and do not delete conflict files.
 
-```bash
-local_dir=~/.claude/projects/-Users-user-Task-Management/memory
-shared_dir="$TM/.context/auto-memory/task-management"
+5. Run the engine, then verify idempotence:
 
-# REMOVED = the entry files THIS cleanup deleted (user-confirmed in Phase 3).
-# ONLY these may be deleted from shared. Edit per run.
-REMOVED=(feedback_notion_rest_api.md feedback_dropbox_path_change.md)   # example
+   ```bash
+   uv run --no-sync --project "$TM" python "$ENGINE" sync-memory --json
+   uv run --no-sync --project "$TM" python "$ENGINE" memory-status --json
+   ```
 
-# Force-copy the indices (overwrite, bypasses append-merge)
-cp "$local_dir/MEMORY.md" "$shared_dir/MEMORY.md"
-[ -f "$local_dir/MEMORY-ARCHIVE.md" ] && cp "$local_dir/MEMORY-ARCHIVE.md" "$shared_dir/MEMORY-ARCHIVE.md"
+   The second command must report `ok: true` and `pending: 0`. Review every
+   generated `.conflict-<host>-<timestamp>` artifact; never delete one as part
+   of the same run.
 
-# 1. Delete from shared ONLY the explicitly-removed entries + tombstone them
-#    (the tombstone makes the deletion propagate: both sync scripts remove
-#    tombstoned files from local AND shared on every push/pull)
-for name in "${REMOVED[@]}"; do
-  rm -f "$shared_dir/$name"
-  echo "$name  # removed $(date +%Y-%m-%d) by /memory-cleanup" >> "$shared_dir/.tombstones"
-done
-
-# 2. Reconcile UP: a shared-only entry (not in REMOVED, not tombstoned) is a
-#    legit entry this machine is missing — pull it into local + flag it,
-#    never delete. A TOMBSTONED shared-only entry is a zombie: re-delete it.
-for f in "$shared_dir"/*.md; do
-  name=$(basename "$f")
-  case "$name" in MEMORY.md|MEMORY-ARCHIVE.md) continue;; esac
-  if [ -f "$shared_dir/.tombstones" ] && grep -q "^$name" "$shared_dir/.tombstones"; then
-    rm -f "$f"; echo "re-deleted tombstoned zombie: $name"; continue
-  fi
-  if [ ! -f "$local_dir/$name" ]; then
-    cp "$f" "$local_dir/$name"
-    echo "PULLED shared-only entry into local — verify + add to MEMORY.md index: $name"
-  fi
-done
-
-# 3. Mirror local → shared (copy locally-newer/missing entry files)
-for f in "$local_dir"/*.md; do
-  name=$(basename "$f")
-  case "$name" in MEMORY.md|MEMORY-ARCHIVE.md) continue;; esac
-  if [ ! -f "$shared_dir/$name" ] || [ "$f" -nt "$shared_dir/$name" ]; then
-    cp "$f" "$shared_dir/$name"
-  fi
-done
-
-# After pulling any shared-only entries, add their index lines to local
-# MEMORY.md, then re-copy local MEMORY.md → shared so both indices match.
-
-# Commit
-cd "$TM" && git add .context/auto-memory/task-management/ && git commit -m "memory: propagate cleanup to shared auto-memory"
-```
-
-**Skip Phase 4 if:** the consolidation only added entries (no deletions, no line removals from MEMORY.md). Append-merge handles additions correctly on its own.
+6. Commit approved changes under `.context/auto-memory/` through the normal Git
+   workflow. Do not auto-commit from this skill.
 
 ## MEMORY.md Sections (Reference)
 
@@ -277,9 +247,9 @@ The Task Management MEMORY.md at the project root:
 $TM/MEMORY.md
 ```
 
-Also check the auto-memory directory (path varies by machine — glob for it):
+Portable auto-memory is rooted at:
 ```
-~/.claude/projects/-Users-user-*Task-Management/memory/MEMORY.md
+$TM/.context/auto-memory/
 ```
 
 ## Cross-References

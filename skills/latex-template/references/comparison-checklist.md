@@ -82,7 +82,7 @@ Label every difference from Phase 2 with one of four categories:
 |-------|---------|--------------------------|
 | **Adopt** | Template feature missing from project. Safe to add. | Apply automatically (with confirmation summary) |
 | **Keep** | Project-specific addition not in template. Legitimate. | No action — informational only |
-| **Conflict** | Same functionality loaded differently. Needs human judgement. | Always ask user via `AskUserQuestion` |
+| **Conflict** | Same functionality loaded differently. Needs human judgement. | Always ask user via `the available structured-question mechanism` |
 | **Drop** | Redundant or superseded by a template equivalent. | Apply automatically (with confirmation summary) |
 
 ### When to use each label

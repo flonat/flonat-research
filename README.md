@@ -106,6 +106,17 @@ Both clients use the same durable files. MCP and hook integrations are
 client-specific adapters, not the source of context.
 <!-- ARCHITECTURE:END -->
 
+### Distribution and privacy
+
+This repository is a curated public distribution, not a mirror of its richer
+upstream workspace. `config/ai-contracts.yaml` records every included asset and
+the clients it supports. Before publication, generated content is anonymised
+and a fail-closed guard rejects personal identity, affiliations, credential
+material, machine-specific paths, internal repository references, and
+secret-bearing filenames. Passing that guard establishes the configured
+disclosure boundary; it does not make excluded workflows part of the public
+product.
+
 ## Components
 
 **Context Library** (`.context/`) — Markdown files that give compatible AI
@@ -123,21 +134,21 @@ See [`docs/skills.md`](docs/skills.md) for the full catalogue.
 <!-- AGENTS-TABLE:START -->
 | Agent | Use case |
 |-------|----------|
-| `artifact-coherence-auditor` | Audits coherence between paper prose and replication outputs — catches hallucinated results, missing scripts, mismatched numbers, and unverifiable claims |
+| `artifact-coherence-auditor` | Audits coherence between paper prose and replication outputs — catches\ \ hallucinated results, missing scripts, mismatched numbers, and unverifiable claims.\ \ Read-only with respect to project files; writes its own report at `reviews/<scope>/artifact-coherence-auditor/<YYYY-MM-DD-HHMM>.md`.\ \ Complements code-paper-auditor (which maps numbers to code) by checking whether\ \ the replication package *actually produces* what the paper claims |
 | `blindspot` | Peripheral vision audit for empirical output |
-| `claim-verify` | Verify that cited claims in a paper accurately represent what the source papers actually say |
-| `code-paper-auditor` | Use this agent when you need to verify code-paper consistency — mapping every quantitative claim in a paper to its source code and output files |
-| `code-review` | Multi-persona orchestrator for adversarial review of R, Python, Julia, or Stata research scripts |
-| `codex-research` | Code review and research agent that delegates to OpenAI Codex CLI in headless mode |
+| `claim-verify` | Verify that cited claims in a paper accurately represent what the source\ \ papers actually say |
+| `code-paper-auditor` | Use this agent when you need to verify code-paper consistency — mapping\ \ every quantitative claim in a paper to its source code and output files |
+| `code-review` | Multi-persona orchestrator for adversarial review of R, Python, Julia,\ \ or Stata research scripts |
+| `codex-research` | Code review and research agent that delegates to OpenAI Codex CLI in\ \ headless mode |
 | `domain-reviewer` | Research-focused substantive correctness agent |
 | `fatal-error-check` | Fast pre-review check for fatal errors in LaTeX papers |
 | `fixer` | Generic fix implementer for any critic report |
 | `gemini-research` | Web research agent that delegates to Gemini CLI in headless mode |
 | `paper-critic` | Adversarial auditor for LaTeX papers |
-| `peer-reviewer` | Use this agent when you need to review someone else's paper — as a peer reviewer, discussant, or for reading group preparation |
-| `proposal-reviewer` | Use this agent when you need to review a research proposal, extended abstract, conference submission outline, or pre-paper plan — either his own or someone else's |
-| `referee2-reviewer` | Use this agent when the user wants a rigorous, adversarial academic review of their work — including papers, manuscripts, research designs, code, or arguments |
-| `reproducibility-auditor` | Reviews research workflows for reproducibility gaps — hidden dependencies, absolute paths, undocumented prerequisites, environment assumptions, and output traceability |
+| `peer-reviewer` | Use this agent when you need to review someone else's paper — as a\ \ peer reviewer, discussant, or for reading group preparation |
+| `proposal-reviewer` | Use this agent when you need to review a research proposal, extended\ \ abstract, conference submission outline, or pre-paper plan — either his own or\ \ someone else's |
+| `referee2-reviewer` | Rigorous adversarial reviewer for papers, manuscripts, research designs, code, and arguments |
+| `reproducibility-auditor` | Reviews research workflows for reproducibility gaps — hidden dependencies,\ \ absolute paths, undocumented prerequisites, environment assumptions, and output\ \ traceability |
 
 <!-- AGENTS-TABLE:END -->
 

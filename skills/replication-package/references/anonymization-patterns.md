@@ -76,7 +76,7 @@ Search `.py`, `.R`, `.r`, `.sh`, `.m`, `.jl`, `.js`, `.ts` for identity patterns
 ### Personal Paths (10d)
 Search all text files for paths that could identify the user:
 ```
-/Users/<username>/     →  /path/to/project/
+<absolute-user-home>/  →  /path/to/project/
 /home/<username>/      →  /path/to/project/
 C:\Users\<username>\   →  /path/to/project/
 ```

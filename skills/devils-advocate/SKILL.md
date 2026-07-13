@@ -92,7 +92,7 @@ When run on a paper in a research project (a `paper-*/` directory exists), persi
 1. **Write the report** to `reviews/<scope>/devils-advocate/<YYYY-MM-DD-HHMM>.md`, where `<scope>` is the in-scope paper slug (e.g. `paper-prima`) or `_project` for a project-level argument. Create the dir first (`mkdir -p reviews/<scope>/devils-advocate/`). Never overwrite — each run is timestamped to the minute. Per `rules/review-artefact-routing.md`, never write to the project root.
 2. **Stamp `reviews/INDEX.md`:**
    ```bash
-   bash ~/.claude/skills/_shared/review-state-log.sh \
+   bash <skills-root>/_shared/review-state-log.sh \
      --check devils-advocate \
      --paper "<scope>" \
      --verdict "<PASS|ISSUES FOUND>" \

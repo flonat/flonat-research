@@ -33,7 +33,7 @@ Synthesize all of today's meetings and voice memos into a single daily brief.
 
 When you find conflicts between meetings (e.g., different decisions on the same topic, contradictory action items, or shifted priorities), don't just note them — ask the user about them.
 
-Use AskUserQuestion: "I found a conflict between your meetings today: [Meeting A] decided [X], but [Meeting B] discussed doing [Y]. Which one is current?"
+Use the available structured-question mechanism: "I found a conflict between your meetings today: [Meeting A] decided [X], but [Meeting B] discussed doing [Y]. Which one is current?"
 
 Options should include:
 - The decision from Meeting A

@@ -5,7 +5,7 @@ After Phase 5 lands the registry entry, atlas reload, and smoke test, build a PD
 ## Invocation
 
 ```bash
-bash ~/.claude/skills/init-paper-book/scripts/build-book-pdf.sh <slug>
+bash <skills-root>/init-paper-book/scripts/build-book-pdf.sh <slug>
 ```
 
 Output: `~/vault/books/<slug>/exports/<slug>.pdf`.

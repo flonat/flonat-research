@@ -122,7 +122,7 @@ data/raw/results.parquet               1.3GB  N/A    N/A      BLOCK   (size; not
 scripts/sync-creds.sh                  2KB    OK     FAIL     BLOCK   (line 15: hf_<...>)
 ```
 
-If any BLOCK rows: ask `AskUserQuestion`:
+If any BLOCK rows: ask `the available structured-question mechanism`:
 - **Fix the issues and rerun** — recommended
 - **Override and proceed** — risky, requires explicit confirmation
 - **Cancel commit** — abort

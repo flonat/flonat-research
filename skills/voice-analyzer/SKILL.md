@@ -4,7 +4,7 @@ version: 1.0.0
 description: >-
   Use when you need to analyze writing samples to create a portable voice profile.
   Analyze writing samples to create a portable voice profile and style guide.
-  Use when setting up voice-matched AI writing, onboarding to a new project,
+  Use when setting up voice-matched editing, onboarding to a new project,
   or refreshing an outdated style guide.
 user-invocable: true
 allowed-tools:

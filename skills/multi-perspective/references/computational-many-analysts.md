@@ -29,7 +29,7 @@ Use `/multi-perspective` first, then many-analysts:
 **When NOT to combine:**
 - If the method choice is uncontested (e.g., randomised experiment → just run many-analysts on specification choices)
 - If you're at the conceptual stage and haven't collected data yet (multi-perspective only)
-- If the only question is "does my code run correctly?" (neither — use `/code-review`)
+- If the only question is "does my code run correctly?" (neither — use the `code-review` agent)
 
 ## The Convex Cost Problem
 

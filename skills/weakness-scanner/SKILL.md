@@ -1,7 +1,7 @@
 ---
 name: weakness-scanner
 description: "Use when you need to identify the weakest arguments across a literature."
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(python*), Task, WebSearch, WebFetch, Bash(paperpile*)
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
 ---
 

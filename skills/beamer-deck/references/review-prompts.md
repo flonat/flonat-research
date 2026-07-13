@@ -4,7 +4,7 @@
 
 ## Standard Forbid-List for All Review Sub-Agents Below
 
-**Paste this block into every review sub-agent prompt below** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Reviewers are read-only on the deck — only the orchestrator applies fixes.
+**Paste this block into every review sub-agent prompt below** (per `<rules-root>/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Reviewers are read-only on the deck — only the orchestrator applies fixes.
 
 ```
 ## Scope of action — DO NOT do these things

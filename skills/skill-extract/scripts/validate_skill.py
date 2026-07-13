@@ -28,7 +28,7 @@ _PLACEHOLDER_PATTERNS = (
 )
 _KNOWN_TOOLS = {
     "Read", "Write", "Edit", "Glob", "Grep", "Bash",
-    "AskUserQuestion", "Task", "WebFetch", "WebSearch",
+    "the available structured-question mechanism", "Task", "web fetch", "web search",
     "NotebookEdit", "EnterPlanMode", "ExitPlanMode", "Skill",
 }
 

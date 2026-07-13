@@ -10,6 +10,7 @@ allowed-tools:
   - Task
   - Write
   - Edit
+agent-dependencies: [domain-reviewer]
 ---
 
 # Verify Math: Route a Math Claim Through the Verification Spectrum
@@ -60,7 +61,7 @@ A theorem is usually several obligations. List each separately: the algebra step
 
 ### 4. Dispatch
 
-- Invoke each rung skill via the Skill tool (`/numerical-check`, `/symbolic-check`, `/lean-check`); dispatch `domain-reviewer` via the Agent tool (fresh context — it reviews math it didn't write, per `agents-vs-skills`).
+- Invoke each rung skill via the skill-routing mechanism (`/numerical-check`, `/symbolic-check`, `/lean-check`); dispatch `domain-reviewer` via the Agent tool (fresh context — it reviews math it didn't write, per `agents-vs-skills`).
 - Each rung writes its own `reviews/<scope>/verify-<method>/…` report (shared shape).
 
 ### 5. Aggregate → one verdict

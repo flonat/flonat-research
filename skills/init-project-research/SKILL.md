@@ -45,7 +45,7 @@ Ten phases, in order:
 
 ## Phase 1: Interview
 
-Use `AskUserQuestion` for structured input. Three rounds to avoid overwhelming.
+Use `the available structured-question mechanism` for structured input. Three rounds to avoid overwhelming.
 
 ### Pre-Interview: Auto-Detection
 

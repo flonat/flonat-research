@@ -52,7 +52,7 @@ argument-hint: "[tex-path] [--no-vision] [--pages 'auto|1,3,5']"
 
 ### Phase 2: Source-pathology re-run (Phase 4 of `/latex`)
 
-Run the 9 grep-based source-pathology detectors from `~/.claude/skills/latex/references/source-pathologies.md`, plus `chktex` and `latexindent -k` if installed. Collect findings into a structured list.
+Run the 9 grep-based source-pathology detectors from `<skills-root>/latex/references/source-pathologies.md`, plus `chktex` and `latexindent -k` if installed. Collect findings into a structured list.
 
 This phase is identical to `/latex` Phase 4 and is rerun here for self-containment (so `/latex-polish` can be invoked without a prior `/latex` run).
 
@@ -181,6 +181,6 @@ This is the only auto-fix offered. All other findings are report-only.
 | `/latex` | Compile + Phase 4 grep lint + citation audit. `/latex-polish` is the deeper sibling for visual-quality review. |
 | `/figure-feedback` | Vision pattern this skill reuses for per-page analysis |
 | `/proofread` | Prose / argument review; non-overlapping concern |
-| `~/.claude/skills/latex/references/source-pathologies.md` | Shared detector catalogue |
+| `<skills-root>/latex/references/source-pathologies.md` | Shared detector catalogue |
 | `rules/review-artefact-routing.md` | Where the polish report is filed |
 | `rules/manuscript-edit-budget.md` | Why this skill is report-only by default |

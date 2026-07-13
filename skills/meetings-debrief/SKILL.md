@@ -18,7 +18,7 @@ This is a multi-phase interactive flow. It connects to `/meetings-prep` when a p
 minutes list --limit 5
 ```
 
-Pick the most recent recording. If there are multiple from today, ask via AskUserQuestion: "You have [N] recordings today. Which one are you debriefing?" with options listing the titles.
+Pick the most recent recording. If there are multiple from today, ask via the available structured-question mechanism: "You have [N] recordings today. Which one are you debriefing?" with options listing the titles.
 
 **If no recent recording exists:**
 Say: "I don't see any recent recordings. Did you run `minutes record` and `minutes stop`? If the recording is from a specific meeting, tell me the title or date and I'll find it."
@@ -46,7 +46,7 @@ Match logic:
 1. Find `.prep.md` files from today or yesterday (within 48 hours)
 2. Read each file's `person:` frontmatter field
 3. Compare against the recording's `attendees:` list — match on first name
-4. If multiple preps match → AskUserQuestion to pick which one
+4. If multiple preps match → the available structured-question mechanism to pick which one
 5. If no prep matches → standalone debrief (skip to 4.2)
 
 ### Phase 4: Debrief
@@ -55,7 +55,7 @@ Two paths depending on whether Phase 3 found a matching prep file.
 
 #### 4.1 Prep-connected debrief (when a matching prep exists)
 
-Read the prep file. Pull out the `goal:` field. Ask via AskUserQuestion:
+Read the prep file. Pull out the `goal:` field. Ask via the available structured-question mechanism:
 
 "You went into this meeting wanting to: **[goal from prep]**
 

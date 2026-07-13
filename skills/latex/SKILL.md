@@ -294,7 +294,7 @@ When the compile produced a PDF (and any backup copy), emit an outputs manifest 
 2. Run:
 
    ```bash
-   python3 "$HOME/.claude/skills/_shared/verify_outputs.py" \
+   uv run python "<skills-root>/_shared/verify_outputs.py" \
        --manifest "$MANIFEST" \
        --project-root "$PROJECT_ROOT"
    ```

@@ -4,7 +4,7 @@
 
 ## Philosophy
 
-Global rules in `~/.claude/rules/` already apply to every session, regardless of project. **Never copy them into `<project>/.claude/rules/`** — duplication causes:
+Global rules in `<rules-root>/` already apply to every session, regardless of project. **Never copy them into `<project>/.claude/rules/`** — duplication causes:
 
 - **Drift**: project copies silently diverge from global source
 - **Context bloat**: every duplicated rule loads twice per session
@@ -14,10 +14,10 @@ Global rules in `~/.claude/rules/` already apply to every session, regardless of
 
 ## Source of truth
 
-The global rules in `~/.claude/rules/`. List them at runtime:
+The global rules in `<rules-root>/`. List them at runtime:
 
 ```bash
-ls ~/.claude/rules/*.md
+ls <rules-root>/*.md
 ```
 
 ## Comparison logic (read-only)
@@ -45,7 +45,7 @@ specific=()
 
 for rule in "<project>/.claude/rules/"*.md; do
   name=$(basename "$rule")
-  global="$HOME/.claude/rules/$name"
+  global="<rules-root>/$name"
   if [ ! -f "$global" ]; then
     specific+=("$name")
   elif diff -q "$rule" "$global" > /dev/null 2>&1; then
@@ -63,8 +63,8 @@ For the Phase 9 report, add a `Rules Hygiene:` section:
 ```
 Rules Hygiene:
   .claude/rules/             9 files (5 redundant, 0 forks, 4 project-specific)
-  check-hostname.md          REDUNDANT — identical to ~/.claude/rules/ — safe to delete
-  dropbox-paths.md           REDUNDANT — identical to ~/.claude/rules/ — safe to delete
+  check-hostname.md          REDUNDANT — identical to <rules-root>/ — safe to delete
+  dropbox-paths.md           REDUNDANT — identical to <rules-root>/ — safe to delete
   latex-outdir.md            project-specific — keep
   ignore-agents-md.md        project-specific — keep
 ```
@@ -80,7 +80,7 @@ If the user wants to clean up, offer:
 for proj_rules in $(find "$RESEARCH_ROOT" -maxdepth 4 -type d -name rules -path "*/.claude/rules"); do
   for rule in "$proj_rules"/*.md; do
     name=$(basename "$rule")
-    global="$HOME/.claude/rules/$name"
+    global="<rules-root>/$name"
     if [ -f "$global" ] && diff -q "$rule" "$global" > /dev/null 2>&1; then
       rm "$rule"
     fi

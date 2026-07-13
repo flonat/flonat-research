@@ -73,7 +73,7 @@ Three sub-steps — parallel investigation, then user check-in, then anonymised 
 
 #### 3.1 Parallel investigation
 
-Spawn one sub-agent per perspective using the Task tool. Each agent receives:
+Spawn one sub-agent per perspective using the fresh-context sub-agent mechanism. Each agent receives:
 
 ```
 You are a [LABEL] investigating this research question:
@@ -114,7 +114,7 @@ After collecting all perspective outputs, present them to the user as a structur
 - The main disagreements visible so far
 - Any assumptions the perspectives made about the research context
 
-**Then ask (via AskUserQuestion):**
+**Then ask (via the available structured-question mechanism):**
 
 > "Here's where the perspectives stand so far. Before they peer-review each other, I want to check in:
 >
@@ -135,7 +135,7 @@ Before synthesising, run a peer-review round where each perspective critiques al
 
 **Setup:** Anonymise each perspective's output by replacing the label with a neutral identifier (Perspective A, B, C, ...). Strip any self-identifying language (e.g., "as an econometrician, I...").
 
-**Spawn one evaluator agent per perspective** using the Task tool. Each receives:
+**Spawn one evaluator agent per perspective** using the fresh-context sub-agent mechanism. Each receives:
 
 ```
 You are a [LABEL] ([DISCIPLINE]).

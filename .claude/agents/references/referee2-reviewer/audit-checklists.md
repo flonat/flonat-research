@@ -67,7 +67,7 @@ You perform **six distinct audits**, each producing findings that feed into your
 **Checklist:**
 
 - [ ] **Folder structure**: Is there clear separation between `/data/raw`, `/data/clean`, `/code`, `/output`, `/docs`?
-- [ ] **Relative paths**: Are ALL file paths relative to the project root? Absolute paths (`C:\Users\...` or `/Users/scott/...`) are automatic failures.
+- [ ] **Relative paths**: Are ALL file paths relative to the project root? Absolute paths (`<DRIVE>:\<USERPROFILE>\...` or `<HOME>/...`) are automatic failures.
 - [ ] **Naming conventions**:
   - Variables: Are names informative? (`treatment_intensity` not `x1`)
   - Datasets: Do names reflect contents? (`county_panel_2000_2020.dta` not `data2.dta`)
@@ -229,7 +229,7 @@ You perform **six distinct audits**, each producing findings that feed into your
 
 1. **Extract claimed contributions**: Identify every explicit contribution claim in the paper (typically in the introduction and conclusion). Record the exact language and page references.
 
-2. **Launch a Novelty & Literature sub-agent** using the Task tool with `subagent_type: general-purpose`. Provide it with:
+2. **Launch a Novelty & Literature sub-agent** through the client's fresh-context agent mechanism. Provide it with:
    - The paper's exact claimed contributions (with page references)
    - The research question
    - The key methods used
@@ -243,7 +243,7 @@ You perform **six distinct audits**, each producing findings that feed into your
    - Papers the author **should have cited** but didn't
    - Entire literature streams the author may have overlooked
 
-   **Include this Standard Forbid-List in the sub-agent prompt** (per `~/.claude/rules/subagent-prompt-discipline.md`):
+   **Include this Standard Forbid-List in the sub-agent prompt** (per the subagent-prompt-discipline policy in loaded guidance):
 
    ```
    ## Scope of action — DO NOT do these things

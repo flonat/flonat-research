@@ -102,7 +102,7 @@ def load_events(window_start: datetime | None = None) -> list[dict]:
             print(f"  Warning: cannot read {filepath}: {e}", file=sys.stderr)
 
     # Also load rule-based outcome logs
-    outcomes_file = ECC_DIR / "skill-outcomes.jsonl"
+    outcomes_file = Path.home() / ".local" / "state" / "ai-workflows" / "skill-outcomes.jsonl"
     if outcomes_file.exists():
         try:
             with open(outcomes_file) as f:

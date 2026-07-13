@@ -39,12 +39,12 @@ Source
 
 ```bash
 ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
-    ~/.claude/skills/init-paper-book/scripts/regenerate_intro.py \
+    <skills-root>/init-paper-book/scripts/regenerate_intro.py \
     <slug> --apply    # omit slug or pass 'all' to do every book
 
 # Dry-run (prints to stdout, no writes):
 ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
-    ~/.claude/skills/init-paper-book/scripts/regenerate_intro.py <slug>
+    <skills-root>/init-paper-book/scripts/regenerate_intro.py <slug>
 ```
 
 The script reads the book registry, resolves the atlas topic (aborting if Hard Rule 4 is violated), rebuilds the masthead + `## About this paper` body from the atlas Description, and preserves anything below the preserve marker.

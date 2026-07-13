@@ -151,7 +151,7 @@ Save to `code/replication/cross-language-report.md`:
 Write the comparison report to `reviews/<scope>/cross-language-check/<YYYY-MM-DD-HHMM>.md` (where `<scope>` is the paper slug for paper-level checks or `_project` for project-level checks; `mkdir -p reviews/<scope>/cross-language-check/` first). Then append a row to the project's `REVIEW-STATE.md`:
 
 ```bash
-bash ~/.claude/skills/_shared/review-state-log.sh \
+bash <skills-root>/_shared/review-state-log.sh \
   --check cross-language-check \
   --paper "<paper-{venue} dir, or — for project-level cross-language checks>" \
   --verdict "<MATCH|DIVERGENCE>" \
@@ -175,5 +175,5 @@ Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
 |----------|-----------|
 | `shared/multi-language-conventions.md` | Phase 3 (language-specific style) |
 | `multi-perspective/references/computational-many-analysts.md` | Context (verification hierarchy) |
-| `/code-review` skill | Phase 6 (optionally review both scripts) |
+| the `code-review` agent | Phase 6 (optionally review both scripts) |
 | `/replication-package` skill | After (include both scripts in replication materials) |

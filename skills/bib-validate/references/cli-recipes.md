@@ -76,4 +76,4 @@ All commands support `--json` and return structured output. Always pass `--json`
 
 ## Sub-agent pattern
 
-`paperpile` has a CLI frontend, so sub-agents can call it directly (no MCP pre-fetch needed). See `rules/subagent-prompt-discipline.md` for the full list of CLI-fronted packages.
+`paperpile` has a CLI frontend, so sub-agents can call it directly without connector pre-fetch. See `rules/subagent-prompt-discipline.md` for the full list of CLI-fronted packages.

@@ -24,7 +24,7 @@ done
 A 200 HTTP code only confirms the page served — it does NOT confirm math rendered, callouts rendered, figures resolved, citations linked. Use the shared `visual_check.mjs` script from `init-paper-book` (same invariants — single H1, no raw mystmd, math rendering, callout rendering, figures resolve, citations link, sidebar chapter list, no console errors):
 
 ```bash
-node ~/.claude/skills/init-paper-book/references/visual_check.mjs \
+node <skills-root>/init-paper-book/references/visual_check.mjs \
     --slug "${SLUG}" \
     --base-url "http://localhost:8770" \
     --output /tmp/audit-paper-book-visual-${SLUG}.json

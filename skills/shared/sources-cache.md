@@ -14,7 +14,7 @@
 | Tier | Location | Scope | Committed? |
 |------|----------|-------|-----------|
 | **Project** | `<project>/.cache/literature/` | One research project | No (gitignored) |
-| **Central** | `~/.cache/claude-literature/` | All projects | No |
+| **Central** | `~/.cache/ai-literature/` | All projects | No |
 
 The project cache takes precedence over the central cache (more specific context).
 
@@ -29,7 +29,7 @@ Each cached result is a JSON file named by query hash:
 ```json
 {
   "query": "human-AI collaboration MCDM",
-  "source": "scholarly_search",
+  "source": "scholarly-search",
   "timestamp": "2026-04-10T14:30:00Z",
   "expires": "2026-05-10T14:30:00Z",
   "params": {"limit": 20, "year_from": 2020},
@@ -69,10 +69,10 @@ else:
 Since skills run as markdown instructions (not code), the caching is implemented as a **convention**:
 
 1. **Before searching:** Check if `<project>/.cache/literature/<source>/` exists and has recent files matching the query
-2. **After searching:** Save results to cache using the Bash tool:
+2. **After searching:** Save results to cache through the shell:
    ```bash
-   mkdir -p .cache/literature/scholarly_search
-   echo '<json>' > .cache/literature/scholarly_search/<hash>.json
+   mkdir -p .cache/literature/scholarly-search
+   echo '<json>' > .cache/literature/scholarly-search/<hash>.json
    ```
 3. **On cache hit:** Read the cached file instead of calling the `scholarly` CLI
 4. **On cache miss or expired:** Call `scholarly <subcommand> ... --json`, then write to cache
@@ -93,7 +93,7 @@ This is lighter than full caching but prevents redundant within-session searches
 |---------|--------|
 | Manual: user says "fresh search" or "ignore cache" | Skip cache, overwrite with new results |
 | TTL expired | Treat as cache miss |
-| `scholarly` CLI updated (new sources, schema changes) | Clear central cache: `rm -rf ~/.cache/claude-literature/` |
+| `scholarly` CLI updated (new sources, schema changes) | Clear central cache: `rm -rf ~/.cache/ai-literature/` |
 | Project `.bib` updated significantly | Clear project cache for that topic |
 
 ## Gitignore Setup

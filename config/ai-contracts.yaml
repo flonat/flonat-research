@@ -45,7 +45,6 @@ assets:
       clients:
       - claude
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -56,19 +55,16 @@ assets:
       - claude
       requires:
       - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - machine-specific-layout
       - shell
       - skill-routing
-      - web
     beamer-deck:
       path: skills/beamer-deck
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -77,6 +73,7 @@ assets:
       path: skills/bib-coverage
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
@@ -86,9 +83,8 @@ assets:
       path: skills/bib-filter
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -96,10 +92,8 @@ assets:
       path: skills/bib-parse
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -109,11 +103,8 @@ assets:
       path: skills/bib-validate
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -123,9 +114,8 @@ assets:
       path: skills/brief-compliance-check
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -134,21 +124,19 @@ assets:
       path: skills/camera-ready
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     causal-design:
       path: skills/causal-design
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
       - subagents
     checkpoint:
       path: skills/checkpoint
@@ -172,7 +160,6 @@ assets:
       clients:
       - claude
       requires:
-      - bare-python-execution
       - claude-home-layout
       - filesystem
       - shell
@@ -190,18 +177,16 @@ assets:
       clients:
       - claude
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
     cross-language-check:
       path: skills/cross-language-check
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -210,19 +195,17 @@ assets:
       path: skills/data-analysis
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     devils-advocate:
       path: skills/devils-advocate
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -231,7 +214,6 @@ assets:
       clients:
       - claude
       requires:
-      - claude-mcp
       - filesystem
       - shell
       - skill-routing
@@ -240,8 +222,8 @@ assets:
       path: skills/docx
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
       - filesystem
       - shell
       - web
@@ -249,18 +231,16 @@ assets:
       path: skills/experiment-design
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     gather-readings:
       path: skills/gather-readings
       clients:
       - claude
       requires:
-      - bare-python-execution
       - filesystem
       - machine-specific-layout
       - shell
@@ -270,12 +250,11 @@ assets:
       path: skills/grill-me
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     handoff:
       path: skills/handoff
       clients:
@@ -287,24 +266,19 @@ assets:
       path: skills/ideas
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     init-paper-book:
       path: skills/init-paper-book
       clients:
       - claude
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
       - web
     init-project:
@@ -319,22 +293,19 @@ assets:
       path: skills/init-project-course
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     init-project-light:
       path: skills/init-project-light
       clients:
       - claude
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     init-project-research:
       path: skills/init-project-research
       clients:
@@ -345,9 +316,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
-      - web
     insights-deck:
       path: skills/insights-deck
       clients:
@@ -363,11 +332,10 @@ assets:
       path: skills/interview-me
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
     knowledge-lint:
       path: skills/knowledge-lint
       clients:
@@ -379,9 +347,8 @@ assets:
       path: skills/latex
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -398,9 +365,8 @@ assets:
       path: skills/latex-health-check
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -408,8 +374,8 @@ assets:
       path: skills/latex-polish
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -417,6 +383,7 @@ assets:
       path: skills/latex-posters
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
@@ -426,6 +393,7 @@ assets:
       path: skills/latex-scaffold
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
@@ -434,35 +402,29 @@ assets:
       path: skills/latex-template
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     lean-check:
       path: skills/lean-check
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     literature:
       path: skills/literature
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
       - web
     math-proof:
@@ -478,9 +440,7 @@ assets:
       clients:
       - claude
       requires:
-      - bare-python-execution
       - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - shell
       - subagents
@@ -498,12 +458,11 @@ assets:
       path: skills/meetings-debrief
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     meetings-list:
       path: skills/meetings-list
       clients:
@@ -517,23 +476,20 @@ assets:
       path: skills/meetings-prep
       clients:
       - claude
+      - codex
       requires:
-      - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     meetings-recap:
       path: skills/meetings-recap
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     meetings-search:
       path: skills/meetings-search
       clients:
@@ -547,15 +503,16 @@ assets:
       path: skills/meetings-verify
       clients:
       - claude
+      - codex
       requires:
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
     meetings-weekly:
       path: skills/meetings-weekly
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
@@ -564,50 +521,44 @@ assets:
       path: skills/memory-cleanup
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     method-audit:
       path: skills/method-audit
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - web
     multi-perspective:
       path: skills/multi-perspective
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
       - subagents
     numerical-check:
       path: skills/numerical-check
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     pdf:
       path: skills/pdf
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
       - filesystem
       - shell
       - web
@@ -615,11 +566,10 @@ assets:
       path: skills/pipeline-manifest
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
     playwright-cli:
       path: skills/playwright-cli
       clients:
@@ -633,29 +583,26 @@ assets:
       path: skills/postmortem
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
     pre-commit-audit:
       path: skills/pre-commit-audit
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
     pre-submission-report:
       path: skills/pre-submission-report
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -666,19 +613,17 @@ assets:
       - claude
       requires:
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
     preregister:
       path: skills/preregister
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - web
     project-deck:
       path: skills/project-deck
@@ -707,8 +652,8 @@ assets:
       path: skills/proofread
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -716,16 +661,16 @@ assets:
       path: skills/python-env
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
       - filesystem
       - shell
     quarto-deck:
       path: skills/quarto-deck
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
       - filesystem
       - shell
       - skill-routing
@@ -735,30 +680,26 @@ assets:
       path: skills/rename-project-research
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     reorg:
       path: skills/reorg
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
     replication-audit:
       path: skills/replication-audit
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -768,19 +709,16 @@ assets:
       path: skills/replication-package
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
-      - structured-input
     retarget-journal:
       path: skills/retarget-journal
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
@@ -789,18 +727,17 @@ assets:
       path: skills/review-cluster
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
     review-response:
       path: skills/review-response
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - skill-routing
@@ -808,6 +745,7 @@ assets:
       path: skills/save-context
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - skill-routing
@@ -834,9 +772,8 @@ assets:
       path: skills/session-log
       clients:
       - claude
+      - codex
       requires:
-      - claude-client-instruction
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -845,13 +782,10 @@ assets:
       clients:
       - claude
       requires:
-      - bare-python-execution
       - claude-client-instruction
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
       - web
     skill-extract:
@@ -859,12 +793,9 @@ assets:
       clients:
       - claude
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - web
     skill-health:
       path: skills/skill-health
@@ -879,20 +810,16 @@ assets:
       path: skills/skill-preflight
       clients:
       - claude
+      - codex
       requires:
-      - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
     split-pdf:
       path: skills/split-pdf
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-client-instruction
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -902,8 +829,8 @@ assets:
       path: skills/strategic-revision
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
       - filesystem
       - shell
       - skill-routing
@@ -912,86 +839,73 @@ assets:
       path: skills/symbolic-check
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     sync-permissions:
       path: skills/sync-permissions
       clients:
       - claude
       requires:
       - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - web
     synthesise-reviews:
       path: skills/synthesise-reviews
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
       - subagents
     synthetic-data:
       path: skills/synthetic-data
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     system-audit:
       path: skills/system-audit
       clients:
       - claude
       requires:
       - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
     tailscale-mosh-recover:
       path: skills/tailscale-mosh-recover
       clients:
       - claude
       requires:
-      - claude-tool-syntax
       - filesystem
       - machine-specific-layout
       - shell
       - skill-routing
-      - structured-input
       - web
     task-management:
       path: skills/task-management
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
-      - structured-input
     test-iterate-loop:
       path: skills/test-iterate-loop
       clients:
       - claude
       requires:
-      - claude-client-instruction
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
       - subagents
     tikz:
       path: skills/tikz
@@ -1006,6 +920,7 @@ assets:
       path: skills/update-focus
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
@@ -1014,63 +929,54 @@ assets:
       path: skills/update-project-doc
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     venue-fork:
       path: skills/venue-fork
       clients:
       - claude
+      - codex
       requires:
-      - claude-client-instruction
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
-      - web
     verify-math:
       path: skills/verify-math
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     voice-analyzer:
       path: skills/voice-analyzer
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
     voice-editor:
       path: skills/voice-editor
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - skill-routing
-      - structured-input
     weakness-scanner:
       path: skills/weakness-scanner
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - web
     webapp-testing:
       path: skills/webapp-testing
       clients:
@@ -1112,18 +1018,17 @@ assets:
       path: skills/wire-shared-package
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
-      - structured-input
     xlsx:
       path: skills/xlsx
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
       - filesystem
       - shell
       - web
@@ -1132,6 +1037,7 @@ assets:
       path: agents/artifact-coherence-auditor.md
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - skill-routing
@@ -1139,6 +1045,7 @@ assets:
       path: agents/blindspot.md
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - skill-routing
@@ -1146,16 +1053,18 @@ assets:
       path: agents/claim-verify.md
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
+      - web
     code-paper-auditor.md:
       path: agents/code-paper-auditor.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -1163,11 +1072,9 @@ assets:
       path: agents/code-review.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
       - subagents
@@ -1176,7 +1083,6 @@ assets:
       clients:
       - claude
       requires:
-      - claude-mcp
       - external-codex-delegation
       - filesystem
       - shell
@@ -1185,24 +1091,24 @@ assets:
       path: agents/domain-reviewer.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - skill-routing
     fatal-error-check.md:
       path: agents/fatal-error-check.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - skill-routing
     fixer.md:
       path: agents/fixer.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -1211,9 +1117,8 @@ assets:
       path: agents/gemini-research.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -1222,8 +1127,8 @@ assets:
       path: agents/paper-critic.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
@@ -1232,10 +1137,8 @@ assets:
       path: agents/peer-reviewer.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-mcp
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
@@ -1245,23 +1148,20 @@ assets:
       path: agents/proposal-reviewer.md
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
+      - skill-routing
       - subagents
       - web
     referee2-reviewer.md:
       path: agents/referee2-reviewer.md
       clients:
       - claude
+      - codex
       requires:
-      - bare-python-execution
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
       - subagents
@@ -1270,9 +1170,9 @@ assets:
       path: agents/reproducibility-auditor.md
       clients:
       - claude
+      - codex
       requires:
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
   hooks:

@@ -54,7 +54,7 @@ Full replacement tables and self-citation protocol: [`anonymization-patterns.md`
 - **10a — README/docs**: Replace names, emails, institutions. Replace "Author"/"Contact" sections with `[Anonymized for blind review.]`
 - **10b — Code headers**: Search `.py`, `.R`, `.sh`, etc. for comment headers with identity items. Replace with `# Author: Anonymous`
 - **10c — Package metadata**: `pyproject.toml`, `DESCRIPTION`, `package.json` author fields
-- **10d — Personal paths**: Replace `/Users/<username>/` etc. with generic paths
+- **10d — Personal paths**: Replace absolute user-home paths with generic paths
 - **10e — Global sweep**: Case-insensitive search-and-replace for every identity item. Be careful with common words (e.g., "Reading", "York") — flag ambiguous cases for user review.
 
 Full patterns and replacement tables: [`anonymization-patterns.md`](anonymization-patterns.md)

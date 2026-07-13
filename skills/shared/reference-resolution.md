@@ -9,7 +9,7 @@ When resolving a reference (checking if it exists, finding metadata, verifying D
 1. **Paperpile** (primary reference manager) — check membership **by DOI** (`paperpile lookup-by-doi`); `paperpile search-library` is a metadata-discovery aid, **not** a membership test (see "Membership Check" below). If found, reuse its `citekey`.
 2. **Bibliography MCP** (scholarly sources) — `scholarly scholarly-search` across OpenAlex + Scopus + WoS for metadata enrichment.
 3. **Crossref API** (DOI fallback) — `curl -sL "https://api.crossref.org/works?query.bibliographic=[URL-encoded title+author]&rows=3"` for DOI resolution.
-4. **Web search** (last resort) — `WebSearch` for papers not found in any structured source.
+4. **Web search** (last resort) — `web search` for papers not found in any structured source.
 
 **Graceful degradation:** If the `paperpile` CLI is unavailable, skip it with a warning and continue with external sources.
 
@@ -38,9 +38,9 @@ A DOI-less candidate can't be DOI-verified: fall back to the author+title `searc
 **For any reconciliation of more than a handful of entries, call `skills/_shared/reconcile_bib.py` instead of writing an ad-hoc matching loop.** Hand-rolled fuzzy matchers caused an unrecoverable file corruption on 2026-05-30 (a surname+year matcher collapsed one author's four papers onto a single key, with no backup). The helper bakes in the invariants below.
 
 ```bash
-uv run python ~/.claude/skills/_shared/reconcile_bib.py <bib>                  # dry-run report (default)
-uv run python ~/.claude/skills/_shared/reconcile_bib.py <bib> --apply         # swap keys + backfill DOIs (backs up first)
-uv run python ~/.claude/skills/_shared/reconcile_bib.py <bib> --apply --enrich # also Crossref-by-DOI enrich authors/journal/vol/pages
+uv run python <skills-root>/_shared/reconcile_bib.py <bib>                  # dry-run report (default)
+uv run python <skills-root>/_shared/reconcile_bib.py <bib> --apply         # swap keys + backfill DOIs (backs up first)
+uv run python <skills-root>/_shared/reconcile_bib.py <bib> --apply --enrich # also Crossref-by-DOI enrich authors/journal/vol/pages
 ```
 
 **Non-negotiable invariants (the helper enforces them; honour them in any manual fallback):**

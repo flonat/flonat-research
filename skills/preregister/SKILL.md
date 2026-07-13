@@ -61,7 +61,7 @@ Surface what you found in 3-4 lines so the user knows you started from their exi
 
 ### Phase 2 — Elicit the missing pieces
 
-Use `AskUserQuestion` to fill gaps. Don't ask what you already know from Phase 1.
+Use `the available structured-question mechanism` to fill gaps. Don't ask what you already know from Phase 1.
 
 The non-negotiable inputs for any preregistration:
 

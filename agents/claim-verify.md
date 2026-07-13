@@ -2,18 +2,54 @@
 name: claim-verify
 fidelity: high
 oversight: very-high
-description: "Verify that cited claims in a paper accurately represent what the source papers actually say. Checks every factual claim against its reference. Read-only with respect to project files (paper, bib, cited PDFs); writes its own Claim Verify Report at `reviews/<scope>/claim-verify/<YYYY-MM-DD-HHMM>.md`. Launched as a fresh-context agent because the producing session cannot reliably re-judge whether its own paraphrases of source papers are faithful.\n\nExamples:\n\n- Example 1:\n  user: \"Verify the claims I make about cited papers\"\n  assistant: \"I'll launch the claim-verify agent to check every cited claim against its source.\"\n  <commentary>\n  Citation fidelity check. Launch claim-verify agent — fresh context required to avoid re-validating one's own paraphrases.\n  </commentary>\n\n- Example 2:\n  user: \"Does what I wrote about Smith (2024) match what Smith actually said?\"\n  assistant: \"Launching the claim-verify agent to verify the Smith (2024) attributions.\"\n  <commentary>\n  Specific source-attribution check. Use claim-verify agent with scope limited to one source.\n  </commentary>\n\n- Example 3:\n  user: \"A reviewer flagged that this is not what Hashmi (2015) found\"\n  assistant: \"I'll launch the claim-verify agent to check the Hashmi (2015) claim against the paper.\"\n  <commentary>\n  Reviewer-flagged citation. claim-verify agent reads the source paper and reports.\n  </commentary>\n\n- Example 4:\n  user: \"Pre-submission citation audit\"\n  assistant: \"Launching the claim-verify agent for a full citation-fidelity audit.\"\n  <commentary>\n  Pre-submission gate. Use claim-verify agent to catch misattributions before reviewers do.\n  </commentary>"
-tools:
-  - Read
-  - Glob
-  - Grep
-  - Write
-  - Bash
+description: "Verify that cited claims in a paper accurately represent what the source\
+  \ papers actually say. Checks every factual claim against its reference. Read-only\
+  \ with respect to project files (paper, bib, cited PDFs); writes its own Claim Verify\
+  \ Report at `reviews/<scope>/claim-verify/<YYYY-MM-DD-HHMM>.md`. Launched as a fresh-context\
+  \ agent because the producing session cannot reliably re-judge whether its own paraphrases\
+  \ of source papers are faithful.\n\nExamples:\n\n- Example 1:\n  user: \"Verify\
+  \ the claims I make about cited papers\"\n  assistant: \"I'll launch the claim-verify\
+  \ agent to check every cited claim against its source.\"\n  <commentary>\n  Citation\
+  \ fidelity check. Launch claim-verify agent — fresh context required to avoid re-validating\
+  \ one's own paraphrases.\n  </commentary>\n\n- Example 2:\n  user: \"Does what I\
+  \ wrote about Smith (2024) match what Smith actually said?\"\n  assistant: \"Launching\
+  \ the claim-verify agent to verify the Smith (2024) attributions.\"\n  <commentary>\n\
+  \  Specific source-attribution check. Use claim-verify agent with scope limited\
+  \ to one source.\n  </commentary>\n\n- Example 3:\n  user: \"A reviewer flagged\
+  \ that this is not what Hashmi (2015) found\"\n  assistant: \"I'll launch the claim-verify\
+  \ agent to check the Hashmi (2015) claim against the paper.\"\n  <commentary>\n\
+  \  Reviewer-flagged citation. claim-verify agent reads the source paper and reports.\n\
+  \  </commentary>\n\n- Example 4:\n  user: \"Pre-submission citation audit\"\n  assistant:\
+  \ \"Launching the claim-verify agent for a full citation-fidelity audit.\"\n  <commentary>\n\
+  \  Pre-submission gate. Use claim-verify agent to catch misattributions before reviewers\
+  \ do.\n  </commentary>"
 model: opus
-color: blue
-memory: project
-initialPrompt: "Locate the paper to audit (LaTeX project root from cwd, or path supplied in launch prompt). Find the .tex / .bib files. Extract every cited claim. For each, locate the source PDF (project's articles/, paper/*.bib for DOI lookup, or scholarly CLI for fetch). Read each source and verify the claim. Apply the eight verification heuristics (number accuracy, denominator confusion, cross-paper contamination, quote fidelity, directional accuracy, attribution accuracy, temporal/scope accuracy, likely typos in source). Return a Claim Verify Report with per-claim verdicts."
+tools:
+- Read
+- Glob
+- Grep
+- Write
+- Bash
+initialPrompt: Locate the paper to audit (LaTeX project root from cwd, or path supplied
+  in launch prompt). Find the .tex / .bib files. Extract every cited claim. For each,
+  locate the source PDF (project's articles/, paper/*.bib for DOI lookup, or scholarly
+  CLI for fetch). Read each source and verify the claim. Apply the eight verification
+  heuristics (number accuracy, denominator confusion, cross-paper contamination, quote
+  fidelity, directional accuracy, attribution accuracy, temporal/scope accuracy, likely
+  typos in source). Return a Claim Verify Report with per-claim verdicts.
+readonly: true
 ---
+
+<!-- Generated by scripts/ai-infra-sync.py from a neutral agent contract; do not edit directly. -->
+
+## Execution contract (generated; mandatory)
+
+- Write only the declared report artifact: `reviews/<scope>/claim-verify/<YYYY-MM-DD-HHMM>.md`.
+- Treat project source files as read-only.
+- Write reports only at the declared artifact path: `reviews/<scope>/claim-verify/<YYYY-MM-DD-HHMM>.md`.
+- Do not stage, commit, push, or otherwise mutate Git state.
+- Do not persist agent memory.
+- Declared capabilities: filesystem-read, report-write, shell-read-only, skill-routing, web.
 
 # Claim Verify Agent: Verify Claims Against Cited Sources
 
@@ -60,7 +96,7 @@ When launched, gather context in this order:
 
 1. **The paper.** Find `main.tex` or the principal `.tex` file via Glob. If a `paper-*/paper/main.tex` symlink exists, follow it.
 2. **The bibliography.** Find `.bib` files in the paper directory.
-3. **The articles/ folder** at the project root, if it exists — PDFs of cited sources gathered via `/gather-readings`.
+3. **The articles/ folder** at the project root, if it exists — PDFs of cited sources gathered by the project's reading workflow.
 4. **MEMORY.md** if it exists — for project-specific citation conventions or `[LEARN:citation]` corrections.
 
 You are auditing the paper's prose claims against their cited sources. You do not need to read the entire paper line-by-line; focus on sections that make factual attributions.
@@ -121,7 +157,7 @@ Per source, record status:
 - **PARTIAL** — only abstract available
 - **MISSING** — cannot locate
 
-If many sources are MISSING, note this in the report header and recommend the user run `/gather-readings` before re-running.
+If many sources are MISSING, note this in the report header and recommend gathering the missing readings before re-running.
 
 ---
 
@@ -162,7 +198,7 @@ Never silently skip a claim. If you cannot verify it, mark CANNOT VERIFY with an
 
 ## Phase 4: Report
 
-Write your Claim Verify Report directly to `reviews/<paper-slug>/claim-verify/<YYYY-MM-DD-HHMM>.md` using the Write tool (where `<paper-slug>` is the paper directory name; `mkdir -p reviews/<paper-slug>/claim-verify/` if Write doesn't create parent dirs). Then return the report content as your final response, ending with the stamp directive (see Final Step section below). The format:
+Write your Claim Verify Report directly to `reviews/<paper-slug>/claim-verify/<YYYY-MM-DD-HHMM>.md` through the available filesystem operation (where `<paper-slug>` is the paper directory name; create the parent directory if needed). Then return the report content as your final response, ending with the stamp directive (see Final Step section below). The format:
 
 ```markdown
 # Claim Verify Report
@@ -228,7 +264,7 @@ In all cases, note what was NOT checked in the report header.
 
 You do NOT run `bash review-state-log.sh` yourself. Instead, end your final response with a `review-state-stamp` fenced block in **strict YAML format** (no JSON). The orchestrator parses this block and runs the stamping helper.
 
-**Read `skills/_shared/stamp-directive-spec.md` for the full format, BAD examples, and field rules.**
+**Read `~/.claude/shared-skills/_shared/stamp-directive-spec.md` for the full format, BAD examples, and field rules.**
 
 Your agent-specific values:
 

@@ -1,7 +1,7 @@
 ---
 name: method-audit
 description: "Use when you need to extract and compare data collection methods across empirical papers."
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(python*), Task, WebSearch, WebFetch, Bash(paperpile*)
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
 ---
 
@@ -33,7 +33,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Theoretical papers** — use `/theory-mapper` instead
 - **Single-paper deep read** — use `/split-pdf`
 - **Your own research design** — use `/causal-design` or `/experiment-design`
-- **Code review** — use `/code-review`
+- **Code review** — use the `code-review` agent
 
 ## Input
 

@@ -56,7 +56,7 @@ Both fixes are deterministic and pull from the same atlas fields (`outputs[0].ve
 
 ```bash
 ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
-    ~/.claude/skills/init-paper-book/scripts/regenerate_intro.py \
+    <skills-root>/init-paper-book/scripts/regenerate_intro.py \
     <slug> --apply
 ```
 

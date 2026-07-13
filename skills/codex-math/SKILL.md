@@ -56,7 +56,7 @@ Codex is non-interactive — it gets one prompt and returns one response. The qu
 
 Use `scripts/extract_block.py` to pull the relevant content, then hand it to the `codex-research` agent. Your job is to give the right pattern so it extracts the right block. If the proposition references definitions or equations from elsewhere in the paper, the helper grabs referenced equations automatically, but it may miss context. When verifying a hard proof:
 
-1. Run `python3 ~/.claude/skills/codex-math/scripts/extract_block.py <file.tex> "<pattern>"` first to see what it pulls (`<pattern>` is a label like `prop:concavity` or literal text like `Theorem 1`).
+1. Run `uv run python <skills-root>/codex-math/scripts/extract_block.py <file.tex> "<pattern>"` first to see what it pulls (`<pattern>` is a label like `prop:concavity` or literal text like `Theorem 1`).
 2. Check the extracted block includes everything Codex needs; if critical context is missing, use explore mode instead and construct the full prompt manually.
 
 ### For explore mode (you write the prompt)
@@ -97,7 +97,7 @@ Check whether a proof is correct step by step.
 
 ```bash
 # 1. Extract the block (proposition + proof + referenced equations)
-python3 ~/.claude/skills/codex-math/scripts/extract_block.py paper/sections/model.tex "prop:concavity"
+uv run python <skills-root>/codex-math/scripts/extract_block.py paper/sections/model.tex "prop:concavity"
 ```
 
 2. Launch `codex-research` with a prompt of the form:

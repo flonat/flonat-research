@@ -25,7 +25,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-JSONL_PATH = Path.home() / ".claude" / "ecc" / "skill-outcomes.jsonl"
+JSONL_PATH = Path.home() / ".local" / "state" / "ai-workflows" / "skill-outcomes.jsonl"
 
 
 def load_db() -> sqlite3.Connection:

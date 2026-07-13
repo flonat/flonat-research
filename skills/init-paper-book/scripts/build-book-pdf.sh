@@ -30,7 +30,7 @@ if [[ ! -d "$BOOK_DIR" ]]; then
 fi
 if [[ ! -f "$BOOK_DIR/myst.yml" ]]; then
   echo "[0/5] myst.yml not found — bootstrapping from books/index.yaml"
-  python3 - "$SLUG" "$BOOK_DIR" <<'PY'
+  uv run python - "$SLUG" "$BOOK_DIR" <<'PY'
 import re, sys, pathlib
 slug, book_dir = sys.argv[1], pathlib.Path(sys.argv[2])
 idx = (pathlib.Path.home() / "vault" / "books" / "index.yaml").read_text()
@@ -104,7 +104,7 @@ echo "[3/5] patching main tex ($MAIN_TEX)"
 # Swap 8-bit font setup for fontspec (xelatex needs this for unicode glyphs
 # like ↗ ∈ ─ ├ that mystmd emits in callouts, code blocks, tree diagrams).
 # Also compose a custom title page from atlas metadata + myst.yml overrides.
-python3 - "$MAIN_TEX" "$BOOK_DIR" "$SLUG" <<'PY'
+uv run python - "$MAIN_TEX" "$BOOK_DIR" "$SLUG" <<'PY'
 import re, sys, pathlib
 
 main_tex   = pathlib.Path(sys.argv[1])
@@ -376,7 +376,7 @@ echo "[4/5] patching per-chapter tex (section→chapter)"
 # Per-chapter files are <PREFIX>-<chapter>.tex. Bump heading depth one level so
 # the book class produces 1.x / 2.x / ... chapter numbering instead of 0.x.
 # Use Python with sentinels to avoid sed's order-dependent reapplication.
-python3 - "$TEX_DIR" "$PREFIX" <<'PY'
+uv run python - "$TEX_DIR" "$PREFIX" <<'PY'
 import re, sys, pathlib
 tex_dir = pathlib.Path(sys.argv[1])
 prefix  = sys.argv[2]

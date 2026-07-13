@@ -22,7 +22,7 @@ argument-hint: "[no arguments — runs full sweep]"
 
 1. **Lint** — run `npx agnix .` + skill-numbering lint + review-agent logger-gate lint
 2. **Facts** — run `.scripts/system_audit_facts.py all --json` (deterministic: counts, docs, ecosystem, friends repo)
-3. **Dispatch** — launch 3 judgment sub-agents in parallel via the Task tool (SA2/SA3/SA6)
+3. **Dispatch** — launch 3 judgment sub-agents in parallel via the fresh-context sub-agent mechanism (SA2/SA3/SA6)
 4. **Collect** — gather facts JSON + sub-agent findings
 5. **Consolidate** — merge into a single timestamped report
 6. **Present** — show key findings to the user
@@ -31,10 +31,10 @@ argument-hint: "[no arguments — runs full sweep]"
 
 ## Autonomy
 
-Per the global `--autonomous` / `-y` convention in `~/.claude/rules/phased-work.md` § "Autonomy flag convention". Invoke as `/system-audit --autonomous` (or `-y`). When set:
+Per the global `--autonomous` / `-y` convention in `<rules-root>/phased-work.md` § "Autonomy flag convention". Invoke as `/system-audit --autonomous` (or `-y`). When set:
 
 - **No inter-phase pauses** — Lint → Dispatch → Collect → Consolidate → Present chain end-to-end.
-- **No `AskUserQuestion` mid-run** — sub-agent count defaults to 3 (SA2/SA3/SA6), all sub-agents launch in parallel without confirmation.
+- **No `the available structured-question mechanism` mid-run** — sub-agent count defaults to 3 (SA2/SA3/SA6), all sub-agents launch in parallel without confirmation.
 - **No interim "review and continue" pauses** between dispatch and consolidation.
 - **Sub-agent forbid-list still applied** — all 3 sub-agents are read-only (no edits to skills/hooks/agents/rules during the audit).
 - **Report-only invariant preserved** — `--autonomous` does NOT change the skill's read-only nature; it only suppresses confirmation prompts. No fixes are ever applied.
@@ -120,7 +120,7 @@ If the script fails (exit code != 0), capture stderr in the report under a **Fac
 
 ## Phase 2: Dispatch Judgment Sub-Agents
 
-Launch 3 in a single message using parallel Task tool calls. Each sub-agent is `subagent_type: Explore`.
+Launch 3 in a single message using parallel fresh-context sub-agent mechanism calls. Each sub-agent is `subagent_type: Explore`.
 
 **Context overflow prevention:** Instruct each sub-agent to keep its returned output concise — summary tables and key findings only (under 500 words). If detailed findings are large, the sub-agent should write them to a temp file (e.g., `/tmp/system-audit/sa-N.md`) and return only the file path + summary.
 

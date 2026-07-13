@@ -26,13 +26,13 @@ handles it. This skill is general-purpose file tidying.
 First `hostname`:
 
 - **On the Mac Mini** (`[server]`): the `reorg` shim is on PATH — call `reorg …` directly.
-- **Anywhere else** (MacBook, etc.): run it on the Mini over SSH by full path:
-  `ssh mini 'python3 ~/.local/share/local-reorg/reorg.py <args>'`
+- **Anywhere else** (MacBook, etc.): run the installed Mini wrapper over SSH:
+  `ssh mini '~/.local/bin/reorg <args>'`
 
-The model + files both live on the Mini, so **give an absolute Mini path**. Translate
-Dropbox paths: the MacBook's `~/Library/CloudStorage/Dropbox/…` is the Mini's
-`/Volumes/SSD/Dropbox/…`. If the target is a Dropbox path, rewrite the root before passing
-it. If you can't resolve the path unambiguously, ask.
+The model + files both live on the Mini, so resolve the target using the Mini's
+Task Management path registries before invoking the wrapper. Do not embed
+either machine's physical Dropbox root. If you cannot resolve the path
+unambiguously, ask.
 
 ## Workflow
 
@@ -62,7 +62,7 @@ it. If you can't resolve the path unambiguously, ask.
 
 ## Safety (the CLI enforces; restate to the user)
 
-- **Refuses** Overleaf (`Apps/Overleaf/`), the vault (`vault/`), `~/.claude/`, and
+- **Refuses** Overleaf (`Apps/Overleaf/`), the vault (`vault/`), AI client homes, and
   anything under `data/raw/` or `.git/`. Don't try to work around this.
 - **Never deletes.** Reorg moves into subfolders; dedup *quarantines* into `.reorg/duplicates/`.
 - **git mv** for tracked files; **undo manifest** on every applied run.

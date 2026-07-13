@@ -69,7 +69,7 @@ Apply progressive disclosure when a skill meets **any** of:
 
 These skills already follow progressive disclosure:
 - `/bib-validate` — preprint check logic in `references/preprint-check.md`, report template in `references/report-template.md`
-- `/code-review` — quality rubric in `references/quality-rubric.md`
+- the `code-review` agent — quality rubric in `references/quality-rubric.md`
 - `/devils-advocate` — competing hypotheses framework in `references/competing-hypotheses.md`
 
 ### Reference Depth

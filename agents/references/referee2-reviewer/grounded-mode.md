@@ -38,18 +38,18 @@ Before raising any **Major** or **Critical** finding, you MUST attempt verificat
 
 | Claim type | Verification tool | Required |
 |---|---|---|
-| Citation existence (`Smith 2024 showed X`) | `WebSearch` with paper title + first-author surname + year | Yes |
-| Cited methodological norm (`the field standard is X`) | `WebSearch` for the norm + likely originating paper | Yes |
-| Numeric / table / equation claim (`MAE is 10.70 pm`, `error <1%`) | `Bash` with `python3 -c 'import sympy/numpy/scipy; …'` | Yes |
-| Convergence rate / sample-size claim (`P=16 beads suffice`) | `Bash` with `python3 -c '…'` re-derivation | Yes |
-| Author-code claim (`their script does X`) | `Bash` to actually run / grep the script | Yes |
+| Citation existence (`Smith 2024 showed X`) | Client-native web search with paper title + first-author surname + year | Yes |
+| Cited methodological norm (`the field standard is X`) | Client-native web search for the norm + likely originating paper | Yes |
+| Numeric / table / equation claim (`MAE is 10.70 pm`, `error <1%`) | Shell with `uv run python -c 'import sympy/numpy/scipy; …'` | Yes |
+| Convergence rate / sample-size claim (`P=16 beads suffice`) | Shell with `uv run python -c '…'` re-derivation | Yes |
+| Author-code claim (`their script does X`) | Shell operation that actually runs or searches the script | Yes |
 | Style, structure, narrative, framing | No tool grounding required | No |
 | LaTeX hygiene, formatting | No tool grounding required | No |
 
 **A claim is "verified"** when the tool call returns results consistent with the claim. **A claim is "failed-verification"** when the tool call returns results that contradict, contradict-by-absence (zero hits for a cited paper title), or are inconclusive. **Failed verifications are themselves findings** (typically Major), not omissions.
 
 Example failed-verification findings:
-- *"M5: Paper cites Smith et al. 2024 'Robust Benchmark Adaptation' (ref [23]). WebSearch returns 0 results for this title + authors. The citation may be fabricated or the title/year is wrong; verify provenance."*
+- *"M5: Paper cites Smith et al. 2024 'Robust Benchmark Adaptation' (ref [23]). Native web search returns 0 results for this title + authors. The citation may be fabricated or the title/year is wrong; verify provenance."*
 - *"M8: Paper states integral $\\int_0^\\infty e^{-x^2} dx = \\sqrt{\\pi}$. SymPy re-derivation gives $\\sqrt{\\pi}/2$. The paper's stated value is off by a factor of 2; check the derivation."*
 
 ---
@@ -65,8 +65,8 @@ Example failed-verification findings:
 When the budget is exhausted, the agent forces final report compilation. Any remaining Major+ findings without verification get flagged in the Verification Ledger as `budget-exhausted: not verified` and downgraded one tier (Major → Minor, Critical → Major) — un-verified-because-budget should not block the paper.
 
 Per-call hygiene:
-- WebSearch queries should be specific (paper title + first-author surname + year), not generic (`Goodhart law machine learning`)
-- Bash python snippets should be short (≤20 lines), self-contained (imports + computation + print), and use sympy / numpy / scipy which are available in the bench's `peer-reviewer-bench/.venv` AND in the user's project virtualenv
+- Web-search queries should be specific (paper title + first-author surname + year), not generic (`Goodhart law machine learning`)
+- `uv run python` snippets should be short (≤20 lines), self-contained (imports + computation + print), and use sympy / numpy / scipy from the project's uv environment
 - If a snippet errors, fix it and retry once; if it errors a second time, treat the verification as inconclusive and flag in the ledger
 
 ---
@@ -98,10 +98,10 @@ Every grounded-mode report ends with a Verification Ledger section. See `report-
 
 | Finding | Tier | Claim | Tool | Query / Snippet | Result |
 |---|---|---|---|---|---|
-| M3 | Major | Paper cites Smith 2024 (ref [23]) | WebSearch | "Smith 2024 robust benchmark adaptation" | 0 results — citation may be fabricated; flagged as new finding M3 |
+| M3 | Major | Paper cites Smith 2024 (ref [23]) | native web search | "Smith 2024 robust benchmark adaptation" | 0 results — citation may be fabricated; flagged as new finding M3 |
 | M8 | Major | Paper claims integral = √π | code_exec (sympy) | `sympy.integrate(sp.exp(-x**2), (x, 0, sp.oo))` | √π/2 — paper's value off by factor 2; flagged as new finding M8 |
-| C1 | Critical | Author code reports MAE = 10.70 pm | Bash | `python code/analysis/eval.py | grep MAE` | 10.70 pm — confirmed |
-| M11 | Major | Llama Guard 3 cited Inan 2023 | WebSearch | "Llama Guard 3 Meta 2024" | Llama Guard 3 released 2024 with Llama 3.1; Inan 2023 was original Llama Guard; year mismatch |
+| C1 | Critical | Author code reports MAE = 10.70 pm | shell | `uv run python code/analysis/eval.py` | 10.70 pm — confirmed |
+| M11 | Major | Llama Guard 3 cited Inan 2023 | native web search | "Llama Guard 3 Meta 2024" | Llama Guard 3 released 2024 with Llama 3.1; Inan 2023 was original Llama Guard; year mismatch |
 | M14 | Major | Stackelberg setup from Tirole 1988 | budget-exhausted | — | not verified — downgraded to Minor |
 
 **Verification summary**: 18 / 22 Major+ findings verified; 2 failed (now flagged as M3 and M8); 1 budget-exhausted (M14 → m14); 1 inconclusive (M16, tool errored twice).
@@ -131,8 +131,8 @@ The `notes:` field carries `mode: grounded` (or `mode: deep+grounded`, etc.) as 
 
 ## Anti-patterns
 
-- **Don't** use WebSearch for things you already know. The discipline is "before asserting an external claim, verify"; it is not "search the web before every paragraph."
-- **Don't** treat WebSearch returning *something* as automatic confirmation. Read the snippet; if it doesn't actually verify the claim, the verification is inconclusive.
+- **Don't** use web search for things you already know. The discipline is "before asserting an external claim, verify"; it is not "search the web before every paragraph."
+- **Don't** treat a web-search result as automatic confirmation. Read the source; if it doesn't actually verify the claim, the verification is inconclusive.
 - **Don't** let a failed verification stop the review. Failed verifications are findings, not blockers. Continue.
 - **Don't** spend budget on Minor findings. Reserve budget for Major+ where verification changes the report.
 - **Don't** skip the ledger because findings are "obvious". The ledger is the audit trail; even confirmed findings get a row.

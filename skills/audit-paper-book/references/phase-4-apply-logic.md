@@ -48,7 +48,7 @@ done
 #      carries a stale status marker without "Published", regenerate
 #      via:
 #        ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
-#          ~/.claude/skills/init-paper-book/scripts/regenerate_intro.py \
+#          <skills-root>/init-paper-book/scripts/regenerate_intro.py \
 #          <slug> --apply
 #      This emits the canonical Published-state masthead pulling
 #      `venue`, `doi`, `publication_date` from atlas `outputs[0]`. Any

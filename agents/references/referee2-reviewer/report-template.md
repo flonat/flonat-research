@@ -154,9 +154,9 @@ See `grounded-mode.md` for the full format.]
 
 | Finding | Tier | Claim | Tool | Query / Snippet | Result |
 |---|---|---|---|---|---|
-| M3 | Major | Paper cites Smith 2024 (ref [23]) | WebSearch | "Smith 2024 robust benchmark adaptation" | 0 results — citation may be fabricated; new finding |
+| M3 | Major | Paper cites Smith 2024 (ref [23]) | native web search | "Smith 2024 robust benchmark adaptation" | 0 results — citation may be fabricated; new finding |
 | M8 | Major | Paper claims integral = √π | code_exec (sympy) | `sympy.integrate(sp.exp(-x**2), (x, 0, sp.oo))` | √π/2 — off by factor 2; new finding |
-| C1 | Critical | Author code reports MAE = 10.70 pm | Bash | `python code/analysis/eval.py | grep MAE` | 10.70 pm — confirmed |
+| C1 | Critical | Author code reports MAE = 10.70 pm | shell | `uv run python code/analysis/eval.py` | 10.70 pm — confirmed |
 | M14 | Major | Stackelberg setup from Tirole 1988 | budget-exhausted | — | not verified — downgraded to Minor |
 
 **Verification summary**: X / Y Major+ findings verified; Z failed (flagged as new findings); W budget-exhausted (downgraded); V inconclusive.
@@ -276,7 +276,7 @@ The report does NOT go into `CLAUDE.md`. It is a standalone document that the au
 ### Round 1: Initial Submission
 
 1. Author completes analysis in their main Claude session
-2. The Referee 2 agent is launched (via the Task tool) to audit the project
+2. The Referee 2 agent is launched through the client's fresh-context agent mechanism to audit the project
 3. Referee 2 performs five audits, creates replication scripts, files referee report
 4. Agent returns findings
 

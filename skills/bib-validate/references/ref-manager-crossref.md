@@ -9,7 +9,7 @@ After the disk-based cross-reference, check every `.bib` key against the Paperpi
 Run ONE command — the canonical resolver in Task-Management:
 
 ```bash
-python3 "$(cat ~/.config/task-mgmt/path)/scripts/bib/rekey_to_canonical.py" <project.bib> [tex_path ...]
+uv run python "$(cat ~/.config/task-mgmt/path)/scripts/bib/rekey_to_canonical.py" <project.bib> [tex_path ...]
 ```
 
 It matches all entries against the local library backup JSON (`PAPERPILE_MCP_LIBRARY_PATH`, ~5s for a 40-entry bib against 30k items) via DOI → exact-title → fuzzy-title(+author/year) → surname+year fallback, and prints the full status table plus how many `\cite` keys each `.tex` would need remapped. Dry-run by default — safe to run during validation.

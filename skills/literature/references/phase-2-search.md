@@ -20,7 +20,7 @@ Spawn **2-3 Explore agents in parallel** in a single message, one per source. Re
 
 Available search agents:
 1. **Google Scholar** — broad academic search via web (no MCP needed)
-2. **Cross-Source bibliometric search** (recommended) — agents call `scholarly` CLI directly or read pre-fetched results from `/tmp/lit-search/`, supplemented with WebSearch
+2. **Cross-Source bibliometric search** (recommended) — agents call `scholarly` CLI directly or read pre-fetched results from `/tmp/lit-search/`, supplemented with web search
 3. **Semantic Scholar / arXiv** (optional) — CS/ML focused, useful when topic has strong CS overlap (no MCP needed)
 4. **Domain-specific** (optional) — SSRN, NBER, specific journals (no MCP needed)
 

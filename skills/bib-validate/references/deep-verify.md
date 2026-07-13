@@ -6,7 +6,7 @@ This mode spawns parallel sub-agents that each verify a batch of entries and wri
 
 ## Standard Forbid-List for Verification Sub-Agents
 
-**Paste this block into every verification sub-agent prompt** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Verification sub-agents shell out to the scholarly CLI to verify DOIs but are otherwise read-only.
+**Paste this block into every verification sub-agent prompt** (per `<rules-root>/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Verification sub-agents shell out to the scholarly CLI to verify DOIs but are otherwise read-only.
 
 ```
 ## Scope of action — DO NOT do these things
@@ -33,7 +33,7 @@ consolidates.
 
 ## Architecture
 
-Sub-agents shell out to the `scholarly` CLI (`uv run scholarly ...` or the `~/.local/bin/scholarly` shim) — the CLI works in both the main context and sub-agents, unlike MCP tools which are permission-scoped to the main context only.
+Sub-agents shell out to the `scholarly` CLI (`uv run scholarly ...` or the `~/.local/bin/scholarly` shim) — the CLI works in both the main context and sub-agents, unlike client-scoped connector calls.
 
 ```
 You (orchestrator)
@@ -51,7 +51,7 @@ You (orchestrator)
 |   |   +-- Check title matches DOI metadata
 |   |   +-- Check author consistency
 |   |   +-- Check year correctness
-|   |   +-- Check for published version if preprint (via `scholarly scholarly-search` or WebSearch)
+|   |   +-- Check for published version if preprint (via `scholarly scholarly-search` or web search)
 |   +-- Write results to verification_results/batch_N.json
 +-- Wait for all agents to complete
 +-- Read all batch JSON files
@@ -86,7 +86,7 @@ Each sub-agent receives:
 - The batch number
 - The output path: `verification_results/batch_N.json`
 - The path to `verification_results/preverify.json` (pre-verified DOI results from orchestrator)
-- Instructions to use the **`scholarly` CLI** (`scholarly scholarly-verify-dois --dois ... --json`, `scholarly scholarly-search "<title>" --json`) for DOI and title verification; fall back to **Crossref REST API** (`curl -sL "https://api.crossref.org/works?query.bibliographic=..."`) and **WebFetch** for sources not covered by the CLI
+- Instructions to use the **`scholarly` CLI** (`scholarly scholarly-verify-dois --dois ... --json`, `scholarly scholarly-search "<title>" --json`) for DOI and title verification; fall back to **Crossref REST API** (`curl -sL "https://api.crossref.org/works?query.bibliographic=..."`) and **web fetch** for sources not covered by the CLI
 - Instruction to write results to disk only -- never return large payloads
 
 ## Assembly & Report

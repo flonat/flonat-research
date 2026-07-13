@@ -1,7 +1,7 @@
 ---
 name: split-pdf
 description: "Use when you need to download, split, and deeply read an academic PDF that is NOT in Paperpile (for Paperpile items, prefer paperpile get-pdf-text directly)."
-allowed-tools: Bash(python*), Bash(uv*), Bash(curl*), Bash(wget*), Bash(mkdir*), Bash(ls*), Bash(rm*), Read, Write, Edit, WebSearch, WebFetch, Agent, Bash(paperpile*)
+allowed-tools: Bash(uv:*), Bash(uv*), Bash(curl*), Bash(wget*), Bash(mkdir*), Bash(ls*), Bash(rm*), Read, Write, Edit, WebSearch, WebFetch, Agent, Bash(paperpile*)
 argument-hint: [pdf-path-or-search-query]
 ---
 
@@ -33,8 +33,8 @@ Determine the download directory:
 - **Outside a project** (e.g., ad-hoc reading from Task Management root): use `to-sort/downloads/` in the Task Management folder.
 
 Then:
-1. Use WebSearch to find the paper
-2. If WebSearch doesn't yield a direct PDF link, try `scholarly scholarly-search` first. Fallback to Python OpenAlex client:
+1. Use web search to find the paper
+2. If web search doesn't yield a direct PDF link, try `scholarly scholarly-search` first. Fallback to Python OpenAlex client:
    ```python
    import sys
    sys.path.insert(0, ".scripts/openalex")
@@ -43,7 +43,7 @@ Then:
    results = client.search_works(search="paper title here", per_page=5)
    # Check open_access.oa_url in results for direct PDF links
    ```
-3. Use WebFetch or Bash (curl/wget) to download the PDF
+3. Use web fetch or Bash (curl/wget) to download the PDF
 4. Save it to the download directory
 5. Proceed to Step 2
 
@@ -124,7 +124,7 @@ The build directory (`<foldername>_build/`) keeps split artifacts separate from 
 
 Read **exactly 3 split files at a time** (~12 pages). After each batch:
 
-1. **Read** the 3 split PDFs using the Read tool
+1. **Read** the 3 split PDFs using the active client's PDF-reading surface
 2. **Update** the running notes file (`notes.md` in the split subdirectory)
 3. **Pause** and tell the user:
 
@@ -166,8 +166,8 @@ This file is the persistent, reusable artifact. The `notes.md` in the build dire
 
 If the paper IS in Paperpile (user provides a citekey), skip the page-split workflow entirely:
 
-1. `paperpile get-item(citekey=KEY)` — title, authors, abstract, affiliations
-2. `paperpile get-pdf-text(citekey=KEY)` — full text from Google Drive
+1. `paperpile get-item KEY --json` — title, authors, abstract, affiliations
+2. `paperpile get-pdf-text KEY --json` — full text from the attached PDF
 
 Write the 8-dimension extraction directly to `<basename>_text.md` in the working directory. No splits needed.
 
@@ -177,7 +177,7 @@ Write the 8-dimension extraction directly to `<basename>_text.md` in the working
 
 **When split-pdf is invoked by another skill or workflow** (any process that continues working after the PDF has been read), the PDF reading MUST run inside a subagent to prevent context bloat in the parent conversation.
 
-**Why:** Each PDF page rendered by the Read tool produces image data in the conversation context. A 35-page PDF (9 chunks) can add 10-20MB of image data that accumulates permanently. After reading one or two large PDFs on top of prior work, the conversation hits the API request size limit and becomes unrecoverable.
+**Why:** Each PDF page rendered by a client's PDF-reading capability produces image data in the conversation context. A 35-page PDF (9 chunks) can add 10-20MB of image data that accumulates permanently. After reading one or two large PDFs on top of prior work, the conversation can hit its request-size limit and become unrecoverable.
 
 **Pattern:** The parent skill handles splitting (Step 2's Python script) in its own context — this is lightweight. Then it launches an Agent to perform all the reading:
 
@@ -190,7 +190,7 @@ Notes output:    <notes_path>  (working copy in split_dir)
 Text output:     <text_path>   (persistent <basename>_text.md)
 
 Process:
-1. Read 3 PDF files at a time using the Read tool
+1. Read 3 PDF files at a time using the active client's PDF-reading surface
 2. After each batch, update notes.md with extracted content
 3. Extract along the 8 dimensions (research question, audience, method,
    data, statistical methods, findings, contributions, replication feasibility)
@@ -205,7 +205,7 @@ After the agent returns, the parent reads the output files (plain markdown, not 
 
 ## When NOT to Split
 
-- Papers shorter than ~15 pages: read directly (still use the Read tool, not Bash)
+- Papers shorter than ~15 pages: read directly with the PDF-reading surface, not a shell text dump
 - Policy briefs or non-technical documents: a rough summary is fine
 - Triage only: read just the first split (pages 1-4) for abstract and introduction
 - Paperpile items: use `paperpile get-pdf-text` directly

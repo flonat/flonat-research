@@ -11,7 +11,7 @@ argument-hint: [project-name-or-path]
 
 ## Purpose
 
-Based on Scott Cunningham's Claude Code workflow: "Progress logs are my autosave of the workflow." When sessions end or crash, the next Claude can read logs and pick up exactly where you left off.
+Based on Scott Cunningham's session workflow: “Progress logs are my autosave of the workflow.” When sessions end or crash, the next AI client can read logs and pick up exactly where you left off.
 
 ## When to Use
 
@@ -30,7 +30,7 @@ Before writing anything, inventory which projects were affected during this sess
 | Course/module-level changes (reorganisation, new CLAUDE.md) | That module's `log/` |
 
 **Signs of a multi-project session:**
-- Files changed under `~/.claude/` (skills, hooks, settings) → global/infrastructure log
+- Files changed in AI client infrastructure (skills, hooks, settings) → global/infrastructure log
 - Files changed in the CWD project → project-specific log
 - Files changed in a parent or sibling directory → check if that's a separate project
 

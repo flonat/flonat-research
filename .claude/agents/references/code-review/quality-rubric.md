@@ -16,7 +16,7 @@
 | Issue | Deduction | Notes |
 |-------|-----------|-------|
 | Numerical project missing cross-language replication scripts | -20 | Once per project — no independent verification of results |
-| Hardcoded absolute path (`/Users/...`, `C:\...`) | -20 | Per unique path — breaks on any other machine |
+| Hardcoded absolute path (`<HOME>/...`, `<DRIVE>:\<USERPROFILE>\...`) | -20 | Per unique path — breaks on any other machine |
 | Domain correctness bug (wrong estimator, wrong sample restriction) | -20 | Per instance — produces wrong results |
 | No random seed before stochastic operation | -15 | Per stochastic block — results not reproducible |
 | `setwd()` / `os.chdir()` in script | -15 | Breaks portability |

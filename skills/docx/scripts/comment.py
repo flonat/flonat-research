@@ -1,8 +1,8 @@
 """Add comments to DOCX documents.
 
 Usage:
-    python comment.py unpacked/ 0 "Comment text"
-    python comment.py unpacked/ 1 "Reply text" --parent 0
+    uv run python comment.py unpacked/ 0 "Comment text"
+    uv run python comment.py unpacked/ 1 "Reply text" --parent 0
 
 Text should be pre-escaped XML (e.g., &amp; for &, &#x2019; for smart quotes).
 

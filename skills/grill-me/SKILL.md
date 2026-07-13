@@ -59,7 +59,7 @@ Read the target so questions are *specific*, not quiz-show generic.
 - **Defend:** read the paper `.tex`/PDF (or proof/idea). Identify the headline claim, contribution list, load-bearing assumptions, identification/proof spine, positioning vs the nearest rival. **Reuse existing review state — don't re-derive it:** read `reviews/INDEX.md` + latest `reviews/<scope>/*` reports, the project `CLAUDE.md` risks, and the venue's referee-bait (`docs/reference/venue-profiles/<field>.md`). A logged referee objection is your sharpest question.
 - **Study:** read the course notes / slides / textbook chapter / syllabus provided (or, for a named subject with no file, work from the established canonical content of that subject — and say so). Identify the key definitions, mechanisms, results, derivations, and the *common misconceptions / exam traps* for that topic.
 
-If nothing resolves, ask once (`AskUserQuestion`) what to grill on and at what level (e.g. "undergrad final? qualifying exam? seminar?").
+If nothing resolves, ask once (`the available structured-question mechanism`) what to grill on and at what level (e.g. "undergrad final? qualifying exam? seminar?").
 
 ### Phase 1 — Build the question bank (internal, not shown)
 

@@ -12,43 +12,123 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/beamer-deck.md",
+      "target": ".claude/commands/beamer-deck.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/beamer-deck",
-      "target": ".claude/skills/beamer-deck"
+      "target": ".claude/shared-skills/beamer-deck"
+    },
+    {
+      "client": "codex",
+      "source": "skills/beamer-deck",
+      "target": ".agents/skills/beamer-deck"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/bib-coverage.md",
+      "target": ".claude/commands/bib-coverage.md"
     },
     {
       "client": "claude",
       "source": "skills/bib-coverage",
-      "target": ".claude/skills/bib-coverage"
+      "target": ".claude/shared-skills/bib-coverage"
+    },
+    {
+      "client": "codex",
+      "source": "skills/bib-coverage",
+      "target": ".agents/skills/bib-coverage"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/bib-filter.md",
+      "target": ".claude/commands/bib-filter.md"
     },
     {
       "client": "claude",
       "source": "skills/bib-filter",
-      "target": ".claude/skills/bib-filter"
+      "target": ".claude/shared-skills/bib-filter"
+    },
+    {
+      "client": "codex",
+      "source": "skills/bib-filter",
+      "target": ".agents/skills/bib-filter"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/bib-parse.md",
+      "target": ".claude/commands/bib-parse.md"
     },
     {
       "client": "claude",
       "source": "skills/bib-parse",
-      "target": ".claude/skills/bib-parse"
+      "target": ".claude/shared-skills/bib-parse"
+    },
+    {
+      "client": "codex",
+      "source": "skills/bib-parse",
+      "target": ".agents/skills/bib-parse"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/bib-validate.md",
+      "target": ".claude/commands/bib-validate.md"
     },
     {
       "client": "claude",
       "source": "skills/bib-validate",
-      "target": ".claude/skills/bib-validate"
+      "target": ".claude/shared-skills/bib-validate"
+    },
+    {
+      "client": "codex",
+      "source": "skills/bib-validate",
+      "target": ".agents/skills/bib-validate"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/brief-compliance-check.md",
+      "target": ".claude/commands/brief-compliance-check.md"
     },
     {
       "client": "claude",
       "source": "skills/brief-compliance-check",
-      "target": ".claude/skills/brief-compliance-check"
+      "target": ".claude/shared-skills/brief-compliance-check"
+    },
+    {
+      "client": "codex",
+      "source": "skills/brief-compliance-check",
+      "target": ".agents/skills/brief-compliance-check"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/camera-ready.md",
+      "target": ".claude/commands/camera-ready.md"
     },
     {
       "client": "claude",
       "source": "skills/camera-ready",
-      "target": ".claude/skills/camera-ready"
+      "target": ".claude/shared-skills/camera-ready"
+    },
+    {
+      "client": "codex",
+      "source": "skills/camera-ready",
+      "target": ".agents/skills/camera-ready"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/causal-design.md",
+      "target": ".claude/commands/causal-design.md"
     },
     {
       "client": "claude",
       "source": "skills/causal-design",
-      "target": ".claude/skills/causal-design"
+      "target": ".claude/shared-skills/causal-design"
+    },
+    {
+      "client": "codex",
+      "source": "skills/causal-design",
+      "target": ".agents/skills/causal-design"
     },
     {
       "client": "claude",
@@ -97,18 +177,48 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/cross-language-check.md",
+      "target": ".claude/commands/cross-language-check.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/cross-language-check",
-      "target": ".claude/skills/cross-language-check"
+      "target": ".claude/shared-skills/cross-language-check"
+    },
+    {
+      "client": "codex",
+      "source": "skills/cross-language-check",
+      "target": ".agents/skills/cross-language-check"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/data-analysis.md",
+      "target": ".claude/commands/data-analysis.md"
     },
     {
       "client": "claude",
       "source": "skills/data-analysis",
-      "target": ".claude/skills/data-analysis"
+      "target": ".claude/shared-skills/data-analysis"
+    },
+    {
+      "client": "codex",
+      "source": "skills/data-analysis",
+      "target": ".agents/skills/data-analysis"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/devils-advocate.md",
+      "target": ".claude/commands/devils-advocate.md"
     },
     {
       "client": "claude",
       "source": "skills/devils-advocate",
-      "target": ".claude/skills/devils-advocate"
+      "target": ".claude/shared-skills/devils-advocate"
+    },
+    {
+      "client": "codex",
+      "source": "skills/devils-advocate",
+      "target": ".agents/skills/devils-advocate"
     },
     {
       "client": "claude",
@@ -117,13 +227,33 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/docx.md",
+      "target": ".claude/commands/docx.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/docx",
-      "target": ".claude/skills/docx"
+      "target": ".claude/shared-skills/docx"
+    },
+    {
+      "client": "codex",
+      "source": "skills/docx",
+      "target": ".agents/skills/docx"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/experiment-design.md",
+      "target": ".claude/commands/experiment-design.md"
     },
     {
       "client": "claude",
       "source": "skills/experiment-design",
-      "target": ".claude/skills/experiment-design"
+      "target": ".claude/shared-skills/experiment-design"
+    },
+    {
+      "client": "codex",
+      "source": "skills/experiment-design",
+      "target": ".agents/skills/experiment-design"
     },
     {
       "client": "claude",
@@ -132,8 +262,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/grill-me.md",
+      "target": ".claude/commands/grill-me.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/grill-me",
-      "target": ".claude/skills/grill-me"
+      "target": ".claude/shared-skills/grill-me"
+    },
+    {
+      "client": "codex",
+      "source": "skills/grill-me",
+      "target": ".agents/skills/grill-me"
     },
     {
       "client": "claude",
@@ -152,8 +292,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/ideas.md",
+      "target": ".claude/commands/ideas.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/ideas",
-      "target": ".claude/skills/ideas"
+      "target": ".claude/shared-skills/ideas"
+    },
+    {
+      "client": "codex",
+      "source": "skills/ideas",
+      "target": ".agents/skills/ideas"
     },
     {
       "client": "claude",
@@ -167,8 +317,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/init-project-course.md",
+      "target": ".claude/commands/init-project-course.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/init-project-course",
-      "target": ".claude/skills/init-project-course"
+      "target": ".claude/shared-skills/init-project-course"
+    },
+    {
+      "client": "codex",
+      "source": "skills/init-project-course",
+      "target": ".agents/skills/init-project-course"
     },
     {
       "client": "claude",
@@ -187,8 +347,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/interview-me.md",
+      "target": ".claude/commands/interview-me.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/interview-me",
-      "target": ".claude/skills/interview-me"
+      "target": ".claude/shared-skills/interview-me"
+    },
+    {
+      "client": "codex",
+      "source": "skills/interview-me",
+      "target": ".agents/skills/interview-me"
     },
     {
       "client": "claude",
@@ -197,8 +367,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/latex.md",
+      "target": ".claude/commands/latex.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/latex",
-      "target": ".claude/skills/latex"
+      "target": ".claude/shared-skills/latex"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex",
+      "target": ".agents/skills/latex"
     },
     {
       "client": "claude",
@@ -217,38 +397,108 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/latex-health-check.md",
+      "target": ".claude/commands/latex-health-check.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/latex-health-check",
-      "target": ".claude/skills/latex-health-check"
+      "target": ".claude/shared-skills/latex-health-check"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex-health-check",
+      "target": ".agents/skills/latex-health-check"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/latex-polish.md",
+      "target": ".claude/commands/latex-polish.md"
     },
     {
       "client": "claude",
       "source": "skills/latex-polish",
-      "target": ".claude/skills/latex-polish"
+      "target": ".claude/shared-skills/latex-polish"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex-polish",
+      "target": ".agents/skills/latex-polish"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/latex-posters.md",
+      "target": ".claude/commands/latex-posters.md"
     },
     {
       "client": "claude",
       "source": "skills/latex-posters",
-      "target": ".claude/skills/latex-posters"
+      "target": ".claude/shared-skills/latex-posters"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex-posters",
+      "target": ".agents/skills/latex-posters"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/latex-scaffold.md",
+      "target": ".claude/commands/latex-scaffold.md"
     },
     {
       "client": "claude",
       "source": "skills/latex-scaffold",
-      "target": ".claude/skills/latex-scaffold"
+      "target": ".claude/shared-skills/latex-scaffold"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex-scaffold",
+      "target": ".agents/skills/latex-scaffold"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/latex-template.md",
+      "target": ".claude/commands/latex-template.md"
     },
     {
       "client": "claude",
       "source": "skills/latex-template",
-      "target": ".claude/skills/latex-template"
+      "target": ".claude/shared-skills/latex-template"
+    },
+    {
+      "client": "codex",
+      "source": "skills/latex-template",
+      "target": ".agents/skills/latex-template"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/lean-check.md",
+      "target": ".claude/commands/lean-check.md"
     },
     {
       "client": "claude",
       "source": "skills/lean-check",
-      "target": ".claude/skills/lean-check"
+      "target": ".claude/shared-skills/lean-check"
+    },
+    {
+      "client": "codex",
+      "source": "skills/lean-check",
+      "target": ".agents/skills/lean-check"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/literature.md",
+      "target": ".claude/commands/literature.md"
     },
     {
       "client": "claude",
       "source": "skills/literature",
-      "target": ".claude/skills/literature"
+      "target": ".claude/shared-skills/literature"
+    },
+    {
+      "client": "codex",
+      "source": "skills/literature",
+      "target": ".agents/skills/literature"
     },
     {
       "client": "claude",
@@ -287,8 +537,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/meetings-debrief.md",
+      "target": ".claude/commands/meetings-debrief.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/meetings-debrief",
-      "target": ".claude/skills/meetings-debrief"
+      "target": ".claude/shared-skills/meetings-debrief"
+    },
+    {
+      "client": "codex",
+      "source": "skills/meetings-debrief",
+      "target": ".agents/skills/meetings-debrief"
     },
     {
       "client": "claude",
@@ -307,13 +567,33 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/meetings-prep.md",
+      "target": ".claude/commands/meetings-prep.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/meetings-prep",
-      "target": ".claude/skills/meetings-prep"
+      "target": ".claude/shared-skills/meetings-prep"
+    },
+    {
+      "client": "codex",
+      "source": "skills/meetings-prep",
+      "target": ".agents/skills/meetings-prep"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/meetings-recap.md",
+      "target": ".claude/commands/meetings-recap.md"
     },
     {
       "client": "claude",
       "source": "skills/meetings-recap",
-      "target": ".claude/skills/meetings-recap"
+      "target": ".claude/shared-skills/meetings-recap"
+    },
+    {
+      "client": "codex",
+      "source": "skills/meetings-recap",
+      "target": ".agents/skills/meetings-recap"
     },
     {
       "client": "claude",
@@ -332,43 +612,123 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/meetings-verify.md",
+      "target": ".claude/commands/meetings-verify.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/meetings-verify",
-      "target": ".claude/skills/meetings-verify"
+      "target": ".claude/shared-skills/meetings-verify"
+    },
+    {
+      "client": "codex",
+      "source": "skills/meetings-verify",
+      "target": ".agents/skills/meetings-verify"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/meetings-weekly.md",
+      "target": ".claude/commands/meetings-weekly.md"
     },
     {
       "client": "claude",
       "source": "skills/meetings-weekly",
-      "target": ".claude/skills/meetings-weekly"
+      "target": ".claude/shared-skills/meetings-weekly"
+    },
+    {
+      "client": "codex",
+      "source": "skills/meetings-weekly",
+      "target": ".agents/skills/meetings-weekly"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/memory-cleanup.md",
+      "target": ".claude/commands/memory-cleanup.md"
     },
     {
       "client": "claude",
       "source": "skills/memory-cleanup",
-      "target": ".claude/skills/memory-cleanup"
+      "target": ".claude/shared-skills/memory-cleanup"
+    },
+    {
+      "client": "codex",
+      "source": "skills/memory-cleanup",
+      "target": ".agents/skills/memory-cleanup"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/method-audit.md",
+      "target": ".claude/commands/method-audit.md"
     },
     {
       "client": "claude",
       "source": "skills/method-audit",
-      "target": ".claude/skills/method-audit"
+      "target": ".claude/shared-skills/method-audit"
+    },
+    {
+      "client": "codex",
+      "source": "skills/method-audit",
+      "target": ".agents/skills/method-audit"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/multi-perspective.md",
+      "target": ".claude/commands/multi-perspective.md"
     },
     {
       "client": "claude",
       "source": "skills/multi-perspective",
-      "target": ".claude/skills/multi-perspective"
+      "target": ".claude/shared-skills/multi-perspective"
+    },
+    {
+      "client": "codex",
+      "source": "skills/multi-perspective",
+      "target": ".agents/skills/multi-perspective"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/numerical-check.md",
+      "target": ".claude/commands/numerical-check.md"
     },
     {
       "client": "claude",
       "source": "skills/numerical-check",
-      "target": ".claude/skills/numerical-check"
+      "target": ".claude/shared-skills/numerical-check"
+    },
+    {
+      "client": "codex",
+      "source": "skills/numerical-check",
+      "target": ".agents/skills/numerical-check"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/pdf.md",
+      "target": ".claude/commands/pdf.md"
     },
     {
       "client": "claude",
       "source": "skills/pdf",
-      "target": ".claude/skills/pdf"
+      "target": ".claude/shared-skills/pdf"
+    },
+    {
+      "client": "codex",
+      "source": "skills/pdf",
+      "target": ".agents/skills/pdf"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/pipeline-manifest.md",
+      "target": ".claude/commands/pipeline-manifest.md"
     },
     {
       "client": "claude",
       "source": "skills/pipeline-manifest",
-      "target": ".claude/skills/pipeline-manifest"
+      "target": ".claude/shared-skills/pipeline-manifest"
+    },
+    {
+      "client": "codex",
+      "source": "skills/pipeline-manifest",
+      "target": ".agents/skills/pipeline-manifest"
     },
     {
       "client": "claude",
@@ -387,18 +747,48 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/postmortem.md",
+      "target": ".claude/commands/postmortem.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/postmortem",
-      "target": ".claude/skills/postmortem"
+      "target": ".claude/shared-skills/postmortem"
+    },
+    {
+      "client": "codex",
+      "source": "skills/postmortem",
+      "target": ".agents/skills/postmortem"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/pre-commit-audit.md",
+      "target": ".claude/commands/pre-commit-audit.md"
     },
     {
       "client": "claude",
       "source": "skills/pre-commit-audit",
-      "target": ".claude/skills/pre-commit-audit"
+      "target": ".claude/shared-skills/pre-commit-audit"
+    },
+    {
+      "client": "codex",
+      "source": "skills/pre-commit-audit",
+      "target": ".agents/skills/pre-commit-audit"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/pre-submission-report.md",
+      "target": ".claude/commands/pre-submission-report.md"
     },
     {
       "client": "claude",
       "source": "skills/pre-submission-report",
-      "target": ".claude/skills/pre-submission-report"
+      "target": ".claude/shared-skills/pre-submission-report"
+    },
+    {
+      "client": "codex",
+      "source": "skills/pre-submission-report",
+      "target": ".agents/skills/pre-submission-report"
     },
     {
       "client": "claude",
@@ -407,8 +797,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/preregister.md",
+      "target": ".claude/commands/preregister.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/preregister",
-      "target": ".claude/skills/preregister"
+      "target": ".claude/shared-skills/preregister"
+    },
+    {
+      "client": "codex",
+      "source": "skills/preregister",
+      "target": ".agents/skills/preregister"
     },
     {
       "client": "claude",
@@ -457,58 +857,168 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/proofread.md",
+      "target": ".claude/commands/proofread.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/proofread",
-      "target": ".claude/skills/proofread"
+      "target": ".claude/shared-skills/proofread"
+    },
+    {
+      "client": "codex",
+      "source": "skills/proofread",
+      "target": ".agents/skills/proofread"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/python-env.md",
+      "target": ".claude/commands/python-env.md"
     },
     {
       "client": "claude",
       "source": "skills/python-env",
-      "target": ".claude/skills/python-env"
+      "target": ".claude/shared-skills/python-env"
+    },
+    {
+      "client": "codex",
+      "source": "skills/python-env",
+      "target": ".agents/skills/python-env"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/quarto-deck.md",
+      "target": ".claude/commands/quarto-deck.md"
     },
     {
       "client": "claude",
       "source": "skills/quarto-deck",
-      "target": ".claude/skills/quarto-deck"
+      "target": ".claude/shared-skills/quarto-deck"
+    },
+    {
+      "client": "codex",
+      "source": "skills/quarto-deck",
+      "target": ".agents/skills/quarto-deck"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/rename-project-research.md",
+      "target": ".claude/commands/rename-project-research.md"
     },
     {
       "client": "claude",
       "source": "skills/rename-project-research",
-      "target": ".claude/skills/rename-project-research"
+      "target": ".claude/shared-skills/rename-project-research"
+    },
+    {
+      "client": "codex",
+      "source": "skills/rename-project-research",
+      "target": ".agents/skills/rename-project-research"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/reorg.md",
+      "target": ".claude/commands/reorg.md"
     },
     {
       "client": "claude",
       "source": "skills/reorg",
-      "target": ".claude/skills/reorg"
+      "target": ".claude/shared-skills/reorg"
+    },
+    {
+      "client": "codex",
+      "source": "skills/reorg",
+      "target": ".agents/skills/reorg"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/replication-audit.md",
+      "target": ".claude/commands/replication-audit.md"
     },
     {
       "client": "claude",
       "source": "skills/replication-audit",
-      "target": ".claude/skills/replication-audit"
+      "target": ".claude/shared-skills/replication-audit"
+    },
+    {
+      "client": "codex",
+      "source": "skills/replication-audit",
+      "target": ".agents/skills/replication-audit"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/replication-package.md",
+      "target": ".claude/commands/replication-package.md"
     },
     {
       "client": "claude",
       "source": "skills/replication-package",
-      "target": ".claude/skills/replication-package"
+      "target": ".claude/shared-skills/replication-package"
+    },
+    {
+      "client": "codex",
+      "source": "skills/replication-package",
+      "target": ".agents/skills/replication-package"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/retarget-journal.md",
+      "target": ".claude/commands/retarget-journal.md"
     },
     {
       "client": "claude",
       "source": "skills/retarget-journal",
-      "target": ".claude/skills/retarget-journal"
+      "target": ".claude/shared-skills/retarget-journal"
+    },
+    {
+      "client": "codex",
+      "source": "skills/retarget-journal",
+      "target": ".agents/skills/retarget-journal"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/review-cluster.md",
+      "target": ".claude/commands/review-cluster.md"
     },
     {
       "client": "claude",
       "source": "skills/review-cluster",
-      "target": ".claude/skills/review-cluster"
+      "target": ".claude/shared-skills/review-cluster"
+    },
+    {
+      "client": "codex",
+      "source": "skills/review-cluster",
+      "target": ".agents/skills/review-cluster"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/review-response.md",
+      "target": ".claude/commands/review-response.md"
     },
     {
       "client": "claude",
       "source": "skills/review-response",
-      "target": ".claude/skills/review-response"
+      "target": ".claude/shared-skills/review-response"
+    },
+    {
+      "client": "codex",
+      "source": "skills/review-response",
+      "target": ".agents/skills/review-response"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/save-context.md",
+      "target": ".claude/commands/save-context.md"
     },
     {
       "client": "claude",
       "source": "skills/save-context",
-      "target": ".claude/skills/save-context"
+      "target": ".claude/shared-skills/save-context"
+    },
+    {
+      "client": "codex",
+      "source": "skills/save-context",
+      "target": ".agents/skills/save-context"
     },
     {
       "client": "claude",
@@ -532,8 +1042,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/session-log.md",
+      "target": ".claude/commands/session-log.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/session-log",
-      "target": ".claude/skills/session-log"
+      "target": ".claude/shared-skills/session-log"
+    },
+    {
+      "client": "codex",
+      "source": "skills/session-log",
+      "target": ".agents/skills/session-log"
     },
     {
       "client": "claude",
@@ -552,23 +1072,63 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/skill-preflight.md",
+      "target": ".claude/commands/skill-preflight.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/skill-preflight",
-      "target": ".claude/skills/skill-preflight"
+      "target": ".claude/shared-skills/skill-preflight"
+    },
+    {
+      "client": "codex",
+      "source": "skills/skill-preflight",
+      "target": ".agents/skills/skill-preflight"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/split-pdf.md",
+      "target": ".claude/commands/split-pdf.md"
     },
     {
       "client": "claude",
       "source": "skills/split-pdf",
-      "target": ".claude/skills/split-pdf"
+      "target": ".claude/shared-skills/split-pdf"
+    },
+    {
+      "client": "codex",
+      "source": "skills/split-pdf",
+      "target": ".agents/skills/split-pdf"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/strategic-revision.md",
+      "target": ".claude/commands/strategic-revision.md"
     },
     {
       "client": "claude",
       "source": "skills/strategic-revision",
-      "target": ".claude/skills/strategic-revision"
+      "target": ".claude/shared-skills/strategic-revision"
+    },
+    {
+      "client": "codex",
+      "source": "skills/strategic-revision",
+      "target": ".agents/skills/strategic-revision"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/symbolic-check.md",
+      "target": ".claude/commands/symbolic-check.md"
     },
     {
       "client": "claude",
       "source": "skills/symbolic-check",
-      "target": ".claude/skills/symbolic-check"
+      "target": ".claude/shared-skills/symbolic-check"
+    },
+    {
+      "client": "codex",
+      "source": "skills/symbolic-check",
+      "target": ".agents/skills/symbolic-check"
     },
     {
       "client": "claude",
@@ -577,13 +1137,33 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/synthesise-reviews.md",
+      "target": ".claude/commands/synthesise-reviews.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/synthesise-reviews",
-      "target": ".claude/skills/synthesise-reviews"
+      "target": ".claude/shared-skills/synthesise-reviews"
+    },
+    {
+      "client": "codex",
+      "source": "skills/synthesise-reviews",
+      "target": ".agents/skills/synthesise-reviews"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/synthetic-data.md",
+      "target": ".claude/commands/synthetic-data.md"
     },
     {
       "client": "claude",
       "source": "skills/synthetic-data",
-      "target": ".claude/skills/synthetic-data"
+      "target": ".claude/shared-skills/synthetic-data"
+    },
+    {
+      "client": "codex",
+      "source": "skills/synthetic-data",
+      "target": ".agents/skills/synthetic-data"
     },
     {
       "client": "claude",
@@ -597,8 +1177,18 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/task-management.md",
+      "target": ".claude/commands/task-management.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/task-management",
-      "target": ".claude/skills/task-management"
+      "target": ".claude/shared-skills/task-management"
+    },
+    {
+      "client": "codex",
+      "source": "skills/task-management",
+      "target": ".agents/skills/task-management"
     },
     {
       "client": "claude",
@@ -622,38 +1212,108 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/update-focus.md",
+      "target": ".claude/commands/update-focus.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/update-focus",
-      "target": ".claude/skills/update-focus"
+      "target": ".claude/shared-skills/update-focus"
+    },
+    {
+      "client": "codex",
+      "source": "skills/update-focus",
+      "target": ".agents/skills/update-focus"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/update-project-doc.md",
+      "target": ".claude/commands/update-project-doc.md"
     },
     {
       "client": "claude",
       "source": "skills/update-project-doc",
-      "target": ".claude/skills/update-project-doc"
+      "target": ".claude/shared-skills/update-project-doc"
+    },
+    {
+      "client": "codex",
+      "source": "skills/update-project-doc",
+      "target": ".agents/skills/update-project-doc"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/venue-fork.md",
+      "target": ".claude/commands/venue-fork.md"
     },
     {
       "client": "claude",
       "source": "skills/venue-fork",
-      "target": ".claude/skills/venue-fork"
+      "target": ".claude/shared-skills/venue-fork"
+    },
+    {
+      "client": "codex",
+      "source": "skills/venue-fork",
+      "target": ".agents/skills/venue-fork"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/verify-math.md",
+      "target": ".claude/commands/verify-math.md"
     },
     {
       "client": "claude",
       "source": "skills/verify-math",
-      "target": ".claude/skills/verify-math"
+      "target": ".claude/shared-skills/verify-math"
+    },
+    {
+      "client": "codex",
+      "source": "skills/verify-math",
+      "target": ".agents/skills/verify-math"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/voice-analyzer.md",
+      "target": ".claude/commands/voice-analyzer.md"
     },
     {
       "client": "claude",
       "source": "skills/voice-analyzer",
-      "target": ".claude/skills/voice-analyzer"
+      "target": ".claude/shared-skills/voice-analyzer"
+    },
+    {
+      "client": "codex",
+      "source": "skills/voice-analyzer",
+      "target": ".agents/skills/voice-analyzer"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/voice-editor.md",
+      "target": ".claude/commands/voice-editor.md"
     },
     {
       "client": "claude",
       "source": "skills/voice-editor",
-      "target": ".claude/skills/voice-editor"
+      "target": ".claude/shared-skills/voice-editor"
+    },
+    {
+      "client": "codex",
+      "source": "skills/voice-editor",
+      "target": ".agents/skills/voice-editor"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/weakness-scanner.md",
+      "target": ".claude/commands/weakness-scanner.md"
     },
     {
       "client": "claude",
       "source": "skills/weakness-scanner",
-      "target": ".claude/skills/weakness-scanner"
+      "target": ".claude/shared-skills/weakness-scanner"
+    },
+    {
+      "client": "codex",
+      "source": "skills/weakness-scanner",
+      "target": ".agents/skills/weakness-scanner"
     },
     {
       "client": "claude",
@@ -717,13 +1377,33 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/wire-shared-package.md",
+      "target": ".claude/commands/wire-shared-package.md"
+    },
+    {
+      "client": "claude",
       "source": "skills/wire-shared-package",
-      "target": ".claude/skills/wire-shared-package"
+      "target": ".claude/shared-skills/wire-shared-package"
+    },
+    {
+      "client": "codex",
+      "source": "skills/wire-shared-package",
+      "target": ".agents/skills/wire-shared-package"
+    },
+    {
+      "client": "claude",
+      "source": ".claude/commands/xlsx.md",
+      "target": ".claude/commands/xlsx.md"
     },
     {
       "client": "claude",
       "source": "skills/xlsx",
-      "target": ".claude/skills/xlsx"
+      "target": ".claude/shared-skills/xlsx"
+    },
+    {
+      "client": "codex",
+      "source": "skills/xlsx",
+      "target": ".agents/skills/xlsx"
     },
     {
       "client": "claude",
@@ -731,9 +1411,19 @@
       "target": ".claude/agents/artifact-coherence-auditor.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/artifact-coherence-auditor.toml",
+      "target": ".codex/agents/artifact-coherence-auditor.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/blindspot.md",
       "target": ".claude/agents/blindspot.md"
+    },
+    {
+      "client": "codex",
+      "source": ".codex/agents/blindspot.toml",
+      "target": ".codex/agents/blindspot.toml"
     },
     {
       "client": "claude",
@@ -741,14 +1431,29 @@
       "target": ".claude/agents/claim-verify.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/claim-verify.toml",
+      "target": ".codex/agents/claim-verify.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/code-paper-auditor.md",
       "target": ".claude/agents/code-paper-auditor.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/code-paper-auditor.toml",
+      "target": ".codex/agents/code-paper-auditor.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/code-review.md",
       "target": ".claude/agents/code-review.md"
+    },
+    {
+      "client": "codex",
+      "source": ".codex/agents/code-review.toml",
+      "target": ".codex/agents/code-review.toml"
     },
     {
       "client": "claude",
@@ -761,9 +1466,19 @@
       "target": ".claude/agents/domain-reviewer.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/domain-reviewer.toml",
+      "target": ".codex/agents/domain-reviewer.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/fatal-error-check.md",
       "target": ".claude/agents/fatal-error-check.md"
+    },
+    {
+      "client": "codex",
+      "source": ".codex/agents/fatal-error-check.toml",
+      "target": ".codex/agents/fatal-error-check.toml"
     },
     {
       "client": "claude",
@@ -771,9 +1486,19 @@
       "target": ".claude/agents/fixer.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/fixer.toml",
+      "target": ".codex/agents/fixer.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/gemini-research.md",
       "target": ".claude/agents/gemini-research.md"
+    },
+    {
+      "client": "codex",
+      "source": ".codex/agents/gemini-research.toml",
+      "target": ".codex/agents/gemini-research.toml"
     },
     {
       "client": "claude",
@@ -781,9 +1506,19 @@
       "target": ".claude/agents/paper-critic.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/paper-critic.toml",
+      "target": ".codex/agents/paper-critic.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/peer-reviewer.md",
       "target": ".claude/agents/peer-reviewer.md"
+    },
+    {
+      "client": "codex",
+      "source": ".codex/agents/peer-reviewer.toml",
+      "target": ".codex/agents/peer-reviewer.toml"
     },
     {
       "client": "claude",
@@ -791,14 +1526,29 @@
       "target": ".claude/agents/proposal-reviewer.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/proposal-reviewer.toml",
+      "target": ".codex/agents/proposal-reviewer.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/referee2-reviewer.md",
       "target": ".claude/agents/referee2-reviewer.md"
     },
     {
+      "client": "codex",
+      "source": ".codex/agents/referee2-reviewer.toml",
+      "target": ".codex/agents/referee2-reviewer.toml"
+    },
+    {
       "client": "claude",
       "source": ".claude/agents/reproducibility-auditor.md",
       "target": ".claude/agents/reproducibility-auditor.md"
+    },
+    {
+      "client": "codex",
+      "source": ".codex/agents/reproducibility-auditor.toml",
+      "target": ".codex/agents/reproducibility-auditor.toml"
     },
     {
       "client": "claude",

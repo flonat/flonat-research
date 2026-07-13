@@ -1,7 +1,7 @@
 ---
 name: gather-readings
 description: "Use when you need to gather PDFs from Paperpile into a project's articles/ folder."
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls*), Bash(cp*), Bash(mkdir*), Bash(python*), Bash(uv*), Bash(paperpile*)
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls*), Bash(cp*), Bash(mkdir*), Bash(uv:*), Bash(uv*), Bash(paperpile*)
 argument-hint: "[.bib file, Paperpile label name, or search queries]"
 ---
 

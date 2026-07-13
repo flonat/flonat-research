@@ -23,7 +23,7 @@ The `SessionStart` hook only copies permissions when `.claude/settings.local.jso
 ## What It Does
 
 1. **Merge permissions** — adds global permissions into project-local, keeping any project-specific ones
-2. **Verify skills directory** — ensures `~/.claude/skills/` exists and has content
+2. **Verify skills directory** — ensures `<skills-root>/` exists and has content
 3. **Verify agents directory** — ensures `~/.claude/agents/` exists and has content
 4. **Report changes** — shows exactly what was added
 
@@ -69,7 +69,7 @@ If no new permissions, skip the write.
 
 ### Step 4: Verify Skills Directory
 
-Check that `~/.claude/skills/` exists and has content:
+Check that `<skills-root>/` exists and has content:
 - If missing or empty, warn: "Skills directory missing — run `sync-to-claude-home.sh` to populate"
 - If present, report file count
 
@@ -102,13 +102,13 @@ Everything up to date. No new permissions to add. Skills OK. Agents OK.
 
 ## Example
 
-Running `/sync-permissions` after adding `WebFetch` and `Skill(literature)` to `~/.claude/settings.json`:
+Running `/sync-permissions` after adding `web fetch` and `Skill(literature)` to `~/.claude/settings.json`:
 
 ```
 Permissions sync complete:
 - Global permissions: 25
 - Local permissions (before): 64
-- New permissions added: 2 — WebFetch, Skill(literature)
+- New permissions added: 2 — web fetch, Skill(literature)
 - Local permissions (after): 66
 - Skills directory: ✓ 496 files
 - Agents directory: ✓ 16 files

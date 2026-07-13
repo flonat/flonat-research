@@ -33,7 +33,7 @@ A single PDF file path. The PDF should contain a bibliography, reference list, o
 A `.bib` file, located by context:
 
 - **PDF inside a research project** (e.g. `articles/`, `paper-*/`, project root) — write to the same directory as the input PDF, named `references.bib` (per project convention). If `references.bib` already exists, ask before overwriting — offer to merge or use a different name (e.g., `extracted-refs.bib`).
-- **Standalone PDF** (ad-hoc extraction with no project home — e.g. an upload in `~/.claude/uploads/`) — write to `~/vault/parsed-bibs/<slug>.bib`, where `<slug>` describes the source (e.g. `kasberger-algorithmic-cooperation-geb-2026.bib`). This is the standing location for one-off parses (established 2026-06-14). Create the folder if absent.
+- **Standalone PDF** (ad-hoc extraction with no project home — e.g. a client-managed upload) — write to `~/vault/parsed-bibs/<slug>.bib`, where `<slug>` describes the source (e.g. `kasberger-algorithmic-cooperation-geb-2026.bib`). This is the standing location for one-off parses (established 2026-06-14). Create the folder if absent.
 
 Any staged Paperpile-import entry (Phase 4.1) is written into a `.bib` under `.paperpile-import/` next to the output `.bib`.
 
@@ -98,7 +98,7 @@ For each reference found, extract:
 
 For each extracted reference, verify and enrich using available tools:
 
-1. **Search by title** via `WebSearch` to confirm the reference exists and pull missing metadata (DOI, volume, pages).
+1. **Search by title** via `web search` to confirm the reference exists and pull missing metadata (DOI, volume, pages).
 2. **Use the `scholarly` CLI** for multi-source enrichment:
    - `scholarly scholarly-search "<title>" --json` — search by title across OpenAlex + S2 + Scopus + WoS
    - `scholarly scholarly-paper-detail <paper_id> --json` — get full metadata including pre-formatted BibTeX (`citationStyles`), TLDR summary, and open access PDF link. When BibTeX is available, use it as the primary template instead of manually constructing entries — reduces formatting errors.
@@ -230,12 +230,12 @@ Before any auto-commit, emit an outputs manifest and run the shared verifier per
 2. Run:
 
    ```bash
-   python3 "$HOME/.claude/skills/_shared/verify_outputs.py" \
+   uv run python "<skills-root>/_shared/verify_outputs.py" \
        --manifest "$MANIFEST" \
        --project-root "$PROJECT_ROOT"
    ```
 
-3. If the verifier exits non-zero, **do not commit**. Surface the missing-files list and stop. The verifier logs an `error` entry to `~/.claude/ecc/skill-outcomes.jsonl`.
+3. If the verifier exits non-zero, **do not commit**. Surface the missing-files list and stop. The verifier logs an `error` entry to `~/.local/state/ai-workflows/skill-outcomes.jsonl`.
 
 Closes the "hallucinated outputs" failure class (commit `b2cff75`, 2026-04-18).
 

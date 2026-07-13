@@ -130,7 +130,7 @@ If nothing is stale, report that and stop.
 
 #### Step 5a: Staleness Fixes
 
-Use `AskUserQuestion` to let the user approve, modify, or skip staleness fixes:
+Use `the available structured-question mechanism` to let the user approve, modify, or skip staleness fixes:
 
 - **Apply all** — update everything proposed
 - **Select by file** — choose which files to update
@@ -149,7 +149,7 @@ Leanness fixes available:
 | 2 | skills/X/SKILL.md | >300 lines | 382 | Move checklists → references/ |
 ```
 
-Use `AskUserQuestion` with `multiSelect: true`:
+Use `the available structured-question mechanism` with `multiSelect: true`:
 - **Question:** "Which leanness fixes do you want to apply?"
 - One option per fix with current size and proposed outcome
 - Include an **"All of them"** option as the first choice

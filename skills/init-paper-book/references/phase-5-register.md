@@ -33,7 +33,7 @@ for ch in intro background setup method results limitations extend appendix refe
 done
 
 # Update atlas topic frontmatter with book_url
-python3 ~/Task-Management/.scripts/update_atlas_book_url.py \
+uv run python ~/Task-Management/.scripts/update_atlas_book_url.py \
   --slug "$SLUG" \
   --url "https://books.example.com/${SLUG}/"
 ```
@@ -55,7 +55,7 @@ for ch in intro background setup method results limitations extend appendix refe
 done
 
 # DOM-based assertions (one Playwright script — see references/visual_check.mjs)
-node ~/.claude/skills/init-paper-book/references/visual_check.mjs \
+node <skills-root>/init-paper-book/references/visual_check.mjs \
     --slug "${SLUG}" \
     --base-url "http://localhost:8770" \
     --output /tmp/init-paper-book-visual-${SLUG}.json

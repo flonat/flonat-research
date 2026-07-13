@@ -6,11 +6,11 @@ Validates task dependencies, computes execution schedules, identifies
 critical paths and bottlenecks using NetworkX graph algorithms.
 
 Usage:
-    python dag_validator.py <tasks_json_file> [--output <output_json>]
-    python dag_validator.py revision_tasks.json
-    python dag_validator.py revision_tasks.json --validate-only
-    python dag_validator.py revision_tasks.json --quiet
-    python dag_validator.py revision_tasks.json --task A1_size_control
+    uv run python dag_validator.py <tasks_json_file> [--output <output_json>]
+    uv run python dag_validator.py revision_tasks.json
+    uv run python dag_validator.py revision_tasks.json --validate-only
+    uv run python dag_validator.py revision_tasks.json --quiet
+    uv run python dag_validator.py revision_tasks.json --task A1_size_control
 
 Input format: See task-schema.md in the skill references.
 """

@@ -121,11 +121,11 @@ Phase 1 + Phase 2's deterministic checks are implemented in `scripts/batch_audit
 ```bash
 # Audit all 9 books
 ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
-    ~/.claude/skills/audit-paper-book/scripts/batch_audit.py
+    <skills-root>/audit-paper-book/scripts/batch_audit.py
 
 # Audit one book
 ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
-    ~/.claude/skills/audit-paper-book/scripts/batch_audit.py <slug>
+    <skills-root>/audit-paper-book/scripts/batch_audit.py <slug>
 ```
 
 What the script gets right:
@@ -171,7 +171,7 @@ See [`references/phase-5-verify-smoke-tests.md`](references/phase-5-verify-smoke
 
 ### Phase 6: Rebuild PDF companion (soft-fail; --apply only)
 
-See [`references/phase-6-pdf-rebuild.md`](references/phase-6-pdf-rebuild.md). Runs `bash ~/.claude/skills/init-paper-book/scripts/build-book-pdf.sh <slug>` if `--apply` was passed and Phase 4 actually changed chapter files. Skips silently if `mystmd` is not on PATH or `myst.yml` is missing (no audit-time file creation beyond the build pipeline's own bootstrap). Warns on build error.
+See [`references/phase-6-pdf-rebuild.md`](references/phase-6-pdf-rebuild.md). Runs `bash <skills-root>/init-paper-book/scripts/build-book-pdf.sh <slug>` if `--apply` was passed and Phase 4 actually changed chapter files. Skips silently if `mystmd` is not on PATH or `myst.yml` is missing (no audit-time file creation beyond the build pipeline's own bootstrap). Warns on build error.
 
 ## Report format
 
@@ -185,8 +185,8 @@ See [`references/report-format-template.md`](references/report-format-template.m
 
 ## Logging
 
-Append outcome to `~/.claude/ecc/skill-outcomes.jsonl`:
+Append outcome to `~/.local/state/ai-workflows/skill-outcomes.jsonl`:
 
 ```bash
-mkdir -p ~/.claude/ecc && echo '{"skill":"audit-paper-book","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","outcome":"success","session":"'"${CLAUDE_SESSION_ID:-}"'","project":"'"$(basename "$PWD")"'","note":""}' >> ~/.claude/ecc/skill-outcomes.jsonl
+mkdir -p ~/.local/state/ai-workflows && echo '{"skill":"audit-paper-book","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","outcome":"success","session":"'"${AI_SESSION_ID:-${CLAUDE_SESSION_ID:-}}"'","project":"'"$(basename "$PWD")"'","note":""}' >> ~/.local/state/ai-workflows/skill-outcomes.jsonl
 ```

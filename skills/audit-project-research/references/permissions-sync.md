@@ -42,7 +42,7 @@ Or when missing entries are detected:
 
 ```
 Permissions Audit:
-  .claude/settings.local.json   3 allow permissions missing (WebFetch, Skill(literature), Bash(jq*))
+  .claude/settings.local.json   3 allow permissions missing (web fetch, Skill(literature), Bash(jq*))
   .claude/settings.local.json   1 deny permission missing (Bash(pip*))
   Remediation: run /sync-permissions to merge.
 ```

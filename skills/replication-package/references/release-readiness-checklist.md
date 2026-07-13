@@ -18,7 +18,10 @@
 
 ## 14-point pre-release checklist
 1.  [ ] Runs from a **fresh session/interpreter** (no reliance on in-memory objects).
-2.  [ ] **Relative paths only** — no absolute paths, no machine-specific/user paths (grep for `/Users/`, `/home/`, `C:\`, `setwd(`).
+2.  [ ] **Relative paths only** — no absolute paths and no machine-specific or
+    user-home paths. Scan with
+    `grep -E '([/]Users[/]|[/]home[/]|[A-Za-z]:\\\\|setwd\()'` so the check
+    remains operational without embedding a particular machine's path.
 3.  [ ] **One log per public script** present in `logs/` (or `build/`+`analyze/` logs).
 4.  [ ] **`session_info.log`** present, from a real successful full run (language version, platform, OS, packages, elapsed).
 5.  [ ] **Master script** runs every script in order and regenerates all outputs cleanly (exit 0, no errors).
@@ -36,7 +39,7 @@
 - Status: **READY** | READY-WITH-CAVEATS | NOT-READY
 - Blockers (FAIL items): <list, or none>
 - Waived (with reason): <list, or none>
-- Public entry point: `source("master.R")` / `python master.py` / `do master.do`
+- Public entry point: `source("master.R")` / `uv run python master.py` / `do master.do`
 - Last verified: <YYYY-MM-DD> by running the master script from the package root.
 ```
 

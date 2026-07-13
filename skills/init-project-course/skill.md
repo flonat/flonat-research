@@ -47,7 +47,7 @@ Read everything already in the directory before asking questions.
 
 ## Phase 2: Interview (4-5 questions max)
 
-Use `AskUserQuestion`. Only ask what you couldn't infer from Phase 1.
+Use `the available structured-question mechanism`. Only ask what you couldn't infer from Phase 1.
 
 Pick from these (skip any you can already answer):
 

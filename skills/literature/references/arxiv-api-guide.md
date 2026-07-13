@@ -1,11 +1,11 @@
 # arXiv API Reference
 
 > For use by the `/literature` skill — Phase 2 pre-fetch and Phase 4.5 deep loop.
-> arXiv is now available as an MCP tool (`scholarly arxiv-search`, `scholarly arxiv-get-paper`, `scholarly arxiv-search-category`).
+> arXiv is available through portable `scholarly` CLI commands (`scholarly arxiv-search`, `scholarly arxiv-get-paper`, `scholarly arxiv-search-category`).
 
-## MCP Tools (Preferred)
+## CLI Commands (Preferred)
 
-Use these instead of raw WebFetch — they handle XML parsing and return Paper objects.
+Use these instead of raw web fetch — they handle XML parsing and return Paper objects.
 
 | Tool | Use case |
 |------|----------|
@@ -31,7 +31,7 @@ Use these instead of raw WebFetch — they handle XML parsing and return Paper o
 | `q-fin.GN` | General Finance |
 | `q-fin.TR` | Trading and Market Microstructure |
 
-## Query Syntax (for MCP tool `query` parameter)
+## Query Syntax (for the CLI `--query` parameter)
 
 The `scholarly arxiv-search` tool accepts natural language queries. For advanced use, arXiv operators are passed through:
 

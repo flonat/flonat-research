@@ -13,19 +13,19 @@ Review agents operating without real-time literature context critique papers in 
 ## Architecture
 
 ```
-Main orchestrator context (has MCP tools + WebSearch)
+Main orchestrator context (has bibliography CLIs + native web search)
     │
     ├─ Step 1: Extract paper summary
-    ├─ Step 2: Literature Expansion (Paperpile → scholarly MCP → WebSearch)
+    ├─ Step 2: Literature Expansion (RefPile/Paperpile → scholarly CLI → web search)
     ├─ Step 3: Baseline Scout
     ├─ Step 4: Domain Narrative
     └─ Step 5: Handoff — serialize to /tmp/ka-* files
                 │
                 ▼
-        Sub-agents read /tmp/ka-* via Read tool (no MCP needed)
+        Sub-agents read /tmp/ka-* through filesystem access (no credentials needed)
 ```
 
-**Note on tool access:** Most MCP tools are only available in the main orchestrator context — sub-agents cannot call them. **Exception:** `scholarly` and `paperpile` CLIs work in sub-agents (shell out directly). This protocol still runs in the orchestrator for efficiency, producing files that sub-agents consume.
+**Note on tool access:** Run `scholarly`, `paperpile`, and `refpile` through their CLI frontends in the main orchestrator context. This keeps registration and credentials outside sub-agent prompts while producing ordinary files that sub-agents can consume.
 
 ---
 
@@ -56,19 +56,19 @@ The `submission_date` becomes `{cutoff_date}` — all literature searches are co
 
 | Priority | Tool | Use for |
 |----------|------|---------|
-| 0 | `search_library` (RefPile MCP) | Search the user's indexed PDFs (~28K papers, full-text vectorized) |
-| 0 | `get_paper` (RefPile MCP) | Retrieve full content for known citekeys |
+| 0 | `refpile search-library "<query>" --json` | Search the user's indexed PDFs (~28K papers, full-text vectorized) |
+| 0 | `refpile get-paper <citekey> --json` | Retrieve full content for known citekeys |
 | 1 | `scholarly scholarly-search` | Multi-source broad search (papers NOT in Paperpile) |
 | 2 | `scholarly openalex-search-works` | Structured metadata + citation counts |
 | 3 | `scholarly dblp-search` | CS venue-specific search |
 | 4 | `scholarly scholarly-verify-dois` | Batch DOI verification |
-| 5 | WebSearch | Fallback for preprints, blogs, GitHub |
+| 5 | web search | Fallback for preprints, blogs, GitHub |
 
 **Why Paperpile first:** It contains full-text content, not just abstracts. When assessing novelty or methodology, having the actual paper content produces richer context than metadata-only results from scholarly APIs.
 
 **Process:**
 
-1. **Paperpile sweep:** Use `search_library` with the paper's research question, method name, and key terms. For each hit, use `get_paper` to retrieve detailed content. Mark these as `in_paperpile: true`.
+1. **Paperpile sweep:** Run `refpile search-library "<query>" --json` with the paper's research question, method name, and key terms. For each hit, run `refpile get-paper <citekey> --json` to retrieve detailed content. Mark these as `in_paperpile: true`.
 
 2. **External sweep:** Use `scholarly scholarly-search` + `scholarly openalex-search-works` for papers NOT found in Paperpile. Target 15-20 additional papers. Constrain to `{cutoff_date}`.
 
@@ -107,7 +107,7 @@ The `submission_date` becomes `{cutoff_date}` — all literature searches are co
 
 1. **Identify task and benchmarks** from the paper's experiments section.
 
-2. **Check Paperpile first:** Use `search_library` with task + benchmark keywords. the user may already have SOTA papers for these benchmarks.
+2. **Check Paperpile first:** Run `refpile search-library "<task and benchmark>" --json`. the user may already have SOTA papers for these benchmarks.
 
 3. **External search:** Use `scholarly openalex-search-works` + `scholarly dblp-search` for methods not found in Paperpile. Search for:
    - SOTA methods on the paper's benchmarks (are there stronger baselines?)
@@ -174,7 +174,7 @@ Report to the user:
 
 > "KA complete: found N papers (M from Paperpile), K missing baselines, J missing datasets. Files written to `/tmp/ka-literature-*.json`, `/tmp/ka-baselines-*.json`, `/tmp/ka-narrative-*.md`. Proceeding to sub-agents."
 
-All `/tmp/ka-*` files are now available for sub-agents to read via the Read tool.
+All `/tmp/ka-*` files are now available for sub-agents to read through filesystem access.
 
 ---
 
@@ -190,7 +190,7 @@ Runs before the 6 audits begin. KA outputs feed into Audit 5 (Methods — missin
 
 ### paper-critic (Context Files)
 
-Paper-critic has no MCP access (Read/Glob/Grep only). The **main session** runs KA before spawning paper-critic, then passes `/tmp/ka-*` file paths in the agent prompt. Paper-critic reads these files to enrich checks 4 (Literature & Citations) and 7 (Novelty & Contribution).
+Paper-critic receives no external-service credentials. The **main session** runs KA before spawning paper-critic, then passes `/tmp/ka-*` file paths in the agent prompt. Paper-critic reads these files to enrich checks 4 (Literature & Citations) and 7 (Novelty & Contribution).
 
 ---
 
@@ -198,13 +198,13 @@ Paper-critic has no MCP access (Read/Glob/Grep only). The **main session** runs 
 
 Reference: `skills/shared/mcp-degradation.md`
 
-If MCP tools are unavailable:
+If bibliography CLIs or their backing services are unavailable:
 
 | Unavailable | Fallback | Impact |
 |-------------|----------|--------|
-| RefPile MCP | Skip Paperpile sweep; proceed with scholarly MCP | Lose full-text library context |
-| Scholarly MCP | Use WebSearch for all literature queries | Lose structured metadata, citation counts |
-| Both RefPile + Scholarly | WebSearch-only mode | Significantly reduced context quality |
+| RefPile CLI/service | Skip Paperpile sweep; proceed with `scholarly` CLI | Lose full-text library context |
+| Scholarly CLI/service | Use web search for all literature queries | Lose structured metadata and citation counts |
+| Both RefPile + Scholarly | web search-only mode | Significantly reduced context quality |
 
 When operating in degraded mode, flag reduced confidence prominently:
 

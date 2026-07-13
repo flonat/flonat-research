@@ -1,10 +1,10 @@
 # Peer Reviewer Sub-Agent Prompt Templates
 
-After you have finished reading ALL splits and your notes are complete, **spawn three sub-agents in parallel using the Task tool**. Send all three Task tool calls in a single message.
+After you have finished reading ALL splits and your notes are complete, **spawn three sub-agents in parallel through the client's fresh-context agent mechanism**. Send all three in one parallel dispatch.
 
 ## Standard Forbid-List for All Sub-Agents Below
 
-**Paste this block into every sub-agent prompt below** (per `~/.claude/rules/subagent-prompt-discipline.md` § Standard Forbid-List for Write-Capable Sub-Agents). Sub-agents do not inherit global rules — defaults like "found a good source → write it to the bib" leak unauthorised actions unless the prompt negates them affirmatively.
+**Paste this block into every sub-agent prompt below** (per the subagent-prompt-discipline policy in loaded guidance). Sub-agents do not inherit global rules — defaults like "found a good source → write it to the bib" leak unauthorised actions unless the prompt negates them affirmatively.
 
 ```
 ## Scope of action — DO NOT do these things
@@ -34,7 +34,7 @@ The orchestrator pastes this block once into each of the three sub-agent prompts
 
 **Purpose:** Verify that every citation in the paper is real and that the claims attributed to cited papers are accurate.
 
-**Prompt template for the Task tool:**
+**Prompt template for fresh-context agent dispatch:**
 
 ```
 You are a Citation Validator sub-agent for a peer review. Your job is to verify
@@ -55,17 +55,17 @@ the user's library with full-text content — these are especially reliable.
 
 For EACH citation, perform these checks:
 
-1. EXISTENCE CHECK — use bibliography MCP tools first, then web search:
-   a. Collect all DOIs from the bibliography entries and call `scholarly_verify_dois`
+1. EXISTENCE CHECK — use the `scholarly` CLI first, then web search:
+   a. Collect all DOIs from the bibliography entries and run `scholarly scholarly-verify-dois --dois <comma-separated-dois> --json`
       to batch-verify them across OpenAlex + Scopus + WoS. Papers marked VERIFIED
       (2+ sources confirm) pass the existence check immediately.
-   b. For SINGLE_SOURCE or NOT_FOUND DOIs, and for papers without DOIs, use
-      `scholarly_search` with the paper title to search across all sources.
-   c. Only fall back to WebSearch (Google Scholar, DBLP, publisher sites) for
-      papers that MCP tools cannot find.
+   b. For SINGLE_SOURCE or NOT_FOUND DOIs, and for papers without DOIs, run
+      `scholarly scholarly-search --query "<paper title>" --json` across all sources.
+   c. Only fall back to the client's native web search (Google Scholar, DBLP, publisher sites) for
+      papers that the CLI cannot find.
 
 2. DETAIL MATCH: Do the author names, year, title, and venue match what the
-   paper claims? For MCP-verified papers, use `openalex_lookup_doi` to get
+   paper claims? For CLI-verified papers, run `scholarly openalex-lookup-doi --doi <doi> --json` to get
    full metadata for comparison.
 
 3. CLAIM VERIFICATION: Where possible, check whether the cited paper actually
@@ -101,7 +101,7 @@ Produce a structured report with:
 
 **This is the most important sub-agent.** Novelty is the hardest thing to assess from within the paper itself — the authors will naturally present their work as new. This sub-agent acts as an independent literature investigator.
 
-**Prompt template for the Task tool:**
+**Prompt template for fresh-context agent dispatch:**
 
 ```
 You are a Novelty & Literature Assessor sub-agent for a peer review. Your job is
@@ -137,7 +137,7 @@ it provides a head start, not a ceiling.
 YOUR TASK:
 
 1. PRIOR WORK SEARCH: For each claimed contribution, search the literature
-   (using WebSearch, supplemented by KA literature context) to find:
+   (using the client's native web search, supplemented by KA literature context) to find:
    a. Papers that have already made the SAME contribution (pre-empting)
    b. Papers that have made a VERY SIMILAR contribution with different data/context
    c. Concurrent/simultaneous work making the same point
@@ -160,14 +160,14 @@ YOUR TASK:
    - If the contribution is incremental, is it a meaningful increment?
 
 SEARCH STRATEGY:
-- Start with bibliography MCP tools for structured cross-source search:
-  a. Call `scholarly_search` with the paper's research question as query — this
+- Start with the `scholarly` CLI for structured cross-source search:
+  a. Run `scholarly scholarly-search --query "<research question>" --json` — this
      searches OpenAlex + Scopus + WoS with automatic deduplication
-  b. Call `scholarly_similar_works` with the paper's title or abstract to find
+  b. Run `scholarly scholarly-similar-works --text "<title or abstract>" --json` to find
      closely related work the keyword search might miss
-  c. Call `scholarly_search` with the specific methodology + domain combination
-- Then supplement with WebSearch for:
-  - Working papers and preprints (SSRN, arXiv, NBER) not fully indexed in MCP sources
+  c. Run `scholarly scholarly-search --query "<methodology and domain>" --json`
+- Then supplement with the client's native web search for:
+  - Working papers and preprints (SSRN, arXiv, NBER) not fully indexed by the CLI sources
   - Very recent papers (last 3 months) that may not yet be in databases
   - Adjacent fields that might use different terminology
 - Search for the exact research question with different author names
@@ -190,7 +190,7 @@ Produce a structured report with:
 
 **Purpose:** Deep assessment of the paper's methods — adapted to whatever methodological paradigm the paper uses.
 
-**Prompt template for the Task tool:**
+**Prompt template for fresh-context agent dispatch:**
 
 ```
 You are a Methodology Reviewer sub-agent for a peer review. Your job is to
@@ -285,10 +285,10 @@ Produce a structured assessment with:
 
 ## Launching Sub-Agents
 
-**CRITICAL: Launch all three sub-agents in a SINGLE message using three parallel Task tool calls.** This is the whole point of the multi-agent architecture — they run concurrently.
+**CRITICAL: Launch all three sub-agents in one parallel dispatch.** This is the whole point of the multi-agent architecture — they run concurrently.
 
 ```
-# In a single message, make three Task tool calls:
+# In one operation, dispatch three fresh-context agents in parallel:
 
 Task 1: Citation Validator
 - subagent_type: general-purpose

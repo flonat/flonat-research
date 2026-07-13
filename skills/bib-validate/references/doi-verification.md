@@ -28,7 +28,7 @@ scholarly scholarly-verify-dois --dois DOI1,DOI2,DOI3 --json
 This batch-verifies each DOI against all enabled sources (OpenAlex, Scopus, WoS). Results:
 - **VERIFIED** (2+ sources confirm) — DOI is valid, metadata can be trusted
 - **SINGLE_SOURCE** (1 source only) — DOI exists but warrants a manual spot-check
-- **NOT_FOUND** — DOI not found in any source; resolve manually via WebFetch
+- **NOT_FOUND** — DOI not found in any source; resolve manually via web fetch
 
 **Fallback for NOT_FOUND DOIs:** Resolve via `https://doi.org/[DOI]` and confirm the returned metadata matches the entry:
 
@@ -44,7 +44,7 @@ This check catches:
 - Author conflation (real researchers incorrectly attributed to a paper)
 - Metadata copied from secondary sources without verification
 
-For manual WebFetch resolution, process in batches of 5 to avoid rate limiting. Only flag confirmed mismatches — if the DOI cannot be resolved (404, timeout), note it as "unresolvable" at Info level.
+For manual web fetch resolution, process in batches of 5 to avoid rate limiting. Only flag confirmed mismatches — if the DOI cannot be resolved (404, timeout), note it as "unresolvable" at Info level.
 
 ## Fabrication Detection (LLM-drafted bibliographies)
 

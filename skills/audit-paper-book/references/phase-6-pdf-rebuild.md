@@ -13,7 +13,7 @@ If any of these are false, log a one-liner and continue. Audit is non-destructiv
 ## Invocation
 
 ```bash
-bash ~/.claude/skills/init-paper-book/scripts/build-book-pdf.sh <slug>
+bash <skills-root>/init-paper-book/scripts/build-book-pdf.sh <slug>
 ```
 
 Output: `~/vault/books/<slug>/exports/<slug>.pdf`.

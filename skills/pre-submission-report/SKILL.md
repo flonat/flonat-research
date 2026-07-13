@@ -3,6 +3,7 @@ name: pre-submission-report
 description: "Use when you need all quality checks run before submission, producing a single dated report."
 allowed-tools: Bash(latexmk*, mkdir*, ls*, wc*), Read, Write, Edit, Glob, Grep, Task, Skill
 argument-hint: "[path/to/main.tex or no arguments to auto-detect]"
+agent-dependencies: [artifact-coherence-auditor, blindspot, claim-verify, code-paper-auditor, domain-reviewer, paper-critic, referee2-reviewer, reproducibility-auditor]
 ---
 
 # Pre-Submission Report
@@ -78,11 +79,11 @@ Run these in order — each depends on a clean state from the previous:
 
 1. **Compilation** — invoke `/latex` on the main `.tex` file. Record pass/fail and any remaining warnings.
 2. **Citation audit** — invoke `/bib-validate --verify-doi` (DOI resolution mode catches fabricated entries). Record missing, unused, suspect, and unresolved-DOI keys.
-3. **Adversarial review** — launch `paper-critic` agent (via Task tool). Capture the CRITIC-REPORT.md score and findings.
+3. **Adversarial review** — launch `paper-critic` agent (via fresh-context sub-agent mechanism). Capture the CRITIC-REPORT.md score and findings.
 
 #### 3b. Parallel 7-audit fan-out (`--parallel` flag)
 
-Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Dispatches **7 read-only sub-agents in parallel** via the Task tool, then consolidates findings.
+Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Dispatches **7 read-only sub-agents in parallel** via the fresh-context sub-agent mechanism, then consolidates findings.
 
 **Hard rules for parallel mode:**
 1. **All sub-agents are read-only with respect to project files under review** — see `subagent-write-guard.md` rule. They do NOT modify the paper, bib, code, or any other artefact under review; the orchestrator (this skill) decides what to fix. **They DO write their own per-agent reports** to `reviews/<paper-slug>/<check>/<YYYY-MM-DD-HHMM>.md` per each agent's "Log to REVIEW-STATE.md (final step)" instruction (where `<paper-slug>` is the paper being reviewed and `<check>` is the agent name, e.g., `paper-critic`, `referee2-reviewer`) — this is the durable record + the INDEX.md stamp that `/review-recap` reads. The "read-only" scope is the artefact under review, NOT a prohibition on writing the review report itself.
@@ -112,7 +113,7 @@ Use when (a) the paper is near submission and you want a comprehensive scan, or 
 
 **Conditional — math verification (theory papers):**
 
-If the paper contains formal environments (`grep -lE '\\begin\{(theorem|proposition|lemma|corollary)\}'` matches), run `/verify-math` (via the Skill tool) on the model section(s) **in addition to** the domain-reviewer agent (#5). The two are complementary, not redundant: domain-reviewer (#5) reads the conceptual layer (rung R0), while `/verify-math` machine-checks the algebra/analytics across the rest of the spectrum (R1 numerical falsification · R2 symbolic/CAS · R3 Lean). This runs as an **orchestrator skill, not a sub-agent** — the computational rungs need Bash + sympy/lean, which sub-agents can't reliably get at runtime (same Bash-grant fragility that motivates orchestrator-side stamping below); the orchestrator always has Bash. It is read-only with respect to project files (writes only its own report) and self-stamps its INDEX.md row. Fold its aggregate verdict into consolidation: **any `FALSIFIED` obligation is a P0 blocker** (a machine-falsified theorem outranks any reviewer concern); an `INCONCLUSIVE` obligation is P1. When both run, tell domain-reviewer (#5) in its prompt that the algebra is being verified separately so it focuses on assumption completeness / citation fidelity / backward logic — see the domain-reviewer "Math R0 Mode" preset.
+If the paper contains formal environments (`grep -lE '\\begin\{(theorem|proposition|lemma|corollary)\}'` matches), run `/verify-math` (via the skill-routing mechanism) on the model section(s) **in addition to** the domain-reviewer agent (#5). The two are complementary, not redundant: domain-reviewer (#5) reads the conceptual layer (rung R0), while `/verify-math` machine-checks the algebra/analytics across the rest of the spectrum (R1 numerical falsification · R2 symbolic/CAS · R3 Lean). This runs as an **orchestrator skill, not a sub-agent** — the computational rungs need Bash + sympy/lean, which sub-agents can't reliably get at runtime (same Bash-grant fragility that motivates orchestrator-side stamping below); the orchestrator always has Bash. It is read-only with respect to project files (writes only its own report) and self-stamps its INDEX.md row. Fold its aggregate verdict into consolidation: **any `FALSIFIED` obligation is a P0 blocker** (a machine-falsified theorem outranks any reviewer concern); an `INCONCLUSIVE` obligation is P1. When both run, tell domain-reviewer (#5) in its prompt that the algebra is being verified separately so it focuses on assumption completeness / citation fidelity / backward logic — see the domain-reviewer "Math R0 Mode" preset.
 
 **Conditional follow-ups (run after parallel fan-out, opt-in):**
 
@@ -126,7 +127,7 @@ The conditional follow-ups are NOT in the parallel batch — they're sequential 
 **Dispatch protocol:**
 
 ```python
-# Pseudocode for orchestration — see Task tool docs for actual API
+# Pseudocode for orchestration — see fresh-context sub-agent mechanism docs for actual API
 parallel_tasks = [
     Agent("bib-verifier", subagent_type="general-purpose",
           prompt=f"Read {paper_path}/references.bib. Run scholarly scholarly-verify-dois on all DOI-bearing entries (batch ≤50). Report unresolvable DOIs, missing DOIs, suspected fabricated entries. READ-ONLY. {forbid_list}"),
@@ -261,12 +262,12 @@ For each agent's return:
 1. Write the agent's final response to a temp file (`/tmp/pre-submission-<agent>.md`).
 2. Parse the directive:
    ```bash
-   ARGS=$(bash ~/.claude/skills/_shared/parse-stamp-directive.sh /tmp/pre-submission-<agent>.md)
+   ARGS=$(bash <skills-root>/_shared/parse-stamp-directive.sh /tmp/pre-submission-<agent>.md)
    ```
    If `parse-stamp-directive.sh` exits non-zero, log a warning ("Agent X return did not contain a review-state-stamp directive — INDEX.md not updated for this run") and continue.
 3. **Verify the `.md` report file exists; reconstruct from return content if missing:**
    ```bash
-   VERIFY=$(bash ~/.claude/skills/_shared/post-dispatch-verify.sh \
+   VERIFY=$(bash <skills-root>/_shared/post-dispatch-verify.sh \
        --return-file /tmp/pre-submission-<agent>.md \
        --project "$PROJECT_ROOT" \
        --agent <agent>)
@@ -274,7 +275,7 @@ For each agent's return:
    If `VERIFY` starts with `RECONSTRUCTED`, append `(report reconstructed by orchestrator — agent skipped Write)` to the `--notes` value before stamping. Guards against the blindspot-class failure mode. See `log/2026-05-21-blindspot-write-fix.md`.
 4. Stamp with the orchestrator's `--trigger` override:
    ```bash
-   eval bash ~/.claude/skills/_shared/review-state-log.sh "$ARGS" \
+   eval bash <skills-root>/_shared/review-state-log.sh "$ARGS" \
        --trigger pre-submission-report \
        --source agent \
        --project "$PROJECT_ROOT"

@@ -242,7 +242,7 @@ Write `plan/revision_tasks.json` per the schema in [task-schema.md](task-schema.
 3. Run in validate-only mode:
    ```bash
    cd correspondence/referee-reviews/{venue}-round{n}/plan
-   python dag_validator.py revision_tasks.json --validate-only
+   uv run python dag_validator.py revision_tasks.json --validate-only
    ```
 
 4. Interpret:
@@ -370,7 +370,7 @@ Run the validator in full mode:
 
 ```bash
 cd correspondence/referee-reviews/{venue}-round{n}/plan
-python dag_validator.py revision_tasks.json
+uv run python dag_validator.py revision_tasks.json
 # produces revision_dag_analysis.json
 ```
 

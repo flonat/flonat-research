@@ -3,6 +3,7 @@ name: computational-experiments
 description: "Use when you need to scaffold, run, or publish computational research experiments."
 allowed-tools: Bash(uv*, pytest*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[project-path] [--mode scaffold|experiment|figures|full] [--budget <minutes>] [--scaffold standard|robustness|replication]"
+agent-dependencies: [code-review]
 ---
 
 # Computational Experiments
@@ -217,7 +218,7 @@ Read `references/figure-recipes.md` for matplotlib recipes.
    - Config completeness: can results be regenerated from saved configs?
    - Output freshness: are figures newer than their source data?
    - Dependency pinning: are versions locked in `pyproject.toml` or `uv.lock`?
-2. **Code review:** Invoke `/code-review` on all generated scripts (via Skill tool)
+2. **Code review:** Invoke the `code-review` agent on all generated scripts (via skill-routing mechanism)
 3. **Record learnings:** Write `[LEARN:code]` tags for project-specific conventions discovered
 4. **Suggest next steps:** compilation with `/latex`, additional experiments, `/replication-package`
 
@@ -260,7 +261,7 @@ Examples of learnings to capture:
 | `templates/slurm/*.sbatch` (Task Management) | Phase 3 (drop-in SLURM templates; all log git-SHA to OUT_DIR) |
 | `no-hardcoded-results` rule | Phase 4 (output routing) |
 | `overleaf-separation` rule | Phase 4 (file placement) |
-| `/code-review` skill | Phase 5 (auto-invoked) |
+| the `code-review` agent | Phase 5 (auto-invoked) |
 | `/data-analysis` skill | Redirect if task is empirical, not computational |
 | `/replication-package` skill | Phase 5 (suggested next step) |
 | `/cross-language-check` skill | Phase 5 (suggested next step for verification) |

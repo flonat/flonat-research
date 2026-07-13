@@ -5,12 +5,12 @@ Extracts the ZIP archive, pretty-prints XML files, and optionally:
 - Simplifies adjacent tracked changes from same author (DOCX only)
 
 Usage:
-    python unpack.py <office_file> <output_dir> [options]
+    uv run python unpack.py <office_file> <output_dir> [options]
 
 Examples:
-    python unpack.py document.docx unpacked/
-    python unpack.py presentation.pptx unpacked/
-    python unpack.py document.docx unpacked/ --merge-runs false
+    uv run python unpack.py document.docx unpacked/
+    uv run python unpack.py presentation.pptx unpacked/
+    uv run python unpack.py document.docx unpacked/ --merge-runs false
 """
 
 import argparse

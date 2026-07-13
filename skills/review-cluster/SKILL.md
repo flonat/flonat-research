@@ -3,6 +3,7 @@ name: review-cluster
 description: "Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from /pre-submission-report (final-gate kitchen sink, 13 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission'."
 allowed-tools: Read, Glob, Grep, Bash(uv*), Bash(ls*), Bash(git*), Task, Skill, AskUserQuestion
 argument-hint: "[paper-path or no-args (auto-detect)] [--no-synthesise]"
+agent-dependencies: [paper-critic, domain-reviewer, claim-verify, blindspot]
 ---
 
 # Review Cluster — Mid-Draft Adversarial Feedback
@@ -62,7 +63,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 ```
 Phase 1 (preflight) → /latex compile check; abort if broken
-Phase 2 (dispatch)  → 4 read-only sub-agents in parallel via Task tool
+Phase 2 (dispatch)  → 4 read-only sub-agents in parallel via fresh-context sub-agent mechanism
 Phase 3 (math)      → IF theory paper: /verify-math on the model section(s) [orchestrator-run skill]
 Phase 4 (consolidate) → /synthesise-reviews merges (incl. math verdict) → revision plan
 Phase 5 (report)    → reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md
@@ -98,13 +99,13 @@ PAPER_PATH="${1:-$(ls -d paper-*/paper 2>/dev/null | head -1)}"
 LATEST_PDF=$(find "$PAPER_PATH/out" -name "*.pdf" -newer "$PAPER_PATH/main.tex" 2>/dev/null | head -1)
 if [ -z "$LATEST_PDF" ]; then
     echo "Paper not compiled or stale. Run /latex first."
-    # AskUserQuestion: run /latex now, or proceed anyway (risky)?
+    # the available structured-question mechanism: run /latex now, or proceed anyway (risky)?
 fi
 ```
 
 ## Phase 2: Dispatch
 
-Launch all 4 in a single message with parallel Task tool calls (the standard pattern from system-audit / pre-submission-report). Each gets:
+Launch all 4 in a single message with parallel fresh-context sub-agent mechanism calls (the standard pattern from system-audit / pre-submission-report). Each gets:
 
 - **Read-only with respect to project files under review** — Read, Glob, Grep, Bash (read-only commands only) against the paper / code being reviewed; the agent does NOT modify any project source files
 - **The standard forbid-list** from `subagent-write-guard.md`
@@ -127,7 +128,7 @@ grep -lE '\\begin\{(theorem|proposition|lemma|corollary)\}' "$PAPER_PATH"/**/*.t
 ```
 If there are no formal environments, skip this phase entirely.
 
-If it IS a theory paper, invoke `/verify-math` (via the Skill tool) scoped to the section(s) holding the model — it decomposes each proposition into atomic obligations and routes them across the spectrum (R0 conceptual · R1 numerical falsification · R2 symbolic/CAS · R3 Lean). `/verify-math` is a **skill**, run by this orchestrator in the main session — this is deliberate: the computational rungs (`/numerical-check`, `/symbolic-check`, `/lean-check`) need Bash + sympy/lean, which sub-agents cannot reliably obtain at runtime (the same Bash-grant fragility documented below). The orchestrator always has Bash, so the rungs run here, not inside an agent.
+If it IS a theory paper, invoke `/verify-math` (via the skill-routing mechanism) scoped to the section(s) holding the model — it decomposes each proposition into atomic obligations and routes them across the spectrum (R0 conceptual · R1 numerical falsification · R2 symbolic/CAS · R3 Lean). `/verify-math` is a **skill**, run by this orchestrator in the main session — this is deliberate: the computational rungs (`/numerical-check`, `/symbolic-check`, `/lean-check`) need Bash + sympy/lean, which sub-agents cannot reliably obtain at runtime (the same Bash-grant fragility documented below). The orchestrator always has Bash, so the rungs run here, not inside an agent.
 
 `/verify-math` writes its own aggregate report to `reviews/<scope>/verify-math/<YYYY-MM-DD-HHMM>.md` and stamps its own INDEX.md row (it is a self-stamping skill, like `/proofread`). Fold its aggregate verdict — and any `FALSIFIED` obligation — into the Phase 4 synthesis as a high-confidence finding (a machine-falsified claim outranks any single reviewer's concern).
 
@@ -207,12 +208,12 @@ For each sub-agent's return:
 1. Write the agent's final response to a temp file (`/tmp/review-cluster-<agent>.md`).
 2. Parse the directive:
    ```bash
-   ARGS=$(bash ~/.claude/skills/_shared/parse-stamp-directive.sh /tmp/review-cluster-<agent>.md)
+   ARGS=$(bash <skills-root>/_shared/parse-stamp-directive.sh /tmp/review-cluster-<agent>.md)
    ```
    If `parse-stamp-directive.sh` exits non-zero, log a warning ("Agent X return did not contain a review-state-stamp directive") and continue with the next agent — best-effort.
 3. **Verify the `.md` report file exists; reconstruct from return content if missing:**
    ```bash
-   VERIFY=$(bash ~/.claude/skills/_shared/post-dispatch-verify.sh \
+   VERIFY=$(bash <skills-root>/_shared/post-dispatch-verify.sh \
        --return-file /tmp/review-cluster-<agent>.md \
        --project "$PROJECT_ROOT" \
        --agent <agent>)
@@ -223,7 +224,7 @@ For each sub-agent's return:
    If `VERIFY` starts with `RECONSTRUCTED`, append `(report reconstructed by orchestrator — agent skipped Write)` to the `--notes` value before stamping. This guards against the blindspot-class failure mode (agent claims to write but skips the call). See `log/2026-05-21-blindspot-write-fix.md`.
 4. Stamp with the orchestrator's `--trigger` override (overriding whatever the agent emitted):
    ```bash
-   eval bash ~/.claude/skills/_shared/review-state-log.sh "$ARGS" \
+   eval bash <skills-root>/_shared/review-state-log.sh "$ARGS" \
        --trigger review-cluster \
        --source agent \
        --project "$PROJECT_ROOT"

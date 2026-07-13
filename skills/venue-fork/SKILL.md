@@ -43,7 +43,7 @@ explicitly before doing the work.
 
 ## Phase 1 — Create the fork
 
-1. New Overleaf project via Dropbox (Claude CAN create these — folder + main.tex = project):
+1. New Overleaf project via Dropbox (the active client may create these — folder + main.tex = project):
    `Apps/Overleaf/Paper {Theme} {Short Name} ({VENUE} {YY})/` — Title Case, venue suffix, per
    the existing naming convention. Resolve the Dropbox root per `multi-machine.md`.
 2. Copy from the source project: `main.tex`, the bib, figure dirs, any `.bst` the target format

@@ -10,14 +10,14 @@ Interactive meeting preparation that searches your entire conversation history w
 
 ## How it works
 
-This is a multi-phase interactive flow, not a single command. Walk the user through each phase using AskUserQuestion, pushing back on vague answers.
+This is a multi-phase interactive flow, not a single command. Walk the user through each phase using the available structured-question mechanism, pushing back on vague answers.
 
 ### Phase 0: Calendar auto-detect (optional, runs first)
 
 Before asking who the user is meeting with, check if upcoming meetings are available from any calendar source. Try these in order — use the first that works:
 
-**1. Google Calendar MCP** (best — most Minutes users have Claude + MCP):
-If `mcp__claude_ai_Google_Calendar__gcal_list_events` is available, query today's remaining events:
+**1. Calendar connector** (preferred):
+If the active client has a calendar connector, use its list-events operation to query today's remaining events:
 ```
 gcal_list_events(
   timeMin: "<now ISO, e.g. 2026-03-19T14:00:00>",
@@ -25,7 +25,7 @@ gcal_list_events(
   condenseEventDetails: false
 )
 ```
-Do NOT hardcode a timezone — omit the `timeZone` parameter so the MCP uses the user's calendar default. This returns attendees, event titles, and times. Parse the results to find the next upcoming meeting with other people (skip all-day events and events with no attendees).
+Do NOT hardcode a timezone — let the connector use the user's calendar default. Parse attendees, event titles, and times to find the next upcoming meeting with other people (skip all-day events and events with no attendees).
 
 **2. `gog` CLI** (if installed):
 ```bash
@@ -40,7 +40,7 @@ osascript -e 'tell application "Calendar" to get {summary, start date} of (every
 **4. None available** — skip to Phase 1 and ask manually.
 
 **If upcoming meetings are found:**
-Present via AskUserQuestion: "I see you have these meetings coming up today:
+Present via the available structured-question mechanism: "I see you have these meetings coming up today:
 - [time] — [title] with [attendees]
 - [time] — [title] with [attendees]
 
@@ -57,7 +57,7 @@ Silently skip to Phase 1. Don't error or apologize — just ask manually.
 
 If Phase 0 already identified the person, skip this phase.
 
-Otherwise, ask via AskUserQuestion: "Who are you meeting with?"
+Otherwise, ask via the available structured-question mechanism: "Who are you meeting with?"
 
 **If the answer is specific** (a name like "Alex" or "Case"):
 → Search all past meetings:
@@ -121,7 +121,7 @@ Then skip the relationship brief and go straight to Phase 3 with whatever contex
 
 ### Phase 3: What do you want to accomplish?
 
-Ask via AskUserQuestion: "What's the one thing you'd regret not discussing in this meeting?"
+Ask via the available structured-question mechanism: "What's the one thing you'd regret not discussing in this meeting?"
 
 **If the answer is specific** ("finalize the pricing at monthly billing", "get a commitment on the hire"):
 → Frame talking points around that goal. Connect it to relationship data — e.g., "Alex's mentioned pricing 3 times recently. She's ready for this conversation."
@@ -172,7 +172,7 @@ Use the person's first name (lowercase) as the slug — e.g., `sarah`, not `sara
 End with three beats:
 
 1. **Signal reflection** — Quote a specific thing the user said during the session.
-   "You said '[exact quote from their AskUserQuestion answers]' — that's your north star for this call."
+   "You said '[exact quote from their structured-question answers]' — that's your north star for this call."
 
 2. **Assignment** — One concrete real-world action before the meeting. Not "go build it" — something specific.
    Examples: "Text Alex before your call that you want to finalize pricing."
@@ -182,7 +182,7 @@ End with three beats:
 
 ## Gotchas
 
-- **Calendar auto-detect is best-effort** — If no calendar source is available, silently fall back to asking manually. Never error or nag the user about calendar setup. The Google Calendar MCP (`gcal.mcp.claude.com/mcp`) is the recommended source for Claude users.
+- **Calendar auto-detect is best-effort** — If no calendar source is available, silently fall back to asking manually. Never error or nag the user about calendar setup. Use the active client's registered calendar connector when present.
 - **Calendar attendee names may differ from meeting transcript names** — Calendar says "Alex Chen (sarah@company.com)" but transcripts say "Alex" or "SPEAKER_0". Match on first name.
 - **Skip all-day events and solo events** — Only show events with 2+ attendees as prep candidates. All-day events and events where the user is the only attendee aren't meetings.
 - **Push back on vague answers** — This is the most important pattern. Vague prep = useless prep. "Everyone" → "Name one person." "Catch up" → "What would you regret not discussing?"

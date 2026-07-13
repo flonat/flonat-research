@@ -103,12 +103,12 @@ The skill runs 11 sequential phases. Detailed step-by-step procedure: [reference
 **Phase 8 (structural gate):**
 ```bash
 cd correspondence/referee-reviews/{venue}-round{n}/plan
-python dag_validator.py revision_tasks.json --validate-only
+uv run python dag_validator.py revision_tasks.json --validate-only
 ```
 
 **Phase 11 (full analysis):**
 ```bash
-python dag_validator.py revision_tasks.json
+uv run python dag_validator.py revision_tasks.json
 # Produces revision_dag_analysis.json
 ```
 

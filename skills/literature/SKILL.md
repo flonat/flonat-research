@@ -71,13 +71,13 @@ Full schema + protocol: [`docs/reference/sprint-contract-protocol.md`](../../doc
 
 ## Autonomy
 
-Per the global `--autonomous` / `-y` convention defined in `~/.claude/rules/phased-work.md` § "Autonomy flag convention". When set:
+Per the global `--autonomous` / `-y` convention defined in `<rules-root>/phased-work.md` § "Autonomy flag convention". When set:
 
 - **No Phase 1.4 search-plan confirmation** — emit the plan to the session log and proceed
 - **No Phase 2.2 dedup/rank pause** — apply default filters and continue
 - **No Phase 3.5 deep-loop "continue?" prompts** — run up to 3 iterations (default), stop when <3 new papers per iteration
 - **No Phase 4.3 bib-validate "review and continue" pause** — `/bib-validate` still runs as a hard gate; warnings are logged and reported at the end; only `F1 fabricated citation` or `F2 invented bib key` block the run
-- **No `AskUserQuestion` mid-run** — every choice point uses the recommended/default option and logs the decision
+- **No `the available structured-question mechanism` mid-run** — every choice point uses the recommended/default option and logs the decision
 - **Auto-commit at end** in pipeline mode (subject to Phase 4.6 verifier)
 - **Single end-of-run report** is the only mandatory user-facing output
 
@@ -206,7 +206,7 @@ Full protocol: [`references/phase-4-verification.md`](references/phase-4-verific
 
 #### Dispatch Rule (Steps 1, 4 & 5)
 
-Per [`_shared/cli-dispatch-policy.md`](../_shared/cli-dispatch-policy.md): if Step 1 or Step 4 would require **2 or more** `scholarly-verify-dois` calls (i.e. >50 DOIs total), dispatch a single Bash sub-agent that runs all batched calls and writes merged JSON to `/tmp/lit-verify.json`. Main context reads only the merged result, never the raw CLI output. **Step 5 membership lookups follow the same rule:** ≥6 `paperpile lookup-by-doi` calls dispatch to one Bash sub-agent returning a merged `{doi: citekey-or-null}` map to `/tmp/lit-membership.json`. For the bulk-threshold rationale, see `~/.claude/rules/subagent-prompt-discipline.md` § Bulk-Operation Dispatch Rule.
+Per [`_shared/cli-dispatch-policy.md`](../_shared/cli-dispatch-policy.md): if Step 1 or Step 4 would require **2 or more** `scholarly-verify-dois` calls (i.e. >50 DOIs total), dispatch a single Bash sub-agent that runs all batched calls and writes merged JSON to `/tmp/lit-verify.json`. Main context reads only the merged result, never the raw CLI output. **Step 5 membership lookups follow the same rule:** ≥6 `paperpile lookup-by-doi` calls dispatch to one Bash sub-agent returning a merged `{doi: citekey-or-null}` map to `/tmp/lit-membership.json`. For the bulk-threshold rationale, see `<rules-root>/subagent-prompt-discipline.md` § Bulk-Operation Dispatch Rule.
 
 ### 3.5 Iterative deep loop (deep mode only)
 
@@ -258,12 +258,12 @@ Before any auto-commit, emit an outputs manifest and run the shared verifier per
 2. Run:
 
    ```bash
-   python3 "$HOME/.claude/skills/_shared/verify_outputs.py" \
+   uv run python "<skills-root>/_shared/verify_outputs.py" \
        --manifest "$MANIFEST" \
        --project-root "$PROJECT_ROOT"
    ```
 
-3. If the verifier exits non-zero, **do not commit**. Surface the missing-files list and stop. The verifier logs an `error` entry to `~/.claude/ecc/skill-outcomes.jsonl`.
+3. If the verifier exits non-zero, **do not commit**. Surface the missing-files list and stop. The verifier logs an `error` entry to `~/.local/state/ai-workflows/skill-outcomes.jsonl`.
 
 Closes the "hallucinated outputs" failure class (commit `b2cff75`, 2026-04-18).
 

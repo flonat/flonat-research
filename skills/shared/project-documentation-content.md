@@ -405,7 +405,7 @@ print(result.summary)
 
 ### CLI
 ```bash
-python -m package "input" --flag value
+uv run python -m package "input" --flag value
 ```
 
 ### Python API

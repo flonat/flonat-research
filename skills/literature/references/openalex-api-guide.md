@@ -22,7 +22,7 @@ Incorrect: `?page=5`, `?page=17` - This biases results!
 ### ✅ DO: Use two-step lookup for entity filtering
 ```
 1. Find entity ID: /authors?search=einstein
-2. Use ID: /works?filter=authorships.author.id:A5023888391
+2. Query the full endpoint: `https://api.openalex.org/works?filter=authorships.author.id:A5023888391`
 ```
 
 ### ❌ DON'T: Filter by entity names directly
