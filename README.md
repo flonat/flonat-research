@@ -18,6 +18,10 @@ Works on **macOS, Linux, and Windows** with Claude Code, Codex, or both. Both
 clients read the same project files; adapters expose only the skills and agents
 their client can execute accurately.
 
+See [Building a Client-Neutral AI Control Plane](docs/dual-client-ai-control-plane.md)
+for the architecture, trade-offs, staged adoption process, and implementation
+checklist behind the dual-client design.
+
 [![npm version](https://img.shields.io/npm/v/flonat-research)](https://www.npmjs.com/package/flonat-research)
 [![GitHub release](https://img.shields.io/github/v/release/flonat/flonat-research)](https://github.com/flonat/flonat-research/releases)
 

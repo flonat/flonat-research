@@ -1366,3 +1366,6 @@ assets:
       - codex
       requires:
       - filesystem
+documents:
+  dual-client-ai-control-plane:
+    path: docs/dual-client-ai-control-plane.md
