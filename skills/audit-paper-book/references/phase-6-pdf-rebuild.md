@@ -1,6 +1,6 @@
 # Phase 6: Rebuild PDF companion (soft-fail; --apply only)
 
-After Phase 5 verifies the atlas reload + smoke tests, rebuild the PDF companion if chapter content actually changed in Phase 4. The build script is shared with `/init-paper-book` — single source of truth.
+After Phase 5 verifies the atlas reload + smoke tests, rebuild the PDF companion if chapter content actually changed in Phase 4. The build script is shared with `init-paper-book` — single source of truth.
 
 ## When this phase runs
 
@@ -18,7 +18,7 @@ bash <skills-root>/init-paper-book/scripts/build-book-pdf.sh <slug>
 
 Output: `~/vault/books/<slug>/exports/<slug>.pdf`.
 
-The script's bootstrap logic CAN write a `myst.yml` if missing — but during audit we suppress this by checking for `myst.yml` first and only invoking the script when it exists. Reasoning: scaffolding new infrastructure is `/init-paper-book`'s job, not audit's.
+The script's bootstrap logic CAN write a `myst.yml` if missing — but during audit we suppress this by checking for `myst.yml` first and only invoking the script when it exists. Reasoning: scaffolding new infrastructure is `init-paper-book`'s job, not audit's.
 
 ## Pipeline details
 
@@ -27,7 +27,7 @@ See [`init-paper-book/references/phase-6-pdf-build.md`](../../init-paper-book/re
 ## Soft-fail contract
 
 - Missing `mystmd` → log "Phase 6 skipped (mystmd not installed)", continue
-- Missing `myst.yml` → log "Phase 6 skipped (no myst.yml; run /init-paper-book to scaffold)", continue
+- Missing `myst.yml` → log "Phase 6 skipped (no myst.yml; run init-paper-book to scaffold)", continue
 - `latexmk` non-zero exit → warn with log path, continue
 - No chapter content changes detected in Phase 4 → log "Phase 6 skipped (no chapter changes)", continue
 

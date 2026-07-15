@@ -30,7 +30,7 @@ The high-marginal-value question is **not** "do LLMs work?" (benchmarking) but *
 **At risk of the "benchmark" pile (invert the framing):**
 - LLMs as synthetic respondents / preference elicitors (touches the MCDM + indifference-elicitation line). "LLM elicits utilities ~as well as humans" is the tired pattern; the *distortion* inversion is the paper.
 
-## Four candidate topics generated under this lens (→ Scout novelty queued 2026-07-05)
+## Four candidate topics generated under this lens (→ research discovery workflow novelty queued 2026-07-05)
 
 1. **LLM-induced measurement reactivity in preference elicitation.** The LLM interlocutor is not a neutral instrument — its anchoring/priors distort the *revealed* preference. A construct-validity threat unique to generative elicitation. Extends the MCDM/indifference line. *(Strongest fit — extends existing work.)*
 2. **Distributional distortion, not reproduction, in synthetic samples.** Standard papers show mean fidelity; the innovative version measures **variance collapse / model monoculture** — LLM samples shrink a population toward a modal persona. Propose a formal metric for how much of the human covariance structure survives. *(Strong fit — new method.)*

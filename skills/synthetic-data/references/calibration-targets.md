@@ -1,7 +1,7 @@
 # Calibration Targets
 
 > How to calibrate synthetic data to match published statistics.
-> Read during Calibrated mode of `/synthetic-data`.
+> Read during Calibrated mode of `synthetic-data`.
 
 ## Overview
 

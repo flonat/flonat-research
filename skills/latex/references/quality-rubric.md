@@ -1,6 +1,6 @@
 # Quality Rubric: LaTeX Auto-Fix
 
-> Scoring rubric for `/latex`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
+> Scoring rubric for `latex`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
 
 ## Deduction Table
 

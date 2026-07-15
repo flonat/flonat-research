@@ -1,6 +1,6 @@
 # DGP Recipes: Survey & Mediation
 
-> Data generating process recipes for survey data and mediation analysis. Read during all modes of /synthetic-data.
+> Data generating process recipes for survey data and mediation analysis. Read during all modes of synthetic-data.
 
 ## Survey Data (Likert Scales, Demographics, Attention Checks)
 

@@ -210,7 +210,7 @@ Before creating ANY new artifact, ask:
 When creating a new skill, **always** name the definition file `SKILL.md` (uppercase). Never `skill.md`, `Skill.md`, or any other casing.
 
 - The MCP server's skill discovery scans for `SKILL.md` explicitly
-- Documentation generators and `/system-audit` use `find -name 'SKILL.md'`
+- Documentation generators and `system-audit` use `find -name 'SKILL.md'`
 - On case-insensitive filesystems (macOS APFS), lowercase files appear to work locally but fail in case-sensitive contexts (Linux CI, Docker, MCP server pattern matching)
 
 **Check before writing:** If the target directory already contains a `skill.md` (lowercase), rename it to `SKILL.md` first.
@@ -227,4 +227,4 @@ When creating a new skill, **always** name the definition file `SKILL.md` (upper
 
 ## Integration
 
-This skill is invoked by `/skill-extract` in Phase 2 to replace the old subset/partial/no-overlap check. When called from `/skill-extract`, return the recommendation label (PROCEED/EXTEND/COMPOSE/ITERATE/BLOCK) so `/skill-extract` can branch accordingly.
+This skill is invoked by `skill-extract` in Phase 2 to replace the old subset/partial/no-overlap check. When called from `skill-extract`, return the recommendation label (PROCEED/EXTEND/COMPOSE/ITERATE/BLOCK) so `skill-extract` can branch accordingly.

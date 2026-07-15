@@ -150,6 +150,6 @@ project/
 
 ## Cross-References
 
-- **`/code-review`** — Run on replication scripts before finalising
+- **`code-review`** — Run on replication scripts before finalising
 - **Referee 2 agent** — For formal verification of the full replication
-- **`/code-archaeology`** — If the original replication package needs understanding first
+- **`code-archaeology`** — If the original replication package needs understanding first

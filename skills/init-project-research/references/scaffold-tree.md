@@ -9,7 +9,7 @@
 ├── CLAUDE.md
 ├── README.md
 ├── MEMORY.md
-├── REVIEW-STATE.md      # Per-project review log; populated by 20 review tools; rendered by /review-recap
+├── REVIEW-STATE.md      # Per-project review log; populated by 20 review tools; rendered by review-recap
 ├── .gitignore
 ├── .context/
 │   ├── current-focus.md
@@ -31,7 +31,7 @@
 │       └── referee-reviews/  # .gitkeep (see scaffold-details.md for review structure)
 ├── backup/                # Local backups of Overleaf paper directories (subdirs per paper)
 ├── github-repo/           # (Optional) Separate git repo for public GitHub code release
-├── knowledge/             # .gitkeep (LLM-maintained wiki — compiled by /compile-knowledge)
+├── knowledge/             # .gitkeep (LLM-maintained wiki — compiled by compile-knowledge)
 ├── correspondence/
 │   └── internal-reviews/  # .gitkeep (HUMAN internal reviews — co-author feedback, supervisor notes; NOT agent reports)
 ├── reviews/               # .gitkeep — canonical home for ALL agent/skill review reports.

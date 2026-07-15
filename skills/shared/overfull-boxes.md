@@ -1,8 +1,8 @@
 # Shared Reference: Overfull / Underfull Boxes
 
 Detection, severity grading, and remediation for TeX's `Overfull`/`Underfull`
-`\hbox`/`\vbox` messages. Consumed by `/latex` (Phase 3 report + Phase 5 score),
-`/latex-health-check` (Phase 2c parse + 2d flag), and `pre-submission-report`.
+`\hbox`/`\vbox` messages. Consumed by `latex` (Phase 3 report + Phase 5 score),
+`latex-health-check` (Phase 2c parse + 2d flag), and `pre-submission-report`.
 
 > **Why this file exists.** Box messages are NOT `Warning`-tagged in the log, so
 > `grep -c "Warning"` silently misses every one of them. Both compile skills must

@@ -1,6 +1,6 @@
 # Phase 2.7: Rules Hygiene (Read-Only)
 
-> Detailed check for `/audit-project-research` Phase 2.7. **This phase is read-only.** It never copies global rules into projects.
+> Detailed check for `audit-project-research` Phase 2.7. **This phase is read-only.** It never copies global rules into projects.
 
 ## Philosophy
 

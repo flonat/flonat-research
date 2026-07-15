@@ -3,6 +3,7 @@ name: method-audit
 description: "Use when you need to extract and compare data collection methods across empirical papers."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
+skill-dependencies: [causal-design, split-pdf, theory-mapper]
 ---
 
 # Method Audit
@@ -17,7 +18,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/_project/method-audit/<YYYY-MM-DD-HHMM>.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** timestamps include hour+minute (HHMM) to disambiguate same-day runs; never overwrite an earlier run's report.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -30,20 +31,20 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 ## When NOT to Use
 
-- **Theoretical papers** — use `/theory-mapper` instead
-- **Single-paper deep read** — use `/split-pdf`
-- **Your own research design** — use `/causal-design` or `/experiment-design`
+- **Theoretical papers** — use `theory-mapper` instead
+- **Single-paper deep read** — use `split-pdf`
+- **Your own research design** — use `causal-design` or `experiment-design`
 - **Code review** — use the `code-review` agent
 
 ## Input
 
-Same as `/theory-mapper`: a `.bib` file, PDF directory, topic description, or list of papers. If ambiguous, ask.
+Same as `theory-mapper`: a `.bib` file, PDF directory, topic description, or list of papers. If ambiguous, ask.
 
 ## Workflow
 
 ### Phase 1: Corpus Assembly
 
-Assemble 10-20 empirical papers using the same approach as `/theory-mapper` Phase 1. Prioritise papers with empirical content (filter out pure theory, editorials, commentaries).
+Assemble 10-20 empirical papers using the same approach as `theory-mapper` Phase 1. Prioritise papers with empirical content (filter out pure theory, editorials, commentaries).
 
 ### Phase 2: Method Extraction
 
@@ -161,7 +162,7 @@ Write to `METHOD-AUDIT.md` in the project directory.
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/theory-mapper` | For theoretical rather than methodological comparison |
-| `/causal-design` | To design your own identification strategy |
-| `/experiment-design` | To design experiments or surveys |
-| `/replication-audit` | To check which findings have been replicated |
+| `theory-mapper` | For theoretical rather than methodological comparison |
+| `causal-design` | To design your own identification strategy |
+| `experiment-design` | To design experiments or surveys |
+| `replication-audit` | To check which findings have been replicated |

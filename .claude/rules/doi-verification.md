@@ -53,9 +53,9 @@ When writing a reference list, every entry must include a DOI. If a paper genuin
 
 - Writing `docs/literature-review/` files
 - Adding entries to `.bib` files
-- Running `/literature` (pipeline mode) or `/bib-validate`
+- Running `literature` (pipeline mode) or `bib-validate`
 - Any task that produces a list of references
-- **Any ad-hoc literature summary** — including during `/init-project-research`, project recaps, or when asked to "list relevant papers"
+- **Any ad-hoc literature summary** — including during `init-project-research`, project recaps, or when asked to "list relevant papers"
 - **Any context where you are about to cite a paper from memory** — if you haven't verified it in this session, verify before writing
 
 ## When to Skip

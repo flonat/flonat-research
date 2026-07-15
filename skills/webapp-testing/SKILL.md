@@ -3,6 +3,7 @@ name: webapp-testing
 description: "Use when you need to interact with or test a local web application using Playwright."
 license: Complete terms in LICENSE.txt
 allowed-tools: Bash(uv*, mkdir*, ls*, kill*), Read, Write
+skill-dependencies: [playwright-cli]
 ---
 
 # Web Application Testing

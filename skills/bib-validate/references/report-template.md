@@ -1,6 +1,6 @@
 # Bibliography Validation Report Template
 
-> Reference file for `/bib-validate`. Use this format for all validation reports.
+> Reference file for `bib-validate`. Use this format for all validation reports.
 
 ```markdown
 # Bibliography Validation Report

@@ -1,6 +1,8 @@
 # Phase 2.6: Hooks Schema Validation (Read-Only)
 
-> Detailed check for `/audit-project-research` Phase 2.6. **This phase is read-only.** It flags bare-string hooks and provides the patch — the user applies the fix manually or via `/update-config`.
+> Detailed check for the `audit-project-research` Claude-adapter phase. **This phase is read-only.** It flags bare-string hooks and provides the patch; the user applies the fix manually or with the applicable client-configuration workflow.
+
+If the project has no `.claude/settings.local.json`, report `SKIPPED (no project-local Claude hooks)`. Absence is not a shared-project defect.
 
 If `.claude/settings.local.json` contains a `hooks` key, validate every hook entry against the required schema. **Invalid hooks cause the entire settings file to be skipped at session start** — permissions, model overrides, and all other settings are silently lost.
 
@@ -55,7 +57,7 @@ If `jq` exits non-zero with "bare string hook found", the file has the bug.
 
 ## Suggested patch (do not auto-apply)
 
-The audit reports the patch but does not run it. The user applies via `/update-config` or by hand:
+The audit reports the patch but does not run it. The user applies it with the applicable client-configuration workflow or by hand:
 
 ```bash
 # Replace bare string hooks with object format
@@ -88,5 +90,5 @@ Hooks Schema:
   .claude/settings.local.json   1 bare string hook detected — entire settings file is skipped
     PostToolUse[0].hooks[0]: ".claude/hooks/copy-paper-pdf.sh"
     Suggested patch: wrap as {"type":"command","command":".claude/hooks/copy-paper-pdf.sh"}
-    Apply with: /update-config (or run the jq snippet above manually)
+    Apply with the client-configuration workflow (or run the jq snippet above manually)
 ```

@@ -1,6 +1,6 @@
 # AEA-Style Data and Code Availability README Template
 
-> Template for generating replication READMs in `/replication-package` Phase 4. Follows the American Economic Association's Data and Code Availability Policy structure, widely adopted across social sciences.
+> Template for generating replication READMs in `replication-package` Phase 4. Follows the American Economic Association's Data and Code Availability Policy structure, widely adopted across social sciences.
 
 ---
 

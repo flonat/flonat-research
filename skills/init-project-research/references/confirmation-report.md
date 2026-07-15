@@ -1,6 +1,6 @@
 # Phase 10: Confirmation Report Template
 
-> Print this after all phases complete in `/init-project-research`.
+> Print this after all phases complete in `init-project-research`.
 
 ```
 Created research project: <Working Title>
@@ -27,7 +27,7 @@ Task Management updates:
 Literature & Discovery:
   - Literature review:            docs/literature-review/YYYY-MM-DD-initial-review.md (<N> papers)
   - Bibliography:                 docs/literature-review/references.bib
-  - Scout novelty:                docs/YYYY-MM-DD-scout-novelty.md (score: X/10)
+  - research discovery workflow novelty:                docs/YYYY-MM-DD-discovery-novelty.md (score: X/10)
   - Atlas topic updated:          key references + novelty assessment added
 
 Setup log:  log/<filename>    created

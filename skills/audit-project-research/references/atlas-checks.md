@@ -1,6 +1,6 @@
 # Phase 6 — Atlas drift checks
 
-> Audit init's Phase 7 (Atlas Sync) outputs. Skip if no Atlas topic file was found in Phase 1.
+> Audit init's Phase 7 (Atlas Sync) outputs. Resolve the vault on the current host; report `SKIPPED (vault unavailable)` if no vault is configured or mounted.
 
 | Check | What to compare | Severity |
 |-------|----------------|----------|
@@ -16,7 +16,7 @@ When paper directory count or venues don't match atlas `outputs:`, the report **
 ```
 ⚠ Outputs drift detected — update both systems:
   1. Atlas topic file: update `outputs:` array in
-     ~/vault/atlas/<theme>/<slug>.md
+     <vault-root>/atlas/<theme>/<slug>.md
   2. Vault submissions: add/remove submission entries in
-     ~/vault/submissions/
+     <vault-root>/submissions/
 ```

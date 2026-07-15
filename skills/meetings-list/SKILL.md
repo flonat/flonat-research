@@ -4,7 +4,7 @@ description: List recent meetings and voice memos. Use when the user asks "what 
 user_invocable: true
 ---
 
-# /meetings-list
+# meetings-list
 
 Show recent meetings and voice memos, sorted newest-first.
 

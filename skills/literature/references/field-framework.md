@@ -27,14 +27,14 @@ For each paper entering the candidate pool, extract these structured fields from
 - **Phase 3 ranking:** Papers with methods/settings similar to the user's project rank higher
 - **Phase 4.5 gap analysis:** Systematic gaps become visible (e.g., "no experimental evidence", "all US samples")
 - **Phase 7 synthesis:** Enables structured comparison tables and evidence maps
-- **Hypothesis generation:** Feeds directly into `/hypothesis-generation` Phase 2
+- **Hypothesis generation:** Feeds directly into `hypothesis-generation` Phase 2
 
 ## Breadcrumb
 
 Append to `.planning/state.md` (if exists) or `.context/current-focus.md`:
 
 ```
-### [/literature] Phase 3 complete [YYYY-MM-DD HH:MM]
+### [literature] Phase 3 complete [YYYY-MM-DD HH:MM]
 - **Done:** [N papers found, deduplicated from N sources, top N selected for verification]
 - **Outputs:** [candidate list at /tmp/lit-search/]
 - **Next:** SciSciNet enrichment → Parallel verification (DOI + metadata)

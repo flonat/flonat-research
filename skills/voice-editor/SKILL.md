@@ -230,7 +230,7 @@ See [`references/common-problems.md`](references/common-problems.md) for diagnos
 ## Integration
 
 **Before voice-editor:**
-- Run `/voice-analyzer` to create VOICE.md (if none exists)
+- Run `voice-analyzer` to create VOICE.md (if none exists)
 
 **After voice-editor:**
 - Update VOICE.md with new patterns discovered

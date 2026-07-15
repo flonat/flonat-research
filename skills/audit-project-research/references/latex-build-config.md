@@ -1,6 +1,6 @@
 # Phase 4.5: LaTeX Build Config Consistency
 
-> Detailed check for `/audit-project-research` Phase 4.5.
+> Detailed check for `audit-project-research` Phase 4.5.
 
 Every directory that contains `.tex` files must have the canonical `.latexmkrc` (`templates/latexmkrc/.latexmkrc`) so build artifacts stay in `out/` and the PDF is copied back to the source directory. This applies to **standalone paper dirs and Overleaf-symlinked paper dirs alike** — the file lives in the Overleaf target so it syncs to the web compiler too.
 

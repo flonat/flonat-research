@@ -17,7 +17,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<scope>/cross-language-check/<YYYY-MM-DD-HHMM>.md` inside the project, where `<scope>` is the paper slug (e.g., `paper-jtp`) for paper-level checks or `_project` for project-level checks. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -31,7 +31,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 ## When NOT to Use
 
-- Pure simulation code with no statistical estimation → `/computational-experiments`
+- Pure simulation code with no statistical estimation → `computational-experiments`
 - The analysis is trivial (descriptive stats only) — not worth the overhead
 - The source script uses language-specific packages with no equivalent (e.g., bespoke Bayesian MCMC)
 
@@ -176,4 +176,4 @@ Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
 | `shared/multi-language-conventions.md` | Phase 3 (language-specific style) |
 | `multi-perspective/references/computational-many-analysts.md` | Context (verification hierarchy) |
 | the `code-review` agent | Phase 6 (optionally review both scripts) |
-| `/replication-package` skill | After (include both scripts in replication materials) |
+| `replication-package` skill | After (include both scripts in replication materials) |

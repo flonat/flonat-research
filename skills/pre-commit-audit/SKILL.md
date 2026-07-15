@@ -30,7 +30,7 @@ argument-hint: "[--staged | --unstaged | --all]"
 - Pre-submission checklist (research projects)
 - Before pushing to anonymous-artifact repo (the highest-risk anonymity surface)
 - After a sub-agent has written files (verify before committing their work)
-- Wired as a `/session-close` Phase 4 sub-step (alternate path to running the hook)
+- Wired as a `session-close` Phase 4 sub-step (alternate path to running the hook)
 
 ## When NOT to Use
 
@@ -42,10 +42,10 @@ argument-hint: "[--staged | --unstaged | --all]"
 
 | Invocation | Scope |
 |---|---|
-| `/pre-commit-audit` | Staged files (default) |
-| `/pre-commit-audit --staged` | Same as default |
-| `/pre-commit-audit --unstaged` | Modified-but-not-staged files |
-| `/pre-commit-audit --all` | Working tree + staged |
+| `pre-commit-audit` | Staged files (default) |
+| `pre-commit-audit --staged` | Same as default |
+| `pre-commit-audit --unstaged` | Modified-but-not-staged files |
+| `pre-commit-audit --all` | Working tree + staged |
 
 ## Architecture
 
@@ -76,9 +76,9 @@ Verdict: BLOCK if any tracked file >10MB. WARN if gitignored but staged anyway.
 
 ## Phase 2: Anonymity
 
-**Single source of truth:** [`skills/_shared/double-blind-anonymity-checklist.md`](../_shared/double-blind-anonymity-checklist.md) holds the authoritative pattern list (paper-side P1-P8, artifact-side A1-A6) plus the CCS 2026 #1328 incident report that motivates the checks. Both `/pre-commit-audit` (this skill) and `/anonymous-artifact` reference it; do not duplicate the patterns inline.
+**Single source of truth:** [`skills/_shared/double-blind-anonymity-checklist.md`](../_shared/double-blind-anonymity-checklist.md) holds the authoritative pattern list (paper-side P1-P8, artifact-side A1-A6) plus the CCS 2026 #1328 incident report that motivates the checks. Both `pre-commit-audit` (this skill) and `anonymous-artifact` reference it; do not duplicate the patterns inline.
 
-Scope for `/pre-commit-audit`: only files staged for commit at paths matching `paper-*/`, `**/*.tex`, `**/*.bib`, `**/*.cls`, `**/*.sty`. The full checklist also covers structured-metadata files (`pyproject.toml`, `package.json`, `Cargo.toml`, `CITATION.cff`, etc.) — those are checked by `/anonymous-artifact` since they only matter when pushing the artifact, not on every commit.
+Scope for `pre-commit-audit`: only files staged for commit at paths matching `paper-*/`, `**/*.tex`, `**/*.bib`, `**/*.cls`, `**/*.sty`. The full checklist also covers structured-metadata files (`pyproject.toml`, `package.json`, `Cargo.toml`, `CITATION.cff`, etc.) — those are checked by `anonymous-artifact` since they only matter when pushing the artifact, not on every commit.
 
 Apply checks P1-P8 from the shared checklist:
 - P1 — title page authors blinded
@@ -135,8 +135,8 @@ If all OK: print "Pre-commit clean ✓" and exit silently.
 | Skill / Hook / Rule | Relationship |
 |---|---|
 | `block-large-files.sh` hook | Runtime enforcement of Phase 1 (this skill is the manual / verbose counterpart) |
-| `/anonymous-artifact` | The anonymity-on-publish workflow; this skill is the pre-commit equivalent |
-| `/session-close` Phase 4 | Can invoke this skill as part of pre-commit verification |
+| `anonymous-artifact` | The anonymity-on-publish workflow; this skill is the pre-commit equivalent |
+| `session-close` Phase 4 | Can invoke this skill as part of pre-commit verification |
 | `mark-unverified.md` rule | Verbal counterpart for content claims; this skill handles file content |
 
 ## Anti-Patterns

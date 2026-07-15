@@ -1,7 +1,7 @@
 # Economics Visualisation Conventions
 
 > Standards for figures in economics papers. Read during Phase 2 (EDA) and Phase 4 (Publication Output).
-> For full implementation recipes, see `/econ-plots`.
+> For full implementation recipes, see `econ-plots`.
 
 ## Journal-Ready Figure Conventions
 

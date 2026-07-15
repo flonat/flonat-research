@@ -3,6 +3,7 @@ name: beamer-deck
 description: "Use when you need to create an academic Beamer presentation with original theme and multi-agent review."
 allowed-tools: Bash(latexmk*), Bash(xelatex*), Bash(pdflatex*), Bash(biber*), Bash(bibtex*), Bash(mkdir*), Bash(ls*), Bash(R*), Bash(Rscript*), Bash(uv:*), Read, Write, Edit, Task
 argument-hint: [topic, content-path, or project-name]
+skill-dependencies: [latex, project-deck]
 ---
 
 # Beamer Deck Skill
@@ -13,7 +14,7 @@ argument-hint: [topic, content-path, or project-name]
 
 Create polished, zero-warning Beamer decks for academic contexts: seminars, conference talks, teaching lectures, and working decks for coauthors. Every deck gets a custom theme, assertion-driven titles, and parallel review by rhetoric and graphics sub-agents.
 
-**NOT for project status updates** — use `/project-deck` for those.
+**NOT for project status updates** — use `project-deck` for those.
 
 ## When to Use
 
@@ -27,14 +28,14 @@ Create polished, zero-warning Beamer decks for academic contexts: seminars, conf
 
 ## Critical Rules
 
-1. **Build artifacts go to `out/`, PDF stays in the source directory.** Create `.latexmkrc` with `$out_dir = 'out'` and an `END {}` block to copy the PDF back if missing. Use `/latex` for compilation — it handles error resolution automatically. See `/latex` for manual config details.
+1. **Build artifacts go to `out/`, PDF stays in the source directory.** Create `.latexmkrc` with `$out_dir = 'out'` and an `END {}` block to copy the PDF back if missing. Use `latex` for compilation — it handles error resolution automatically. See `latex` for manual config details.
 2. **Python:** Always use `uv run python`. Never bare `python`, `python3`, `pip`, or `pip3`.
 2. **Fix ALL warnings.** Overfull hbox, underfull hbox, overfull vbox, underfull vbox — no matter how small. Parse the `.log` file. Recompile until clean.
 3. **Titles are assertions, not labels.** "Distance increases abortion rates" — not "Results". Every frame title states a claim.
 4. **One idea per slide.** Not a guideline. A law. If a slide has two ideas, split it.
 5. **Use the unified template.** Always use `\usepackage[<institution>]{user-beamer}` from `templates/beamer/`. Options: `preset-a`, `preset-b`, `preset-c`, `preset-d`, `plain`. Never use default Beamer themes (Warsaw, Madrid, etc.) as-is, and never create one-off preambles. See [`templates/beamer/README.md`] for available custom commands and how to add institutions.
 6. **Code-first figures.** Generate figures via R or Python scripts before inserting. Never use placeholder images. **Always save the script alongside the figures** — never generate a figure without preserving the code that created it.
-7. **If a `.bib` file is used, validate it.** Cross-reference all `\cite{}` keys against the bibliography file. See `/bib-validate` for the full protocol.
+7. **If a `.bib` file is used, validate it.** Cross-reference all `\cite{}` keys against the bibliography file. See `bib-validate` for the full protocol.
 8. **Never define parameterized TikZ styles inside a frame.** `#` inside a Beamer frame body is consumed by the frame parser before TikZ sees it, producing `Illegal parameter number` errors that cascade and resist all downstream fixes. Define ALL `\tikzset{...}` and `.style={..., #1}` entries in the preamble; use them inside frames. See [`../shared/tikz-rules.md`](../shared/tikz-rules.md) Rule 11.
 
 ---
@@ -102,12 +103,12 @@ Present the outline to the user for approval before building.
 2. **Write `.tex` file** using the unified template: `\documentclass[aspectratio=169,11pt]{beamer}` + `\usepackage[university]{user-beamer}` (or other institution option). Use `\fbinstitute` and `\fbemail` for metadata. Custom commands: `\contribcard`, `\phasecircle`, `\accentbox`, `\highlightbox`, `standoutframe` environment.
 3. **Use 16:9 aspect ratio** (already in the documentclass above)
 4. **Create `.latexmkrc`** if not present (`$out_dir = 'out'` + `END {}` block to copy PDF back)
-5. **Compile using `/latex`** — this handles missing packages, font conflicts, citation key mismatches, and stale cache automatically
+5. **Compile using `latex`** — this handles missing packages, font conflicts, citation key mismatches, and stale cache automatically
 6. **If using citations**: add `\addbibresource{references.bib}` or `\bibliography{}` as appropriate
 
 ### Phase 4: Fix All Warnings (Direct)
 
-After `/latex` resolves errors, address remaining **warnings** (which autofix does not fix):
+After `latex` resolves errors, address remaining **warnings** (which autofix does not fix):
 
 1. Parse `out/*.log` for overfull/underfull hbox/vbox warnings
 2. Fix every single one — adjust text, resize figures, tweak `\parbox`, etc.
@@ -148,7 +149,7 @@ Full prompt template: [`references/review-prompts.md`](references/review-prompts
 2. Incorporate feedback — prioritise Critical and Needs Work items
 3. Recompile
 4. Verify zero warnings in the log
-5. **If using a `.bib` file**: validate all `\cite{}` keys resolve correctly (check log for `Citation .* undefined`). See `/bib-validate` for the full cross-referencing protocol.
+5. **If using a `.bib` file**: validate all `\cite{}` keys resolve correctly (check log for `Citation .* undefined`). See `bib-validate` for the full cross-referencing protocol.
 6. If significant changes were made, loop back to Phase 5 for another review round
 7. **Compute quality score** — read `references/quality-rubric.md`, log all issues from Phases 4-6, compute score and verdict
 8. Confirm final PDF is in the source directory (copied from `out/` by `.latexmkrc`)
@@ -188,7 +189,7 @@ project/
 - [ ] Narrative arc: Problem → Investigation → Resolution
 - [ ] Rhetoric review completed (Phase 5)
 - [ ] Graphics review completed (Phase 6)
-- [ ] If `.bib` used: all `\cite{}` keys validated (see `/bib-validate`)
+- [ ] If `.bib` used: all `\cite{}` keys validated (see `bib-validate`)
 - [ ] Quality score computed and reported
 
 ---
@@ -197,14 +198,14 @@ project/
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/project-deck` | For project status updates (supervisor meetings, coauthor handoffs) |
-| `/latex` | **Default compiler** — used in Phase 3 for error resolution and citation audit |
-| `/latex` | For manual compilation config details, `.latexmkrc` setup, engine selection |
-| `/proofread` | For post-hoc review of text quality in the deck |
-| `/bib-validate` | For thorough bibliography cross-referencing when citations are used |
-| `/literature` | For finding and verifying citations to include |
-| `/quarto-deck` | For HTML presentations (teaching, informal talks) instead of PDF |
-| `/quarto-course` | For full course websites with multiple lectures, exercises, and navigation |
+| `project-deck` | For project status updates (supervisor meetings, coauthor handoffs) |
+| `latex` | **Default compiler** — used in Phase 3 for error resolution and citation audit |
+| `latex` | For manual compilation config details, `.latexmkrc` setup, engine selection |
+| `proofread` | For post-hoc review of text quality in the deck |
+| `bib-validate` | For thorough bibliography cross-referencing when citations are used |
+| `literature` | For finding and verifying citations to include |
+| `quarto-deck` | For HTML presentations (teaching, informal talks) instead of PDF |
+| `quarto-course` | For full course websites with multiple lectures, exercises, and navigation |
 
 **Scott's full rhetoric essay:** `resources/academics/scott-cunningham/MixtapeTools/presentations/rhetoric_of_decks.md`
 **Scott's deck generation prompt:** `resources/academics/scott-cunningham/MixtapeTools/presentations/create_deck_prompt.md`

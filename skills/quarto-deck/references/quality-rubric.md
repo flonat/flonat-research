@@ -1,6 +1,6 @@
 # Quality Rubric: Quarto Deck
 
-> Scoring rubric for `/quarto-deck`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
+> Scoring rubric for `quarto-deck`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
 
 ## Deduction Table
 

@@ -16,7 +16,7 @@ Traditional many-analysts studies (Silberzahn et al. 2018, Huntington-Klein et a
 
 **When NOT to use:**
 - As a substitute for a pre-registered analysis plan (this is diagnostic, not confirmatory)
-- When the estimator itself is contested (use `/multi-perspective` for that)
+- When the estimator itself is contested (use `multi-perspective` for that)
 - For exploratory analysis where the research question isn't yet fixed
 
 ## Isolation Protocol

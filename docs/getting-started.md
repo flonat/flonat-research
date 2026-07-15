@@ -52,11 +52,13 @@ No home-directory symlinks or junctions are created.
 ```bash
 ./scripts/setup.sh --client both --check
 git pull --ff-only
-./scripts/setup.sh --client both --update
+./scripts/setup.sh --client both
 ./scripts/setup.sh --client both --check
 ```
 
-The second install is a no-op when source and receipt are current. A divergent
+The second install is a no-op when source and receipt are current. The former
+`--update` spelling remains accepted for compatibility, but every normal install
+already reconciles managed copies. A divergent
 managed file is preserved under `~/.config/flonat-research/backups/` before it
 is reconciled. An unmanaged conflicting file stops installation.
 
@@ -83,6 +85,11 @@ files above rather than relying on a client transcript.
 The public contract is `config/ai-contracts.yaml`; the installation plan is
 `config/install-manifest.json`.
 
+The generated [`availability.md`](availability.md) inventory accounts for
+skills, agents, rules, hooks, MCP registrations, and CLIs. Read it when an item
+is missing from a client: an explicit `No` is a reviewed boundary, not an
+installer discovery error.
+
 | Capability | Claude Code | Codex |
 |---|---:|---:|
 | Shared file context and handoff | Yes | Yes |
@@ -95,9 +102,14 @@ The public contract is `config/ai-contracts.yaml`; the installation plan is
 ## Start a project
 
 Open a research project containing `CLAUDE.md`, `AGENTS.md`, or both. Both files
-should point at the same project context rather than duplicate it. Ask naturally
-for a workflow or invoke an installed skill using the syntax supported by your
-client.
+should point at the same project context rather than duplicate it. Ask
+naturally for a workflow, use `/skill-name` in Claude, or `$skill-name` in
+Codex.
+
+For a project with role-specific agents and repeatable workflows, use the
+shared `init-project-orchestration` skill. It writes neutral sources under
+`.ai/orchestration/` and renders both clients' project adapters from those
+sources.
 
 When adding a new skill or agent, declare its clients and required capabilities
 before rendering. See [Contributing](../CONTRIBUTING.md) when available; missing

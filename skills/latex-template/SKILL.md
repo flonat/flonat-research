@@ -14,6 +14,7 @@ allowed-tools:
   - AskUserQuestion
   - Skill
 argument-hint: "[project-path] [--apply]"
+skill-dependencies: [bib-validate, latex, retarget-journal]
 ---
 
 # Template Compliance
@@ -25,14 +26,14 @@ argument-hint: "[project-path] [--apply]"
 - After the template has been updated and you want to check older papers
 - Before submission — verify the preamble is clean and up to date
 - When a paper has mysterious compilation issues (often a stale preamble)
-- During periodic maintenance or `/system-audit`
+- During periodic maintenance or `system-audit`
 - When starting work on a paper that hasn't been touched in a while
 
 ## When NOT to Use
 
 - **Setting up a new project** — the separate `init-project-research` workflow
   copies the template; this skill audits an existing project
-- **Fixing compilation errors** — use `/latex` first, then run this
+- **Fixing compilation errors** — use `latex` first, then run this
 - **Non-LaTeX projects** — this skill is LaTeX-specific
 
 ---
@@ -44,7 +45,7 @@ argument-hint: "[project-path] [--apply]"
 3. **Semantic comparison, not line-by-line.** Compare packages, options, commands, and environments as logical units — not raw text diffs.
 4. **Preserve project-specific additions.** Items classified as **Keep** are informational. Never suggest removing them unless they conflict with a template feature.
 5. **Template is the reference, not the authority.** Projects may legitimately diverge. The skill reports differences — the user decides what to act on.
-6. **Compile after applying.** If `--apply` makes any changes, always verify with `/latex`.
+6. **Compile after applying.** If `--apply` makes any changes, always verify with `latex`.
 
 ---
 
@@ -145,7 +146,7 @@ Start at **100** and deduct per issue:
 
 If `--apply` is not set, end with:
 ```
-Run `/latex-template <path> --apply` to interactively apply changes.
+Run `latex-template <path> --apply` to interactively apply changes.
 ```
 
 ---
@@ -177,7 +178,7 @@ Apply changes in dependency order to avoid compilation breakage:
 
 After applying changes:
 
-1. **Compile with `/latex`.** This handles any secondary issues the changes might introduce.
+1. **Compile with `latex`.** This handles any secondary issues the changes might introduce.
 2. **Report the result:**
    - If compilation succeeds: report success + number of changes applied
    - If compilation fails: report the error, suggest reverting specific changes, and note which change likely caused the issue
@@ -189,8 +190,8 @@ After applying changes:
 - **Does not rewrite `main.tex` structure.** Only checks `\input{settings}` and bibliography commands.
 - **Does not check content quality.** The separate `proofread` workflow covers
   prose quality when that additional review is wanted.
-- **Does not manage `.bib` files.** Use `/bib-validate` for bibliography key issues.
-- **Does not handle journal-specific formatting.** Use `/retarget-journal` for that.
+- **Does not manage `.bib` files.** Use `bib-validate` for bibliography key issues.
+- **Does not handle journal-specific formatting.** Use `retarget-journal` for that.
 - **Does not compare across projects.** Checks one project at a time against the template.
 
 ---
@@ -199,13 +200,13 @@ After applying changes:
 
 ### Report only (default)
 
-> "/latex-template ~/papers/costly-voice"
+> "latex-template ~/papers/costly-voice"
 
 Produces a compliance report without making any changes.
 
 ### Apply mode
 
-> "/latex-template ~/papers/costly-voice --apply"
+> "latex-template ~/papers/costly-voice --apply"
 
 Produces the report, then interactively applies Adopt and Drop changes with user confirmation.
 
@@ -226,9 +227,9 @@ Run on each project individually. This skill checks one project at a time.
 ## Cross-References
 
 - **`templates/latex-wp/your-template.sty`** + **`your-bib-template.sty`** — the canonical template this skill compares against
-- **`/latex`** — used in Phase 7 to verify compilation after applying changes
-- **`/audit-project-research`** — complementary: checks directory structure, this checks LaTeX preamble
-- **`/bib-validate`** — complementary: checks citation keys, this checks bibliography system config
+- **`latex`** — used in Phase 7 to verify compilation after applying changes
+- **`audit-project-research`** — complementary: checks directory structure, this checks LaTeX preamble
+- **`bib-validate`** — complementary: checks citation keys, this checks bibliography system config
 - **`init-project-research`** — creates projects from the template; this skill
   verifies ongoing compliance
-- **`/retarget-journal`** — handles journal-specific formatting (different concern)
+- **`retarget-journal`** — handles journal-specific formatting (different concern)

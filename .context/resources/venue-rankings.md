@@ -120,7 +120,7 @@ CORE Portal: https://portal.core.edu.au/conf-ranks/
 
 ## Conference Metadata Template
 
-When targeting a conference in `/init-project-research`, capture:
+When targeting a conference in `init-project-research`, capture:
 
 ```markdown
 ## Conference Target

@@ -3,11 +3,12 @@ name: init-project-light
 description: "Use when you need to bootstrap a lightweight project with minimal structure."
 allowed-tools: Bash(mkdir*), Bash(ls*), Bash(touch*), Read, Write, Edit, Glob, Grep, AskUserQuestion
 argument-hint: "[no arguments — runs in current directory]"
+skill-dependencies: [init-project-research]
 ---
 
 # Init Project Light
 
-> Lightweight project bootstrapper for small projects that don't need the full `/init-project-research` scaffold.
+> Lightweight project bootstrapper for small projects that don't need the full `init-project-research` scaffold.
 
 ## When to Use
 
@@ -15,9 +16,9 @@ argument-hint: "[no arguments — runs in current directory]"
 - One-off or short-lived projects
 - Projects without a code pipeline or Overleaf link
 - When the user says "set up something light", "quick init", "organise this folder"
-- Any project that doesn't warrant `/init-project-research`
+- Any project that doesn't warrant `init-project-research`
 
-## When NOT to Use — Escalate to `/init-project-research`
+## When NOT to Use — Escalate to `init-project-research`
 
 - Research papers targeting a journal or conference
 - Projects with code, data, or computational pipelines
@@ -125,7 +126,7 @@ Created:
   - [any folders created]
   - [.claude/settings.local.json if created]
 
-Skipped (use /init-project-research if needed later):
+Skipped (use init-project-research if needed later):
   - Git, Overleaf, vault atlas, code scaffold
 ```
 
@@ -135,5 +136,5 @@ Skipped (use /init-project-research if needed later):
 
 | Skill | Relationship |
 |-------|-------------|
-| `/init-project-research` | Escalate to this for full research projects |
-| `/update-project-doc` | Run later to refresh CLAUDE.md if the project grows |
+| `init-project-research` | Escalate to this for full research projects |
+| `update-project-doc` | Run later to refresh CLAUDE.md if the project grows |

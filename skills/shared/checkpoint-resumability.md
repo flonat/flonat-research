@@ -14,7 +14,7 @@
 
 ## When to Skip
 
-- Standalone / single-phase skills (e.g., `/proofread`, `/rate`)
+- Standalone / single-phase skills (e.g., `proofread`, `rate`)
 - Skills that complete in under 60 seconds
 - Skills where re-running is cheap and idempotent
 - When the user says "start fresh" or "from scratch"
@@ -149,10 +149,10 @@ Some phases produce partial output (e.g., verified 14/23 papers before crash). T
 
 | Skill | Phases | Crash risk | Priority |
 |-------|--------|-----------|----------|
-| `/literature` (pipeline) | 6 phases | High (sub-agents, external CLI calls) | P0 |
-| `/computational-experiments` | 5 phases | Medium (long runs) | P1 |
-| `/pre-submission-report` | 4 agents | High (multi-agent orchestration) | P1 |
-| `/replication-package` | 4 phases | Low (mostly file ops) | P3 |
+| `literature` (pipeline) | 6 phases | High (sub-agents, external CLI calls) | P0 |
+| `computational-experiments` | 5 phases | Medium (long runs) | P1 |
+| `pre-submission-report` | 4 agents | High (multi-agent orchestration) | P1 |
+| `replication-package` | 4 phases | Low (mostly file ops) | P3 |
 
 ## Relationship with Other Persistence
 

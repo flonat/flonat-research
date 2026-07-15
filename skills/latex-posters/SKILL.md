@@ -2,6 +2,7 @@
 name: latex-posters
 description: "Use when you need to create a research poster in LaTeX (beamerposter, tikzposter, or baposter)."
 allowed-tools: [Read, Write, Edit, Bash]
+skill-dependencies: [latex]
 ---
 
 # LaTeX Research Posters
@@ -19,7 +20,7 @@ Research posters are a critical medium for scientific communication at conferenc
 
 ## Compilation Convention
 
-**Always use `/latex` to compile posters.** Build artifacts go to `out/`, final PDF is copied back to the source directory. Ensure a `.latexmkrc` exists alongside the poster `.tex` file with `$out_dir = 'out'`.
+**Always use `latex` to compile posters.** Build artifacts go to `out/`, final PDF is copied back to the source directory. Ensure a `.latexmkrc` exists alongside the poster `.tex` file with `$out_dir = 'out'`.
 
 ---
 
@@ -75,7 +76,7 @@ Content guides: [`references/poster_content_sections.md`](references/poster_cont
 3. **Layout** — Column structure, content flow, space allocation (title 10-15%, content 70-80%, footer 5-10%)
 4. **Integration** — High-res figures (300 DPI), consistent styling, QR codes for supplementary materials
 5. **Review** — Check page size (`pdfinfo`), font embedding (`pdffonts`), reduced-scale print test
-6. **Delivery** — Compile with `/latex`, verify output, prepare print and digital versions
+6. **Delivery** — Compile with `latex`, verify output, prepare print and digital versions
 
 ## TikZ Diagrams
 
@@ -99,10 +100,10 @@ tlmgr install beamerposter tikzposter baposter qrcode graphics xcolor tcolorbox 
 
 | Skill | When to use alongside |
 |-------|----------------------|
-| `/latex` | **Default compiler** — used in Workflow step 6 for compilation and error resolution |
-| `/latex` | For manual compilation config and `.latexmkrc` setup |
-| `/proofread` | Content quality check on poster text |
-| `/bib-validate` | Cross-reference citation keys if the poster includes a bibliography |
+| `latex` | **Default compiler** — used in Workflow step 6 for compilation and error resolution |
+| `latex` | For manual compilation config and `.latexmkrc` setup |
+| `proofread` | Content quality check on poster text |
+| `bib-validate` | Cross-reference citation keys if the poster includes a bibliography |
 
 **Shared resources:**
 - [`../shared/palettes.md`](../shared/palettes.md) — colour palette inspiration

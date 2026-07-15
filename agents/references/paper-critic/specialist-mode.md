@@ -77,4 +77,4 @@ The modes are complementary: specialist mode finds more issues per dimension (de
 
 ## Parallel Independent Review
 
-For maximum coverage, launch paper-critic alongside `domain-reviewer` and `referee2-reviewer` in parallel (3 Agent tool calls in one message). Each agent checks different dimensions — paper-critic handles grammar, notation, citation, tone, LaTeX, and TikZ. Run `fatal-error-check` first as a pre-flight gate, then launch all three in parallel. After all return, run `/synthesise-reviews` to produce a unified `REVISION-PLAN.md`. See `skills/shared/council-protocol.md` for the full pattern.
+For maximum coverage, launch paper-critic alongside `domain-reviewer` and `referee2-reviewer` in parallel (3 Agent tool calls in one message). Each agent checks different dimensions — paper-critic handles grammar, notation, citation, tone, LaTeX, and TikZ. Run `fatal-error-check` first as a pre-flight gate, then launch all three in parallel. After all return, run `synthesise-reviews` to produce a unified `REVISION-PLAN.md`. See `skills/shared/council-protocol.md` for the full pattern.

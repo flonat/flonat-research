@@ -30,14 +30,14 @@ After triage, fix in the agreed order. Report each fix as completed.
 
 ## When This Applies
 
-- `/audit-project-research`, `/atlas-audit`, `/system-audit`
+- `audit-project-research`, `atlas-audit`, `system-audit`
 - Any task that involves "check and fix" or "audit and repair"
 - When Claude notices multiple issues during routine work
 
 ## When to Skip
 
 - Single known issue with explicit fix instruction ("fix the broken symlink at X")
-- Compilation errors during `/latex` (fix-compile-retry loop is the design)
+- Compilation errors during `latex` (fix-compile-retry loop is the design)
 - the user says "just fix everything you find"
 
 ## Why This Matters

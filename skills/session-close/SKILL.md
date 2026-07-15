@@ -272,12 +272,12 @@ Knowledge filed: 2 findings -> concept-a.md, 1 finding -> concept-b.md (new arti
 
 **Follow-up suggestions** (never blocking):
 
-- **Memory bloat:** if either MEMORY.md > 80 entries -> `"MEMORY.md has N entries -- consider /memory-cleanup."`
-- **Memory staleness:** project MEMORY.md has entries dated >90 days old -> `"oldest entry from <date> -- consider /memory-cleanup."`
-- **Incident detected:** stuck moments / rollbacks / wrong-approach events -> `"Consider /postmortem."`
-- **Skill-worthy discovery:** non-obvious multi-step workflow (not a one-liner) -> `"Consider /skill-extract."`
-- **Code review nudge:** `.py`/`.R`/`.jl`/`.do` files modified this session (`git diff --name-only` + `git ls-files --others --exclude-standard`) AND no `correspondence/internal-reviews/CODE-REVIEW-REPORT.md` produced -> `"You modified N code files -- consider /code-review."`
-- **Convention propagation nudge:** if Phase 2 step 8 found queue items OR session-declared conventions -> list them with their suggested guide targets and prompt: `"N convention candidate(s) found -- propagate to TM guides now (Y/n)?"`. If yes, present each candidate one at a time with the suggested target doc, ask whether to (a) edit the guide now, (b) defer to monthly /docs-consistency cron, or (c) drop. On edit/defer, mark the queue item by changing `- [ ]` to `- [x]`. On drop, remove the line. Queue file is auto-truncated by the monthly cron after listing.
+- **Memory bloat:** if either MEMORY.md > 80 entries -> `"MEMORY.md has N entries -- consider memory-cleanup."`
+- **Memory staleness:** project MEMORY.md has entries dated >90 days old -> `"oldest entry from <date> -- consider memory-cleanup."`
+- **Incident detected:** stuck moments / rollbacks / wrong-approach events -> `"Consider postmortem."`
+- **Skill-worthy discovery:** non-obvious multi-step workflow (not a one-liner) -> `"Consider skill-extract."`
+- **Code review nudge:** `.py`/`.R`/`.jl`/`.do` files modified this session (`git diff --name-only` + `git ls-files --others --exclude-standard`) AND no `correspondence/internal-reviews/CODE-REVIEW-REPORT.md` produced -> `"You modified N code files -- consider a code review."`
+- **Convention propagation nudge:** if Phase 2 step 8 found queue items OR session-declared conventions -> list them with their suggested guide targets and prompt: `"N convention candidate(s) found -- propagate to TM guides now (Y/n)?"`. If yes, present each candidate one at a time with the suggested target doc, ask whether to (a) edit the guide now, (b) defer to monthly docs-consistency cron, or (c) drop. On edit/defer, mark the queue item by changing `- [ ]` to `- [x]`. On drop, remove the line. Queue file is auto-truncated by the monthly cron after listing.
 
 ### Phase 4: Pre-commit verification
 

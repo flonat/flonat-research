@@ -56,11 +56,11 @@ A skill is classified as `declining` health status when the trend is `worsening`
 
 ## Qualitative Observations
 
-After presenting the quantitative report, check `~/.claude/skill-observations/log.md` for any OPEN observations relevant to the skills shown. Mention them briefly: "There are also N qualitative observations pending review."
+After presenting the quantitative report, check `${AI_WORKFLOW_STATE_DIR:-$HOME/.local/state/ai-workflows}/skill-observations/log.md` for any OPEN observations relevant to the skills shown. Mention them briefly: "There are also N qualitative observations pending review." Legacy client-specific observations are read by the helper as compatibility input, but all new portable observations belong in the shared state directory.
 
 ## Weekly Review Trigger
 
-Check `~/.claude/skill-observations/last-review-date.txt`. If older than 7 days, suggest running the weekly review protocol.
+Check `${AI_WORKFLOW_STATE_DIR:-$HOME/.local/state/ai-workflows}/skill-observations/last-review-date.txt`. If older than 7 days, suggest running the weekly review protocol.
 
 ## Label Distribution
 
@@ -73,12 +73,12 @@ Label distribution (last 30d):
   figure:        3× excellent
 ```
 
-Highlight skills with 2+ occurrences of the same negative label — these are candidates for `/feedback-review`.
+Highlight skills with 2+ occurrences of the same negative label — these are candidates for `feedback-review`.
 
 ## Failures-Only Mode
 
 ```
-/skill-health --failures-only
+skill-health --failures-only
 ```
 
 Skip the overview. Show only:
@@ -91,7 +91,7 @@ Skip the overview. Show only:
 
 `skill-health.py` reconciles every logged label against the on-disk skill list (`skills/**/SKILL.md`) and partitions into three buckets so the health table reflects reality, not telemetry noise:
 
-- **Recognized** — logged labels that are real on-disk skills. *Only these populate the health table and the `skills` JSON key* (so downstream consumers like `/feedback-review` get clean input).
+- **Recognized** — logged labels that are real on-disk skills. *Only these populate the health table and the `skills` JSON key* (so downstream consumers like `feedback-review` get clean input).
 - **Blind spots** (`blind_spots`) — on-disk skills with **zero** outcome/observation data. Invisible to health classification; surfaced explicitly so coverage gaps are visible rather than silently absent.
 - **Unrecognized labels** (`unrecognized_labels`) — logged names that are **not** on-disk skills: agents (`paper-critic`, `claim-verify`, …) that have their own review-state path, rules logged as skills (`plan-first`, …), renamed/removed skills (`latex-autofix`, `validate-bib`, …), and freeform session labels. Excluded from health; listed with invocation counts for triage.
 
@@ -107,7 +107,7 @@ Save dashboard reports to `log/audits/skill-health-YYYY-MM-DD.md` for historical
 
 ## What This Skill Does NOT Do
 
-- **Never modifies skill definitions** — that's `/feedback-review`
+- **Never modifies skill definitions** — that's `feedback-review`
 - **Never auto-deprecates skills** — reports low usage, lets the user decide
 - **Never deletes log files** — read-only
 - **Never proposes fixes** — reports problems, not solutions
@@ -118,8 +118,8 @@ Save dashboard reports to `log/audits/skill-health-YYYY-MM-DD.md` for historical
 |--------|-------------|
 | `skill-outcome-logging` rule | Produces outcome data (success/error/partial) |
 | `skill-observer` hook | Produces invocation events |
-| `/rate` skill | Produces explicit user ratings |
+| `rate` skill | Produces explicit user ratings |
 | `quality-score-logger` hook | Produces review agent scores |
-| `/feedback-review` | Acts on problems this skill surfaces |
+| `feedback-review` | Acts on problems this skill surfaces |
 | Weekly system audit (Sat 06:00) | Can invoke this automatically |
 | `shared/worker-critic-protocol.md` | Worker-critic pass quality feeds into scores |

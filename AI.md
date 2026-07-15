@@ -1,7 +1,3 @@
-# the configured AI coding client adapter
-
-This file uses the shared `AI.md` guidance.
-
 # flonat-research project guidance
 
 > This file is automatically read when you open this folder with the configured AI coding client.
@@ -48,7 +44,6 @@ Just say these naturally:
 | "Extract actions from my meeting with [name]" | Finds transcript, extracts tasks, creates in vault |
 | "Weekly review" | Guides you through reflection and planning |
 | "What's overdue?" | Queries vault tasks and summarises |
-| "Upcoming deadlines" / "What's due?" | Reads vault venue frontmatter via `conf-timeline list`. See `docs/guides/conf-deadlines.md` |
 | "Update my research pipeline" | Shows paper status, helps update stages |
 | "Find references on [topic]" | Academic search with verified citations |
 | "What did I accomplish this week?" | Summarises completed tasks |
@@ -94,7 +89,10 @@ Before running any experiment sweep or simulation batch:
 
 <!-- RESEARCH-VAULT:START -->
 <!-- CUSTOMISE: Point this to your own Obsidian-style markdown vault -->
-The Research Vault (`~/vault`) stores all dynamic research data as markdown files with YAML frontmatter. The `taskflow` MCP server reads/writes these files.
+An optional Research Vault stores dynamic research data as markdown files with
+YAML frontmatter. the AI assistant may use a configured `taskflow` MCP adapter;
+shell-capable the AI assistant/Codex workflows use `taskflow-cli`. Customise the path for
+your own environment rather than assuming `~/vault` exists.
 
 | Directory | Content |
 |-----------|---------|
@@ -113,12 +111,14 @@ IDs are filename slugs (e.g., `cancel-leap-water-in-rugby`), not integers.
 
 <!-- WORKFLOWS-POINTER:START -->
 <!-- synced from private CLAUDE.md — do not edit manually -->
-Detailed instructions in `.context/workflows/`:
-- `daily-review.md` — How to help with daily planning
-- `meeting-actions.md` — How to extract action items (see also `docs/guides/minutes.md` for full meeting system architecture)
-- `weekly-review.md` — Weekly reflection template
-- `replication-protocol.md` — 4-phase protocol for replicating paper results
-- Feedback loop (skill improvement pipeline): `docs/feedback-loop.md`
+Detailed public workflow references:
+- `docs/skills.md` — full workflow catalogue
+- `docs/availability.md` — client targeting and fallbacks
+- `docs/getting-started.md` — installation and files-first context
+- `docs/dual-client-ai-control-plane.md` — architecture and adoption process
+
+Project-specific workflows belong in project context files; do not link to
+private Task Management guides from the public framework.
 <!-- WORKFLOWS-POINTER:END -->
 
 <!-- COMPONENTS:START -->
@@ -128,11 +128,11 @@ Detailed instructions in `.context/workflows/`:
 
 ## Agents
 
-15 agents in `.claude/agents/`. See [`docs/agents.md`](docs/agents.md) for when to use each.
+15 neutral definitions in `agents/`, rendered into client adapters. See [`docs/agents.md`](docs/agents.md) and [`docs/availability.md`](docs/availability.md).
 
-## Rules (18 Auto-Loaded)
+## Rules (18)
 
-In `.claude/rules/` — these apply automatically to every session. See [`docs/rules.md`](docs/rules.md) for documentation.
+Canonical policy lives in `rules/`. the AI assistant receives rule files and Codex receives applicable generated guidance. See [`docs/rules.md`](docs/rules.md).
 
 <!-- RULES-TABLE:START -->
 | Rule | Purpose |
@@ -166,7 +166,7 @@ In `.claude/rules/` — these apply automatically to every session. See [`docs/r
 
 <!-- AFTER-SESSION:START -->
 <!-- synced from private CLAUDE.md — do not edit manually -->
-Update `.context/current-focus.md` (what we worked on, where left off, what's next), then commit → push → deploy (if needed) → `/session-close`. Full protocol: rule `session-lifecycle.md`.
+Update `.context/current-focus.md` (what we worked on, where left off, what's next), then commit → push → deploy (if needed) → `session-close`. Full protocol: rule `session-lifecycle.md`.
 <!-- AFTER-SESSION:END -->
 
 ## Tips for Working Together
@@ -185,8 +185,8 @@ Update `.context/current-focus.md` (what we worked on, where left off, what's ne
 | Path | What lives there |
 |------|-----------------|
 | `.context/` | AI context library (profile, focus, projects, workflows, preferences) |
-| `.claude/agents/` | Agent definitions (15 agents) |
-| `.claude/rules/` | Auto-loaded rules (18 rules) |
+| `agents/` | Neutral agent definitions (15 agents) |
+| `rules/` | Canonical policy rules (18 rules) |
 | `skills/` | 109 skill definitions |
 | `hooks/` | 9 hook scripts |
 | `.scripts/` | CLI tools for Notion task management |

@@ -1,59 +1,73 @@
 <!-- Governed by: skills/shared/project-documentation.md -->
 
-# Biblio MCP Server Setup
+# Scholarly search and bibliography setup
 
-> This page describes the optional Claude MCP adapter. Codex should use the
-> equivalent scholarly CLI route; the framework does not present MCP tools as
-> callable in Codex.
+The public framework treats scholarly search as a capability, not as a
+Claude-only MCP tool. Shell-capable Claude Code and Codex sessions use the
+`scholarly` CLI. Claude Desktop may use the same package through its optional
+MCP server. Personal-library tools such as Paperpile or RefPile are separate
+optional services and are not installed or configured by this repository.
 
-The Biblio MCP server (`.mcp-server-biblio/`) provides scholarly search across up to 3 sources. OpenAlex is always available (free, no key required). Scopus and Web of Science are optional — add API keys to unlock them.
+## 1. Install the scholarly package
 
-## 1. Update the Email Address
+Clone the separate `scholarly-mcp` repository and follow its README using
+`uv`. Do not use bare `python`, `python3`, or `pip`.
 
-In `.mcp-server-biblio/server.py`:
+Verify the CLI before configuring any client adapter:
 
-```python
-client = OpenAlexClient(email="your.email@university.edu")
+```bash
+scholarly --help
+scholarly scholarly-search "your topic" --json
+scholarly scholarly-verify-dois --dois 10.0000/example --json
 ```
 
-OpenAlex uses this for its [polite pool](https://docs.openalex.org/how-to-use-the-api/rate-limits-and-authentication#the-polite-pool) — faster rate limits, no registration needed.
+OpenAlex and other keyless providers work without private credentials. Scopus,
+Web of Science, and other subscription providers require their documented
+environment variables.
 
-## 2. Add the Server to Your Claude Code MCP Config
+## 2. Claude Code and Codex
 
-In `.mcp.json` (project root) or `~/.claude.json` (global access):
+Use the CLI from either shell-capable client. Shared skills must call or
+describe the CLI route rather than assuming that an MCP tool exists:
 
-```json
-{
-  "mcpServers": {
-    "biblio": {
-      "command": "/opt/homebrew/bin/uv",
-      "args": ["run", "--frozen", "--directory", "/path/to/flonat-research/.mcp-server-biblio", "python", "server.py"],
-      "env": {}
-    }
-  }
-}
+```bash
+scholarly scholarly-search "difference-in-differences spillovers" --json
+scholarly scholarly-verify-dois --dois 10.1257/aer.20181103 --json
 ```
 
-## 3. (Optional) Add API Keys for Additional Sources
+The exact subcommand list is package-owned; run `scholarly --help` instead of
+copying an old tool list into this repository.
 
-| Source | Env var | How to get it |
-|--------|---------|---------------|
-| OpenAlex | None needed | Free — just set your email in step 1 |
-| Scopus | `SCOPUS_API_KEY` | [Elsevier Developer Portal](https://dev.elsevier.com/) — free for academic institutions |
-| Web of Science | `WOS_API_KEY` | [Clarivate Developer Portal](https://developer.clarivate.com/) — requires institutional subscription |
+## 3. Optional Claude Desktop MCP adapter
 
-Add keys to the `env` block:
+Claude Desktop cannot run arbitrary shell commands, so it may register the
+package's MCP server in its normal configuration. Use the command and arguments
+from the installed scholarly package's current README. Keep credentials in the
+client's environment or a secret manager—never in this repository—and verify
+the registration independently after every path or runtime change.
 
-```json
-"env": {
-  "SCOPUS_API_KEY": "your-scopus-key",
-  "WOS_API_KEY": "your-wos-key",
-  "WOS_API_TIER": "expanded"
-}
-```
+Codex does not need this registration and this guide does not present MCP tools
+as callable from Codex.
 
-The server auto-detects available keys at startup. With all 3 sources enabled, the `scholarly_*` tools deduplicate across sources and the `scholarly_verify_dois` tool cross-validates references.
+## 4. Optional personal-library services
 
-## 4. Use `/literature`
+- **Paperpile** is a reference manager and citekey source. If you use it,
+  install the separate `paperpile` CLI/package and verify `paperpile --help`.
+- **RefPile** provides semantic search over a configured Paperpile library. It
+  requires its own service or network endpoint; verify `refpile --help` and the
+  endpoint before using it.
 
-Search for papers — the skill uses the biblio server automatically.
+Neither service, its credentials, nor its registrations are bundled here.
+
+## 5. Skill behavior
+
+The `literature`, `bib-validate`, `bib-parse`, and related skills should:
+
+1. discover which CLIs are actually installed;
+2. use the CLI route in shell-capable clients;
+3. use an MCP adapter only on a surface where it is explicitly registered;
+4. state a manual fallback when a personal library is absent; and
+5. verify every DOI or bibliographic claim before writing it.
+
+See [`availability.md`](availability.md) for client targeting and
+[`skills.md`](skills.md) for the shipped workflows.

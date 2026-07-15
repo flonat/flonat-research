@@ -29,7 +29,7 @@ The Notion-backed CLI tools that lived here previously (`task`, `tasks`,
 
 | Directory | Purpose |
 |-----------|---------|
-| `openalex/` | OpenAlex API client — shared across `/literature`, `/bib-validate`, `/split-pdf`, and the OpenAlex MCP server |
+| `openalex/` | OpenAlex API client — shared across `literature`, `bib-validate`, `split-pdf`, and the OpenAlex MCP server |
 
 ## Replacement map (for the deleted Notion CLIs)
 
@@ -37,10 +37,10 @@ The Notion-backed CLI tools that lived here previously (`task`, `tasks`,
 |---------|-------------|
 | `task`, `tasks`, `done`, `inbox` | `taskflow-cli` (Bash) or `taskflow` MCP tools |
 | `query` | `refpile search-library` (semantic) or `paperpile search-library` (exact) |
-| `week` | `/meetings-weekly` skill or vault-based weekly review |
+| `week` | `meetings-weekly` skill or vault-based weekly review |
 | `conf` | `conf-timeline list` (see [`docs/guides/conf-deadlines.md`](../docs/guides/conf-deadlines.md)) |
-| `daily_digest.py` | `/task-management` skill (vault-aware) |
-| `extract_meeting_actions.py` | `/meetings-recap` skill |
+| `daily_digest.py` | `task-management` skill (vault-aware) |
+| `extract_meeting_actions.py` | `meetings-recap` skill |
 
 ## Conventions
 

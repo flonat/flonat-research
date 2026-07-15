@@ -115,5 +115,5 @@ These are the items that most often come back `[UNVERIFIED]` on a first pass:
 
 - OSF-Standard template: `references/osf-standard-template.md`
 - AsPredicted template: `references/aspredicted-template.md`
-- Composed skills: `/hypothesis-generation`, `/experiment-design`, `/causal-design`, `/synthetic-data`, `/ethics-review`
+- Composed skills: `hypothesis-generation`, `experiment-design`, `causal-design`, `synthetic-data`, `ethics-review`
 - Global rule: `mark-unverified.md` — any unanchored effect size or unspecified rule must be tagged

@@ -1,6 +1,6 @@
 # Shared: Reference Resolution & Filing Sequence
 
-Canonical lookup and filing sequence for all bibliography skills (`/literature`, `/bib-validate`, `/bib-parse`, `/bib-coverage`). Reference this module instead of reimplementing lookup logic.
+Canonical lookup and filing sequence for all bibliography skills (`literature`, `bib-validate`, `bib-parse`, `bib-coverage`). Reference this module instead of reimplementing lookup logic.
 
 ## Resolution Order (Lookup)
 
@@ -70,7 +70,7 @@ Working-paper → published **year drift** (e.g. local SSRN/NBER 2023 vs Paperpi
 
 References with **no** Paperpile match — confirmed by the DOI Membership Check above, not merely a topic-search miss — are `NEW`; stage them for import per the Filing Sequence below. Do not invent a Paperpile key, and do not tag `NEW` off a `search-library` miss alone.
 
-> Rationale: this is the reconciliation behaviour applied in the 2026-05-30 Werner-2024 bib-parse run — copy keys + backfill DOIs, keep the fuller local metadata. Codified here so `/bib-parse`, `/bib-validate` (fix mode), `/literature` (Phase 4.4), and `/bib-coverage` all behave the same way.
+> Rationale: this is the reconciliation behaviour applied in the 2026-05-30 Werner-2024 bib-parse run — copy keys + backfill DOIs, keep the fuller local metadata. Codified here so `bib-parse`, `bib-validate` (fix mode), `literature` (Phase 4.4), and `bib-coverage` all behave the same way.
 
 ## Status Categories
 
@@ -117,7 +117,7 @@ After any skill run that stages items for Paperpile import:
 
 | Skill | Uses Resolution | Uses Filing | Notes |
 |-------|----------------|-------------|-------|
-| `/literature` | Phase 1 (pre-search check) | Phase 6c (sync to Paperpile) | Full workflow |
-| `/bib-validate` | Ref Manager Cross-Reference | Fix Mode (auto-stage) | Reports + optional fixes |
-| `/bib-parse` | Phase 3.5 (library check) | Phase 6.5 (stage for Paperpile) | PDF extraction workflow |
-| `/bib-coverage` | Label comparison | — | Read-only comparison |
+| `literature` | Phase 1 (pre-search check) | Phase 6c (sync to Paperpile) | Full workflow |
+| `bib-validate` | Ref Manager Cross-Reference | Fix Mode (auto-stage) | Reports + optional fixes |
+| `bib-parse` | Phase 3.5 (library check) | Phase 6.5 (stage for Paperpile) | PDF extraction workflow |
+| `bib-coverage` | Label comparison | — | Read-only comparison |

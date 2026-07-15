@@ -1,6 +1,6 @@
 ---
 name: numerical-check
-description: "Use when you need to numerically stress-test / falsify a SELF-AUTHORED mathematical claim — monotonicity, threshold, comparative-static, inequality, closed-form, or limit — by Monte-Carlo/sweep over its parameter space. Finds a counterexample (definitive falsification) or supports the claim with a large-N no-counterexample sweep, with artifact-avoidance discipline (dense sampling, interior grid, noise-aware tolerance, characterize violators). R1 of the verification spectrum; the empirical arm of mark-unverified for self-authored math. Triggers: /numerical-check, 'stress-test my conjecture', 'find a counterexample to', 'is this monotone/threshold true'. NOT for algebra identities (use /symbolic-check), machine-proving a lemma (use /lean-check), or replicating an empirical result (use /cross-language-check)."
+description: "Use when you need to numerically stress-test / falsify a SELF-AUTHORED mathematical claim — monotonicity, threshold, comparative-static, inequality, closed-form, or limit — by Monte-Carlo/sweep over its parameter space. Finds a counterexample (definitive falsification) or supports the claim with a large-N no-counterexample sweep, with artifact-avoidance discipline (dense sampling, interior grid, noise-aware tolerance, characterize violators). R1 of the verification spectrum; the empirical arm of mark-unverified for self-authored math. Triggers: numerical-check, 'stress-test my conjecture', 'find a counterexample to', 'is this monotone/threshold true'. NOT for algebra identities (use symbolic-check), machine-proving a lemma (use lean-check), or replicating an empirical result (use cross-language-check)."
 allowed-tools:
   - Read
   - Write
@@ -16,21 +16,21 @@ Empirically stress-test a mathematical claim you wrote but have not proven. The 
 ## When to Use
 
 - You wrote a **Proposition / Theorem / Conjecture** (monotonicity, threshold, comparative-static, inequality, closed-form, limit) and want to know if it's actually true before claiming it.
-- `/numerical-check`, "stress-test my conjecture", "find a counterexample to X", "is Q(ρ) really monotone", "does the threshold hold for all …".
+- `numerical-check`, "stress-test my conjecture", "find a counterexample to X", "is Q(ρ) really monotone", "does the threshold hold for all …".
 - The write-time empirical arm of the `mark-unverified` rule (self-authored math must be checked before assertion).
 
 ## When NOT to Use
 
 | Situation | Use instead |
 |---|---|
-| Verify an algebra / derivative / limit / closed-form identity | `/symbolic-check` (R2) |
-| Machine-prove a lemma (want a proof, not a stress-test) | `/lean-check` (R3) |
-| Re-verify a computed empirical result in another language | `/cross-language-check` |
+| Verify an algebra / derivative / limit / closed-form identity | `symbolic-check` (R2) |
+| Machine-prove a lemma (want a proof, not a stress-test) | `lean-check` (R3) |
+| Re-verify a computed empirical result in another language | `cross-language-check` |
 | Conceptual / assumption-completeness review | `domain-reviewer` (agent) |
 
 ## Position in the verification spectrum
 
-**R1 — numerical falsification.** Can **FALSIFY** definitively (a confirmed counterexample refutes the claim) but can **never VERIFY** (no counterexample ≠ proof). The strongest positive result is `INCONCLUSIVE (supported): no counterexample in N draws`. Pair with `/lean-check` (R3) to *prove* the claim once it survives.
+**R1 — numerical falsification.** Can **FALSIFY** definitively (a confirmed counterexample refutes the claim) but can **never VERIFY** (no counterexample ≠ proof). The strongest positive result is `INCONCLUSIVE (supported): no counterexample in N draws`. Pair with `lean-check` (R3) to *prove* the claim once it survives.
 
 ## Procedure
 

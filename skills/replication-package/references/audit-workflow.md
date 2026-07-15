@@ -12,7 +12,7 @@ Scoring rubric with Pass/Partial/Fail criteria: [`audit-rubric.md`](audit-rubric
 Deposit completeness checklist: [`deposit-checklist.md`](deposit-checklist.md)
 Numeric-reproduction ground-truth convention: [`expected-values-schema.md`](expected-values-schema.md)
 
-1. **Compilation.** If LaTeX files exist, do they compile? Invoke `/latex` in check-only mode or run `latexmk -outdir=out -pdf` and report success/failure.
+1. **Compilation.** If LaTeX files exist, do they compile? Invoke `latex` in check-only mode or run `latexmk -outdir=out -pdf` and report success/failure.
 2. **Script execution order.** Are scripts numbered, documented in a README, or orchestrated by a Makefile/run_all.sh? Can the order be determined unambiguously?
 3. **Output presence.** Are declared output files (tables, figures) actually present in the package? Cross-reference the README's table/figure list against the file tree.
 4. **Dependencies declared.** Does a dependency manifest exist (`requirements.txt`, `pyproject.toml`, `renv.lock`, etc.)? Are version numbers pinned?

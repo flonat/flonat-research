@@ -45,7 +45,7 @@ paths:
 - When creating new files — never place code/data inside `paper/`
 - When reorganising projects — move any code/data out of `paper/`
 - When writing scripts that generate outputs — script in project, output exported to `paper/`
-- When running `/init-project-research` — the scaffold already enforces this separation
+- When running `init-project-research` — the scaffold already enforces this separation
 
 ## What To Do If You Find Violations
 
@@ -60,7 +60,7 @@ Creating a folder in the Overleaf root automatically creates an Overleaf project
 
 | Action | Claude allowed? | Notes |
 |--------|:-:|-------|
-| **Create** | Yes | `mkdir` in the Overleaf root creates a project. Use during `/init-project-research` scaffolding. |
+| **Create** | Yes | `mkdir` in the Overleaf root creates a project. Use during `init-project-research` scaffolding. |
 | **Rename** | No — ask user | Renaming loses Overleaf project history. The user must rename via the Overleaf UI to preserve history. Flag as a manual TODO. |
 | **Delete** | Break the glass | Deleting a folder destroys the Overleaf project and all its history. Requires explicit confirmation per the `break-the-glass` rule. |
 

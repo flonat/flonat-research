@@ -188,7 +188,7 @@ Exit code non-zero → source structure is inconsistent with the `latexindent` d
 
 ## What Phase 4 does NOT do
 
-- Inspect the rendered PDF (that's `/latex-polish` — proposed but not yet implemented).
+- Inspect the rendered PDF (that's `latex-polish` — proposed but not yet implemented).
 - Auto-rewrite Pattern 2–9 issues (report only).
-- Rewrite anything that changes the meaning of the prose (that's `/proofread`).
+- Rewrite anything that changes the meaning of the prose (that's `proofread`).
 - Run on builds that failed compilation (skip; the source-pattern lint is meaningless if the doc doesn't build).

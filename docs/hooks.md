@@ -2,7 +2,7 @@
 
 > 9 optional Claude Code hook scripts over the shared files-first context layer.
 
-Hook scripts live in `hooks/` and are configured in `~/.claude/settings.json` under the `"hooks"` key.
+Hook scripts live canonically in `hooks/`; the Claude adapter registers selected copies under its `"hooks"` key.
 They are not active in Codex and are not required for cross-client continuity.
 
 ## Overview
@@ -35,6 +35,6 @@ All hooks are configured in `~/.claude/settings.json`. See the `settings.json` f
 
 ## Creating New Hooks
 
-1. Write a shell or Python script in `hooks/`
-2. Add an entry to `~/.claude/settings.json` under the appropriate event key
-3. Set the `matcher` to control when it fires
+1. Write a shell or Python script in the repository `hooks/` directory
+2. Declare the Claude event mapping and a Codex strategy or explicit files-first fallback
+3. Render, validate the matcher, and measure its latency before installation

@@ -1,6 +1,6 @@
 # Literature Skill: Agent Templates
 
-> Sub-agent prompt templates used in Phases 2, 4, and 5 of the `/literature` skill. Read this when dispatching agents.
+> Sub-agent prompt templates used in Phases 2, 4, and 5 of the `literature` skill. Read this when dispatching agents.
 
 ---
 

@@ -75,7 +75,7 @@ If (a), the prereg is "pre-data". Any other status weakens the prereg's evidenti
 N = <total> across <K conditions>, n = <per cell>.
 
 ### 3e. Sample size rationale
-<Power analysis: α = <.05>, target power = <.80>, smallest effect size of interest = <d = .25 / OR = 1.5>. Tool used (`pwr` in R, G*Power, `/synthetic-data` simulation). Justify the chosen effect size: prior literature (cite), pilot data, SESOI, or computational simulation. If no defensible anchor exists, use SESOI and say so explicitly.>
+<Power analysis: α = <.05>, target power = <.80>, smallest effect size of interest = <d = .25 / OR = 1.5>. Tool used (`pwr` in R, G*Power, `synthetic-data` simulation). Justify the chosen effect size: prior literature (cite), pilot data, SESOI, or computational simulation. If no defensible anchor exists, use SESOI and say so explicitly.>
 
 ### 3f. Stopping rule
 <One of: (a) Fixed N — collect until 3d is reached; (b) Sequential — describe stopping rule and α-spending function; (c) Time-bounded — collect for <X days> then stop. State who makes the stop decision, and that no interim peeks at the dependent variable will occur unless sequential design is specified.>

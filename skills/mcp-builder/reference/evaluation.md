@@ -261,7 +261,7 @@ This question is good because:
 - Answer is a simple, verifiable value
 - Based on historical (closed) data that won't change
 
-**Example 2: Requires understanding context without keyword matching (Project Management MCP)**
+**Example 2: Requires understanding context without keyword matching (project-management protocol server)**
 ```xml
 <qa_pair>
    <question>Locate the initiative focused on improving customer onboarding that was completed in late 2023. The project lead created a retrospective document after completion. What was the lead's role title at that time?</question>
@@ -293,7 +293,7 @@ This question is good because:
 - Answer is a single username
 - Based on historical data from specific time period
 
-**Example 4: Requires synthesis across multiple data types (CRM MCP)**
+**Example 4: Requires synthesis across multiple data types (CRM protocol server)**
 ```xml
 <qa_pair>
    <question>Find the account that upgraded from the Starter to Enterprise plan in Q4 2023 and had the highest annual contract value. What industry does this account operate in?</question>

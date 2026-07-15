@@ -1,6 +1,6 @@
 # DGP Recipes: Observational Designs
 
-> Data generating process recipes for quasi-experimental designs (DiD, RDD). Read during all modes of /synthetic-data.
+> Data generating process recipes for quasi-experimental designs (DiD, RDD). Read during all modes of synthetic-data.
 
 ## DiD Panel Data (Staggered Treatment)
 

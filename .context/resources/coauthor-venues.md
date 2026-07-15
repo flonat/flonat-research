@@ -1,6 +1,6 @@
 # Coauthor Venue Map
 
-> Where coauthors publish — reference for Scout venue targeting.
+> Where coauthors publish — reference for research discovery workflow venue targeting.
 > Last updated: 10 March 2026
 > Sources: OpenAlex, Google Scholar profiles, CABS AJG 2024, CORE ICORE 2026
 

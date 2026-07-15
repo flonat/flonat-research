@@ -1,7 +1,7 @@
 # Known Scales Registry
 
 > Validated psychological and behavioural scales for recognition during QSF parsing and survey construction.
-> Read during Survey mode of `/experiment-design`.
+> Read during Survey mode of `experiment-design`.
 
 ## How to Use This Registry
 

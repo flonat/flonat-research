@@ -68,7 +68,7 @@ The marker is matched as an exact string. The regenerate script (`scripts/regene
 
 Books without the marker are fully regenerated (atlas-only). Adding the marker mid-life is safe: place it where you want hand-written content to start, write below it, and the next regeneration will preserve everything below.
 
-Atlas's markdown filter has the `def_list` extension enabled, so `Term\n: definition` renders as `<dl><dt>...</dt><dd>...</dd></dl>`. The older blockquote masthead pattern (`> **Paper.** ...`) is deprecated and must be migrated via `/audit-paper-book --apply`.
+Atlas's markdown filter has the `def_list` extension enabled, so `Term\n: definition` renders as `<dl><dt>...</dt><dd>...</dd></dl>`. The older blockquote masthead pattern (`> **Paper.** ...`) is deprecated and must be migrated via `audit-paper-book --apply`.
 
 ## Overleaf-link handling
 

@@ -4,6 +4,7 @@ description: "Use when you need to design or audit an identification strategy fo
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Task
 argument-hint: "[project-path or tex-file] [--mode design|audit]"
 agent-dependencies: [domain-reviewer]
+skill-dependencies: [data-analysis, experiment-design, literature, proofread]
 ---
 
 # Causal Design
@@ -18,7 +19,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<scope>/causal-design/<YYYY-MM-DD-HHMM>.md` inside the project, where `<scope>` is the paper slug (e.g. `paper-philtech`) for paper-level audits or `_project` for project-level reviews. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's timestamp exists, append a same-day descriptor to the path base (`{date}-HHMM-revision.md`, `{date}-HHMM-r2.md`, `{date}-HHMM-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -40,10 +41,10 @@ Default: **Design**. If the user points to an existing paper or estimation scrip
 
 ## When NOT to Use
 
-- Experimental design (RCTs, surveys, factorial) -- use `/experiment-design`
-- Running the analysis or generating results -- use `/data-analysis`
-- Literature search or citation gathering -- use `/literature`
-- Proofreading or compiling the paper -- use `/proofread`, `/latex`
+- Experimental design (RCTs, surveys, factorial) -- use `experiment-design`
+- Running the analysis or generating results -- use `data-analysis`
+- Literature search or citation gathering -- use `literature`
+- Proofreading or compiling the paper -- use `proofread`, `latex`
 
 ## Shared References
 
@@ -92,7 +93,7 @@ The memo must specify:
 6. **Robustness checks** -- pre-committed alternative specifications
 7. **Alternative strategies considered** -- why they were rejected
 
-This memo is what `/data-analysis` Phase 3 checks for before allowing estimation. It locks the research design per the `design-before-results` rule.
+This memo is what `data-analysis` Phase 3 checks for before allowing estimation. It locks the research design per the `design-before-results` rule.
 
 ### Phase 4: Adversarial Review
 
@@ -238,6 +239,6 @@ Produce an audit report at `reviews/<scope>/causal-design/<YYYY-MM-DD-HHMM>.md` 
 | `references/causal-audit-prompt.md` | Design Phase 4 (agent delegation prompt) |
 | `design-before-results` rule | Both modes enforce this |
 | `domain-reviewer` agent | Design Phase 4 (adversarial review) |
-| `/data-analysis` skill | Consumes the strategy memo |
-| `/experiment-design` skill | For experimental (not observational) designs |
+| `data-analysis` skill | Consumes the strategy memo |
+| `experiment-design` skill | For experimental (not observational) designs |
 | `experiment-design/references/identification-strategies.md` | Quick-reference for strategies (shared knowledge) |

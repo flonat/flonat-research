@@ -13,15 +13,9 @@ On-demand diagnostic showing context usage, preservation state, and open work it
 
 ## What to Check
 
-### 1. Context Usage Estimate
+### 1. Context Usage Estimate (host-aware)
 
-Read the context monitor state file to get the current tool call count:
-
-```
-~/.claude/sessions/{project-hash}/context-monitor-state.json
-```
-
-The project hash is a SHA-256 of `CLAUDE_PROJECT_DIR` (first 12 chars). If the state file doesn't exist, report "No context monitor data — hook may not be active."
+Use the active client's native context meter when it is exposed. A client adapter may provide a tool-call counter, but it is optional and must never be treated as shared memory. If no meter is available, report `SKIPPED (client does not expose context telemetry)`; do not guess a percentage from conversation length.
 
 Calculate:
 - Tool calls so far
@@ -45,17 +39,12 @@ Find the latest non-compact `.md` file in `log/` (skip files with `-compact` in 
 
 Check when `.context/current-focus.md` was last modified:
 - Show the modification date
-- If older than 3 days: warn "Focus file is stale — consider running `/update-focus`"
+- If older than 3 days: warn "Focus file is stale — consider running `update-focus`"
 - Show the first 5 lines (headline)
 
-### 5. Preservation Hooks
+### 5. Preservation and Continuity
 
-Verify these hooks are configured in `~/.claude/settings.json`:
-- `PreCompact` → `precompact-autosave.py` (pre-compact state save)
-- `SessionStart` compact → `postcompact-restore.py` (post-compact restore)
-- `PostToolUse` → `context-monitor.py` (this monitor)
-
-For each: report CONFIGURED or MISSING.
+Verify the client-neutral continuity files first: applicable root guidance, `.context/ai-handoff.md`, `.context/current-focus.md`, latest approved plan, and portable memory index. Then read `docs/reference/ai-surface-availability.md` or run the staged AI-infrastructure doctor to report each client hook adapter as CONFIGURED, UNAVAILABLE, or NOT APPLICABLE. Missing optional lifecycle hooks are informational when the files-first layer is healthy.
 
 ### 6. Open Loops
 
@@ -83,9 +72,9 @@ Present as a compact status panel:
 
 | Hook | Status |
 |------|--------|
-| PreCompact auto-save | CONFIGURED / MISSING |
-| Post-compact restore | CONFIGURED / MISSING |
-| Context monitor | CONFIGURED / MISSING |
+| Files-first continuity | HEALTHY / DEGRADED |
+| Current client lifecycle adapter | CONFIGURED / UNAVAILABLE / NOT APPLICABLE |
+| Context telemetry | AVAILABLE / SKIPPED |
 
 ### Recommendations
 
@@ -111,12 +100,12 @@ When context is high (>60%), include these reference tables in the output:
 
 | Persists | Lost |
 |---|---|
-| CLAUDE.md + rules | Intermediate reasoning |
+| CLAUDE.md / AGENTS.md + rules | Intermediate reasoning |
 | Task list | File contents previously read |
-| MEMORY.md | Multi-step conversation context |
+| MEMORY.md + `.context/` | Multi-step conversation context |
 | Git state | Tool call history |
 | Files on disk | Verbal preferences |
-| precompact-autosave state | — |
+| `.context/ai-handoff.md` | — |
 
 ## When to Use
 

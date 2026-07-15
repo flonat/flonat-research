@@ -303,7 +303,7 @@ This agent supports **council mode** — 3 LLM providers independently review th
 
 ## Final Step — Emit Stamp Directive
 
-Write your peer review to `reviews/<scope>/peer-reviewer/<YYYY-MM-DD-HHMM>.md` (where `<scope>` is the paper directory basename or `_project` for external papers; `mkdir -p reviews/<scope>/peer-reviewer/` first). You do NOT run any bash command to stamp `reviews/INDEX.md`. Instead, end your final response with a `review-state-stamp` fenced block in **strict YAML format** (no JSON). The orchestrator (main session for direct dispatch; `/review-cluster`, `/pre-submission-report` for fan-out) parses this block and runs the stamping helper.
+Write your peer review to `reviews/<scope>/peer-reviewer/<YYYY-MM-DD-HHMM>.md` (where `<scope>` is the paper directory basename or `_project` for external papers; `mkdir -p reviews/<scope>/peer-reviewer/` first). You do NOT run any bash command to stamp `reviews/INDEX.md`. Instead, end your final response with a `review-state-stamp` fenced block in **strict YAML format** (no JSON). The orchestrator (main session for direct dispatch; `review-cluster`, `pre-submission-report` for fan-out) parses this block and runs the stamping helper.
 
 **Read `~/.claude/shared-skills/_shared/stamp-directive-spec.md` for the full format, BAD examples, and field rules.**
 

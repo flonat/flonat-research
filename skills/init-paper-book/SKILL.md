@@ -1,15 +1,16 @@
 ---
 name: init-paper-book
-description: "Use when you need to scaffold a NEW educational companion book for a LaTeX paper. Reads the paper, drafts 8 substantive chapters into the vault at ~/vault/books/{slug}/, copies bib + figures, registers the book, and verifies atlas serves it. Source-of-truth is the paper PDF/tex; the book is a reading companion, never a re-statement of new claims. For syncing an existing book to a paper revision, use /audit-paper-book."
+description: "Use when you need to scaffold a NEW educational companion book for a LaTeX paper. Reads the paper, drafts 8 substantive chapters into the vault at ~/vault/books/{slug}/, copies bib + figures, registers the book, and verifies atlas serves it. Source-of-truth is the paper PDF/tex; the book is a reading companion, never a re-statement of new claims. For syncing an existing book to a paper revision, use audit-paper-book."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, Task
 argument-hint: "<project-path-or-slug> [--dry-run]"
+skill-dependencies: [audit-paper-book, init-project-research]
 ---
 
 # Init Paper Book
 
 Scaffold a runnable, browsable companion to a LaTeX paper. The book lives in the vault, atlas renders it, and direct URLs at `books.example.com/<slug>/<chapter>` make it shareable. There is **no separate build pipeline** — atlas is the renderer.
 
-For syncing an existing book to a paper revision, use `/audit-paper-book` instead.
+For syncing an existing book to a paper revision, use `audit-paper-book` instead.
 
 ## Hard rules
 
@@ -17,8 +18,8 @@ For syncing an existing book to a paper revision, use `/audit-paper-book` instea
 
 1. **No new claims.** The book may rephrase, scaffold, and explain, but never introduce results not in the paper. Numbers and theorems trace to the paper.
 2. **Numeric invariant.** Every numeric claim in the book must match the paper. Mismatches block.
-3. **Paper is canonical.** Source-of-truth is the paper PDF/tex. Edits to the book do not edit the paper. Edits to the paper require `/audit-paper-book` to propagate.
-4. **Atlas slug match.** Book slug must equal atlas topic filename (lowercase, hyphenated). The project directory leaf under the research root should also match (warn, don't block). If any of these three disagree, stop and prompt — alignment is required at the source, not a workaround in the book. `/audit-paper-book` pre-flight aborts on book-slug ⇄ atlas-filename drift; the regenerate script aborts at runtime with "SLUG DRIFT".
+3. **Paper is canonical.** Source-of-truth is the paper PDF/tex. Edits to the book do not edit the paper. Edits to the paper require `audit-paper-book` to propagate.
+4. **Atlas slug match.** Book slug must equal atlas topic filename (lowercase, hyphenated). The project directory leaf under the research root should also match (warn, don't block). If any of these three disagree, stop and prompt — alignment is required at the source, not a workaround in the book. `audit-paper-book` pre-flight aborts on book-slug ⇄ atlas-filename drift; the regenerate script aborts at runtime with "SLUG DRIFT".
 
 ### Format — catch in review
 
@@ -49,18 +50,18 @@ For syncing an existing book to a paper revision, use `/audit-paper-book` instea
 
 ## When NOT to use
 
-- Paper still in heavy revision (results moving) — wait or accept that you'll need `/audit-paper-book` immediately after submission
-- Slide decks (`/beamer-deck`, `/quarto-deck`)
-- Compilation only (`/latex`)
-- Generic literature reviews (`/literature`)
+- Paper still in heavy revision (results moving) — wait or accept that you'll need `audit-paper-book` immediately after submission
+- Slide decks (`beamer-deck`, `quarto-deck`)
+- Compilation only (`latex`)
+- Generic literature reviews (`literature`)
 
 ## Inputs accepted
 
 ```
-/init-paper-book <project-path>          # full path to project dir, e.g. ~/Research/<theme>/<project-slug>
-/init-paper-book <slug>                  # atlas slug; resolved via atlas topic file's project_path
-/init-paper-book <slug> --dry-run        # plan only, no writes
-/init-paper-book <slug> --autonomous     # or -y: 4 phases end-to-end, no inter-phase pauses (see Autonomy below)
+init-paper-book <project-path>          # full path to project dir, e.g. ~/Research/<theme>/<project-slug>
+init-paper-book <slug>                  # atlas slug; resolved via atlas topic file's project_path
+init-paper-book <slug> --dry-run        # plan only, no writes
+init-paper-book <slug> --autonomous     # or -y: 4 phases end-to-end, no inter-phase pauses (see Autonomy below)
 ```
 
 ## Autonomy
@@ -85,8 +86,8 @@ Hard correctness gates that still fire even with `--autonomous` (any of these ab
 Recommended invocations:
 
 ```
-/init-paper-book article40-access-as-mechanism --autonomous
-/init-paper-book -y article40-access-as-mechanism
+init-paper-book article40-access-as-mechanism --autonomous
+init-paper-book -y article40-access-as-mechanism
 ```
 
 Use `--dry-run` first if you want to see the chapter plan before letting it run.
@@ -98,7 +99,7 @@ SLUG="<resolved-slug>"
 
 # 1. Atlas topic exists
 find ~/vault/atlas -name "${SLUG}.md" -type f | head -1
-[[ $? == 0 ]] || die "No atlas topic for ${SLUG}. Run /init-project-research first."
+[[ $? == 0 ]] || die "No atlas topic for ${SLUG}. Run init-project-research first."
 
 # 2. Project directory exists
 PROJECT_PATH=$(grep -E "^project_path:" "$ATLAS_TOPIC" | cut -d' ' -f2- | tr -d "'\"")
@@ -127,7 +128,7 @@ BIB=$(find "$PAPER_DIR" -maxdepth 3 -name "*.bib" | head -1)
 [[ -f "$BIB" ]] || warn "No .bib found — references chapter will be empty."
 
 # 5. Vault book dir doesn't already exist
-[[ -d ~/vault/books/"$SLUG" ]] && die "Book already exists. Use /audit-paper-book to sync."
+[[ -d ~/vault/books/"$SLUG" ]] && die "Book already exists. Use audit-paper-book to sync."
 ```
 
 ## Phases

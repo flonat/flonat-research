@@ -20,18 +20,18 @@ Install dependency: `uv pip install requests`
 
 ## When to Use OpenAlex Queries
 
-| Scenario | OpenAlex workflow | Full `/literature` instead? |
+| Scenario | OpenAlex workflow | Full `literature` instead? |
 |----------|-------------------|----------------------------|
 | Find highly-cited papers on a topic | Workflow 1 | No — quick structured query |
 | Build a full literature review with narrative | — | Yes — use full 7-phase pipeline |
 | Citation count / trend analysis | Workflow 4 | No — API-only |
-| Verify a specific citation exists | Workflow 7 | Or Phase 4 of `/literature` |
+| Verify a specific citation exists | Workflow 7 | Or Phase 4 of `literature` |
 | Author or institution research output | Workflows 2–3 | No — API-only |
 | Find open-access versions of papers | Workflow 5 | No — API-only |
 | Comprehensive lit search + .bib assembly | — | Yes — calls OpenAlex as Phase 2 agent |
 | Bibliometric analysis for a paper | Workflow 6 | No — API-only |
 
-**Rule of thumb:** Use these workflows directly when you need *structured data* (counts, rankings, trends, metadata). Use the full `/literature` pipeline when you need a *complete workflow* (search, verify, download, synthesize).
+**Rule of thumb:** Use these workflows directly when you need *structured data* (counts, rankings, trends, metadata). Use the full `literature` pipeline when you need a *complete workflow* (search, verify, download, synthesize).
 
 ---
 
@@ -110,7 +110,7 @@ citing = requests.get(
 
 ### 7. Batch DOI Lookup
 
-For verifying multiple papers at once — useful for feeding into `/bib-validate`:
+For verifying multiple papers at once — useful for feeding into `bib-validate`:
 
 ```python
 dois = [
@@ -243,6 +243,6 @@ Use the Python client below only for workflows not yet exposed via the CLI (cust
 
 ## Complementary Skills
 
-- **`/literature`** (parent skill) — OpenAlex serves as Phase 2 Agent 3 alongside Google Scholar and Semantic Scholar. Its API returns structured metadata that web scraping often misses.
-- **`/bib-validate`** — Use batch DOI lookup (Workflow 7) to verify metadata for flagged entries.
-- **`/split-pdf`** — Use OA discovery (Workflow 5) to find downloadable PDFs before split-reading.
+- **`literature`** (parent skill) — OpenAlex serves as Phase 2 Agent 3 alongside Google Scholar and Semantic Scholar. Its API returns structured metadata that web scraping often misses.
+- **`bib-validate`** — Use batch DOI lookup (Workflow 7) to verify metadata for flagged entries.
+- **`split-pdf`** — Use OA discovery (Workflow 5) to find downloadable PDFs before split-reading.

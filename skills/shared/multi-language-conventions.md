@@ -1,7 +1,7 @@
 # Multi-Language Conventions
 
 > Code style, packages, and output patterns for R, Python, Stata, and Julia.
-> Referenced by `/data-analysis`, `/synthetic-data`, `/replication-package`.
+> Referenced by `data-analysis`, `synthetic-data`, `replication-package`.
 
 ## Language Detection
 

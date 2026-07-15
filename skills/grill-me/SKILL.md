@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: "Use when you want to be interrogated ONE question at a time — either to (a) defend your own research (viva, job talk, seminar Q&A, hostile-referee prep) or (b) study a class / subject you're learning (exam revision, active recall). An interactive adversarial/Socratic oral drill grounded in your actual material, escalating on weak answers, then a study sheet of what you fumbled with model answers. Triggers: 'grill me', 'grill me on X', 'viva prep', 'defend my paper', 'quiz me on this class', 'test me on <topic>', 'exam revision', 'help me study X'. Distinct from /devils-advocate (stress-tests arguments in prose) and referee2-reviewer / paper-critic (produce a WRITTEN critique) — here YOU answer aloud."
+description: "Use when you want to be interrogated ONE question at a time — either to (a) defend your own research (viva, job talk, seminar Q&A, hostile-referee prep) or (b) study a class / subject you're learning (exam revision, active recall). An interactive adversarial/Socratic oral drill grounded in your actual material, escalating on weak answers, then a study sheet of what you fumbled with model answers. Triggers: 'grill me', 'grill me on X', 'viva prep', 'defend my paper', 'quiz me on this class', 'test me on <topic>', 'exam revision', 'help me study X'. Distinct from devils-advocate (stress-tests arguments in prose) and referee2-reviewer / paper-critic (produce a WRITTEN critique) — here YOU answer aloud."
 allowed-tools: Read, Glob, Grep, Bash(ls*), Bash(cat*), Bash(grep*), Bash(git log*), Write, AskUserQuestion
 argument-hint: "[paper-path | topic | course-notes | subject] [--reviewer2 | --coach] [--study | --defend] [--rounds N] [--focus <dimension>]"
 ---
@@ -30,9 +30,9 @@ Everything below is shared; mode-specific differences are called out inline.
 
 ## When NOT to Use
 
-- You want a **written critique** of a paper, not a live drill → `referee2-reviewer` / `paper-critic` / `/review-cluster`.
-- You want to **stress-test an argument in prose** → `/devils-advocate`.
-- You want to **draft a rebuttal** to reviews you already have → `/review-response` / `/strategic-revision`.
+- You want a **written critique** of a paper, not a live drill → `referee2-reviewer` / `paper-critic` / `review-cluster`.
+- You want to **stress-test an argument in prose** → `devils-advocate`.
+- You want to **draft a rebuttal** to reviews you already have → `review-response` / `strategic-revision`.
 - You want a **passive summary** of the material → just ask for one; grill-me is for being *tested*.
 
 grill-me is the only one where *you* are the one answering. If you don't want to type answers back and forth, use one of the above.
@@ -137,9 +137,9 @@ When the drill ends:
 
 | Skill / Agent | Relationship |
 |---|---|
-| `/devils-advocate` | Stress-tests arguments in prose; grill-me makes *you* defend them live |
+| `devils-advocate` | Stress-tests arguments in prose; grill-me makes *you* defend them live |
 | `referee2-reviewer` / `paper-critic` | Written adversarial critique; grill-me seeds its hardest defend-mode questions from their reports |
 | `weakness-scanner` | Finds weak points; grill-me turns them into live questions |
-| `/review-cluster` / `/pre-submission-report` | Run first — their logged open-issues are grill-me's sharpest defend material |
+| `review-cluster` / `pre-submission-report` | Run first — their logged open-issues are grill-me's sharpest defend material |
 | `course-reading-list` / `init-project-course` | Course scaffolding; grill-me is the study-mode drill over that material |
 | `docs/reference/venue-profiles/<field>.md` | Venue referee-bait to seed positioning/venue questions (defend mode) |

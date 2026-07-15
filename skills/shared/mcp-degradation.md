@@ -68,6 +68,7 @@ These skills should reference this pattern:
 | `task-management` | `taskflow-cli` | Daily planning, task creation, pipeline queries |
 | `init-project-research` | `taskflow-cli` | Pipeline entry creation |
 | `literature` | `scholarly` CLI | Citation search, DOI verification |
+|  | `scholarly` CLI | Bibliometric queries |
 | `atlas-audit` | vault | Pipeline cross-reference |
 
 ## When to Apply

@@ -3,13 +3,14 @@ name: weakness-scanner
 description: "Use when you need to identify the weakest arguments across a literature."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
+skill-dependencies: [devils-advocate, method-audit]
 ---
 
 # Weakness Scanner
 
 > Identify the weakest arguments made across a body of literature. Find logical flaws, data limitations, unsupported claims, and findings contradicted by other work. Your contribution section writes itself after this.
 
-Unlike `/devils-advocate` (which stress-tests YOUR argument), this skill scans OTHER people's work for vulnerabilities. It's how you find the gap your paper fills.
+Unlike `devils-advocate` (which stress-tests YOUR argument), this skill scans OTHER people's work for vulnerabilities. It's how you find the gap your paper fills.
 
 ## When to Use
 
@@ -20,9 +21,9 @@ Unlike `/devils-advocate` (which stress-tests YOUR argument), this skill scans O
 
 ## When NOT to Use
 
-- **Your own paper** — use `/devils-advocate` or the `paper-critic` agent
+- **Your own paper** — use `devils-advocate` or the `paper-critic` agent
 - **Full peer review** — use the `referee2-reviewer` agent
-- **Methodological comparison** — use `/method-audit` (overlaps, but different focus)
+- **Methodological comparison** — use `method-audit` (overlaps, but different focus)
 
 ## Input
 
@@ -149,7 +150,7 @@ Patterns that recur across multiple papers:
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/devils-advocate` | To stress-test YOUR argument (this scans others') |
-| `/method-audit` | For systematic methodological comparison (less adversarial) |
-| `/theory-mapper` | To understand which theories underpin the weak arguments |
-| `/replication-audit` | To check which findings have actually been replicated |
+| `devils-advocate` | To stress-test YOUR argument (this scans others') |
+| `method-audit` | For systematic methodological comparison (less adversarial) |
+| `theory-mapper` | To understand which theories underpin the weak arguments |
+| `replication-audit` | To check which findings have actually been replicated |

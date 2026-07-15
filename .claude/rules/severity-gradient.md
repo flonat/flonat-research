@@ -58,7 +58,7 @@ This makes the calibration transparent and overridable.
 
 ## When This Applies
 
-`paper-critic`, `referee2-reviewer`, `/proofread`, `/pre-submission-report`, and any task producing a scored quality report. **Skip** for mechanical tasks (compilation, bib-validate), `/code-review` (its own scoring), or non-scored tasks.
+`paper-critic`, `referee2-reviewer`, `proofread`, `pre-submission-report`, and any task producing a scored quality report. **Skip** for mechanical tasks (compilation, bib-validate), `code-review` (its own scoring), or non-scored tasks.
 
 ## Override
 

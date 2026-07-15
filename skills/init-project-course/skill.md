@@ -18,8 +18,8 @@ argument-hint: "[no arguments — runs in current directory]"
 
 ## When NOT to Use — Escalate
 
-- To `/init-project-light` if it's a one-off document collection (no lectures/workshops structure)
-- To `/init-project-research` if it's a research project that happens to be for a course
+- To `init-project-light` if it's a one-off document collection (no lectures/workshops structure)
+- To `init-project-research` if it's a research project that happens to be for a course
 
 ---
 
@@ -141,7 +141,7 @@ Workshop naming:
 
 | Skill | Relationship |
 |-------|-------------|
-| `/init-project-light` | For non-course document collections |
-| `/init-project-research` | For research projects within a course |
-| `/audit-project-course` | Run later to check the structure is still clean |
-| `/update-project-doc` | Run later to refresh CLAUDE.md if the module grows |
+| `init-project-light` | For non-course document collections |
+| `init-project-research` | For research projects within a course |
+| `audit-project-course` | Run later to check the structure is still clean |
+| `update-project-doc` | Run later to refresh CLAUDE.md if the module grows |

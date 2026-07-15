@@ -4,7 +4,7 @@ Skill Log Miner — Extracts skill invocation data from session logs.
 
 Fallback observation method when the Skill tool doesn't emit hook events.
 Scans log/*.md files for `/skill-name` references, extracts structured
-invocation records, and writes to ~/.claude/ecc/observations-*.jsonl.
+invocation records, and writes to the shared AI-workflow state directory.
 
 Idempotent: tracks which log files have been mined in a watermark file.
 Re-running only processes new logs.
@@ -25,8 +25,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 # ── Config ──────────────────────────────────────────────────────────────────
-ECC_DIR = Path.home() / ".claude" / "ecc"
-WATERMARK_FILE = ECC_DIR / "miner-watermark.json"
+STATE_DIR = Path(os.environ.get(
+    "AI_WORKFLOW_STATE_DIR",
+    Path.home() / ".local" / "state" / "ai-workflows",
+)).expanduser()
+WATERMARK_FILE = STATE_DIR / "miner-watermark.json"
 
 # Where to find session logs — resolve from config
 def get_task_mgmt() -> Path | None:
@@ -47,12 +50,12 @@ def find_log_dirs() -> list[Path]:
             dirs.append(log_dir)
     return dirs
 
-# Skill name pattern: `/skill-name` in backticks or at line start
-# Matches: `/proofread`, `/latex-autofix`, `/bib-validate`
+# Legacy skill-name pattern: slash-prefixed names in backticks or at line start.
+# Matches old client logs while the canonical source convention stays semantic.
 # Excludes: `/path/to/file`, `/dev/null`, `/usr/bin`, `/tmp/`
 SKILL_PATTERN = re.compile(
-    r'`/([a-z][a-z0-9-]+)`'          # backtick-quoted: `/proofread`
-    r'|(?:^|\s)/([a-z][a-z0-9-]+)'   # bare: /proofread at line start or after space
+    r'`/([a-z][a-z0-9-]+)`'          # backtick-quoted legacy route
+    r'|(?:^|\s)/([a-z][a-z0-9-]+)'   # bare legacy route
     , re.MULTILINE
 )
 
@@ -76,11 +79,23 @@ def sha256_prefix(value: str, length: int = 12) -> str:
 
 
 def load_known_skills() -> set[str]:
-    """Load valid skill names from ~/.claude/skills/."""
-    skills_dir = Path.home() / ".claude" / "skills"
-    if not skills_dir.is_dir():
-        return set()
-    return {d.name for d in skills_dir.iterdir() if d.is_dir() and (d / "SKILL.md").exists()}
+    """Load valid skill names from canonical and deployed client-neutral roots."""
+    roots = [Path(__file__).resolve().parent.parent / "skills"]
+    cfg = Path.home() / ".config" / "task-mgmt" / "path"
+    if cfg.is_file():
+        try:
+            roots.append(Path(cfg.read_text().strip()) / "skills")
+        except OSError:
+            pass
+    roots.extend([
+        Path.home() / ".agents" / "skills",
+        Path.home() / ".claude" / "skills",  # read-only legacy/deployed adapter
+    ])
+    names: set[str] = set()
+    for root in dict.fromkeys(roots):
+        if root.is_dir():
+            names.update(path.parent.name for path in root.glob("**/SKILL.md"))
+    return names
 
 
 def extract_skills_from_log(filepath: Path, known_skills: set[str]) -> list[dict]:
@@ -166,8 +181,8 @@ def load_watermark() -> dict:
 
 def save_watermark(watermark: dict):
     """Save the watermark file."""
-    ECC_DIR.mkdir(parents=True, exist_ok=True)
-    os.chmod(ECC_DIR, 0o700)
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    os.chmod(STATE_DIR, 0o700)
     old_umask = os.umask(0o077)
     try:
         WATERMARK_FILE.write_text(json.dumps(watermark, indent=2))
@@ -196,7 +211,7 @@ def write_events(events: list[dict]):
     old_umask = os.umask(0o077)
     try:
         for date_key, date_events in by_date.items():
-            filepath = ECC_DIR / f"observations-{date_key}.jsonl"
+            filepath = STATE_DIR / f"observations-{date_key}.jsonl"
             with open(filepath, "a") as f:
                 for event in date_events:
                     f.write(json.dumps(event, separators=(",", ":")) + "\n")
@@ -212,7 +227,7 @@ def main():
 
     known_skills = load_known_skills()
     if not known_skills:
-        print("Warning: no skills found in ~/.claude/skills/", file=sys.stderr)
+        print("Warning: no skills found in canonical or deployed skill roots", file=sys.stderr)
 
     log_dirs = find_log_dirs()
     if not log_dirs:

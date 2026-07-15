@@ -1,6 +1,6 @@
 # Method-Fitness Gate — Shared Protocol
 
-> Validates that the proposed research method can actually answer the research question BEFORE committing to expensive literature search or data collection. Referenced by `/literature` (pipeline mode) and `/init-project-research`.
+> Validates that the proposed research method can actually answer the research question BEFORE committing to expensive literature search or data collection. Referenced by `literature` (pipeline mode) and `init-project-research`.
 
 ## Principle
 
@@ -8,13 +8,13 @@
 
 ## When This Applies
 
-- `/literature` in pipeline mode — between Phase 1.5 (search plan) and Phase 2 (search execution)
-- `/init-project-research` — during the methodology interview phase
+- `literature` in pipeline mode — between Phase 1.5 (search plan) and Phase 2 (search execution)
+- `init-project-research` — during the methodology interview phase
 - Any project kickoff where a method has been proposed but not stress-tested
 
 ## When to Skip
 
-- Standalone `/literature` (free-form search without project context)
+- Standalone `literature` (free-form search without project context)
 - Pure exploratory searches ("what's out there on X?")
 - the user explicitly says "skip method check" or "just search"
 

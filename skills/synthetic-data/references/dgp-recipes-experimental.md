@@ -1,6 +1,6 @@
 # DGP Recipes: Experimental Designs
 
-> Data generating process recipes for experimental designs (RCT, factorial, cluster). Read during all modes of /synthetic-data.
+> Data generating process recipes for experimental designs (RCT, factorial, cluster). Read during all modes of synthetic-data.
 
 ## Simple RCT (Binary Treatment, Continuous Outcome)
 

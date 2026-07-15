@@ -1,7 +1,7 @@
 # Estimation Recipes
 
 > Language-specific code patterns for common estimation methods.
-> Read during Phase 3 of `/data-analysis`.
+> Read during Phase 3 of `data-analysis`.
 
 ## OLS with Fixed Effects
 

@@ -17,7 +17,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<scope>/synthesise-reviews/YYYY-MM-DD-HHMM.md` inside the project, where `<scope>` is the paper slug (e.g. `paper-jtp`) or `_project` for project-level synthesis. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -32,7 +32,7 @@ Inspired by APE Papers' `reviewer_response_plan_1.md` pattern — workstreams gr
 - After running 2+ review agents on a paper
 - After a council review round
 - When preparing a revision plan from multiple feedback sources
-- After receiving referee reports (processed via `/strategic-revision`)
+- After receiving referee reports (processed via `strategic-revision`)
 
 ## When NOT to Use
 
@@ -177,7 +177,7 @@ Issues/strengths noted positively by multiple reviewers:
 
 ### Step 6: Optionally Output REPLY-TO-REVIEWERS.md
 
-If the reviews include processed referee comments (from `/strategic-revision`), also generate:
+If the reviews include processed referee comments (from `strategic-revision`), also generate:
 
 ```markdown
 # Reply to Reviewers

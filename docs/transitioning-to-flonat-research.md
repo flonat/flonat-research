@@ -17,7 +17,8 @@ content-addressed copies with a receipt. The GitHub repository was renamed on
    still exist.
 3. **Preview the required migration.** Run
    `./scripts/setup.sh --client both --check`. A legacy-link diagnostic is
-   expected on old installations.
+   expected on old installations and names the exact `--migrate-legacy`
+   command. Check mode never removes a link or writes managed files.
 4. **Migrate proven repository-owned links.** Run
    `./scripts/setup.sh --client both --migrate-legacy`. On Windows use
    `.\scripts\setup.ps1 -Client both -MigrateLegacy`. Only links or junctions
@@ -31,7 +32,9 @@ content-addressed copies with a receipt. The GitHub repository was renamed on
    in Codex Desktop. Claude-only skills remain under `~/.claude/skills/`.
 
 Select `--client claude` or `--client codex` instead of `both` when only one
-client is installed. Re-run the installer with `--update` after each pull.
+client is installed. After the one-time migration, pull with `git pull
+--ff-only` and run the installer normally; `--update` remains only as a
+backward-compatible alias.
 
 ## Files-first continuity
 
@@ -39,6 +42,18 @@ Both clients use `MEMORY.md`, `.context/`, and `.context/ai-handoff.md` as the
 portable context contract. Claude hooks can surface those files automatically,
 but they are conveniences rather than a dependency. Codex reads the same files
 directly through `AGENTS.md`.
+
+## Transition project-local orchestration
+
+If an existing project has hand-authored `.claude/agents/` or
+`.claude/commands/`, do not copy those files into Codex. Run the reviewed
+`init-project-orchestration` migration: it preserves unmanaged collisions,
+creates neutral sources under `.ai/orchestration/`, and renders Claude and
+Codex adapters deterministically. Inspect the migration plan and commit the
+neutral sources plus generated project adapters together.
+
+Use [`availability.md`](availability.md) to distinguish a genuinely
+client-specific workflow from an asset that is simply not installed.
 
 ## Rollback
 
@@ -57,7 +72,8 @@ new clones should use `https://github.com/flonat/flonat-research.git`.
 The client-neutral installer is now the only supported installation path.
 Private-workspace commands such as `claude-pull`, `sync-to-codex.sh`, and
 `sync-to-claude-home.sh` were migration mechanisms and are not part of this
-distribution. Existing public checkouts need only pull the renamed repository
-and run the managed-copy installer with `--update`; no client-to-client copy is
-required. Keep portable continuity in `MEMORY.md`, `.context/`, and
+distribution. Existing symlink-based checkouts must complete the one-time
+`--migrate-legacy` step above. Later updates need only pull the repository and
+run the managed-copy installer; no client-to-client copy is required. Keep
+portable continuity in `MEMORY.md`, `.context/`, and
 `.context/ai-handoff.md`, not in either client's home directory.

@@ -4,7 +4,7 @@
 
 ## Principle
 
-**Corrections should appear where they're needed.** A `[LEARN:method]` tag about TWFE bias should appear when `/literature` or `/r-econometrics` is invoked — not buried in MEMORY.md hoping Claude recalls it. Annotation injection makes the existing correction system actually reach the right skills.
+**Corrections should appear where they're needed.** A `[LEARN:method]` tag about TWFE bias should appear when `literature` or `r-econometrics` is invoked — not buried in MEMORY.md hoping Claude recalls it. Annotation injection makes the existing correction system actually reach the right skills.
 
 ## How It Works
 
@@ -105,15 +105,15 @@ writes annotation JSON files to skills/.annotations/.
 ### When to Run
 
 - After adding a new `[LEARN]` tag to MEMORY.md
-- As part of `/feedback-review` cycle
+- As part of `feedback-review` cycle
 - Optionally: as a post-commit hook (if MEMORY.md changed)
 
 ## Integration with Feedback Pipeline
 
-The `/rate` skill's structured labels (A2) feed into annotations too:
+The `rate` skill's structured labels (A2) feed into annotations too:
 
-1. `/rate needs-work incomplete "missed X"` → recorded in `ratings.jsonl`
-2. `/feedback-review` reads ratings → generates improvement proposals
+1. `rate needs-work incomplete "missed X"` → recorded in `ratings.jsonl`
+2. `feedback-review` reads ratings → generates improvement proposals
 3. Approved corrections become `[LEARN]` tags in MEMORY.md
 4. `route-learn-tags.py` distributes them to relevant skills
 5. Next invocation of the skill sees the correction

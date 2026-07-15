@@ -1,7 +1,7 @@
 # Table Formatting Recipes
 
 > Language-specific code for generating publication-ready LaTeX tables.
-> Read during Phase 4 of `/data-analysis`.
+> Read during Phase 4 of `data-analysis`.
 
 ## R: modelsummary
 

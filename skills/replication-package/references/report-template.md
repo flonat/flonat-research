@@ -1,6 +1,6 @@
 # Replication Package — Report Template
 
-> Phase 12 report format for `/replication-package` Blind mode. Copy and fill in after completing anonymization. Also used as the basis for the Assemble mode Phase 7 report (omit the identity sections).
+> Phase 12 report format for `replication-package` Blind mode. Copy and fill in after completing anonymization. Also used as the basis for the Assemble mode Phase 7 report (omit the identity sections).
 
 ```
 Replication Package — Complete (Blind)

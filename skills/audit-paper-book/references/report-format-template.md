@@ -74,7 +74,7 @@ Canonical audit report written to `~/vault/books/<slug>/.audit-report-YYYY-MM-DD
 1. (optional) Re-run with `--apply` to take the mechanical fixes.
 2. Triage numeric drift in `results.md`.
 3. Add a sub-section in `method.md` for Theorem 3.
-4. (optional) Run `/init-paper-book <slug>` only if the paper has restructured drastically — usually `audit` is faster.
+4. (optional) Run `init-paper-book <slug>` only if the paper has restructured drastically — usually `audit` is faster.
 ```
 
 ## When sections are omitted

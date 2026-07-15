@@ -109,11 +109,11 @@ The central cache is outside any repo, so no gitignore needed.
 
 | Skill | Cache tier | What to cache |
 |-------|-----------|---------------|
-| `/literature` | Project + Central | Search results, paper metadata |
-| `/bib-validate` | Central | DOI verification results |
+| `literature` | Project + Central | Search results, paper metadata |
+| `bib-validate` | Central | DOI verification results |
 |  | Central | Novelty search results, venue data |
-| `/gather-readings` | Project | PDF availability checks |
-| `/radar` | Central | Topic monitoring searches |
+| `gather-readings` | Project | PDF availability checks |
+| `radar` | Central | Topic monitoring searches |
 
 ## Relationship to Paperpile
 

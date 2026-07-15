@@ -6,7 +6,7 @@ description: 'Use when you want to be interrogated ONE question at a time — ei
   escalating on weak answers, then a study sheet of what you fumbled with model answers.
   Triggers: ''grill me'', ''grill me on X'', ''viva prep'', ''defend my paper'', ''quiz
   me on this class'', ''test me on <topic>'', ''exam revision'', ''help me study X''.
-  Distinct from /devils-advocate (stress-tests arguments in prose) and referee2-reviewer
+  Distinct from devils-advocate (stress-tests arguments in prose) and referee2-reviewer
   / paper-critic (produce a WRITTEN critique) — here YOU answer aloud.'
 ---
 

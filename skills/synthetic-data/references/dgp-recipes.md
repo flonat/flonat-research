@@ -1,7 +1,7 @@
 # DGP Recipes
 
 > Data generating process recipes for common experimental and observational designs.
-> Read during all modes of `/synthetic-data`.
+> Read during all modes of `synthetic-data`.
 
 ## Recipe Index
 

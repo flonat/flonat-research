@@ -1,14 +1,14 @@
 # Progressive Disclosure for Skills
 
-> Pattern for structuring large skills so that Claude reads only the sections it needs, rather than loading everything into context upfront.
+> Pattern for structuring large skills so that the active client reads only the sections it needs, rather than loading everything into context upfront.
 
 ## The Problem
 
-When a skill is invoked, its full `SKILL.md` is loaded into context. For large skills (200+ lines), most of the content may be irrelevant to the specific task. This wastes tokens and can push sessions toward compression earlier than necessary. Anthropic's official recommendation is to keep SKILL.md under 500 lines; our stricter threshold (200 lines to trigger splitting) ensures leaner context usage.
+When a skill is invoked, its full `SKILL.md` is loaded into context. For large skills (200+ lines), most of the content may be irrelevant to the specific task. This wastes tokens and can push sessions toward compression earlier than necessary. Upstream skill-authoring guidance recommends keeping `SKILL.md` under 500 lines; our stricter threshold (200 lines to trigger splitting) ensures leaner context usage.
 
 ## The Pattern
 
-Split a skill into a **lean core** (the main `SKILL.md`) and **on-demand sections** (files in `references/`). The core contains workflow logic, decision points, and a section index. Reference files contain detailed instructions that Claude reads only when the workflow reaches that branch.
+Split a skill into a **lean core** (the main `SKILL.md`) and **on-demand sections** (files in `references/`). The core contains workflow logic, decision points, and a section index. Reference files contain detailed instructions that the active client reads only when the workflow reaches that branch.
 
 ### Structure
 
@@ -24,7 +24,7 @@ skills/my-skill/
 
 ### Section Index in SKILL.md
 
-Include a section index that tells Claude what exists and when to read it:
+Include a section index that tells the active client what exists and when to read it:
 
 ```markdown
 ## Reference Sections
@@ -68,18 +68,18 @@ Apply progressive disclosure when a skill meets **any** of:
 ### Skills Already Using This Pattern
 
 These skills already follow progressive disclosure:
-- `/bib-validate` — preprint check logic in `references/preprint-check.md`, report template in `references/report-template.md`
+- `bib-validate` — preprint check logic in `references/preprint-check.md`, report template in `references/report-template.md`
 - the `code-review` agent — quality rubric in `references/quality-rubric.md`
-- `/devils-advocate` — competing hypotheses framework in `references/competing-hypotheses.md`
+- `devils-advocate` — competing hypotheses framework in `references/competing-hypotheses.md`
 
 ### Reference Depth
 
-Keep references **one level deep** from SKILL.md. All reference files should link directly from SKILL.md — never chain references (SKILL.md → file A → file B). Claude may partially read deeply nested files (e.g., `head -100`), resulting in incomplete information. Per [Anthropic's official best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).
+Keep references **one level deep** from SKILL.md. All reference files should link directly from SKILL.md — never chain references (SKILL.md → file A → file B). A client may partially read deeply nested files (e.g., `head -100`), resulting in incomplete information. See the upstream [skill-authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices).
 
 ### When NOT to Apply
 
 - Skills under 100 lines — overhead isn't worth it
-- Skills where every section is always needed (e.g., `/session-log`)
+- Skills where every section is always needed (e.g., `session-log`)
 - Skills where the workflow is linear and every step always runs
 
 ## For Existing Skills
@@ -89,4 +89,4 @@ When refactoring an existing skill to use progressive disclosure:
 2. Extract to `references/` with a descriptive filename
 3. Replace in `SKILL.md` with a one-line summary + link
 4. Add a section index table if one doesn't exist
-5. Test by invoking the skill — verify Claude reads the right sections at the right time
+5. Test by invoking the skill — verify the active client reads the right sections at the right time

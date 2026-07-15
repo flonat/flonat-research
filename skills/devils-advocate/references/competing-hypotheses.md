@@ -5,7 +5,7 @@ Structured process for generating and evaluating rival explanations before locki
 ## When to Use
 
 - Before locking a research design (pre-registration, analysis plan)
-- When `/devils-advocate` is invoked on a research question
+- When `devils-advocate` is invoked on a research question
 - During early-stage paper planning (idea -> literature review transition)
 - When reviewing a paper that presents only one explanation
 

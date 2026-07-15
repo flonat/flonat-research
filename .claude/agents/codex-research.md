@@ -46,7 +46,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Return findings to the caller:** this response-only agent does not write a report. If a durable report is needed, the caller may save it under `reviews/<scope>/codex-research/<YYYY-MM-DD-HHMM>.md`.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if a file with the same `<YYYY-MM-DD>` date exists, use a different `HH:MM` timestamp (e.g., `2026-06-29-1430.md` → `2026-06-29-1531.md` for a same-day re-run) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 

@@ -2,7 +2,8 @@
 """
 Skill Health Assessment — Phase A, Step 2
 
-Reads observation events from ~/.claude/ecc/observations-*.jsonl,
+Reads observation events from the shared AI-workflow state directory and the
+legacy Claude event directory,
 correlates pre/post events, computes per-skill health metrics,
 and outputs a structured report.
 
@@ -25,7 +26,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from statistics import median
 
-ECC_DIR = Path.home() / ".claude" / "ecc"
+STATE_DIR = Path(os.environ.get(
+    "AI_WORKFLOW_STATE_DIR",
+    Path.home() / ".local" / "state" / "ai-workflows",
+)).expanduser()
+LEGACY_ECC_DIR = Path.home() / ".claude" / "ecc"
+OBSERVATION_DIRS = tuple(dict.fromkeys((STATE_DIR, LEGACY_ECC_DIR)))
 ROLLING_WINDOW_DAYS = 30
 PURGE_DAYS = 90
 MAX_TOTAL_SIZE_MB = 50
@@ -73,10 +79,13 @@ def parse_args():
 def load_events(window_start: datetime | None = None) -> list[dict]:
     """Load all events from daily JSONL files, optionally filtered by date."""
     events = []
-    if not ECC_DIR.exists():
-        return events
-
-    for filepath in sorted(ECC_DIR.glob("observations-*.jsonl")):
+    files = sorted({
+        filepath
+        for directory in OBSERVATION_DIRS
+        if directory.exists()
+        for filepath in directory.glob("observations-*.jsonl")
+    })
+    for filepath in files:
         # Extract date from filename for quick filtering
         try:
             file_date_str = filepath.stem.replace("observations-", "")
@@ -102,7 +111,7 @@ def load_events(window_start: datetime | None = None) -> list[dict]:
             print(f"  Warning: cannot read {filepath}: {e}", file=sys.stderr)
 
     # Also load rule-based outcome logs
-    outcomes_file = Path.home() / ".local" / "state" / "ai-workflows" / "skill-outcomes.jsonl"
+    outcomes_file = STATE_DIR / "skill-outcomes.jsonl"
     if outcomes_file.exists():
         try:
             with open(outcomes_file) as f:
@@ -363,12 +372,12 @@ def compute_metrics(skill_data: dict, now: datetime) -> dict:
 
 def purge_old_files():
     """Delete observation files older than PURGE_DAYS. Enforce total size cap."""
-    if not ECC_DIR.exists():
-        print("No ecc directory found.")
+    if not STATE_DIR.exists():
+        print("No shared AI-workflow state directory found.")
         return
 
     cutoff = datetime.now() - timedelta(days=PURGE_DAYS)
-    files = sorted(ECC_DIR.glob("observations-*.jsonl"))
+    files = sorted(STATE_DIR.glob("observations-*.jsonl"))
     deleted = 0
 
     # Phase 1: delete by age
@@ -384,7 +393,7 @@ def purge_old_files():
             pass
 
     # Phase 2: enforce size cap
-    remaining = sorted(ECC_DIR.glob("observations-*.jsonl"))
+    remaining = sorted(STATE_DIR.glob("observations-*.jsonl"))
     total_size = sum(f.stat().st_size for f in remaining if f.exists())
     max_bytes = MAX_TOTAL_SIZE_MB * 1024 * 1024
 
@@ -397,14 +406,14 @@ def purge_old_files():
         print(f"  Purged: {oldest.name} (size cap)")
 
     print(f"Maintenance complete. {deleted} files purged. "
-          f"{len(list(ECC_DIR.glob('observations-*.jsonl')))} files remaining.")
+          f"{len(list(STATE_DIR.glob('observations-*.jsonl')))} files remaining.")
 
 
 def format_table(report: dict, args) -> str:
     """Format the health report as a readable table."""
     if not report:
-        return "No observation data found. The skill observer hook may not have fired yet.\n" \
-               "Invoke any skill (e.g., /session-health) and check ~/.claude/ecc/ for data."
+        return "No observation data found. Client hooks are optional; record an outcome " \
+               "in the shared AI-workflow state directory and retry."
 
     # Sort by total invocations descending
     items = sorted(report.items(), key=lambda x: -x[1]["total_invocations"])
@@ -512,9 +521,8 @@ def main():
         if args.json:
             print(json.dumps({"skills": {}, "meta": {"event_count": 0}}))
         else:
-            print("No observation data found in ~/.claude/ecc/.")
-            print("The skill observer hook may not have fired yet.")
-            print("Invoke any skill and check ~/.claude/ecc/ for observation files.")
+            print(f"No observation data found in {STATE_DIR} or the legacy adapter store.")
+            print("Client hooks are optional; explicit outcome logging remains the portable source.")
         return
 
     # Filter by window

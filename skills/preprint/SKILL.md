@@ -1,6 +1,7 @@
 ---
 name: preprint
 description: Use when you need to create a preprint / working-paper variant of a paper currently in conference or journal format. Forks the existing Overleaf project — adds a `preprint/` subfolder using the user's `your-template` Template, ports the body content from the source paper. The preprint is accessed locally via the existing `paper-{venue}/paper/preprint/` path (subfolder under the conference paper's symlink); no separate `paper-wp/` directory. Trigger on "set up a working paper", "create a preprint", "WP version", "arXiv-ready version", "ready to preprint". Never creates a new top-level Overleaf project — always nests inside the existing one. Never uses the conference's own style (.sty / .cls); always swaps to `your-template`.
+skill-dependencies: [archive-paper-draft, bib-filter, latex-diff, retarget-journal]
 ---
 
 # Preprint — fork a WP variant inside the existing Overleaf project
@@ -16,8 +17,8 @@ description: Use when you need to create a preprint / working-paper variant of a
 ## When NOT to Use
 
 - The paper is already on the WP template (no source to port — start fresh from `Template`)
-- The user wants to retarget to a *different* journal / conference (use `/retarget-journal`)
-- The user wants to archive the conference draft (use `/archive-paper-draft`)
+- The user wants to retarget to a *different* journal / conference (use `retarget-journal`)
+- The user wants to archive the conference draft (use `archive-paper-draft`)
 
 ## Critical Rules
 
@@ -153,7 +154,7 @@ Build the WP `main.tex` skeleton:
 
 ## Phase 4 — Port Bibliography and Figures
 
-1. **Bibliography.** Find the source's `.bib` (`references.bib`, `paperpile.bib`, etc.). Copy its contents to `<preprint>/paperpile.bib`. If the source bib is heavily filtered for the conference draft, re-run `/bib-filter` with the new `main.tex` after Phase 5 compile.
+1. **Bibliography.** Find the source's `.bib` (`references.bib`, `paperpile.bib`, etc.). Copy its contents to `<preprint>/paperpile.bib`. If the source bib is heavily filtered for the conference draft, re-run `bib-filter` with the new `main.tex` after Phase 5 compile.
 2. **Figures.** If source has `figures/` directory, copy verbatim to `preprint/figures/`. If figures are inline (e.g., TikZ), they ride along inside `main.tex` body content — no separate copy needed.
 3. **Auxiliary inputs.** Copy any `\input{}`'d files referenced from the body (typically just `headline_macros.tex` for code-generated stats).
 
@@ -223,7 +224,7 @@ Manual TODOs:
 
 When this is a **refresh of an already-posted preprint** (the source paper
 advanced and you're producing arXiv vN+1), generate a changelog for the version
-note: run `/latex-diff` between the previously-posted `preprint/main.tex` (the
+note: run `latex-diff` between the previously-posted `preprint/main.tex` (the
 git revision or `backup/preprint-vcurrent.pdf`'s source revision) and the
 refreshed one, filtered to `--semantic-only`. Surface the change list so the user
 can write the "Changes in vN+1" note — do not edit the manuscript to add it.
@@ -233,16 +234,16 @@ First posting (no prior version) skips this.
 
 ```bash
 # Auto-detect single paper-{venue}/
-/preprint
+preprint
 
 # Specify source explicitly (multi-paper project)
-/preprint paper-neurips
+preprint paper-neurips
 
 # Refresh — preprint/ already exists, refresh template files only
-/preprint paper-neurips --refresh-template
+preprint paper-neurips --refresh-template
 
 # Refresh — overwrite main.tex (lose manual edits)
-/preprint paper-neurips --rebuild-main
+preprint paper-neurips --rebuild-main
 ```
 
 ## Failure Modes
@@ -261,11 +262,11 @@ First posting (no prior version) skips this.
 ## Cross-References
 
 - `references/venue-toggles.md` — short reference of conference-style stripping patterns (NeurIPS checklist regex, ICML camera-ready toggles, etc.)
-- `/latex-diff` — on a version bump, generate the vN→vN+1 changelog for the arXiv version note (see "Version bump → changelog" above)
-- `/retarget-journal` — for conference-to-conference moves (uses different style, this skill always uses `your-template`)
-- `/archive-paper-draft` — for paper variants that should be archived rather than preprinted
-- `/bib-filter` — run after Phase 5 if the ported `paperpile.bib` is bloated
-- `/latex` — if compile fails and you want the autonomous error-resolution loop instead of the catalogue in Phase 5
+- `latex-diff` — on a version bump, generate the vN→vN+1 changelog for the arXiv version note (see "Version bump → changelog" above)
+- `retarget-journal` — for conference-to-conference moves (uses different style, this skill always uses `your-template`)
+- `archive-paper-draft` — for paper variants that should be archived rather than preprinted
+- `bib-filter` — run after Phase 5 if the ported `paperpile.bib` is bloated
+- `latex` — if compile fails and you want the autonomous error-resolution loop instead of the catalogue in Phase 5
 
 ## Citation Contract
 

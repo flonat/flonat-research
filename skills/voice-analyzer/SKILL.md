@@ -267,7 +267,7 @@ See [`.context/voice/voice.md`](.context/voice/voice.md)
 
 ## Integration
 
-- `/voice-editor` uses VOICE.md to guide rewrites
+- `voice-editor` uses VOICE.md to guide rewrites
 
 ---
 

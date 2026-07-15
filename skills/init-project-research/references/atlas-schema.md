@@ -54,8 +54,8 @@ type: topic
 
 ## Key References
 
-- [Source: Scout report or existing paper]
-- [Scout novelty score if available]
+- [Source: research discovery workflow report or existing paper]
+- [research discovery workflow novelty score if available]
 
 ## Open Questions
 

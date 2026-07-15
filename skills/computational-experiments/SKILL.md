@@ -4,6 +4,7 @@ description: "Use when you need to scaffold, run, or publish computational resea
 allowed-tools: Bash(uv*, pytest*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[project-path] [--mode scaffold|experiment|figures|full] [--budget <minutes>] [--scaffold standard|robustness|replication]"
 agent-dependencies: [code-review]
+skill-dependencies: [multi-perspective]
 ---
 
 # Computational Experiments
@@ -75,10 +76,10 @@ Use **Experiment** when the design space is known upfront (grid/random sweep). U
 
 ## When NOT to Use
 
-- Empirical data analysis (observational/survey data) → `/data-analysis`
-- Experimental design for human subjects → `/experiment-design`
-- Causal inference strategy → `/causal-design`
-- LaTeX compilation → `/latex`
+- Empirical data analysis (observational/survey data) → `data-analysis`
+- Experimental design for human subjects → `experiment-design`
+- Causal inference strategy → `causal-design`
+- LaTeX compilation → `latex`
 
 ## Workflow
 
@@ -187,7 +188,7 @@ Read `references/autonomous-sweep.md` for the full protocol. Summary:
 
 **Breadcrumb:** After any Phase 3 variant completes, append to `.planning/state.md` (if exists) or `.context/current-focus.md`:
 ```
-### [/computational-experiments] Experiments complete [YYYY-MM-DD HH:MM]
+### [computational-experiments] Experiments complete [YYYY-MM-DD HH:MM]
 - **Done:** [N configs run, N seeds, mode: experiment/explore/autonomous]
 - **Outputs:** [result files at <path>, N successful / N total]
 - **Next:** Publication output (figures/tables)
@@ -220,11 +221,11 @@ Read `references/figure-recipes.md` for matplotlib recipes.
    - Dependency pinning: are versions locked in `pyproject.toml` or `uv.lock`?
 2. **Code review:** Invoke the `code-review` agent on all generated scripts (via skill-routing mechanism)
 3. **Record learnings:** Write `[LEARN:code]` tags for project-specific conventions discovered
-4. **Suggest next steps:** compilation with `/latex`, additional experiments, `/replication-package`
+4. **Suggest next steps:** compilation with `latex`, additional experiments, `replication-package`
 
 **Breadcrumb:** After Phase 5 completes, append to `.planning/state.md` (if exists) or `.context/current-focus.md`:
 ```
-### [/computational-experiments] Phase 5 complete [YYYY-MM-DD HH:MM]
+### [computational-experiments] Phase 5 complete [YYYY-MM-DD HH:MM]
 - **Done:** [reproducibility check, code review score, N learn tags recorded]
 - **Outputs:** [figures at <path>, tables at <path>]
 - **Next:** [suggested next steps]
@@ -262,13 +263,13 @@ Examples of learnings to capture:
 | `no-hardcoded-results` rule | Phase 4 (output routing) |
 | `overleaf-separation` rule | Phase 4 (file placement) |
 | the `code-review` agent | Phase 5 (auto-invoked) |
-| `/data-analysis` skill | Redirect if task is empirical, not computational |
-| `/replication-package` skill | Phase 5 (suggested next step) |
-| `/cross-language-check` skill | Phase 5 (suggested next step for verification) |
+| `data-analysis` skill | Redirect if task is empirical, not computational |
+| `replication-package` skill | Phase 5 (suggested next step) |
+| `cross-language-check` skill | Phase 5 (suggested next step for verification) |
 | `references/multi-analyst-design.md` | Phase 3–5 (many-analysts robustness diagnostic) |
 | `shared/worker-critic-protocol.md` | Phase 3–4 (inline review of generated code/results) |
 | `shared/checkpoint-resumability.md` | All phases (save/resume on crash) |
 | `templates/experiments/standard.md` | `--scaffold standard` (init/tune/creative/ablate) |
 | `templates/experiments/robustness.md` | `--scaffold robustness` (econometrics robustness) |
 | `templates/experiments/replication.md` | `--scaffold replication` (replicate-and-extend) |
-| `/figure-feedback` skill | Phase 4 (VLM analysis of generated plots) |
+| `figure-feedback` skill | Phase 4 (VLM analysis of generated plots) |

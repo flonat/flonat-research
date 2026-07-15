@@ -1,6 +1,6 @@
 # Project Documentation Conventions
 
-> Shared conventions for outward-facing documentation: project READMEs, user manuals, architecture docs, deploy guides, and in-app help. Ensures consistency across Scout, council packages, and future projects.
+> Shared conventions for outward-facing documentation: project READMEs, user manuals, architecture docs, deploy guides, and in-app help. Ensures consistency across research discovery workflow, council packages, and future projects.
 >
 > Companion to `system-documentation.md` (which covers internal Task Management docs like CLAUDE.md, SKILL.md, and component catalogues).
 
@@ -17,12 +17,6 @@ Every document governed by these conventions carries a tag on its first line:
 
 | Project | File | Type |
 |---------|------|------|
-| Scout | `README.md` | README |
-| Scout | `docs/reference/user-manual.md` | User manual |
-| Scout | `docs/architecture.md` | Architecture |
-| Scout | `deploy/README.md` | Deploy guide |
-| Scout | `docs/reference/user-manual.tex` | LaTeX manual |
-| Scout | `docs/scout-overview/scout-overview.tex` | Beamer deck |
 | Task Management | `docs/reference/user-manual/user-manual.tex` | LaTeX manual |
 | Task Management | `docs/setup/setup-overview/setup-overview.tex` | Beamer deck |
 | Task Management | `docs/setup/setup-overview/setup-overview-public.tex` | Beamer deck (public) |
@@ -39,7 +33,7 @@ When **creating** new outward-facing documentation (README, user manual, archite
 1. Add the appropriate tag as the very first line of the file
 2. Add the file to the registry table above
 
-When **auditing** a project's documentation (via `/sync-repo scout`, `/update-project-doc`, or manually):
+When **auditing** a project's documentation (via `documentation consistency`, `update-project-doc`, or manually):
 
 1. Grep for `Governed by: skills/shared/project-documentation.md` across all `.md` and `.tex` files
 2. Flag any outward-facing docs that lack the tag — these are candidates for tagging

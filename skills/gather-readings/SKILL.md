@@ -3,6 +3,7 @@ name: gather-readings
 description: "Use when you need to gather PDFs from Paperpile into a project's articles/ folder."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(ls*), Bash(cp*), Bash(mkdir*), Bash(uv:*), Bash(uv*), Bash(paperpile*)
 argument-hint: "[.bib file, Paperpile label name, or search queries]"
+skill-dependencies: [literature, split-pdf]
 ---
 
 # Gather Readings
@@ -11,15 +12,15 @@ argument-hint: "[.bib file, Paperpile label name, or search queries]"
 
 ## When to Use
 
-- Before running corpus skills (`/theory-mapper`, `/method-audit`, `/weakness-scanner`, `/quote-mining`, `/replication-audit`, `/evolution-timeline`, `/future-research-agenda`, `/interdisciplinary-bridge`)
+- Before running corpus skills (`theory-mapper`, `method-audit`, `weakness-scanner`, `quote-mining`, `replication-audit`, `evolution-timeline`, `future-research-agenda`, `interdisciplinary-bridge`)
 - When starting a literature review and want all relevant PDFs in one place
 - When a `.bib` file exists but the PDFs are scattered across Paperpile's Google Drive folder
 
 ## When NOT to Use
 
-- **Finding new papers** — use `/literature` first, stage as BibTeX for Paperpile import, then gather
-- **Reading a single paper** — use `/split-pdf` directly or `paperpile get-pdf-text`
-- **Papers not in Paperpile** — download manually or via `/split-pdf`, which handles acquisition
+- **Finding new papers** — use `literature` first, stage as BibTeX for Paperpile import, then gather
+- **Reading a single paper** — use `split-pdf` directly or `paperpile get-pdf-text`
+- **Papers not in Paperpile** — download manually or via `split-pdf`, which handles acquisition
 
 ## Input
 
@@ -62,7 +63,7 @@ If ambiguous, ask: "Which papers should I gather? Point me to a .bib file, name 
 
 ### Phase 2: Locate PDFs
 
-PDFs live in the local rclone mirror of the Paperpile library (path from `~/.config/task-mgmt/paperpile-pdfs`, currently `/Volumes/SSD/paperpile-pdfs`). This is the same canonical mirror RefPile ingests — kept fresh by the `sync-paperpile` cron (4×/day) and more complete than the Google Drive Desktop copy. The mirror has the `All Papers/` level stripped, so attachment filenames like `All Papers/Other/Foo.pdf` resolve to `<paperpile-pdfs>/Other/Foo.pdf`.
+PDFs live in the local Paperpile mirror resolved from `~/.config/task-mgmt/paperpile-pdfs`. This is the same canonical mirror RefPile ingests — kept fresh by the `sync-paperpile` cron (4×/day) and more complete than the Google Drive Desktop copy. If the registry or mirror is unavailable on this host, report the PDF-placement phase as skipped rather than guessing a path. The mirror has the `All Papers/` level stripped, so attachment filenames like `All Papers/Other/Foo.pdf` resolve to `<paperpile-pdfs>/Other/Foo.pdf`.
 
 For each matched Paperpile item:
 
@@ -115,7 +116,7 @@ These papers are in Paperpile but have no PDF:
 ### Not Found in Paperpile
 These .bib entries had no Paperpile match:
 - `bibkey2023` — "Unmatched Paper" — DOI: 10.xxxx/zzzz
-  → Stage as BibTeX for Paperpile import, or download via `/split-pdf`
+  → Stage as BibTeX for Paperpile import, or download via `split-pdf`
 ```
 
 Write the report to `articles/GATHER-REPORT.md` for reference.
@@ -125,10 +126,10 @@ Write the report to `articles/GATHER-REPORT.md` for reference.
 After gathering, suggest next steps:
 
 > "articles/ now has [N] PDFs ready for analysis. You can run:
-> - `/theory-mapper articles/` — map the theoretical landscape
-> - `/method-audit articles/` — compare empirical methods
-> - `/weakness-scanner articles/` — find vulnerable arguments
-> - `/split-pdf articles/<file>.pdf` — deep-read a specific paper"
+> - `theory-mapper articles/` — map the theoretical landscape
+> - `method-audit articles/` — compare empirical methods
+> - `weakness-scanner articles/` — find vulnerable arguments
+> - `split-pdf articles/<file>.pdf` — deep-read a specific paper"
 
 ## Important Notes
 
@@ -141,12 +142,12 @@ After gathering, suggest next steps:
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/split-pdf` | To deep-read individual papers after gathering |
-| `/literature` | To find NEW papers (this skill gathers papers already in Paperpile) |
-| `/bib-coverage` | To compare .bib against Paperpile labels (audit, not gather) |
-| `/theory-mapper` | Run on `articles/` after gathering |
-| `/method-audit` | Run on `articles/` after gathering |
-| `/weakness-scanner` | Run on `articles/` after gathering |
+| `split-pdf` | To deep-read individual papers after gathering |
+| `literature` | To find NEW papers (this skill gathers papers already in Paperpile) |
+| `bib-coverage` | To compare .bib against Paperpile labels (audit, not gather) |
+| `theory-mapper` | Run on `articles/` after gathering |
+| `method-audit` | Run on `articles/` after gathering |
+| `weakness-scanner` | Run on `articles/` after gathering |
 
 ## Citation Contract
 

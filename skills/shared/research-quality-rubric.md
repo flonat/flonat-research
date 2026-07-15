@@ -160,6 +160,6 @@ When a dimension is N/A, redistribute its weight proportionally across the remai
 | `referee2-reviewer` | Always | All 8 (full scorecard) |
 | `domain-reviewer` | When scoring requested | D1, D3, D5 (overlap with its domain lenses) |
 | `paper-critic` | When scoring requested | D7, D8 (overlap with writing/citation categories) |
-| `/pre-submission-report` | Always | Aggregate weighted score in summary |
+| `pre-submission-report` | Always | Aggregate weighted score in summary |
 
 Agents should report per-dimension scores in a table, then the weighted aggregate, then the verdict. Use the checklist items as evidence anchors for each score.

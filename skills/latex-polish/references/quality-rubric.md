@@ -1,8 +1,8 @@
 # Quality Rubric: LaTeX Polish
 
-> Scoring rubric for `/latex-polish`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
+> Scoring rubric for `latex-polish`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
 >
-> Combines source-pathology findings (mirrors `/latex` Phase 4) with vision findings (this skill's distinct contribution).
+> Combines source-pathology findings (mirrors `latex` Phase 4) with vision findings (this skill's distinct contribution).
 
 ## Deductions
 
@@ -86,6 +86,6 @@ Standard thresholds per shared/quality-scoring.md, lightly adjusted for polish-s
 
 ## Notes on calibration
 
-- Source-pathology deductions in this rubric are intentionally **softer** than `/latex`'s for the same patterns. Rationale: `/latex-polish` is the "deeper look" skill — its main signal is the vision pass, and weighting source patterns at the same level would double-count. Specifically, Pattern 2/4/8 deduct less here than in `/latex`.
+- Source-pathology deductions in this rubric are intentionally **softer** than `latex`'s for the same patterns. Rationale: `latex-polish` is the "deeper look" skill — its main signal is the vision pass, and weighting source patterns at the same level would double-count. Specifically, Pattern 2/4/8 deduct less here than in `latex`.
 - Vision findings deduct more aggressively than source findings — this reflects that a human reader sees the rendered output, not the source.
 - Critical-tier vision findings (clipping, overlap, broken refs visible) effectively force REVISE / Blocked. That's the right shape.

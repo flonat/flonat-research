@@ -1,6 +1,6 @@
 ---
 name: symbolic-check
-description: "Use when you need to symbolically verify a SELF-AUTHORED algebra step, derivative, limit, comparative-static sign, or closed-form identity using a CAS (sympy) — proving or refuting it, not just stress-testing. R2 of the verification spectrum: unlike /numerical-check (which only falsifies), symbolic verification can positively PROVE a manipulation. Triggers: /symbolic-check, 'verify this algebra', 'is this derivative right', 'check the sign of a comparative static', 'does this closed form equal the original', 'verify the limit'. NOT for a full formal theorem (use /lean-check), a probabilistic/distributional claim over a parameter space (use /numerical-check), or empirical replication (use /cross-language-check)."
+description: "Use when you need to symbolically verify a SELF-AUTHORED algebra step, derivative, limit, comparative-static sign, or closed-form identity using a CAS (sympy) — proving or refuting it, not just stress-testing. R2 of the verification spectrum: unlike numerical-check (which only falsifies), symbolic verification can positively PROVE a manipulation. Triggers: symbolic-check, 'verify this algebra', 'is this derivative right', 'check the sign of a comparative static', 'does this closed form equal the original', 'verify the limit'. NOT for a full formal theorem (use lean-check), a probabilistic/distributional claim over a parameter space (use numerical-check), or empirical replication (use cross-language-check)."
 allowed-tools:
   - Read
   - Write
@@ -16,21 +16,21 @@ Verify a symbolic manipulation you wrote — an identity, a derivative, a limit,
 ## When to Use
 
 - You wrote `A = B`, `∂f/∂x = g`, `lim = L`, `sign(∂f/∂x) = −`, or "the closed form is …" and want it *proven* before it ships.
-- `/symbolic-check`, "verify this algebra / derivative / limit", "check the comparative-static sign", "does this closed form equal the original".
+- `symbolic-check`, "verify this algebra / derivative / limit", "check the comparative-static sign", "does this closed form equal the original".
 - Companion to `mark-unverified` for self-authored algebra (the derivative-sign / closed-form family the rule explicitly names).
 
 ## When NOT to Use
 
 | Situation | Use instead |
 |---|---|
-| A full theorem/lemma you want machine-proven end-to-end | `/lean-check` (R3) |
-| A distributional / probabilistic claim over a parameter space | `/numerical-check` (R1) |
-| Re-verify a computed empirical result | `/cross-language-check` |
+| A full theorem/lemma you want machine-proven end-to-end | `lean-check` (R3) |
+| A distributional / probabilistic claim over a parameter space | `numerical-check` (R1) |
+| Re-verify a computed empirical result | `cross-language-check` |
 | Conceptual / assumption review | `domain-reviewer` |
 
 ## Position in the verification spectrum
 
-**R2 — symbolic / CAS.** Can **VERIFY** (prove) or **FALSIFY** a symbolic step; between numerical falsification (R1) and formal proof (R3) in strength. It proves *algebra*, not arbitrary theorems — reasoning beyond symbolic manipulation (measure theory, limits sympy can't evaluate) escalates to `/lean-check` or `domain-reviewer`.
+**R2 — symbolic / CAS.** Can **VERIFY** (prove) or **FALSIFY** a symbolic step; between numerical falsification (R1) and formal proof (R3) in strength. It proves *algebra*, not arbitrary theorems — reasoning beyond symbolic manipulation (measure theory, limits sympy can't evaluate) escalates to `lean-check` or `domain-reviewer`.
 
 ## Procedure
 
@@ -57,7 +57,7 @@ For derivatives: `diff(f, x).equals(g)`. For limits: `limit(f, x, a)` and compar
 ### 4. Comparative-static / monotonicity signs
 
 - Compute `d = diff(f, x)`. Ask whether `d` has a definite sign *under the assumptions*.
-- Try `refine(d > 0, Q.positive(...))` / `ask(Q.negative(d), assumptions)`; if sympy can't decide, sample the domain numerically to conjecture the sign, then report `INCONCLUSIVE (sign consistent on N points)` — a sign you can't prove symbolically is a candidate for `/numerical-check` (falsify) or `/lean-check` (prove).
+- Try `refine(d > 0, Q.positive(...))` / `ask(Q.negative(d), assumptions)`; if sympy can't decide, sample the domain numerically to conjecture the sign, then report `INCONCLUSIVE (sign consistent on N points)` — a sign you can't prove symbolically is a candidate for `numerical-check` (falsify) or `lean-check` (prove).
 
 ### 5. Belt-and-suspenders
 
@@ -89,7 +89,7 @@ print("dQ/drho =", sp.simplify(d), " sign<0 on domain (mu>0):", sp.ask(sp.Q.nega
 - **Don't** verify a sign/closed-form without declaring the symbol assumptions — the domain is part of the claim, and the wrong domain gives the wrong answer.
 - **Don't** skip the numerical sanity substitution — it catches transcription bugs a symbolic pass can hide.
 - **Don't** use bare `python3` — use `uv run --no-project --with sympy python`.
-- **Don't** force a hard theorem through the CAS — if it needs real reasoning (not symbolic manipulation), escalate to `/lean-check` (R3) or `domain-reviewer`.
+- **Don't** force a hard theorem through the CAS — if it needs real reasoning (not symbolic manipulation), escalate to `lean-check` (R3) or `domain-reviewer`.
 
 ## Output — Verification Report (shared `*-check` shape)
 
@@ -113,4 +113,4 @@ reproduce: uv run --no-project --with sympy python experiments/<script>.py
 
 - **Closed-form threshold:** claim `ρ* = (μ_med/μ_max)²` solves `Φ(μ_med/√ρ) = Φ(μ_max)`. `solve(μ_med/√ρ = μ_max, ρ)` → `μ_med²/μ_max²`; `.equals()` → **VERIFIED**.
 - **Homogeneous monotonicity (Prop 3.1):** `d/dρ Φ(μ/√ρ) = φ(μ/√ρ)·μ·(−½ρ^{-3/2})`, negative for `μ>0` → sign **VERIFIED** under `Q.positive(mu)` (numeric-confirmed on the domain where sympy hesitates).
-- These are the algebra rungs beneath the theorems `/numerical-check` stress-tested and `/lean-check` could formalize.
+- These are the algebra rungs beneath the theorems `numerical-check` stress-tested and `lean-check` could formalize.

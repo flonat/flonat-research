@@ -20,7 +20,7 @@ Canonical rules live in `rules/`. Claude receives rule files; Codex receives app
 | Overleaf Separation — No Code or Data in Paper Directories | `overleaf-separation.md` | The `paper/` directory (Overleaf symlink inside `paper-{venue}/paper/`) is for LaTeX source files ONLY. |
 | Paper-vs-Code Consistency Check | `paper-code-consistency.md` | Before committing edits to §experiments or §methods, grep the actual code against the prose claim. |
 | Plan Before Implementing | `plan-first.md` | Plan Before Implementing |
-| Always Use uv for Python | `python-uv.md` | Never use bare `python`, `python3`, or `pip`. |
+| Always Use uv for Python | `python-uv.md` | Never invoke a machine-specific `python`, `python3`, or `pip` directly. |
 | Read Documentation Before Searching | `read-docs-first.md` | Never explore when documentation already answers your question. |
 | Scope Discipline | `scope-discipline.md` | Only make changes the user explicitly requested. |
 | Severity Gradient | `severity-gradient.md` | Calibrate critique intensity to the document's maturity. |

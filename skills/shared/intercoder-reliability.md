@@ -232,7 +232,7 @@ Findings involving this category should be interpreted with caution.
 
 ## Integration
 
-### In `/data-analysis`
+### In `data-analysis`
 
 When the dataset includes coded/annotated variables:
 1. Check if reliability metrics are reported

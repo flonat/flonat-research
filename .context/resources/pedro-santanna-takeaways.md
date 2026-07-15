@@ -13,7 +13,7 @@ A modular, opinionated system for using Claude Code to develop academic lecture 
 ```
 CLAUDE.md                  — Project memory (~150 lines, links to detailed rules)
 .claude/agents/ (10)       — Specialized reviewers (proofreader, slide-auditor, pedagogy, R, TikZ, etc.)
-.claude/skills/ (13)       — Slash commands (/compile-latex, /translate-to-quarto, /qa-quarto, etc.)
+.claude/skills/ (13)       — Slash commands (/compile-latex, translate-to-quarto, /qa-quarto, etc.)
 rules/ (39)                — Auto-loaded enforcement protocols
 quality_reports/            — Plans and session logs (survive context compression)
 ```
@@ -91,6 +91,6 @@ Format: `[LEARN:tag] Incorrect → Correct`
 - **Specialist agents** pattern → could create focused reviewers for my research (methods, writing, code)
 - **Quality gates** → numeric scoring for paper drafts before submission
 - **[LEARN] tags** → already using MEMORY.md, could formalise correction tracking
-- **Critic-fixer loop** → useful for devil's advocate on papers (similar to my `/devils-advocate` skill)
+- **Critic-fixer loop** → useful for devil's advocate on papers (similar to my `devils-advocate` skill)
 - **Plan-first + save to disk** → plans surviving context compression is smart
 - **Stop hooks** → enforce verification before ending sessions

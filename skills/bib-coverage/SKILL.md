@@ -3,6 +3,7 @@ name: bib-coverage
 description: "Use when you need to compare a project .bib against a Paperpile label to find uncited papers or unfiled entries."
 allowed-tools: Read, Glob, Greps_by_label, Bash(paperpile*)
 argument-hint: [project-path or tex-file]
+skill-dependencies: [bib-validate, literature]
 ---
 
 # Bibliography Coverage
@@ -16,17 +17,17 @@ Compare a project's `.bib` file against a Paperpile label to identify gaps betwe
 - After a literature search, to see what % of the topic collection is cited
 - Before submitting a paper, to catch references you forgot to cite
 - When reviewing a Paperpile label, to find items not yet in any project's `.bib`
-- After `/bib-validate`, as a complementary check (validate checks quality; coverage checks completeness)
+- After `bib-validate`, as a complementary check (validate checks quality; coverage checks completeness)
 
 ## When NOT to Use
 
-- **Finding new references** — use `/literature` for discovery
-- **Validating .bib quality** (missing fields, DOI issues, preprint staleness) — use `/bib-validate`
-- **Building a .bib from scratch** — use `/literature` or `/bib-parse`
+- **Finding new references** — use `literature` for discovery
+- **Validating .bib quality** (missing fields, DOI issues, preprint staleness) — use `bib-validate`
+- **Building a .bib from scratch** — use `literature` or `bib-parse`
 
 ## Inputs
 
-1. **Project `.bib` file** — detected automatically (same logic as `/bib-validate`: look for `references.bib`, then any `.bib` in the project)
+1. **Project `.bib` file** — detected automatically (same logic as `bib-validate`: look for `references.bib`, then any `.bib` in the project)
 2. **Paperpile label** — resolved from:
    - Explicit `--topic <slug>` argument
    - Project's `CLAUDE.md` or Atlas topic frontmatter
@@ -78,7 +79,7 @@ Produce three lists:
 Based on the results:
 
 - **Low coverage (<50%):** "The project cites few papers from the topic collection. Consider reviewing uncited items for relevance."
-- **Many unfiled citations (>5):** "Several cited papers aren't in the topic collection. Run `/bib-validate` fix mode to file them."
+- **Many unfiled citations (>5):** "Several cited papers aren't in the topic collection. Run `bib-validate` fix mode to file them."
 - **High coverage (>80%):** "Good coverage of the topic collection."
 
 ## Report Format
@@ -115,7 +116,7 @@ This turns a passive coverage check into an active discovery tool — finding pa
 
 ## Cross-References
 
-- **`/bib-validate`** — Quality validation (missing fields, DOIs, preprints). Run alongside coverage for a complete check.
-- **`/literature`** — Discovery of new references. Coverage identifies gaps in existing collections.
-- **`/bib-parse`** — Extract citations from PDFs. Run coverage after parsing to see overlap with the topic collection.
+- **`bib-validate`** — Quality validation (missing fields, DOIs, preprints). Run alongside coverage for a complete check.
+- **`literature`** — Discovery of new references. Coverage identifies gaps in existing collections.
+- **`bib-parse`** — Extract citations from PDFs. Run coverage after parsing to see overlap with the topic collection.
 - **`shared/reference-resolution.md`** — Topic collection resolution logic

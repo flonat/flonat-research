@@ -1,6 +1,6 @@
 # Quality Rubric: Proofread
 
-> Scoring rubric for `/proofread`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
+> Scoring rubric for `proofread`. Uses the shared framework in [`../../shared/quality-scoring.md`](../../shared/quality-scoring.md).
 
 ## Deduction Table
 
@@ -85,7 +85,7 @@
 
 | Issue | Deduction | Notes |
 |-------|-----------|-------|
-| Preprint cited when published version exists | -5 | Major — per instance. Suggest running `/bib-validate` for thorough check. |
+| Preprint cited when published version exists | -5 | Major — per instance. Suggest running `bib-validate` for thorough check. |
 
 ## Category Mapping
 

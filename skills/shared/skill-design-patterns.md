@@ -1,7 +1,7 @@
 # Skill Design Patterns
 
 > Reference for designing new skills. Read this before writing any SKILL.md.
-> Loaded on demand by `/skill-extract` and when manually creating skills.
+> Loaded on demand by the `skill-extract` workflow and when manually creating skills.
 
 ## Client-neutral authoring
 
@@ -11,11 +11,17 @@ Use “structured-question mechanism,” “web search,” “web fetch,”
 Claude-specific `allowed-tools` frontmatter remains packaging metadata and is
 ignored by Codex adapters.
 
+Reference other workflows by semantic name, for example “run the `latex`
+skill,” never by client punctuation such as a slash command. Put every
+mandatory workflow call in `skill-dependencies: [latex, bib-validate]` YAML
+frontmatter. Ordinary comparisons, alternatives, and related-skill links stay
+as prose mentions and do not affect client eligibility.
+
 Use `<skill-dir>` for the directory containing the active `SKILL.md`,
 `<skills-root>` for its deployed skills root, `<rules-root>` for deployed
 rules, and `<agent-references-root>` for agent reference material. The active
 client resolves these placeholders before executing an example; canonical
-bodies must not name `~/.claude` or `~/.agents` paths.
+bodies must not name any client-specific home-directory deployment path.
 
 All Python commands use `uv run python`, including examples and bundled-script
 usage text. External capabilities should name the CLI command first; an MCP or
@@ -165,7 +171,7 @@ Create `references/drift-checks.md` listing every drift-prone value:
 ```markdown
 | Value | Location | Source of Truth | Trigger |
 |-------|----------|-----------------|---------|
-| Topic count (~203) | SKILL.md Phase 1 | ls ~/vault/atlas/**/*.md | /init-project-research |
+| Topic count (~203) | SKILL.md Phase 1 | ls ~/vault/atlas/**/*.md | init-project-research |
 | Theme list (9) | SKILL.md, sa-prompts.md, build_report.py | ls Projects/ | New theme dir |
 ```
 
@@ -176,7 +182,7 @@ Include a Drift Log table where Phase 0 appends detected drift with timestamps.
 Add cross-references in skills that commonly cause drift:
 
 ```markdown
-| `/atlas-audit` | **Drift trigger:** new topics change count — see drift-checks.md |
+| `atlas-audit` | **Drift trigger:** new topics change count — see drift-checks.md |
 ```
 
 This ensures the person (or agent) running the triggering skill is aware that downstream skills may need updating.
@@ -185,7 +191,7 @@ This ensures the person (or agent) running the triggering skill is aware that do
 
 **When to skip:** Skills that derive all values at runtime (no hardcoded references to external state).
 
-**Example:** `/atlas-audit` — topic count, theme list, vault schemas, stage mappings, rules count all drift. Phase 0 detects and self-heals; `references/drift-checks.md` tracks 8 drift-prone values.
+**Example:** `atlas-audit` — topic count, theme list, vault schemas, stage mappings, rules count all drift. Phase 0 detects and self-heals; `references/drift-checks.md` tracks 8 drift-prone values.
 
 ### Graceful Degradation (Multi-Agent Skills)
 
@@ -211,10 +217,10 @@ When a skill spawns multiple sub-agents (council mode, parallel analysis, autono
 4. **Never silently drop results** — if degradation happens, it must be visible in the output
 
 **Skills that must implement this:**
-- `/literature` (pipeline mode with parallel Phase 2 agents)
-- `/multi-perspective` (3+ perspective agents)
-- `/computational-experiments` (autonomous sweep with parallel agent batches)
-- `/atlas-audit` (parallel sub-agent auditors)
+- `literature` (pipeline mode with parallel Phase 2 agents)
+- `multi-perspective` (3+ perspective agents)
+- `computational-experiments` (autonomous sweep with parallel agent batches)
+- `atlas-audit` (parallel sub-agent auditors)
 - Council mode in any skill
 
 ### Progressive Disclosure
@@ -285,7 +291,7 @@ Before finalising any skill, verify:
 
 | Check | Question |
 |-------|----------|
-| Trigger clarity | Would Claude know when to invoke this from the description alone? |
+| Trigger clarity | Would either supported client know when to invoke this from the description alone? |
 | Pattern fit | Does the structure match one of the 4 patterns above? |
 | No duplication | Does this overlap with an existing skill? |
 | Anti-patterns | Does it say what NOT to do, not just what to do? |
@@ -304,20 +310,20 @@ Before finalising any skill, verify:
 
 Per [Anthropic's official best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices):
 
-1. **Identify gaps:** Run Claude on representative tasks without the skill. Document specific failures.
+1. **Identify gaps:** Run the target client on representative tasks without the skill. Document specific failures.
 2. **Create evaluations:** Build 3+ scenarios that test these gaps.
 3. **Establish baseline:** Measure Claude's performance without the skill.
 4. **Write minimal instructions:** Just enough to address the gaps and pass evaluations.
 5. **Iterate:** Execute evaluations, compare against baseline, refine.
 
-### Claude A / Claude B Pattern
+### Expert / fresh-context tester pattern
 
-- **Claude A** (the expert): helps design and refine the skill
-- **Claude B** (the user): tests the skill in real tasks with fresh context
+- **Expert session:** helps design and refine the skill.
+- **Fresh-context session:** tests the skill in real tasks without relying on the authoring conversation.
 - Observe Claude B's behavior, bring insights back to Claude A
 - Repeat: observe → refine → test
 
-This is similar to the existing `/skill-creator` workflow but emphasises real-task testing over synthetic evaluation.
+This is similar to the existing `skill-creator` workflow but emphasises real-task testing over synthetic evaluation.
 
 ---
 
@@ -362,14 +368,14 @@ If `proofread.yaml` shows recurring issue "misses LaTeX math-mode errors", the s
 | Component | Role |
 |-----------|------|
 | `skill-observer.sh` | Captures invocation events (PostToolUse hook) |
-| `/rate` | Captures explicit user ratings |
+| `rate` | Captures explicit user ratings |
 | `quality-score-logger.sh` | Captures review agent scores (PostToolUse hook) |
 | `feedback-synthesis.py` | Aggregates all signals into per-skill profiles |
 | `feedback-proposal.py` | Identifies skills needing prompt edits |
-| `/feedback-review` | On-demand trigger for the proposal pipeline |
+| `feedback-review` | On-demand trigger for the proposal pipeline |
 
 ### Design Principles
 
 - **Read-only consumption**: Skills read profiles but never write them. The synthesis pipeline owns profile generation.
 - **Graceful degradation**: If no profile exists, the skill runs normally — profiles are enhancements, not requirements.
-- **Break-the-glass**: Profile-informed suggestions never auto-apply to skill definitions. All edits require explicit approval via `/feedback-review`.
+- **Break-the-glass**: Profile-informed suggestions never auto-apply to skill definitions. All edits require explicit approval via `feedback-review`.

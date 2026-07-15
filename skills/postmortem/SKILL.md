@@ -89,7 +89,7 @@ Classify each fix by type:
 
 | Fix Type | When to Use | How to Encode |
 |----------|-------------|---------------|
-| **Skill** | Recurring workflow needs structure | Create SKILL.md via `/skill-extract` |
+| **Skill** | Recurring workflow needs structure | Create SKILL.md via `skill-extract` |
 | **Guard** | Action requires mandatory checkpoint | Add approval gate to existing skill |
 | **Rule** | Behavioural constraint needed globally | Create `rules/*.md` |
 | **Documentation** | Knowledge gap caused the issue | Update CLAUDE.md, MEMORY.md, or docs/ |
@@ -185,8 +185,8 @@ Create `log/incidents/` if it doesn't exist.
 ## Cross-References
 
 - **`[LEARN]` tags** — record one-liner corrections in MEMORY.md (the quick complement to this skill)
-- **`/skill-extract`** — extract a full skill from a session (when the fix type is "Skill")
-- **`/ideas`** — if a fix is too large for this session, capture as an idea for later
+- **`skill-extract`** — extract a full skill from a session (when the fix type is "Skill")
+- **`ideas`** — if a fix is too large for this session, capture as an idea for later
 
 ## Success Criteria
 

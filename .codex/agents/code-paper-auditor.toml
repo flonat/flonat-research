@@ -29,7 +29,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<paper>/code-paper-auditor/<YYYY-MM-DD-HHMM>.md` inside the project, where `<paper>` is the paper slug passed in your dispatch (e.g., `paper-eaamo`). Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -261,7 +261,7 @@ Write the report to `reviews/<paper>/code-paper-auditor/<YYYY-MM-DD-HHMM>.md` in
 | Task | Use |
 |------|-----|
 | Review code quality (style, structure) | `/code-review` (11-category scorecard) |
-| Proofread the paper text | `/proofread` (11-category academic check) |
+| Proofread the paper text | `proofread` (11-category academic check) |
 | Substantive correctness (math, theory) | `domain-reviewer` agent |
 | Adversarial review | `referee2-reviewer` agent |
 | LaTeX audit | `paper-critic` agent |
@@ -271,7 +271,7 @@ Write the report to `reviews/<paper>/code-paper-auditor/<YYYY-MM-DD-HHMM>.md` in
 
 ## Parallel Independent Review
 
-For maximum coverage, launch this agent alongside `paper-critic`, `domain-reviewer`, and `referee2-reviewer` in parallel. Each checks different dimensions. After all return, run `/synthesise-reviews` to produce a unified `REVISION-PLAN.md`.
+For maximum coverage, launch this agent alongside `paper-critic`, `domain-reviewer`, and `referee2-reviewer` in parallel. Each checks different dimensions. After all return, run `synthesise-reviews` to produce a unified `REVISION-PLAN.md`.
 
 ---
 

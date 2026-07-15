@@ -3,11 +3,13 @@ name: audit-project-research
 description: "Use when you need to audit a research project against the init-project-research template."
 allowed-tools: Bash(ls*), Bash(readlink*), Bash(git*), Bash(diff*), Bash(jq*), Read, Glob, Grep
 argument-hint: "[project-path or no arguments for CWD]"
+clients: [claude, codex]
+requires: [filesystem, shell, skill-routing]
 ---
 
 # Audit Project Research
 
-Compare a research project's directory structure against the current `/init-project-research` template and report gaps. **Report-only.**
+Compare a research project's directory structure against the current `init-project-research` template and report gaps. The audit logic is client-neutral; Claude- or Codex-specific adapter checks are explicitly reported as `SKIPPED (adapter unavailable)` when that surface is absent.
 
 ## When to Use
 
@@ -18,24 +20,24 @@ Compare a research project's directory structure against the current `/init-proj
 
 ## When NOT to Use
 
-- **Setting up a new project** — use `/init-project-research`
+- **Setting up a new project** — use the `init-project-research` skill
 - **Fixing issues** — this skill only reports; user decides what to action
-- **Auditing all projects at once** — use `/atlas-audit` (this skill is per-project)
+- **Auditing all projects at once** — use the `atlas-audit` skill when its Atlas service is available (this skill is per-project)
 
 ## Modes
 
 | Invocation | Behaviour |
 |-----------|-----------|
-| `/audit-project-research` (no args) | Audits CWD. Aborts if CWD is not a project directory. |
-| `/audit-project-research <project-path>` | Audits the given path. Resolves to absolute first. |
+| `audit-project-research` (no args) | Audits CWD. Aborts if CWD is not a project directory. |
+| `audit-project-research <project-path>` | Audits the given path. Resolves to absolute first. |
 
 ## Critical Rules
 
-1. **Read-only by default, narrow scaffold exception.** Phases are read-only with one exception: **Phase 2.11** auto-creates empty `.gitkeep`-stubbed *mandatory* template dirs (`reviews/`, `correspondence/editorial/`, `correspondence/referee-reviews/`, `knowledge/`, `to-sort/`), seeds `reviews/INDEX.md` and `knowledge/_index.md` with placeholders, and drops the canonical `.latexmkrc` into every directory containing `*.tex` that lacks one. These are decision-free safe defaults—no content choices are made, no existing files are touched. Every other "fix" action remains flag-only. Per `rules/review-artefact-routing.md`: never auto-create `correspondence/internal-reviews/` (legacy dir, superseded; existing instances handled by `/tidy-project-reviews`).
+1. **Read-only by default, narrow scaffold exception.** Phases are read-only with one exception: **Phase 2.11** auto-creates empty `.gitkeep`-stubbed *mandatory* template dirs (`reviews/`, `correspondence/editorial/`, `correspondence/referee-reviews/`, `knowledge/`, `to-sort/`), seeds `reviews/INDEX.md` and `knowledge/_index.md` with placeholders, and drops the canonical `.latexmkrc` into every directory containing `*.tex` that lacks one. These are decision-free safe defaults—no content choices are made, no existing files are touched. Every other "fix" action remains flag-only. Per `rules/review-artefact-routing.md`: never auto-create `correspondence/internal-reviews/` (legacy dir, superseded; existing instances are handled by the `tidy-project-reviews` skill).
 2. **Detect project type before checking.** Don't flag missing `code/` in theoretical projects.
 3. **Distinguish "missing" from "intentionally absent."** Flag but don't alarm.
 4. **Check content quality, not just existence.** Empty CLAUDE.md is worth flagging.
-5. **Mirror `/init-project-research`.** Phases 2–8 below correspond 1:1 to init's Phases 3–9. When init adds a directory or convention, add the matching audit check here AND update `/atlas-audit` SA1.
+5. **Mirror `init-project-research`.** Phases 2–8 below correspond 1:1 to init's Phases 3–9. When init adds a directory or convention, add the matching audit check here and update the matching `atlas-audit` structure check.
 
 ---
 
@@ -52,7 +54,7 @@ Ten phases, in order:
 7. **Task Management Integration** — `_index.md`, `papers/<short>.md`, `current-focus.md` entries *(mirrors init Phase 8)*
 8. **Literature & Discovery** — knowledge wiki, literature-review/, review agent outputs *(mirrors init Phase 9)*
 9. **Report** — three-severity findings table
-10. **Audit Log** — timestamped record to `.claude/audits/`
+10. **Audit Log** — timestamped record to the client-neutral `.context/audits/`
 
 ---
 
@@ -70,8 +72,8 @@ Ten phases, in order:
    | Only `paper/`, `docs/`, `log/` | Theoretical |
    | Mix of above | Mixed |
 
-5. Read `CLAUDE.md` if it exists — extract declared metadata (type, venue, authors, slug).
-6. Try to find an Atlas topic file matching the project: `find ~/vault/atlas/ -name "<slug>.md"`. If found, note path for Phase 6.
+5. Read the applicable project guidance (`CLAUDE.md`, `AGENTS.md`, or both) if present and extract declared metadata (type, venue, authors, slug). Report conflicting declarations as Degraded.
+6. Resolve `VAULT_ROOT` from the host's vault configuration when available, falling back to the conventional home-relative `vault` directory. If it exists, search `VAULT_ROOT/atlas/` for `<slug>.md` and note the path for Phase 6; otherwise report the Atlas checks as `SKIPPED (vault unavailable)`.
 
 ---
 
@@ -81,21 +83,21 @@ Audits init's Phase 3 outputs. Sub-steps run in order; results aggregate into th
 
 ### 2.1 Pre-template detection
 
-If no `.context/` AND no `.claude/`, flag as **pre-template project** with consolidated remediation commands. Skip the rest of Phase 2 — this is a structural prerequisite. See [`references/pre-template-detection.md`](references/pre-template-detection.md).
+If there is no `.context/` and neither `CLAUDE.md` nor `AGENTS.md` exists, flag a **pre-template project** with consolidated remediation commands. A client adapter directory by itself is not the shared scaffold. Skip the rest of Phase 2 because the neutral context layer is a structural prerequisite. See [`references/pre-template-detection.md`](references/pre-template-detection.md).
 
 ### 2.2 Common core directories
 
-Record present / missing / degraded. Check: `.context/`, `.claude/`, `docs/`, `docs/literature-review/`, `docs/readings/`, `docs/venues/`, `log/`, `paper*/`, `knowledge/` (required), `reviews/` (required, per `rules/review-artefact-routing.md`), `correspondence/referee-reviews/` (required), `correspondence/editorial/` (required), `to-sort/` (required).
+Record present / missing / degraded. Check the neutral core: `.context/`, at least one applicable root guidance file (`CLAUDE.md` or `AGENTS.md`), `docs/`, `docs/literature-review/`, `docs/readings/`, `docs/venues/`, `log/`, `paper*/`, `knowledge/` (required), `reviews/` (required, per `rules/review-artefact-routing.md`), `correspondence/referee-reviews/` (required), `correspondence/editorial/` (required), and `to-sort/` (required). Record `.claude/` and `.codex/` only as optional client adapters.
 
-**Legacy flag:** `correspondence/internal-reviews/` — if present, flag as `LEGACY` and recommend running `/tidy-project-reviews` to migrate content to `reviews/<source>/` (AI provenance) or `correspondence/internal/` (human provenance) per the routing rule.
+**Legacy flag:** `correspondence/internal-reviews/` — if present, flag as `LEGACY` and recommend the `tidy-project-reviews` skill to migrate content to `reviews/<source>/` (AI provenance) or `correspondence/internal/` (human provenance) per the routing rule.
 
 ### 2.3 Common core files
 
-Check: `CLAUDE.md` (project root, non-empty), `README.md`, `MEMORY.md`, `reviews/INDEX.md` (required, per `rules/review-artefact-routing.md`), `.gitignore` (must include `paper-*/backup/` and `reviews/**/archived/`), `.context/current-focus.md`, `.context/project-recap.md`, `.claude/settings.local.json`.
+Check: applicable root guidance (`CLAUDE.md` and/or `AGENTS.md`, non-empty), `README.md`, `MEMORY.md`, `reviews/INDEX.md` (required, per `rules/review-artefact-routing.md`), `.gitignore` (must include `paper-*/backup/` and `reviews/**/archived/`), `.context/current-focus.md`, and `.context/project-recap.md`. If a Claude adapter exists, also inspect `.claude/settings.local.json`; otherwise report that adapter check as skipped, not missing.
 
-**Legacy flag:** `REVIEW-STATE.md` at project root — if present, flag as `LEGACY` and recommend running `/tidy-project-reviews` to move it to `reviews/INDEX.md`.
+**Legacy flag:** `REVIEW-STATE.md` at project root — if present, flag as `LEGACY` and recommend the `tidy-project-reviews` skill to move it to `reviews/INDEX.md`.
 
-**Dual-file flag (Gap A):** if BOTH `<project>/reviews/INDEX.md` AND `<project>/REVIEW-STATE.md` exist, flag as `DEGRADED` — divergent state. This can happen if the post-Bug-1-fix `review-state-log.sh` (commit `dcbcd9fb`) hit a project where the rename Batch A missed (or where a fresh REVIEW-STATE.md was hand-created after retrofit). Recommend running `/tidy-project-reviews` to merge contents (its Phase 5.2 dedup-merges rows by `(Check, Last Run)` key) and remove REVIEW-STATE.md.
+**Dual-file flag (Gap A):** if BOTH `<project>/reviews/INDEX.md` AND `<project>/REVIEW-STATE.md` exist, flag as `DEGRADED` — divergent state. This can happen if the post-Bug-1-fix `review-state-log.sh` (commit `dcbcd9fb`) hit a project where the rename Batch A missed (or where a fresh REVIEW-STATE.md was hand-created after retrofit). Recommend the `tidy-project-reviews` skill to merge contents (its Phase 5.2 dedup-merges rows by `(Check, Last Run)` key) and remove REVIEW-STATE.md.
 
 ### 2.4 Reviews directory canonicalisation
 
@@ -110,21 +112,21 @@ See [`references/review-consistency.md`](references/review-consistency.md) for c
 
 ### 2.6 Permissions audit (read-only)
 
-Compare `.claude/settings.local.json` `allow` against global `~/.claude/settings.json`. Flag missing as Degraded. See [`references/permissions-sync.md`](references/permissions-sync.md).
+This is an optional Claude-adapter check. Resolve Task Management through the path registry and compare project `.claude/settings.local.json` against the canonical Task Management `.claude/settings.json`. If either Claude adapter file is absent, report `SKIPPED (Claude adapter unavailable)` rather than degrading the shared project. See [`references/permissions-sync.md`](references/permissions-sync.md).
 
 ### 2.7 Hooks schema validation (read-only)
 
-Every hook entry must use object format `{"type": "command", "command": "..."}`, not bare strings. See [`references/hooks-schema.md`](references/hooks-schema.md).
+When project-local Claude hooks exist, every hook entry must use object format `{"type": "command", "command": "..."}`, not bare strings. Otherwise report `SKIPPED (no project-local Claude hooks)`. See [`references/hooks-schema.md`](references/hooks-schema.md).
 
 ### 2.8 Rules hygiene (read-only)
 
-Compare project's `.claude/rules/` against global rules. Flag byte-identical duplicates as **Redundant**. See [`references/rules-sync.md`](references/rules-sync.md).
+When project-local Claude rules exist, compare `.claude/rules/` against canonical Task Management `rules/`. Flag byte-identical duplicates as **Redundant**. Otherwise report `SKIPPED (no project-local Claude rules)`. See [`references/rules-sync.md`](references/rules-sync.md).
 
 ### 2.9 GitHub release repo
 
 Validate structure and hygiene. See [`references/github-release-repo.md`](references/github-release-repo.md).
 
-**Submission-ready projects without an artifact:** flag when atlas `outputs[]` entry is Drafting/Submission-ready/Submitted/R&R and `github-repo/` is absent or vault/atlas lack `artifact_repo:` fields. Recommend `/anonymous-artifact`. Do not auto-fix.
+**Submission-ready projects without an artifact:** flag when atlas `outputs[]` entry is Drafting/Submission-ready/Submitted/R&R and `github-repo/` is absent or vault/atlas lack `artifact_repo:` fields. Mention the `anonymous-artifact` skill as a possible remediation where it is available. Do not auto-fix.
 
 **Skip for theoretical/qualitative projects:** Skip artifact-missing check when (a) Project type detected as Theoretical in Phase 1, (b) No `.py`/`.R`/`.jl`/`.do`/`.ipynb`/`.m` files outside excluded dirs, AND (c) Atlas `methods:` contains only non-computational entries.
 
@@ -148,7 +150,7 @@ Audits init's Phase 4 outputs. Beyond existence — verify meaningful content.
 
 ### 3.1 CLAUDE.md content
 
-Must have: Project Overview (title, authors, venue, type), Research Questions (≥1), Setup/Overleaf, Folder Structure, Conventions. Flag placeholder text (`<title>`, `TODO`, `TBD`) and excessive length (>200 lines). Vault sync requires Project Overview fields for metadata extraction.
+The applicable root guidance file(s) must collectively provide: Project Overview (title, authors, venue, type), Research Questions (≥1), Setup/Overleaf, Folder Structure, and Conventions. Flag placeholder text (`<title>`, `TODO`, `TBD`), contradictory `CLAUDE.md`/`AGENTS.md` facts, and excessive client entry-point length (>200 lines). Vault sync requires Project Overview fields for metadata extraction.
 
 ### 3.2 README.md content
 
@@ -162,9 +164,9 @@ Per `rules/review-artefact-routing.md`, the manifest must have:
 - `## Open issues` section (aggregated from per-report headers)
 - `## Stale sources` section (producers with no report in last 60 days)
 
-If the project still has a legacy `REVIEW-STATE.md` at root instead of `reviews/INDEX.md`, flag as `LEGACY` and direct to `/tidy-project-reviews`.
+If the project still has a legacy `REVIEW-STATE.md` at root instead of `reviews/INDEX.md`, flag as `LEGACY` and direct to the `tidy-project-reviews` skill.
 
-**Legacy 10-column schema (Gap C).** If `reviews/INDEX.md` exists but its content starts with the legacy 10-column REVIEW-STATE.md table header (`| Paper | Check | Last Run | Verdict | Score | Open Issues | Source | Trigger | Report | Notes |`), flag as `DEGRADED — legacy schema`. This is the Batch A (2026-05-17) retrofit pattern: 278 projects had their REVIEW-STATE.md renamed to reviews/INDEX.md verbatim without translating the content into the "Latest per source" manifest. The legacy schema is functional (rows continue to append correctly via the helper) but doesn't render the way `/review-recap` expects post-2026-05-17. Recommend running `/review-recap` to migrate content; do NOT auto-rewrite (audit is read-only here).
+**Legacy 10-column schema (Gap C).** If `reviews/INDEX.md` exists but its content starts with the legacy 10-column REVIEW-STATE.md table header (`| Paper | Check | Last Run | Verdict | Score | Open Issues | Source | Trigger | Report | Notes |`), flag as `DEGRADED — legacy schema`. This is the Batch A (2026-05-17) retrofit pattern: 278 projects had their REVIEW-STATE.md renamed to reviews/INDEX.md verbatim without translating the content into the "Latest per source" manifest. The legacy schema is functional (rows continue to append correctly via the helper) but doesn't render the way the `review-recap` skill expects post-2026-05-17. Recommend that skill to migrate content; do NOT auto-rewrite (audit is read-only here).
 
 ### 3.4 .gitignore content
 
@@ -249,7 +251,7 @@ If `reviews/` exists, verify structure follows the routing rule (`rules/review-a
 - No review reports at the project root (`./CRITIC-REPORT.md` and similar are rule violations)
 - No content files under `correspondence/internal-reviews/` (legacy)
 
-If any of these checks fail, flag as `DEGRADED` and recommend `/tidy-project-reviews` to retrofit. See [`references/review-agent-outputs.md`](references/review-agent-outputs.md) for the legacy reference (now superseded by the routing rule).
+If any of these checks fail, flag as `DEGRADED` and recommend the `tidy-project-reviews` skill to retrofit. See [`references/review-agent-outputs.md`](references/review-agent-outputs.md) for the legacy reference (now superseded by the routing rule).
 
 ---
 
@@ -269,9 +271,9 @@ Full report format with severity markers and remediation lines: [`references/rep
 
 ## Phase 10: Audit Log
 
-After presenting the report, save a timestamped log to `.claude/audits/` in the project:
+After presenting the report, save a timestamped log to `.context/audits/` in the project:
 
-1. Create `.claude/audits/` if it doesn't exist (this is the only directory the skill creates — it's a self-contained audit trail, not a project-state mutation).
+1. Create `.context/audits/` if it doesn't exist (this is the only audit-log directory the skill creates; Phase 2.11 remains the separate narrow scaffold exception). Treat any existing `.claude/audits/` files as legacy history, but never write new logs there.
 2. Write `YYYY-MM-DD-structure-audit.md` with:
    - Date, project name, detected type
    - Summary table (Missing / Degraded / Info counts with items)
@@ -284,21 +286,21 @@ Persistent audit trail so future sessions can see what was checked and when.
 
 ## What This Skill Does NOT Do
 
-- Does not create or fix anything in the project (except writing the audit log to `.claude/audits/` in Phase 10)
+- Does not create or fix anything in the project except the explicitly listed Phase 2.11 scaffold additions and the `.context/audits/` log in Phase 10
 - Does not check file content beyond seed files
-- Does not compare against other projects (use `/atlas-audit` for that)
+- Does not compare against other projects (use the `atlas-audit` skill where available)
 - Does not enforce uniformity — identifies unintentional gaps
 
 ---
 
 ## Cross-References
 
-- `/init-project-research` — the template this skill audits against. **Structural checks here mirror init's scaffold.** When init adds a new directory or convention (e.g., `github-repo/`), add a matching audit check here AND update `/atlas-audit` SA1.
-- `/atlas-audit` — batch-audits all projects via SA1. SA1's structure checks must stay consistent with this skill's phases.
-- `/sync-permissions` — fixes Phase 2.5 permissions findings.
-- `/project-safety` — safety rules and folder guardrails.
-- `/update-project-doc` — fixes stale documentation (run after this audit).
-- `/compile-knowledge` — fixes Phase 8.1 empty-knowledge-wiki findings.
+- `init-project-research` — the template this skill audits against. **Structural checks here mirror init's scaffold.** When init adds a new directory or convention (e.g., `github-repo/`), add a matching audit check here and update the matching `atlas-audit` structure check.
+- `atlas-audit` — batch-audits all projects when its Atlas service is available. Its structure checks must stay consistent with this skill's phases.
+- `sync-permissions` — can fix Phase 2.6 Claude-adapter permission findings where that adapter is installed.
+- `project-safety` — safety rules and folder guardrails.
+- `update-project-doc` — fixes stale documentation after this audit.
+- `compile-knowledge` — fixes Phase 8.1 empty-knowledge-wiki findings.
 ## Papers-layout checks (2026-07-03, FB directive)
 
 Per rules/submission-file-archive.md § Topic-folder layout, audit:

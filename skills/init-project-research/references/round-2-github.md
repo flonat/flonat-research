@@ -21,6 +21,6 @@ Only ask this question for **Experimental, Computational, or Mixed** projects. T
 - The release repo is a **separate repo** from the project's main git history. This keeps the public artefact clean (no draft commits, no internal correspondence in history).
 - Naming: `user/<project-slug>-replication` for replication packages, `user/<project-slug>` for general code.
 - License: MIT for code, CC-BY-4.0 for data, unless the user specifies otherwise.
-- Replication packages should follow `/replication-package` conventions.
+- Replication packages should follow `replication-package` conventions.
 
 Full release-repo conventions: [`github-release-repo.md`](github-release-repo.md).

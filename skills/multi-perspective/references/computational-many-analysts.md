@@ -19,7 +19,7 @@ These are complementary, not competing, approaches to robustness:
 
 ## When to Combine
 
-Use `/multi-perspective` first, then many-analysts:
+Use `multi-perspective` first, then many-analysts:
 
 1. **Stage 1 — Multi-Perspective:** "What identification strategy should we use for this policy evaluation?" Spawn disciplinary perspectives to debate DiD vs synthetic control vs IV.
 2. **Lock the approach** based on the synthesis (agreements, resolved tensions).
@@ -66,12 +66,12 @@ Each level subsumes the one below: if agents can't reproduce the same estimate a
 
 ## Connection to Council Mode
 
-The `/multi-perspective` council mode (using `council-cli` with multiple LLM providers) adds genuine model diversity on top of persona diversity. The many-analysts design adds specification diversity on top of that. They operate on different axes:
+The `multi-perspective` council mode (using `council-cli` with multiple LLM providers) adds genuine model diversity on top of persona diversity. The many-analysts design adds specification diversity on top of that. They operate on different axes:
 
 | Axis | What varies | Tool |
 |------|-------------|------|
 | Model diversity | LLM provider (Claude, GPT, Gemini) | Council mode |
-| Persona diversity | Disciplinary lens and epistemic prior | `/multi-perspective` standard mode |
+| Persona diversity | Disciplinary lens and epistemic prior | `multi-perspective` standard mode |
 | Specification diversity | Implementation choices within a fixed method | Many-analysts design |
 
 All three can run on the same research question, each contributing a different kind of robustness evidence.

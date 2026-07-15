@@ -1,7 +1,7 @@
 {
   "name": "flonat-research",
-  "version": "0.2.1",
-  "description": "Claude Code infrastructure for academic research — skills, agents, hooks, and rules for LaTeX, bibliography, proofreading, and project management workflows.",
+  "version": "0.3.0",
+  "description": "Client-neutral academic research infrastructure for Claude Code and Codex, with managed skills, agents, rules, hooks, and files-first context.",
   "author": "the user",
   "license": "MIT",
   "repository": {
@@ -11,6 +11,7 @@
   "homepage": "https://github.com/flonat/flonat-research",
   "keywords": [
     "claude-code",
+    "codex",
     "academic",
     "research",
     "latex",
@@ -22,26 +23,34 @@
     "hooks"
   ],
   "bin": {
-    "flonat-research": "scripts/setup.sh"
+    "flonat-research": "scripts/npm-install.mjs"
   },
   "scripts": {
-    "postinstall": "echo '\\nRun: npx flonat-research\\nto create symlinks for skills, agents, hooks, and rules.\\n'",
-    "setup": "bash scripts/setup.sh"
+    "setup": "node scripts/npm-install.mjs"
   },
   "files": [
+    "AI.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "MEMORY.md",
     "skills/",
     "hooks/",
     ".claude/agents/",
+    ".claude/commands/",
     ".claude/rules/",
     ".claude/settings.json",
+    ".codex/agents/",
     ".context/",
     ".scripts/",
     ".mcp-server-biblio/",
     "packages/",
+    "config/",
     "docs/",
+    "scripts/install.py",
+    "scripts/npm-install.mjs",
     "scripts/setup.sh",
-    "CLAUDE.md",
-    "MEMORY.md",
+    "scripts/setup.ps1",
+    "CONTRIBUTING.md",
     "LICENSE",
     "README.md"
   ],

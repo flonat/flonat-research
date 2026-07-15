@@ -151,6 +151,6 @@ Once you have enough information (typically 5–8 exchanges), produce a **Resear
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/devils-advocate` | After the spec is written — stress-test the idea |
-| `/literature` | To find related work mentioned during the interview |
-| `/init-project-research` | To scaffold a project once the spec is approved (seeds empty field-calibration) |
+| `devils-advocate` | After the spec is written — stress-test the idea |
+| `literature` | To find related work mentioned during the interview |
+| `init-project-research` | To scaffold a project once the spec is approved (seeds empty field-calibration) |

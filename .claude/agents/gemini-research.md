@@ -46,7 +46,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<scope>/gemini-research/<YYYY-MM-DD-HHMM>.md` inside the project, where `<scope>` is the paper slug (e.g., `paper-jtp`, `paper-philtech`) if dispatched for a specific paper, or `_project` if project-level. Check the dispatch prompt or the `paper:` field in the directive to determine scope. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if the same-timestamp file exists, append a same-run descriptor (`{timestamp}-revision.md`, `{timestamp}-r2.md`, `{timestamp}-pre-submission.md` where `{timestamp}` is YYYY-MM-DD-HHMM) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 

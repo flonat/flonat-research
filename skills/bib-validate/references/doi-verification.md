@@ -11,7 +11,7 @@
    - **No DOI in .bib + no Crossref match**: WARN with HIGH severity (likely fabricated entry; recommend removing or replacing)
 
 4. Output: `bib-doi-verification-{date}.md` table with columns: key, has_doi, resolves, suggested_doi, severity.
-5. For new `.bib` entries (added in last commit or staged), run automatically without `--verify-doi` flag if the user invokes from `/session-close` Phase 4. Otherwise opt-in.
+5. For new `.bib` entries (added in last commit or staged), run automatically without `--verify-doi` flag if the user invokes from `session-close` Phase 4. Otherwise opt-in.
 
 Performance: ~10 entries/sec via batched calls. A 100-entry bib takes ~10s.
 

@@ -2,7 +2,7 @@
 # /// script
 # requires-python = ">=3.11"
 # ///
-"""Deterministic Phase 4 verifier for /init-paper-book.
+"""Deterministic Phase 4 verifier for init-paper-book.
 
 Runs four mechanical checks on a drafted book against its source paper + bib:
     1. Citation key existence

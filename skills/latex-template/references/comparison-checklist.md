@@ -1,6 +1,6 @@
 # Comparison Checklist & Classification Rules
 
-> Reference file for `/latex-template`. Detailed check tables for Phase 2, classification rules for Phase 3, and auxiliary checks for Phase 4.
+> Reference file for `latex-template`. Detailed check tables for Phase 2, classification rules for Phase 3, and auxiliary checks for Phase 4.
 
 ## Phase 2: Comparison — Detailed Checks
 

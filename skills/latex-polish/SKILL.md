@@ -1,41 +1,42 @@
 ---
 name: latex-polish
-description: "Use when /latex reports a clean build but the document still needs a deeper visual-quality review. Runs the Phase 4 source-pathology lint AND renders selected PDF pages to images for vision-model inspection, catching rendered-output issues that grep cannot — weird title pages, clipped tables, bad float placement, illegible shrunken figures."
+description: "Use when latex reports a clean build but the document still needs a deeper visual-quality review. Runs the Phase 4 source-pathology lint AND renders selected PDF pages to images for vision-model inspection, catching rendered-output issues that grep cannot — weird title pages, clipped tables, bad float placement, illegible shrunken figures."
 allowed-tools: Bash(ls*, mkdir*, cp*, pdftoppm*, pdftocairo*, pdfinfo*, grep*, sed*, awk*, find*, chktex*, latexindent*, cat*, head*, tail*, wc*, sort*, uniq*, rm*, mktemp*), Read, Write, Edit, Glob, Grep
 argument-hint: "[tex-path] [--no-vision] [--pages 'auto|1,3,5']"
+skill-dependencies: [latex]
 ---
 
 # LaTeX Polish — Source Lint + Vision-On-Rendered-PDF
 
-> Heavier-weight visual-quality review than `/latex`. Combines the Phase 4 source-pathology lint with vision-model inspection of selected rendered PDF pages. Designed to catch the failure class that `/latex` Phase 4 source-grep misses: blank pages, clipped tables, illegible shrunken figures, weird title-page line spacing that the regex couldn't fingerprint, bad float placement, overlap.
+> Heavier-weight visual-quality review than `latex`. Combines the Phase 4 source-pathology lint with vision-model inspection of selected rendered PDF pages. Designed to catch the failure class that `latex` Phase 4 source-grep misses: blank pages, clipped tables, illegible shrunken figures, weird title-page line spacing that the regex couldn't fingerprint, bad float placement, overlap.
 
 ## When to Use
 
 - Pre-submission visual check on a paper, proposal, thesis, or deck
 - After major restructuring (new sections, table re-layouts, figure swaps) when you want eyes on the rendered output
-- When `/latex` reports a clean build but something still "looks weird"
+- When `latex` reports a clean build but something still "looks weird"
 - When preparing for a panel / supervisor read where presentation matters
 
 ## When NOT to Use
 
 | Need | Use instead |
 |------|-------------|
-| Compile-fix loop | `/latex` |
-| Citation audit | `/latex` (Phase 5) or `/bib-validate` |
-| Prose / academic-argument review | `/proofread` |
-| Single-figure analysis | `/figure-feedback` |
+| Compile-fix loop | `latex` |
+| Citation audit | `latex` (Phase 5) or `bib-validate` |
+| Prose / academic-argument review | `proofread` |
+| Single-figure analysis | `figure-feedback` |
 | Continuous integration | This skill renders + vision-inspects pages; too expensive to run on every save |
 
 ## Inputs
 
 - **`.tex` path** — auto-discovered or user-provided. Prefer the user's argument.
-- **PDF path** — assumed at `<project>/<basename>.pdf` (per `/latex` convention). If absent or older than `.tex`, the skill aborts and suggests `/latex` first.
+- **PDF path** — assumed at `<project>/<basename>.pdf` (per `latex` convention). If absent or older than `.tex`, the skill aborts and suggests `latex` first.
 - **`--no-vision`** — skip the vision-rendering phases (Page rendering onward), run the source-pathology lint only.
 - **`--pages auto|N,N,N`** — page selection override. Default `auto`.
 
 ## Hard Rules
 
-1. **Do not compile.** This skill presupposes a clean PDF. If the PDF is missing or stale, abort and suggest `/latex` first.
+1. **Do not compile.** This skill presupposes a clean PDF. If the PDF is missing or stale, abort and suggest `latex` first.
 2. **Read-only with respect to source files.** Exception: Pattern-1 (spacing-hack) opt-in fix, which is offered with a diff and only applied on explicit user yes.
 3. **No deploy actions.** This skill produces a report; it does not commit, push, or modify build infrastructure.
 4. **Cap render cost.** Max 8 pages rendered per invocation. If page selection would exceed 8, prioritise: title page, worst-overfull page, first table/figure page, then arbitrary sample.
@@ -46,15 +47,15 @@ argument-hint: "[tex-path] [--no-vision] [--pages 'auto|1,3,5']"
 ### Phase 1: Pre-flight
 
 1. Resolve `.tex` path. If a directory was given, find `main.tex` or single `.tex` inside.
-2. Resolve PDF path: `<dirname>/<basename without .tex>.pdf`. If missing or older than `.tex`, abort with: "Stale or missing PDF — run `/latex` first."
+2. Resolve PDF path: `<dirname>/<basename without .tex>.pdf`. If missing or older than `.tex`, abort with: "Stale or missing PDF — run `latex` first."
 3. Verify `pdftoppm` is on PATH. If not, abort with install hint (`brew install poppler` on macOS).
 4. Create render dir: `mktemp -d /tmp/latex-polish.XXXXXX`. Track this as `$RENDER_DIR`.
 
-### Phase 2: Source-pathology re-run (Phase 4 of `/latex`)
+### Phase 2: Source-pathology re-run (Phase 4 of `latex`)
 
 Run the 9 grep-based source-pathology detectors from `<skills-root>/latex/references/source-pathologies.md`, plus `chktex` and `latexindent -k` if installed. Collect findings into a structured list.
 
-This phase is identical to `/latex` Phase 4 and is rerun here for self-containment (so `/latex-polish` can be invoked without a prior `/latex` run).
+This phase is identical to `latex` Phase 4 and is rerun here for self-containment (so `latex-polish` can be invoked without a prior `latex` run).
 
 ### Phase 3: Page selection
 
@@ -149,7 +150,7 @@ PASS / NOTES / REVISE — based on the worst finding tier across both phases.
 ### Phase 7: Quality score
 
 Read [`references/quality-rubric.md`](references/quality-rubric.md). Compute deductions across:
-- Source-pathology findings (mirrors `/latex` rubric)
+- Source-pathology findings (mirrors `latex` rubric)
 - Vision findings (this skill's distinct contribution)
 
 Verdict thresholds per `skills/shared/quality-scoring.md`. Append the Score Block to the report.
@@ -166,21 +167,21 @@ Wait for explicit user approval. If yes, apply via narrow `Edit` calls and recom
 
 This is the only auto-fix offered. All other findings are report-only.
 
-## What `/latex-polish` does NOT do
+## What `latex-polish` does NOT do
 
-- Compile or fix compile errors (use `/latex` first)
-- Modify prose or argument (`/proofread` covers that)
-- Audit citations (`/latex` Phase 5 or `/bib-validate`)
-- Replace `/figure-feedback` for standalone figure-file analysis
+- Compile or fix compile errors (use `latex` first)
+- Modify prose or argument (`proofread` covers that)
+- Audit citations (`latex` Phase 5 or `bib-validate`)
+- Replace `figure-feedback` for standalone figure-file analysis
 - Auto-commit, auto-push, or modify settings.json / hooks / rules
 
 ## Cross-references
 
 | Skill / File | Relationship |
 |---|---|
-| `/latex` | Compile + Phase 4 grep lint + citation audit. `/latex-polish` is the deeper sibling for visual-quality review. |
-| `/figure-feedback` | Vision pattern this skill reuses for per-page analysis |
-| `/proofread` | Prose / argument review; non-overlapping concern |
+| `latex` | Compile + Phase 4 grep lint + citation audit. `latex-polish` is the deeper sibling for visual-quality review. |
+| `figure-feedback` | Vision pattern this skill reuses for per-page analysis |
+| `proofread` | Prose / argument review; non-overlapping concern |
 | `<skills-root>/latex/references/source-pathologies.md` | Shared detector catalogue |
 | `rules/review-artefact-routing.md` | Where the polish report is filed |
 | `rules/manuscript-edit-budget.md` | Why this skill is report-only by default |

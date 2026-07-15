@@ -8,7 +8,7 @@
 
 ```
 Task Management root: $TM/
-Global Claude config: ~/.claude/
+Canonical shared AI configuration: resolve the Task Management root from `$HOME/.config/task-mgmt/path`; inspect deployed client surfaces only through the generated availability registry and doctor output.
 Project index: .context/projects/_index.md
 Research projects root: $RESEARCH_ROOT/
 Research project categories (subdirectories of the root above):
@@ -36,7 +36,7 @@ Quick scan of bibliography files and project health across the user's research p
    $RESEARCH_ROOT/
    Categories: Category A, Category B, Category C, Category D, Category E, Category F, Category G.
    Search each project directory and its paper/ subdirectory (2 levels deep from category).
-   Skip packages/scout/ (tooling, not a research project — now lives in Task Management).
+   Skip packages/tooling/ (tooling, not a research project — now lives in Task Management).
 
 2. For each .bib file found:
    - Count entries (grep for @article, @inproceedings, @book, @misc, etc.)
@@ -48,7 +48,7 @@ Quick scan of bibliography files and project health across the user's research p
 
 4. **Summary table:** Project | Category | Bib file | Entry count | Naming OK | MEMORY.md
 
-Do NOT do a full validation — that's what /bib-validate is for. Just flag projects that should be audited in detail.
+Do NOT do a full validation — that's what bib-validate is for. Just flag projects that should be audited in detail.
 ```
 
 ## Sub-Agent 3: Convention Compliance
@@ -58,7 +58,7 @@ Do NOT do a full validation — that's what /bib-validate is for. Just flag proj
 Check convention compliance across the user's research projects. Scan each project directory under:
 $RESEARCH_ROOT/
 Categories: Category A, Category B, Category C, Category D, Category E, Category F, Category G.
-Skip packages/scout/ (tooling, not a research project).
+Skip packages/tooling/ (tooling, not a research project).
 
 For each project, check:
 

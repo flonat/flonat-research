@@ -201,7 +201,7 @@ Report when done: pages read, figures/tables found, one-sentence content summary
 
 After the agent returns, the parent reads the output files (plain markdown, not PDF images) and continues its workflow.
 
-**Standalone invocations** (user calls `/split-pdf` directly) use the interactive protocol above with reads in the main conversation and the pause-and-confirm protocol.
+**Standalone invocations** (user calls `split-pdf` directly) use the interactive protocol above with reads in the main conversation and the pause-and-confirm protocol.
 
 ## When NOT to Split
 

@@ -3,6 +3,7 @@ name: knowledge-lint
 description: "Use when you need to check compiled knowledge for contradictions, uncited claims, missing connections, stale articles, and orphaned concepts."
 allowed-tools: Read, Glob, Grep, Write, Agent
 argument-hint: "[project-path] or no arguments for CWD"
+skill-dependencies: [audit-project-research, bib-validate, compile-knowledge]
 ---
 
 # Knowledge Lint
@@ -17,29 +18,29 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/_project/knowledge-lint/YYYY-MM-DD-HHMM.md` inside the project. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
 ## When to Use
 
-- After running `/compile-knowledge` to verify integrity
+- After running `compile-knowledge` to verify integrity
 - Before writing a paper section to check the knowledge base is solid
 - Periodically (monthly) to catch drift
 - When switching between projects to verify knowledge is current
 
 ## When NOT to Use
 
-- If no `knowledge/` directory exists — run `/compile-knowledge` first
-- For structural project audits — use `/audit-project-research`
-- For bibliography validation — use `/bib-validate`
+- If no `knowledge/` directory exists — run `compile-knowledge` first
+- For structural project audits — use `audit-project-research`
+- For bibliography validation — use `bib-validate`
 
 ---
 
 ## Pre-Check
 
 1. Verify `knowledge/` exists and has at least 2 articles (linting a single article is pointless)
-2. If missing: "No knowledge directory found. Run `/compile-knowledge` first."
+2. If missing: "No knowledge directory found. Run `compile-knowledge` first."
 
 ---
 
@@ -102,7 +103,7 @@ Check for concepts that should link to each other but don't:
 
 ### 6. Promotion readiness (advisory)
 
-Project knowledge articles are the upstream source that `/wiki-grow`
+Project knowledge articles are the upstream source that `wiki-grow`
 promotes into vault concepts (`~/vault/concepts/`). Articles
 that escape their origin project (mentioned in ≥3 corpus docs) get
 auto-promoted as `status: draft` and later curated to the **concept
@@ -174,7 +175,7 @@ Write `correspondence/internal-reviews/KNOWLEDGE-LINT-REPORT.md` (create directo
 
 | Skill | Relationship |
 |-------|-------------|
-| `/compile-knowledge` | Run this first to build/update the wiki |
-| `/store-insight` | Use to fix individual gaps found by lint |
-| `/atlas-coherence` | Complementary — checks topic-level connections, not article-level |
-| `/wiki-curate` | Downstream — audits the vault concepts these articles promote into (anatomy, lifecycle, overlap) |
+| `compile-knowledge` | Run this first to build/update the wiki |
+| `store-insight` | Use to fix individual gaps found by lint |
+| `atlas-coherence` | Complementary — checks topic-level connections, not article-level |
+| `wiki-curate` | Downstream — audits the vault concepts these articles promote into (anatomy, lifecycle, overlap) |

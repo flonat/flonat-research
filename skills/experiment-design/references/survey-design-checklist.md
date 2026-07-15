@@ -1,6 +1,6 @@
 # Survey Design Checklist
 
-> Quality checks for survey instruments. Read during Survey mode of `/experiment-design`.
+> Quality checks for survey instruments. Read during Survey mode of `experiment-design`.
 
 ## Survey Flow Order
 

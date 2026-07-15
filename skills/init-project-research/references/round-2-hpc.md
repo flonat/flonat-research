@@ -13,7 +13,7 @@ Only ask this question for **Experimental, Computational, or Mixed** projects. T
 | Answer | What to do |
 |--------|-----------|
 | **Yes** | Scaffold the full `hpc/` directory now (file list below). |
-| **Later** | Add `hpc/` to `.gitignore` as a placeholder. Scaffold on demand when the user runs `/init-project-research --hpc <project>` or asks for HPC setup directly. |
+| **Later** | Add `hpc/` to `.gitignore` as a placeholder. Scaffold on demand when the user runs `init-project-research --hpc <project>` or asks for HPC setup directly. |
 | **No** | Do nothing. |
 
 ## Files scaffolded when Yes

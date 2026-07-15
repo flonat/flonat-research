@@ -102,7 +102,7 @@ Everything up to date. No new permissions to add. Skills OK. Agents OK.
 
 ## Example
 
-Running `/sync-permissions` after adding `web fetch` and `Skill(literature)` to `~/.claude/settings.json`:
+Running `sync-permissions` after adding `web fetch` and `Skill(literature)` to `~/.claude/settings.json`:
 
 ```
 Permissions sync complete:

@@ -5,9 +5,9 @@
 
 ## Known failure mode (incident 2026-05-31)
 
-**Sub-agent dispatch for `/literature` and  regularly returns without writing files** because sub-agents launched via the `Agent` tool do not inherit the parent session's Bash permissions, and the underlying skills shell out to paperpile / scholarly / refpile / scout CLIs. One failure mode is honest ("I need Bash permission"); a worse one is **hallucinated success** — the sub-agent claims files exist that were never written. See `log/incidents/2026-05-31_subagent-bash-failure-and-hallucinated-success.md`.
+**Sub-agent dispatch can return without writing files** when delegated workers do not inherit shell permissions. Verify every promised output exists before continuing.
 
-**Default execution model:** run `/literature` and  **in the main session context**, not as sub-agents. The main session has all the perms the user granted to the project.
+**Default execution model:** run `literature` and  **in the main session context**, not as sub-agents. The main session has all the perms the user granted to the project.
 
 If you do dispatch as sub-agents (e.g. for parallelism on a long deep-pull):
 
@@ -17,7 +17,7 @@ If you do dispatch as sub-agents (e.g. for parallelism on a long deep-pull):
 
 ## 9a. Literature Review
 
-Launch `/literature` targeting the project's research topic. Uses the working title, abstract, key research questions, and any references from the Atlas topic file as search seeds.
+Launch `literature` targeting the project's research topic. Uses the working title, abstract, key research questions, and any references from the Atlas topic file as search seeds.
 
 1. Spawn a sub-agent (`Task` tool) that runs the literature skill:
    - Search query: derived from the working title + key concepts from the interview
@@ -27,15 +27,15 @@ Launch `/literature` targeting the project's research topic. Uses the working ti
 2. Scope: foundational papers + recent work (last 3 years) + closest competitors
 3. Target: 15-25 papers for an initial literature map
 
-## 9b. Scout Discovery Audit
+## 9b. research discovery workflow Discovery Audit
 
 Launch  in novelty mode to assess the topic's competitive landscape.
 
 ```bash
-scout novelty "<working-title-or-research-question>" --source multi
+scholarly scholarly-search "<working-title-or-research-question>" --source multi
 ```
 
-1. Save the scout report to `docs/YYYY-MM-DD-scout-novelty.md`
+1. Save the discovery report to `docs/YYYY-MM-DD-discovery-novelty.md`
 2. If the novelty score is **below 5/10**, flag in the confirmation report: "Low novelty score — consider reframing before investing further"
 3. If the novelty score is **above 7/10**, note as a positive signal
 
@@ -44,8 +44,8 @@ scout novelty "<working-title-or-research-question>" --source multi
 After both complete:
 
 1. Update the Atlas topic file's `## Key References` section with the top 5-8 foundational papers discovered
-2. Add the novelty score to the Atlas topic file: `## Novelty Assessment\n\n**Score: X/10** (scouted YYYY-MM-DD). [one-line summary]`
-3. If scout identifies specific competitors, add them to `## Key References` with differentiation notes
+2. Add the novelty score to the Atlas topic file: `## Novelty Assessment\n\n**Score: X/10** (reviewed YYYY-MM-DD). [one-line summary]`
+3. If discovery identifies specific competitors, add them to `## Key References` with differentiation notes
 
 ## Error Handling
 

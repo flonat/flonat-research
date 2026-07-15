@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic facts for /system-audit.
+"""Deterministic facts for system-audit.
 
 Replaces the count/link-heavy sub-agents that proved unreliable in the
 2026-05-23 audit (SA1 Inventory, SA4 Documentation Freshness, SA5 Ecosystem

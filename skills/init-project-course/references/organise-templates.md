@@ -1,6 +1,6 @@
 # Phase 3: Organise — Templates & Handling Rules
 
-> Directory structure templates, workshop naming, and file handling rules for `/init-project-course` Phase 3.
+> Directory structure templates, workshop naming, and file handling rules for `init-project-course` Phase 3.
 
 ---
 
@@ -22,7 +22,7 @@ module-folder/
 │   ├── individual/          # Only if individual assessment exists
 │   └── exam/                # Only if exam exists
 ├── docs/                    # Module specification, guidelines, syllabi
-├── knowledge/               # LLM-maintained wiki (compiled by /compile-knowledge)
+├── knowledge/               # LLM-maintained wiki (compiled by compile-knowledge)
 ├── reviews/                 # Created on demand by review agents
 ├── to-sort/                 # Inbox for unsorted files
 ├── .claude/
@@ -52,7 +52,7 @@ module-folder/
 ├── marking/                 # Marking scripts, rubrics, feedback templates
 ├── shared-folder/           # Student-facing materials (if applicable)
 ├── docs/                    # Module specification, guidelines
-├── knowledge/               # LLM-maintained wiki (compiled by /compile-knowledge)
+├── knowledge/               # LLM-maintained wiki (compiled by compile-knowledge)
 ├── reviews/                 # Created on demand by review agents
 ├── to-sort/                 # Inbox for unsorted files
 ├── .claude/

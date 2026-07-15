@@ -17,7 +17,7 @@ Main orchestrator context (has bibliography CLIs + native web search)
     │
     ├─ Step 1: Extract paper summary
     ├─ Step 2: Literature Expansion (RefPile/Paperpile → scholarly CLI → web search)
-    ├─ Step 3: Baseline Scout
+    ├─ Step 3: Baseline Reviewer
     ├─ Step 4: Domain Narrative
     └─ Step 5: Handoff — serialize to /tmp/ka-* files
                 │
@@ -97,11 +97,11 @@ The `submission_date` becomes `{cutoff_date}` — all literature searches are co
 
 5. **Serialize** to `/tmp/ka-literature-{timestamp}.json` (array of paper objects).
 
-### Step 3: Baseline Scout
+### Step 3: Baseline Reviewer
 
 **Goal:** Identify missing baselines and datasets that weaken the paper's empirical claims.
 
-**Adapted from ScholarPeer's "ferocious benchmarking expert" prompt:** The Baseline Scout is adversarial — its job is to find what the authors are hiding or overlooked.
+**Adapted from ScholarPeer's "ferocious benchmarking expert" prompt:** The Baseline Reviewer is adversarial — its job is to find what the authors are hiding or overlooked.
 
 **Process:**
 

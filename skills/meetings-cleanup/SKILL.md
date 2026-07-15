@@ -4,7 +4,7 @@ description: Manage old recordings — find large files, archive old meetings, d
 user_invocable: true
 ---
 
-# /meetings-cleanup
+# meetings-cleanup
 
 Help the user manage disk space and organize old recordings.
 

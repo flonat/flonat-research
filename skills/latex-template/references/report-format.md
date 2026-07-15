@@ -1,6 +1,6 @@
 # Template Compliance — Report Format
 
-> Phase 5 report template for `/latex-template`. Adapt to actual audit findings.
+> Phase 5 report template for `latex-template`. Adapt to actual audit findings.
 
 ## Severity Levels
 
@@ -179,7 +179,7 @@ RECOMMENDATIONS (prioritised)
   9. Add missing hyperref keys (anchorcolor)
   10. Add hypothesis theorem environment
 
-Run `/latex-template ~/papers/costly-voice --apply` to interactively apply changes.
+Run `latex-template ~/papers/costly-voice --apply` to interactively apply changes.
 ```
 
 ## Score Interpretation

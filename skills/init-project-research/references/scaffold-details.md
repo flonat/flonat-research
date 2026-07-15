@@ -1,6 +1,6 @@
 # Scaffold Details
 
-> Templates, directory structures, and reference material used by `/init-project-research`. The SKILL.md has pointers here — read this when executing the relevant phase.
+> Templates, directory structures, and reference material used by `init-project-research`. The SKILL.md has pointers here — read this when executing the relevant phase.
 
 ---
 
@@ -13,7 +13,7 @@ docs/venues/<venue-slug>/      # e.g., docs/venues/ejor/, docs/venues/mcdm-2026/
 └── submission/                # .gitkeep — for initial submission materials
 
 paper-<venue>/correspondence/
-└── referee-reviews/            # .gitkeep — for review rounds (seeded by /strategic-revision)
+└── referee-reviews/            # .gitkeep — for review rounds (seeded by strategic-revision)
 ```
 
 As the project progresses through submission and revision cycles, material splits across two locations:
@@ -71,11 +71,11 @@ For **conference venues**, seed a `submission-checklist.md` inside the venue fol
 ## Pre-Submission
 - [ ] Page count within limit
 - [ ] Correct LaTeX template used
-- [ ] Anonymisation applied (if required) — use `/replication-package` Blind mode
+- [ ] Anonymisation applied (if required) — use `replication-package` Blind mode
 - [ ] All figures render correctly
-- [ ] Bibliography complete — run `/bib-validate`
-- [ ] Proofread — run `/proofread`
-- [ ] AI traces removed — use `/replication-package` Assemble mode
+- [ ] Bibliography complete — run `bib-validate`
+- [ ] Proofread — run `proofread`
+- [ ] AI traces removed — use `replication-package` Assemble mode
 
 ## Submission
 - [ ] Paper uploaded to submission system
@@ -134,23 +134,23 @@ Used in Phase 8 when creating `.context/projects/papers/<short-name>.md`:
 
 ## Expected Post-Init Growth
 
-Projects naturally grow beyond the initial scaffold. These items are **not** created by `/init-project-research` but are recognized as valid by `/audit-project-research`:
+Projects naturally grow beyond the initial scaffold. These items are **not** created by `init-project-research` but are recognized as valid by `audit-project-research`:
 
 | Growth item | When it appears | Purpose |
 |-------------|----------------|---------|
 | `experiments/` | Computational projects with parameter sweeps | Experiment configs, sweep logs, results |
 | `experiments/configs/` | Sub-directory for sweep YAML/JSON files | Parameter sweep definitions |
 | `scripts/` | When utility scripts accumulate | One-off data processing, plotting scripts |
-| `legacy/` | After refactoring or restructuring | Preserves old code/data safely (per `/project-safety`) |
+| `legacy/` | After refactoring or restructuring | Preserves old code/data safely (per `project-safety`) |
 | `paper-<venue>/correspondence/referee-reviews/<venue>-roundN/` | After receiving R&R | Reviewer comments, rebuttal, analysis |
 | `docs/<venue>/internal-reviews/` | After running referee2 agent | Internal review reports (not round-specific) |
 | `docs/venues/<venue>/camera-ready/` | After acceptance | Final camera-ready version |
 | `notes.md` | Early research phase | Quick research notes, meeting summaries |
 | `SETUP.md` | Computational projects with dependencies | Environment setup for collaborators |
 | `pyproject.toml` / `.venv/` | Python-heavy projects | Package management |
-| `.planning/` | After running `/init-project-orchestration` | Project roadmap and state tracking |
-| `.claude/agents/` | After running `/init-project-orchestration` | Project-level role-specific agents |
-| `.claude/commands/` | After running `/init-project-orchestration` | Project-level repeatable task commands |
+| `.planning/` | After running `init-project-orchestration` | Project roadmap and state tracking |
+| `.claude/agents/` | After running `init-project-orchestration` | Project-level role-specific agents |
+| `.claude/commands/` | After running `init-project-orchestration` | Project-level repeatable task commands |
 
 ---
 

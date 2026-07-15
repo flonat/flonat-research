@@ -3,13 +3,16 @@ name: init-project-research
 description: "Use when you need to bootstrap a full research project with directory scaffold and Overleaf symlink."
 allowed-tools: Bash(mkdir*), Bash(ln*), Bash(ls*), Bash(git*), Bash(touch*), Bash(jq*), Bash(uv*), Bash(curl*), Bash(wget*), Read, Write, Edit, Glob, Grep, Task, WebSearch, WebFetch, AskUserQuestion
 argument-hint: "[project-name or no arguments for guided setup]"
+skill-dependencies: [anonymous-artifact, bib-validate, literature, proofread, replication-package]
 ---
 
 # Init Project Research
 
-Interview-driven skill that scaffolds a research project directory, creates an Atlas topic, syncs to vault (Atlas + Pipeline + Venues), and integrates with the user's Task Management system.
+Interview-driven, client-neutral skill that scaffolds a research project directory, creates the canonical Atlas and submission files in the Research Vault, and integrates with the user's Task Management system.
 
-**Scope pre-flight.** During the interview (Phase 1), read the global paper scope checklist at `~/Task-Management/.context/paper-scope-checklist.md` (resolve the TM root via `cat ~/.config/task-mgmt/path`) and apply its eight gates to the proposed project — confirm a one-sentence research question and right-sized contributions before scaffolding. Flag (don't block) any failed gate so the project starts with scope discipline set.
+**Scope pre-flight.** Resolve `TM_ROOT` via `head -1 "$HOME/.config/task-mgmt/path"`. During the interview (Phase 1), read `$TM_ROOT/.context/paper-scope-checklist.md` and apply its eight gates to the proposed project — confirm a one-sentence research question and right-sized contributions before scaffolding. Flag (don't block) any failed gate so the project starts with scope discipline set.
+
+**Host paths.** Resolve `RESEARCH_ROOT` from `$HOME/.config/task-mgmt/research-root`, `OVERLEAF_ROOT` from `$HOME/.config/task-mgmt/overleaf-root`, and `VAULT_ROOT` from `RESEARCH_VAULT_ROOT` when set or the home-relative `vault` directory otherwise. Never substitute a remembered Dropbox or volume path. If an optional root is unavailable, report the affected phase as incomplete rather than guessing.
 
 ## When to Use
 
@@ -21,8 +24,8 @@ Interview-driven skill that scaffolds a research project directory, creates an A
 
 | Invocation | Behaviour |
 |-----------|-----------|
-| `/init-project-research` (no args) | Guided: full interview, no auto-detection unless CWD already contains project files |
-| `/init-project-research <name>` | Targeted: uses `<name>` as the proposed slug, runs auto-detection if the directory exists, still walks the interview |
+| `init-project-research` (no args) | Guided: full interview, no auto-detection unless CWD already contains project files |
+| `init-project-research <name>` | Targeted: uses `<name>` as the proposed slug, runs auto-detection if the directory exists, still walks the interview |
 
 Both modes execute Phases 1–10 in order. The argument only seeds the slug guess in Round 1.
 
@@ -36,9 +39,9 @@ Ten phases, in order:
 4. **Seed files** — populate CLAUDE.md, README.md, .gitignore from interview answers
 5. **Overleaf symlink** — link `paper/` to Overleaf folder via mkdir + symlink
 6. **Git init** — initialise repo and make first commit (conditional)
-7. **Atlas sync** — create Atlas topic file, vault atlas entry, venue links
+7. **Atlas registration** — create the canonical vault Atlas topic, submission, and venue links
 8. **Task Management integration** — update context library files
-9. **Literature & Discovery** — run `/literature` +  in parallel
+9. **Literature & Discovery** — run the `literature` and  skills
 10. **Confirmation** — report what was created
 
 ---
@@ -91,7 +94,7 @@ Pre-scaffold checks. Run before any directory creation. If any near-match is fou
 
 1. **Atlas topic search** — grep for near-matches by title, slug keywords, theme:
    ```bash
-   grep -ril "<title-keyword>" ~/vault/atlas/ 2>/dev/null
+   grep -ril "<title-keyword>" "$VAULT_ROOT/atlas/" 2>/dev/null
    ```
 2. **Sibling directory listing** — list siblings in the parent theme folder, flag near-duplicates (same keywords, same stem with different venue suffix, typo-distance ≤ 2):
    ```bash
@@ -114,13 +117,13 @@ If the directory doesn't exist, create it and proceed.
 ### Hard Rules
 
 - **`paper/` is for LaTeX source files ONLY.** No code, data, scripts, computational artifacts. See `.claude/rules/overleaf-separation.md`.
-- **Research papers are drafted in LaTeX (`.tex`), never Markdown.** Seed `paper-{venue}/paper/main.tex` from the LaTeX working-paper template. No Markdown drafts under `paper*/` — papers compile via `/latex` and sync to Overleaf. Markdown is reserved for README, notes, and context files outside `paper*/`.
+- **Research papers are drafted in LaTeX (`.tex`), never Markdown.** Seed `paper-{venue}/paper/main.tex` from the LaTeX working-paper template. No Markdown drafts under `paper*/` — papers compile via `latex` and sync to Overleaf. Markdown is reserved for README, notes, and context files outside `paper*/`.
 
 ### Common Core + Conditional Structure
 
-**Common core** (always created): `CLAUDE.md`, `README.md`, `MEMORY.md`, `.gitignore`, `.context/`, `.claude/`, `docs/` (literature-review, readings, venues), `log/`, `paper-{venue}/` (with symlink + `correspondence/referee-reviews/`), `github-repo/` (optional), `knowledge/`, `reviews/INDEX.md` (manifest only — per-scope/per-check subdirs created lazily, per `rules/review-artefact-routing.md`), `correspondence/editorial/`, `correspondence/referee-reviews/`, `to-sort/`.
+**Common core** (always created): `CLAUDE.md`, `AGENTS.md`, `README.md`, `MEMORY.md`, `.gitignore`, `.context/`, `docs/` (literature-review, readings, venues), `log/`, `paper-{venue}/` (with symlink + `correspondence/referee-reviews/`), `github-repo/` (optional), `knowledge/`, `reviews/INDEX.md` (manifest only — per-scope/per-check subdirs created lazily, per `rules/review-artefact-routing.md`), `correspondence/editorial/`, `correspondence/referee-reviews/`, `to-sort/`. Create `.claude/` only as the Claude adapter; the shared scaffold remains valid without it.
 
-> **Note:** the legacy `REVIEW-STATE.md` at project root + `reviews/` empty dir + `correspondence/internal-reviews/` layout is superseded by `rules/review-artefact-routing.md`. New projects scaffold the new layout directly; existing projects retrofit via `/tidy-project-reviews`. Per-paper `backup/` directories are created lazily by the LaTeX-compile PostToolUse hook and are gitignored via `paper-*/backup/`.
+> **Note:** the legacy `REVIEW-STATE.md` at project root + `reviews/` empty dir + `correspondence/internal-reviews/` layout is superseded by `rules/review-artefact-routing.md`. New projects scaffold the new layout directly; existing projects retrofit via `tidy-project-reviews`. Per-paper `backup/` directories are created lazily by the LaTeX-compile PostToolUse hook and are gitignored via `paper-*/backup/`.
 
 | Project type | Adds |
 |--------------|------|
@@ -156,13 +159,14 @@ Full templates: [`templates/seed-files.md`](templates/seed-files.md).
 
 | File | Purpose |
 |------|---------|
-| `CLAUDE.md` | Claude instructions: overview, venue, RQs, setup, conventions |
+| `CLAUDE.md` | Lean Claude entry point: overview, venue, RQs, setup, conventions, links to shared context |
+| `AGENTS.md` | Lean Codex entry point with the same project facts and links to shared context |
 | `README.md` | Human overview: title, authors, abstract, links, status |
 | `.gitignore` | Standard ignores: OS, IDE, data, paper, Python, R, LaTeX |
 | `MEMORY.md` | Knowledge base: notation, estimands, decisions, pitfalls |
-| `reviews/INDEX.md` | Review-artefact manifest. Header only at scaffold; populated by review-producing skills/agents writing to `reviews/<scope>/<check>/<YYYY-MM-DD-HHMM>.md` where `<scope>` is the paper name (e.g. `paper-jtp`) or `_project` for project-level reviews, and `<check>` is the producer slug (e.g. `paper-critic`, `proofread`). Maintained by `/review-recap`. See `rules/review-artefact-routing.md`. **Supersedes the legacy `REVIEW-STATE.md` at project root.** |
+| `reviews/INDEX.md` | Review-artefact manifest. Header only at scaffold; populated by review-producing skills/agents writing to `reviews/<scope>/<check>/<YYYY-MM-DD-HHMM>.md` where `<scope>` is the paper name (e.g. `paper-jtp`) or `_project` for project-level reviews, and `<check>` is the producer slug (e.g. `paper-critic`, `proofread`). Maintained by `review-recap`. See `rules/review-artefact-routing.md`. **Supersedes the legacy `REVIEW-STATE.md` at project root.** |
 | `.context/current-focus.md` | Initial "just initialised" state |
-| `.context/field-calibration.md` | Per-project domain profile placeholder (`/interview-me` populates) |
+| `.context/field-calibration.md` | Per-project domain profile placeholder (`interview-me` populates) |
 | `.context/project-recap.md` | Research design notes |
 | `.claude/hooks/copy-paper-pdf.sh` | PDF copy hook |
 | `log/YYYY-MM-DD-HHMM-setup.md` | Initial setup log |
@@ -171,7 +175,7 @@ Full templates: [`templates/seed-files.md`](templates/seed-files.md).
 
 ### Permissions Sync
 
-After writing `.claude/settings.local.json`, merge global permissions from `~/.claude/settings.json` into it so the new project starts with full permissions from day one. `jq` union command and deny-array handling: [`references/paper-directory.md`](references/paper-directory.md) § Permissions Sync.
+If creating the Claude adapter, merge permissions from canonical `$TM_ROOT/.claude/settings.json` into `.claude/settings.local.json` so a deployed home-directory copy is never treated as source. If no Claude adapter is requested, report this adapter step as skipped. `jq` union command and deny-array handling: [`references/paper-directory.md`](references/paper-directory.md) § Permissions Sync.
 
 ---
 
@@ -208,9 +212,9 @@ If local git only: remind to push before switching machines. **Do NOT push unles
 
 ---
 
-## Phase 7: Atlas Sync
+## Phase 7: Atlas Registration
 
-Creates the research topic in all systems: local file → vault atlas → Venues → project folder → documentation.
+Creates the research topic in the canonical Research Vault, the project tree, and Task Management. The vault files sync between machines through Syncthing; there is no separate client command between a "local" Atlas copy and the vault.
 
 Full steps, Atlas defaults, and Atlas anti-patterns ("Never Do These"): [`references/atlas-sync.md`](references/atlas-sync.md).
 
@@ -226,7 +230,7 @@ Full sub-steps, templates, edit policies: [`references/task-mgmt-sync.md`](refer
 
 ## Phase 9: Literature & Discovery
 
-After scaffolding and syncing, run `/literature` and  in parallel via sub-agents for initial literature review + novelty assessment.
+After scaffolding and registration, run the `literature` and  skills for initial literature review and novelty assessment. Follow their client-neutral CLI/file fallbacks; they need not be delegated to sub-agents.
 
 Full steps and error handling: [`references/literature-discovery.md`](references/literature-discovery.md).
 
@@ -248,7 +252,7 @@ Per the `multi-system-completeness` rule, partial state is the dominant failure 
 |-------|----------|
 | Overleaf path doesn't exist | Create symlink anyway (resolves when Overleaf syncs). Warn user. |
 | `gh` CLI not available | Skip GitHub remote, note in Phase 10 report. |
-| `taskflow` MCP server fails | Skip vault entry, offer to retry. Note as incomplete in Phase 10. |
+| `taskflow-cli` unavailable | Write or validate the canonical vault Markdown directly; note any CLI-only validation as incomplete in Phase 10. |
 | Directory already exists with files | Phase 2 handles via reorganisation plan, not an error. |
 | Duplicate Atlas slug | Flag and skip Atlas creation — may need merge into existing topic. |
 | Phase fails after a previous phase wrote to disk | Phase 10 must list which systems were touched (local dir / Overleaf / vault / atlas / git remote) and which were not, so manual cleanup is targeted, not a guess. |
@@ -259,16 +263,16 @@ Per the `multi-system-completeness` rule, partial state is the dominant failure 
 
 | Skill | Relationship |
 |-------|-------------|
-| `/literature` | Runs in Phase 9 — initial literature review |
+| `literature` | Runs in Phase 9 — initial literature review |
 |  | Runs in Phase 9 — novelty assessment |
-| `/project-safety` | Already handled — `.gitignore` and settings created during init |
-| `/save-context` | Context library entries created during Phase 8 |
-| `/session-log` | Offer to create a session log after init completes |
-| `/interview-me` | To develop the research idea before scaffolding |
+| `project-safety` | Already handled — `.gitignore` and settings created during init |
+| `save-context` | Context library entries created during Phase 8 |
+| `session-log` | Offer to create a session log after init completes |
+| `interview-me` | To develop the research idea before scaffolding |
 | `packages/atlas-vault/generate_recap.py` | Optional after init — regenerates `RECAP.md` portfolio index. Not required for `atlas.example.com` (atlas-workspace reads vault directly via Syncthing). |
-| `/atlas-deploy` | Manual-only skill — user can run for schema validation + Mac Mini launchd restart. NOT needed for atlas.example.com to surface a new topic; that's automatic via Syncthing. |
-| `/audit-project-research` | **Must mirror this scaffold.** When init adds a new directory or convention, add a matching audit phase there and update `/atlas-audit` SA1. |
-| `/atlas-audit` | **Drift trigger:** new projects change theme dir counts — see `atlas-audit/references/drift-checks.md`. SA1 structure checks must stay consistent with this scaffold. |
+| `atlas-deploy` | Manual-only skill — user can run for schema validation + Mac Mini launchd restart. NOT needed for atlas.example.com to surface a new topic; that's automatic via Syncthing. |
+| `audit-project-research` | **Must mirror this scaffold.** When init adds a new directory or convention, add a matching audit phase there and update `atlas-audit` SA1. |
+| `atlas-audit` | **Drift trigger:** new projects change theme dir counts — see `atlas-audit/references/drift-checks.md`. SA1 structure checks must stay consistent with this scaffold. |
 | [`references/domain-profile-template.md`](references/domain-profile-template.md) | Template for economics/field-specific domain profiles — copy to project's `docs/domain-profile.md` during init for economics papers. |
 
 ## Citation Contract

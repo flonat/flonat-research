@@ -19,6 +19,12 @@ import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
 
+try:
+    from scripts import repo_registry
+except ModuleNotFoundError:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from scripts import repo_registry
+
 # ── Ground truth ─────────────────────────────────────────────────────────
 
 # All counts derived from the filesystem — no hardcoded constants.
@@ -86,22 +92,39 @@ def list_packages(root: Path) -> list[str]:
     )
 
 
-def check_package_coverage(root: Path) -> list[str]:
-    """Return package dirs that are NOT mentioned in docs/components/packages.md.
+def list_registered_package_paths(root: Path) -> list[str]:
+    """Return registry-owned paths below packages/, including nested children."""
+    specs = repo_registry.load_registry(root / "scripts/repos.conf")
+    return sorted(
+        spec.relative_path
+        for spec in specs
+        if spec.relative_path.startswith("packages/")
+    )
 
-    Coverage is name-presence only (the package appears somewhere in the doc),
-    which catches the common drift: a new package added under packages/ that
-    nobody added to the catalogue.
+
+def check_package_coverage(root: Path) -> list[str]:
+    """Return package catalogue entries absent from docs/components/packages.md.
+
+    Immediate package directories remain the physical package count. The
+    validated repository registry adds deeper package-owned repositories (for
+    example ``packages/shared-code/research-sae-audit``), so a new registry row
+    cannot disappear merely because its parent namespace is already documented.
     """
     doc = root / "docs" / "components" / "packages.md"
     if not doc.exists():
         return []
     text = doc.read_text(encoding="utf-8")
-    missing = []
-    for name in list_packages(root):
+    missing: list[str] = []
+    entries = [(name, name) for name in list_packages(root)]
+    entries.extend(
+        (path, Path(path).name)
+        for path in list_registered_package_paths(root)
+        if len(Path(path).parts) > 2
+    )
+    for identifier, name in entries:
         # Word-boundary match so e.g. `pdf-clean` isn't matched by `pdf-cleaner`.
         if not re.search(rf"(?<![\w-]){re.escape(name)}(?![\w-])", text):
-            missing.append(name)
+            missing.append(identifier)
     return missing
 
 
@@ -376,7 +399,7 @@ def main() -> int:
 
     if uncovered_packages:
         print(
-            f"\n{len(uncovered_packages)} package(s) under packages/ "
+            f"\n{len(uncovered_packages)} package catalogue entry/entries "
             f"missing from docs/components/packages.md:\n"
         )
         for name in uncovered_packages:

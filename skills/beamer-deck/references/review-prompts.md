@@ -1,6 +1,6 @@
 # Beamer Deck Review Prompts
 
-> Sub-agent prompts for Phases 5 and 6 of `/beamer-deck`. Also usable by `/quarto-deck` (Phase 5).
+> Sub-agent prompts for Phases 5 and 6 of `beamer-deck`. Also usable by `quarto-deck` (Phase 5).
 
 ## Standard Forbid-List for All Review Sub-Agents Below
 

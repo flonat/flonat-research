@@ -30,7 +30,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<scope>/referee2-reviewer/<YYYY-MM-DD-HHMM>.md` inside the project, where `<scope>` is the paper slug for paper reviews or `_project` for project-level reviews. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite. The timestamp in the filename already disambiguates same-day runs.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -263,7 +263,7 @@ Tool budget: 12 calls (single-pass), 30 calls (deep+grounded), 12 per LLM (counc
 
 **Composes with council mode** (`mode: council mode: grounded`) — each council member runs grounded independently; consensus verification (multiple members confirmed same claim) gets tagged.
 
-**Stamping**: include `mode: grounded` (or `mode: deep+grounded`) as the first segment of the `notes:` field in the stamp directive so `/review-recap` can render mode-aware rows.
+**Stamping**: include `mode: grounded` (or `mode: deep+grounded`) as the first segment of the `notes:` field in the stamp directive so `review-recap` can render mode-aware rows.
 
 **Why it exists**: validated by `packages/peer-reviewer-bench` v2 (commit `ab33e626`). Tool-augmented `peer-reviewer` improved correctness +5.4pp and evidence sufficiency +15.7pp under cross-family GPT-5 judge. Vanilla referee2 + naive tool access regressed because the adversarial persona overrode tool restraint; grounded mode is the disciplined version that fixes that.
 
@@ -387,7 +387,7 @@ notes: M1 identification weak; M2 missing falsification; M3 standard errors clus
 
 ## JSON Output Schema (Phase 11 — anchor-compatible)
 
-Alongside the markdown referee report, write a machine-readable companion to `reviews/<scope>/referee2-reviewer/<YYYY-MM-DD-HHMM>.findings.json` (canonical companion-naming per `rules/review-artefact-routing.md` §R2: sidecar lives in the same `<scope>/referee2-reviewer/` directory as the markdown report, with basename `<YYYY-MM-DD-HHMM>.findings.json`). The round number lives INSIDE the JSON payload (`round` field), not in the filename. Schema aligns with `pdf_clean.Comment` / `pdf_clean.ReviewResult` so downstream consumers (`/synthesise-reviews`, Phase 12 viz, anchor tooling) can merge findings across `paper-critic`, `referee2-reviewer`, and `domain-reviewer` without re-parsing prose. Canonical types live in `packages/pdf-clean/src/pdf_clean/models.py`.
+Alongside the markdown referee report, write a machine-readable companion to `reviews/<scope>/referee2-reviewer/<YYYY-MM-DD-HHMM>.findings.json` (canonical companion-naming per `rules/review-artefact-routing.md` §R2: sidecar lives in the same `<scope>/referee2-reviewer/` directory as the markdown report, with basename `<YYYY-MM-DD-HHMM>.findings.json`). The round number lives INSIDE the JSON payload (`round` field), not in the filename. Schema aligns with `pdf_clean.Comment` / `pdf_clean.ReviewResult` so downstream consumers (`synthesise-reviews`, Phase 12 viz, anchor tooling) can merge findings across `paper-critic`, `referee2-reviewer`, and `domain-reviewer` without re-parsing prose. Canonical types live in `packages/pdf-clean/src/pdf_clean/models.py`.
 
 **Critical schema rules:**
 
@@ -497,7 +497,7 @@ Be the referee you'd want reviewing your own work — rigorous, systematic, and 
 
 ## Parallel Independent Review
 
-For maximum coverage, launch this agent alongside `paper-critic` and `domain-reviewer` in parallel (3 Agent tool calls in one message). Each agent checks different dimensions — referee2-reviewer handles identification, methods, robustness, presentation, and scholarly rigour. Run `fatal-error-check` first as a pre-flight gate, then launch all three in parallel. After all return, run `/synthesise-reviews` to produce a unified `REVISION-PLAN.md`. See `~/.claude/shared-skills/shared/council-protocol.md` for the full pattern.
+For maximum coverage, launch this agent alongside `paper-critic` and `domain-reviewer` in parallel (3 Agent tool calls in one message). Each agent checks different dimensions — referee2-reviewer handles identification, methods, robustness, presentation, and scholarly rigour. Run `fatal-error-check` first as a pre-flight gate, then launch all three in parallel. After all return, run `synthesise-reviews` to produce a unified `REVISION-PLAN.md`. See `~/.claude/shared-skills/shared/council-protocol.md` for the full pattern.
 
 ---
 

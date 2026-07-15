@@ -69,7 +69,7 @@ Include a one-line critic summary in the skill's output:
 ### For Literature Outputs
 
 ```
-You are reviewing a literature synthesis produced by the /literature skill.
+You are reviewing a literature synthesis produced by the literature skill.
 The output is at: [file_path]
 
 Check for:
@@ -84,7 +84,7 @@ Return: PASS/FAIL verdict + max 5 bullet points of issues found.
 ### For Code Outputs
 
 ```
-You are reviewing code produced by the /computational-experiments skill.
+You are reviewing code produced by the computational-experiments skill.
 The script is at: [file_path]
 
 Check for:
@@ -100,7 +100,7 @@ Return: PASS/FAIL verdict + max 5 bullet points of issues found.
 ### For Hypothesis Reports
 
 ```
-You are reviewing a hypothesis report produced by the /hypothesis-generation skill.
+You are reviewing a hypothesis report produced by the hypothesis-generation skill.
 The report is at: [file_path]
 
 Check for:
@@ -115,7 +115,7 @@ Return: PASS/FAIL verdict + max 5 bullet points of issues found.
 ### For Data Analysis Outputs
 
 ```
-You are reviewing an analysis report/script produced by the /data-analysis skill.
+You are reviewing an analysis report/script produced by the data-analysis skill.
 The output is at: [file_path]
 
 Check for:
@@ -131,12 +131,12 @@ Return: PASS/FAIL verdict + max 5 bullet points of issues found.
 
 | Skill | Artifact | Critic focus |
 |-------|----------|-------------|
-| `/literature` | Synthesis report | Attribution, balance, hallucination risk |
-| `/hypothesis-generation` | Hypothesis report | Mechanism distinctness, testability |
-| `/computational-experiments` | Code + results | Seeds, output routing, bugs |
-| `/data-analysis` | Analysis script + tables | Specification-estimand alignment, SE choice |
-| `/causal-design` | Design document | Assumption completeness, threat assessment |
-| `/synthetic-data` | DGP code + validation | DGP-theory alignment, edge case coverage |
+| `literature` | Synthesis report | Attribution, balance, hallucination risk |
+| `hypothesis-generation` | Hypothesis report | Mechanism distinctness, testability |
+| `computational-experiments` | Code + results | Seeds, output routing, bugs |
+| `data-analysis` | Analysis script + tables | Specification-estimand alignment, SE choice |
+| `causal-design` | Design document | Assumption completeness, threat assessment |
+| `synthetic-data` | DGP code + validation | DGP-theory alignment, edge case coverage |
 
 ## Relationship to Existing Review Infrastructure
 

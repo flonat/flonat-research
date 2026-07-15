@@ -17,13 +17,13 @@ argument-hint: "--dry-run (default) | --autonomous to actually write"
 
 - The Saturday 06:45 cron runs it automatically. Don't invoke manually
   unless you want to:
-  - **Preview** what would be promoted: `/wiki-grow --dry-run`
+  - **Preview** what would be promoted: `wiki-grow --dry-run`
   - **Force a run** after curating the denylist or scaffolding new
-    knowledge: `/wiki-grow --autonomous`
+    knowledge: `wiki-grow --autonomous`
 
 ## When NOT to Use
 
-- For per-project knowledge compilation — that's `/compile-knowledge`.
+- For per-project knowledge compilation — that's `compile-knowledge`.
 - For checking which concepts already exist — that's just
   `~/vault/concepts/` or the wiki at `wiki.example.com`.
 - For tearing down a concept — delete the file and add the slug to the
@@ -172,6 +172,6 @@ existing pages don't need migration.
 
 | Skill | Relationship |
 |-------|-------------|
-| `/compile-knowledge` | Upstream — writes the project knowledge articles wiki-grow promotes from. Must run first to seed candidates. |
-| `/atlas-audit` | Checks vault concept coverage as part of its routine audits. |
-| `/process-inbox` | Triages the weekly summary item. |
+| `compile-knowledge` | Upstream — writes the project knowledge articles wiki-grow promotes from. Must run first to seed candidates. |
+| `atlas-audit` | Checks vault concept coverage as part of its routine audits. |
+| `process-inbox` | Triages the weekly summary item. |

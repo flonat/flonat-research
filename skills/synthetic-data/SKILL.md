@@ -22,16 +22,16 @@ Default: **From schema**. If an experiment design document exists in `docs/`, au
 ## When to Use
 
 - Testing analysis code before real data collection
-- Power analysis via simulation (complements `/experiment-design` Power mode)
+- Power analysis via simulation (complements `experiment-design` Power mode)
 - Method development and debugging estimation pipelines
 - Generating pilot data for grant proposals or ethics applications
 - Teaching demonstrations with realistic-looking data
 
 ## When NOT to Use
 
-- Designing the experiment itself --> `/experiment-design`
-- Running analysis on real data --> `/data-analysis`
-- Auditing identification strategy --> `/causal-design`
+- Designing the experiment itself --> `experiment-design`
+- Running analysis on real data --> `data-analysis`
+- Auditing identification strategy --> `causal-design`
 
 ---
 
@@ -186,9 +186,9 @@ N: {sample_size}
 3. **Confirm with user** -- present extracted parameters and ask for adjustments
 4. **Generate** -- follow Steps 3-6 above
 
-### Integration with `/experiment-design`
+### Integration with `experiment-design`
 
-The design document produced by `/experiment-design` Design mode contains everything needed:
+The design document produced by `experiment-design` Design mode contains everything needed:
 - Hypotheses with expected signs --> treatment effect directions
 - Conditions and randomization --> treatment assignment DGP
 - Outcome measures and scales --> variable types and distributions
@@ -241,7 +241,7 @@ The design document produced by `/experiment-design` Design mode contains everyt
 | `references/dgp-recipes.md` | All modes (code patterns for each design type) |
 | `references/calibration-targets.md` | Calibrated mode (matching procedure) |
 | `shared/multi-language-conventions.md` | All modes (code style) |
-| `/experiment-design` skill | From design mode (reads its design documents) |
-| `/data-analysis` skill | Consumes synthetic data for pipeline testing |
+| `experiment-design` skill | From design mode (reads its design documents) |
+| `data-analysis` skill | Consumes synthetic data for pipeline testing |
 | `data-sensitivity` rule | Never write to `data/raw/` |
 | `design-before-results` rule | Synthetic data supports locking the design before real data |

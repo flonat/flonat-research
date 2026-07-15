@@ -3,18 +3,19 @@ name: quarto-deck
 description: "Use when you need to generate a Reveal.js HTML presentation from Markdown."
 allowed-tools: Bash(reveal-md*), Bash(npx*), Bash(mkdir*), Bash(ls*), Bash(cp*), Bash(open*), Bash(R*), Bash(Rscript*), Bash(uv:*), Read, Write, Edit, Task
 argument-hint: [topic, content-path, or project-name]
+skill-dependencies: [beamer-deck]
 ---
 
 # Reveal.js Deck Skill
 
-> Generate HTML presentations from Markdown using reveal-md. Applies the same rhetoric framework as `/beamer-deck` but outputs browser-native slides ideal for teaching, informal talks, and web sharing.
+> Generate HTML presentations from Markdown using reveal-md. Applies the same rhetoric framework as `beamer-deck` but outputs browser-native slides ideal for teaching, informal talks, and web sharing.
 
 ## Purpose
 
 Create polished Reveal.js presentations from Markdown files. Every deck gets assertion-driven titles, narrative arc, and rhetoric review. Output is an HTML presentation that runs in any browser — no LaTeX needed.
 
 **Use this for:** Teaching, informal research talks, web-shareable presentations, interactive demos.
-**Use `/beamer-deck` for:** Conference talks, formal seminars, supervisor meetings, anything that needs PDF-native output.
+**Use `beamer-deck` for:** Conference talks, formal seminars, supervisor meetings, anything that needs PDF-native output.
 
 ## When to Use
 
@@ -48,7 +49,7 @@ Create polished Reveal.js presentations from Markdown files. Every deck gets ass
 
 ## Rhetoric Principles
 
-Same framework as `/beamer-deck`. Full reference (Three Laws, MB/MC, Aristotelian Triad, Narrative Arc, Pyramid Principle, Devil's Advocate, audience-specific guidance): [`../shared/rhetoric-principles.md`](../shared/rhetoric-principles.md)
+Same framework as `beamer-deck`. Full reference (Three Laws, MB/MC, Aristotelian Triad, Narrative Arc, Pyramid Principle, Devil's Advocate, audience-specific guidance): [`../shared/rhetoric-principles.md`](../shared/rhetoric-principles.md)
 
 ---
 
@@ -122,7 +123,7 @@ Present outline to the user for approval.
 
 ### Phase 5: Rhetoric Review (Sub-Agent — Explore)
 
-Launch the same rhetoric review as `/beamer-deck`, adapted for Markdown:
+Launch the same rhetoric review as `beamer-deck`, adapted for Markdown:
 
 ```
 subagent_type: Explore
@@ -219,8 +220,8 @@ project/
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/beamer-deck` | For formal academic presentations (conferences, seminars) that need PDF-native output |
-| `/project-deck` | For project status updates (supervisor meetings, coauthor handoffs) |
-| `/proofread` | For post-hoc review of text quality |
-| `/literature` | For finding and verifying citations to include |
-| `/quarto-course` | For full course websites with multiple lectures, exercises, and navigation |
+| `beamer-deck` | For formal academic presentations (conferences, seminars) that need PDF-native output |
+| `project-deck` | For project status updates (supervisor meetings, coauthor handoffs) |
+| `proofread` | For post-hoc review of text quality |
+| `literature` | For finding and verifying citations to include |
+| `quarto-course` | For full course websites with multiple lectures, exercises, and navigation |

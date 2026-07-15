@@ -1,7 +1,7 @@
 # Field Calibration — <Working Title>
 
 > Per-project domain profile. Agents read this to calibrate reviews to the field's norms.
-> Populated by `/interview-me` Phase 7 or manually. Distinct from `profile.md` (personal identity).
+> Populated by `interview-me` Phase 7 or manually. Distinct from `profile.md` (personal identity).
 
 ## Field & Subfields
 

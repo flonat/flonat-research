@@ -1,12 +1,12 @@
 # Fold-in protocol — second-review extension of an existing DAG
 
-> Companion to the main 11-phase protocol in `phases.md`. Use when a paper that already has a `/strategic-revision` package receives a **second independent review** and you want to extend the existing DAG rather than start over.
+> Companion to the main 11-phase protocol in `phases.md`. Use when a paper that already has a `strategic-revision` package receives a **second independent review** and you want to extend the existing DAG rather than start over.
 
 ## When to invoke
 
 Trigger the fold-in path when **all** of the following hold:
 
-- The paper has an existing `/strategic-revision` output directory (`correspondence/referee-reviews/{venue}-round{n}/` or `docs/{venue}/internal-reviews/<source>-<date>/`) containing at least one `plan/revision_tasks*.json` (versioned `v1`, `v2`, …).
+- The paper has an existing `strategic-revision` output directory (`correspondence/referee-reviews/{venue}-round{n}/` or `docs/{venue}/internal-reviews/<source>-<date>/`) containing at least one `plan/revision_tasks*.json` (versioned `v1`, `v2`, …).
 - A new review report exists — journal referee report, AI self-review, co-author critique, conference discussant notes, blindspot agent output, peer-reviewer agent output, anything substantive.
 - The new review covers the same paper at roughly the same draft state. (If the draft has changed materially since v1, fold-in is the wrong path — re-run from Phase 1 instead.)
 

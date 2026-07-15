@@ -58,7 +58,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<paper>/domain-reviewer/YYYY-MM-DD-HHMM.md` inside the project, where `<paper>` is the paper slug (e.g. `paper-jtp`, `paper-philtech`) from the agent's dispatch. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout) or the legacy flat path `reviews/domain-reviewer/YYYY-MM-DD.md`.
 - **Idempotency:** if a report exists in the target directory today, append a same-day descriptor (`{date}-{hhmm}-revision.md`, `{date}-{hhmm}-r2.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -325,13 +325,13 @@ Every issue MUST have:
 
 ## Parallel Independent Review
 
-For maximum coverage, launch this agent alongside `paper-critic` and `referee2-reviewer` in parallel (3 Agent tool calls in one message). Each agent checks different dimensions — domain-reviewer handles assumptions, derivations, citation fidelity, code-theory alignment, and backward logic. Run `fatal-error-check` first as a pre-flight gate, then launch all three in parallel. After all return, run `/synthesise-reviews` to produce a unified `REVISION-PLAN.md`. See `~/.claude/shared-skills/shared/council-protocol.md` for the full pattern.
+For maximum coverage, launch this agent alongside `paper-critic` and `referee2-reviewer` in parallel (3 Agent tool calls in one message). Each agent checks different dimensions — domain-reviewer handles assumptions, derivations, citation fidelity, code-theory alignment, and backward logic. Run `fatal-error-check` first as a pre-flight gate, then launch all three in parallel. After all return, run `synthesise-reviews` to produce a unified `REVISION-PLAN.md`. See `~/.claude/shared-skills/shared/council-protocol.md` for the full pattern.
 
 ---
 
-## Math R0 Mode (conceptual layer of `/verify-math`)
+## Math R0 Mode (conceptual layer of `verify-math`)
 
-When dispatched **as the R0 rung of `/verify-math`** (or by `/review-cluster` / `/pre-submission-report` on a theory paper where the algebra is being machine-verified separately), the dispatch prompt will say so explicitly. In that mode:
+When dispatched **as the R0 rung of `verify-math`** (or by `review-cluster` / `pre-submission-report` on a theory paper where the algebra is being machine-verified separately), the dispatch prompt will say so explicitly. In that mode:
 
 - **Do NOT re-derive algebra, take derivatives, or re-check comparative-static signs.** Those obligations are being proven by the computational rungs (R2 symbolic/CAS via sympy, R1 numerical falsification, R3 Lean). Re-doing them wastes your budget and produces lower-confidence duplicates of a machine proof.
 - **DO focus on the conceptual obligations the computational rungs are blind to** — the layer where a statement can be *algebraically correct but conceptually wrong*:
@@ -340,7 +340,7 @@ When dispatched **as the R0 rung of `/verify-math`** (or by `/review-cluster` / 
   3. **Local-vs-global and regime scoping** — does a "local max" argument actually secure a global claim? Do corollaries hold only in the regime (interior / boundary) where they're invoked?
   4. **Statement means what it claims** — does the formal object correspond to the informal claim? (e.g. an expected-score payoff vs a discrete win, a stationary limit vs a finite-horizon rate — the `mark-unverified` transient-vs-stationary trap.)
   5. **Citation fidelity for imported results** — are the conditions of any borrowed theorem satisfied here?
-- **Return per-obligation verdicts** — `VALID` / `VALID-WITH-CAVEAT` / `INVALID` + a one-paragraph justification each, and the corrected claim for any INVALID. The `/verify-math` router aggregates your R0 verdicts with the R1/R2/R3 sub-verdicts; a single `INVALID` from you can flip the aggregate to FALSIFIED even when the algebra checks out.
+- **Return per-obligation verdicts** — `VALID` / `VALID-WITH-CAVEAT` / `INVALID` + a one-paragraph justification each, and the corrected claim for any INVALID. The `verify-math` router aggregates your R0 verdicts with the R1/R2/R3 sub-verdicts; a single `INVALID` from you can flip the aggregate to FALSIFIED even when the algebra checks out.
 
 This mode is a **narrowing**, not a new lens set: Lenses 1 (Assumptions), 3 (Citation Fidelity), and 5 (Backward Logic) do the work; Lens 2 (Derivations) is downgraded to "spot-check for conceptual gaps only, algebra is covered elsewhere". Report which lenses you ran per the normal format. When NOT dispatched in this mode (a standalone domain review), run all five lenses as usual, including full derivation verification.
 

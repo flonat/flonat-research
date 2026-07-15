@@ -1,6 +1,6 @@
 # Distribution Diagnostics Before Model Selection
 
-> Shared reference for `/data-analysis` and review agents. Mandatory checks on dependent variables before selecting a statistical model. Prevents misspecification. Adapted from CommDAAF AgentAcademy protocol (Xu 2026).
+> Shared reference for `data-analysis` and review agents. Mandatory checks on dependent variables before selecting a statistical model. Prevents misspecification. Adapted from CommDAAF AgentAcademy protocol (Xu 2026).
 
 ## Principle
 
@@ -147,7 +147,7 @@ distribution_diagnostics <- function(y, name = "DV") {
 
 ## Integration
 
-### In `/data-analysis` Phase 1 (EDA)
+### In `data-analysis` Phase 1 (EDA)
 
 Run `distribution_diagnostics()` on every DV and key IVs before proceeding to estimation. If the diagnostics suggest a non-OLS model, flag this before the user locks their specification.
 

@@ -1,7 +1,7 @@
 # Publication Output Conventions
 
 > Table format, figure format, and output routing standards for publication-ready outputs.
-> Referenced by `/data-analysis`, `/replication-package`.
+> Referenced by `data-analysis`, `replication-package`.
 
 ## Table Format: Booktabs Three-Line
 

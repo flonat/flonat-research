@@ -141,7 +141,7 @@ Today's date: !`date +%Y-%m-%d`
 Current branch: !`git branch --show-current 2>/dev/null || echo "not a git repo"`
 Working directory: !`pwd`
 ```
-Good candidates: current date, git branch, project name, file counts, environment flags. Avoid slow commands or commands that may fail noisily — a failed injection produces a raw bang-backtick string in the skill body, which is confusing. (Never write a literal bang-backtick pattern in a SKILL.md outside an intended injection — even in prose, the loader executes it. This very sentence previously carried one and broke /skill-creator at load time; fixed 2026-07-03.)
+Good candidates: current date, git branch, project name, file counts, environment flags. Avoid slow commands or commands that may fail noisily — a failed injection produces a raw bang-backtick string in the skill body, which is confusing. (Never write a literal bang-backtick pattern in a SKILL.md outside an intended injection — even in prose, the loader executes it. This very sentence previously carried one and broke skill-creator at load time; fixed 2026-07-03.)
 
 #### Gotchas Section
 

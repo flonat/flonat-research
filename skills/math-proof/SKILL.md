@@ -16,7 +16,7 @@ Write rigorous mathematical proofs suitable for peer-reviewed academic papers. E
 
 ## Trigger phrases
 
-- `/math-proof`
+- `math-proof`
 - "prove this"
 - "show analytically"
 - "derive this result"

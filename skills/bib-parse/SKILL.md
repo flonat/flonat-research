@@ -1,8 +1,9 @@
 ---
 name: bib-parse
-description: "Use when you need to extract citations from a PDF and generate a validated .bib file. Reads the PDF, identifies all referenced works, constructs BibTeX entries with metadata verification, then runs /bib-validate."
+description: "Use when you need to extract citations from a PDF and generate a validated .bib file. Reads the PDF, identifies all referenced works, constructs BibTeX entries with metadata verification, then runs bib-validate."
 allowed-tools: Read, Glob, Grep, Write, Bash(mkdir*), Bash(ls*), Bash(uv*), WebFetch, WebSearch, Skill(split-pdf), Skill(bib-validate), Bash(paperpile*)
 argument-hint: <path-to-pdf>
+skill-dependencies: [bib-validate, literature, split-pdf]
 ---
 
 # Bibliography Parser — PDF to .bib
@@ -20,8 +21,8 @@ argument-hint: <path-to-pdf>
 
 ## When NOT to Use
 
-- **You already have a `.bib` file** and just need to validate it — use `/bib-validate`
-- **Finding new references on a topic** — use `/literature`
+- **You already have a `.bib` file** and just need to validate it — use `bib-validate`
+- **Finding new references on a topic** — use `literature`
 - **The PDF is already in Paperpile** — export via `paperpile export-bib` instead (faster, more accurate)
 
 ## Input
@@ -43,7 +44,7 @@ Any staged Paperpile-import entry (Phase 4.1) is written into a `.bib` under `.p
 
 ### 1.1 Read the PDF
 
-Use `/split-pdf` to read the PDF contents. This handles large PDFs by splitting into chunks. Focus on the bibliography / references section — typically the last few pages. Identify:
+Use `split-pdf` to read the PDF contents. This handles large PDFs by splitting into chunks. Focus on the bibliography / references section — typically the last few pages. Identify:
 
 - Numbered reference lists (e.g., `[1] Smith, J. (2020)...`)
 - APA / Harvard style reference lists
@@ -212,15 +213,15 @@ Follow the filing sequence from [`shared/reference-resolution.md`](../shared/ref
 
 **Graceful degradation:** if the `paperpile` CLI is unavailable, skip this sub-step. The `.bib` file from Phase 3.3 is still the primary output.
 
-### 4.2 Run /bib-validate (HARD GATE)
+### 4.2 Run bib-validate (HARD GATE)
 
-Run `/bib-validate` on the generated `.bib` file to:
+Run `bib-validate` on the generated `.bib` file to:
 
 - Check for required fields
 - Verify DOIs resolve correctly
 - Flag any remaining issues
 
-Surface the validation report inline in the final summary (see Report section below). Do not proceed to 4.3 if `/bib-validate` reports critical issues — fix and re-validate first.
+Surface the validation report inline in the final summary (see Report section below). Do not proceed to 4.3 if `bib-validate` reports critical issues — fix and re-validate first.
 
 ### 4.3 Output verification (before commit)
 
@@ -261,7 +262,7 @@ After completion, provide a summary:
 | Flagged for manual review | W |
 
 ### bib-validate report
-[paste /bib-validate's verdict + any critical issues]
+[paste bib-validate's verdict + any critical issues]
 
 ### Entries needing attention
 - `key1` — missing journal name
@@ -272,10 +273,10 @@ After completion, provide a summary:
 
 ## Cross-References
 
-- [`/bib-validate`](../bib-validate/SKILL.md) — validates the generated `.bib` file (called automatically in Phase 4.2)
-- [`/bib-coverage`](../bib-coverage/SKILL.md) — compare project `.bib` vs Paperpile label — find uncited papers and unfiled references
-- [`/split-pdf`](../split-pdf/SKILL.md) — reads the input PDF (called in Phase 1.1)
-- [`/literature`](../literature/SKILL.md) — for finding additional references beyond what's in the PDF
+- [`bib-validate`](../bib-validate/SKILL.md) — validates the generated `.bib` file (called automatically in Phase 4.2)
+- [`bib-coverage`](../bib-coverage/SKILL.md) — compare project `.bib` vs Paperpile label — find uncited papers and unfiled references
+- [`split-pdf`](../split-pdf/SKILL.md) — reads the input PDF (called in Phase 1.1)
+- [`literature`](../literature/SKILL.md) — for finding additional references beyond what's in the PDF
 - [`shared/reference-resolution.md`](../shared/reference-resolution.md) — canonical lookup + filing sequence used by Phase 2.3 and Phase 4.1
 
 ## Citation Contract

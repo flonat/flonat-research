@@ -1,6 +1,6 @@
 # Strategy Memo Template
 
-> Use this template when producing the strategy memo in `/causal-design` Design Phase 3.
+> Use this template when producing the strategy memo in `causal-design` Design Phase 3.
 > Fill in every section. If a section is not applicable, state why rather than leaving it blank.
 
 ---

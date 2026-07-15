@@ -224,7 +224,7 @@ Full Layer 3 protocol — detection greps, per-location fix table, VPS health-ch
 
 ## Layer 4 — Dropbox EPERM (FDA on `mosh-server`)
 
-A distinct mosh-server failure, not an IP-change one: mid-session, every Bash access to `/Volumes/SSD/Dropbox/…` returns **"Operation not permitted" (EPERM)** while the same paths work from the user's own SSH terminal, and `dangerouslyDisableSandbox` doesn't help (so it's NOT the sandbox). Cause: Dropbox File-Provider re-adopted a folder (usually after a **rename**) → provider-managed files require Full Disk Access, and TCC attributes access to the **`mosh-server`** responsible process, **not tmux**. Fix: grant FDA to `/opt/homebrew/bin/mosh-server` (+ tmux), then start a **new** mosh-server (`tmux kill-server`, fully disconnect + reconnect — TCC grants only apply at process launch). Full mechanism, verification, wrong turns, and prevention: [`references/dropbox-fda-eperm.md`](references/dropbox-fda-eperm.md).
+A distinct mosh-server failure, not an IP-change one: mid-session, every shell access to the Mini's configured Dropbox root returns **"Operation not permitted" (EPERM)** while the same paths work from the user's own SSH terminal, and disabling the client sandbox does not help. Cause: Dropbox File Provider re-adopted a folder (usually after a **rename**) → provider-managed files require Full Disk Access, and TCC attributes access to the **`mosh-server`** responsible process, **not tmux**. Fix: grant FDA to `/opt/homebrew/bin/mosh-server` (+ tmux), then start a **new** mosh-server (`tmux kill-server`, fully disconnect + reconnect — TCC grants only apply at process launch). Full mechanism, verification, wrong turns, and prevention: [`references/dropbox-fda-eperm.md`](references/dropbox-fda-eperm.md).
 
 ## Anti-Patterns
 
@@ -254,9 +254,9 @@ A distinct mosh-server failure, not an IP-change one: mid-session, every Bash ac
 | Skill / Rule | Relationship |
 |---|---|
 | `multi-machine.md` rule | Defines `mini` / `my-mini` SSH aliases used in examples; mandates relative symlinks across Dropbox; mandates `hostname` check before machine-specific actions |
-| `/scheduled-job` | Same launchd patterns (this skill's `sudo brew services start` is a manual variant of what scheduled-job automates for cron tasks) |
-| `/session-health` | Different scope — checks current Claude session state, not network/process state |
-| `/machine-inventory` | Adjacent — inventories what's installed; this skill recovers from a known failure |
+| `scheduled-job` | Same launchd patterns (this skill's `sudo brew services start` is a manual variant of what scheduled-job automates for cron tasks) |
+| `session-health` | Different scope — checks current Claude session state, not network/process state |
+| `machine-inventory` | Adjacent — inventories what's installed; this skill recovers from a known failure |
 
 ### Origin
 

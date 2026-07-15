@@ -3,6 +3,7 @@ name: test-iterate-loop
 description: "Use when you need to autonomously iterate on a code project until tests pass — root-cause failures, apply minimal fixes, retry. Generic over Python/R/Julia/HPC pipelines. Triggers: 'iterate until tests pass', 'autonomous test loop', 'fix until green', 'overnight test run'."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(pytest*), Bash(Rscript*), Bash(julia*), Bash(docker*), Bash(make*), Bash(git*), TaskCreate, TaskUpdate, AskUserQuestion
 argument-hint: "[project-path] [--max-iter N] [--mock-hpc] [--container <image>]"
+skill-dependencies: [computational-experiments]
 ---
 
 # Test-Iterate Loop — Autonomous Bug Fix Cycle
@@ -35,18 +36,18 @@ argument-hint: "[project-path] [--max-iter N] [--mock-hpc] [--container <image>]
 
 - The test suite itself is broken (fix the tests first, or you'll loop trying to fix code to match wrong tests)
 - The failure root cause is *external* (network, third-party API, hardware) — the active agent cannot fix those
-- You want to *write* tests, not fix them — use `/computational-experiments` or direct work
+- You want to *write* tests, not fix them — use `computational-experiments` or direct work
 - The fix requires research / design decisions, not just code adjustment
 
 ## Modes
 
 | Invocation | Behaviour |
 |---|---|
-| `/test-iterate-loop` | Auto-detects test runner; iterates up to 10 |
-| `/test-iterate-loop --max-iter 5` | Lower iteration cap |
-| `/test-iterate-loop --mock-hpc` | Run tests inside the mock-Avon Docker container (catches HPC-specific torch/CUDA bugs pre-submission) |
-| `/test-iterate-loop --container <image>` | Custom Docker image |
-| `/test-iterate-loop --no-fix` | Run tests once, root-cause failures, stop without applying fixes (diagnostic mode) |
+| `test-iterate-loop` | Auto-detects test runner; iterates up to 10 |
+| `test-iterate-loop --max-iter 5` | Lower iteration cap |
+| `test-iterate-loop --mock-hpc` | Run tests inside the mock-Avon Docker container (catches HPC-specific torch/CUDA bugs pre-submission) |
+| `test-iterate-loop --container <image>` | Custom Docker image |
+| `test-iterate-loop --no-fix` | Run tests once, root-cause failures, stop without applying fixes (diagnostic mode) |
 
 ## Architecture
 
@@ -184,7 +185,7 @@ Report your changes as a diff. The orchestrator runs the tests.
 |---|---|
 | `subagent-write-guard.md` | Sub-agent dispatch (when needed) follows this rule |
 | the `code-review` agent | Run AFTER test-iterate-loop terminates PASS — quality scorecard |
-| `/computational-experiments` | The skill that *writes* the tests this loop iterates on |
+| `computational-experiments` | The skill that *writes* the tests this loop iterates on |
 | `code-paper-auditor` agent | Code-paper consistency check — orthogonal concern |
 
 ## Anti-Patterns

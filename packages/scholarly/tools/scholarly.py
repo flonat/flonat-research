@@ -419,7 +419,7 @@ _TOOLS = [
                 "Batch-verify DOIs across all enabled sources. For each DOI, checks if it exists "
                 "in Crossref (authoritative), OpenAlex, Semantic Scholar, Scopus, and/or WoS. "
                 "Returns verification status: VERIFIED (2+ sources), SINGLE_SOURCE (1 source), "
-                "or NOT_FOUND. The killer tool for /literature Phase 4."
+                "or NOT_FOUND. The killer tool for literature Phase 4."
             ),
             inputSchema={
                 "type": "object",

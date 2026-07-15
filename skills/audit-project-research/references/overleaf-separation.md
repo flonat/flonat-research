@@ -1,6 +1,6 @@
 # Phase 4.2: Overleaf Separation Check
 
-> Detailed check for `/audit-project-research` Phase 4.2.
+> Detailed check for `audit-project-research` Phase 4.2.
 
 Scan **all `paper*/` directories** (not just `paper/`) for files that violate the Overleaf separation rule. Detect paper directories with `ls -d paper*/ 2>/dev/null` — this catches `paper/`, `paper2/`, `paper-supplementary/`, etc. **This is a hard rule -- any violations are flagged as Missing (not Info).**
 

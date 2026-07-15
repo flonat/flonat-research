@@ -1,7 +1,7 @@
 # Power Analysis Recipes
 
 > Language-specific code patterns for common experimental designs.
-> Read during Power mode of `/experiment-design`.
+> Read during Power mode of `experiment-design`.
 
 ## R: DeclareDesign (Preferred)
 

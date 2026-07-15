@@ -4,13 +4,13 @@ description: Generate a daily digest of today's meetings and voice memos — key
 user_invocable: true
 ---
 
-# /meetings-recap
+# meetings-recap
 
 Synthesize all of today's meetings and voice memos into a single daily brief.
 
 ## How to generate the recap
 
-1. **Find today's recordings** using the `/meetings-search` skill:
+1. **Find today's recordings** using the `meetings-search` skill:
    ```bash
    minutes search "$(date +%Y-%m-%d)" --limit 50
    ```

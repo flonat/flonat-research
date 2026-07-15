@@ -1,6 +1,6 @@
 # Venue toggles — what to strip when porting to `your-template`
 
-> Reference for `/preprint` Phase 3. Not exhaustive — extend when porting from a venue you haven't ported before. The rule is always the same: replace the preamble entirely with `your-template` and strip venue-specific scaffolding from the body.
+> Reference for `preprint` Phase 3. Not exhaustive — extend when porting from a venue you haven't ported before. The rule is always the same: replace the preamble entirely with `your-template` and strip venue-specific scaffolding from the body.
 
 ## NeurIPS (`neurips_*.sty`)
 

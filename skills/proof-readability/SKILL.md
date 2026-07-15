@@ -12,9 +12,9 @@ author: Moran Koren <korenmor@bgu.ac.il> (Ben-Gurion University of the Negev)
 
 # Proof readability
 
-> **Relationship to `/proofread`:** `/proofread` is a *report-only*, whole-paper prose checker (11 categories, never edits source). `proof-readability` *edits in place*, is proof-specific, runs only after a correctness gate, and holds a content-preservation invariant `/proofread` does not. Audit a whole paper's prose → `/proofread`; edit the exposition of a verified proof → `proof-readability`.
+> **Relationship to `proofread`:** `proofread` is a *report-only*, whole-paper prose checker (11 categories, never edits source). `proof-readability` *edits in place*, is proof-specific, runs only after a correctness gate, and holds a content-preservation invariant `proofread` does not. Audit a whole paper's prose → `proofread`; edit the exposition of a verified proof → `proof-readability`.
 
-Edit verified proofs so a reader can follow them without reconstructing steps, chasing broken references, or decoding notation. This skill runs *after* a proof has been written (e.g., by `math-proof`) and *after* its correctness has been verified (by `domain-reviewer`, `/lean-check`, or the user). It is an exposition pass, not a proving pass.
+Edit verified proofs so a reader can follow them without reconstructing steps, chasing broken references, or decoding notation. This skill runs *after* a proof has been written (e.g., by `math-proof`) and *after* its correctness has been verified (by `domain-reviewer`, `lean-check`, or the user). It is an exposition pass, not a proving pass.
 
 ## Position in the pipeline
 
@@ -25,7 +25,7 @@ math-proof  →  verification (domain-reviewer / lean-check / user)  →  proof-
 
 **The prime invariant: never change the mathematics.** Every edit must be content-preserving — reorder, signpost, expand, annotate, rename consistently, fix references and typos. Do not strengthen, weaken, or "simplify" any claim; do not replace an argument with a different one; do not silently fill what you believe is a gap with new mathematics.
 
-**If you find an actual gap or error while editing, stop editing that proof and flag it.** Report the suspect step precisely ("the inequality in Eq. (3) silently uses FOSD via Eq. (1); I cannot verify it from the stated assumptions") and route it back to the user (re-open the proof via `math-proof`, or verify the step via `/verify-math`). A readability pass that quietly patches math defeats the verification that already happened.
+**If you find an actual gap or error while editing, stop editing that proof and flag it.** Report the suspect step precisely ("the inequality in Eq. (3) silently uses FOSD via Eq. (1); I cannot verify it from the stated assumptions") and route it back to the user (re-open the proof via `math-proof`, or verify the step via `verify-math`). A readability pass that quietly patches math defeats the verification that already happened.
 
 ## Guiding principles
 
@@ -163,7 +163,7 @@ Edits should read like the surrounding text, not like a different author. The ho
 
 ## Workflow
 
-1. **Confirm verified status.** This skill assumes correctness is already established. If the proof has not been verified (or the user hasn't vouched for it), say so and offer `math-proof` (write) / `/verify-math` (verify) instead.
+1. **Confirm verified status.** This skill assumes correctness is already established. If the proof has not been verified (or the user hasn't vouched for it), say so and offer `math-proof` (write) / `verify-math` (verify) instead.
 2. **Identify the audience.** The detail level, which justifications may go unstated, and how much background to gloss all depend on who reads this (journal referees in the field vs. an interdisciplinary venue vs. students). Default for the user's papers: economics/game-theory journal readers.
 3. **Read the entire proof and its context** (statement, the results it cites, the results that cite it) before editing anything. Build a small dependency map: which lemmas feed which theorems, which equations are reused.
 4. **Pass 1 — Architecture & signposting** (Layers 1–2): placement, restatements, glosses, openers, steps, case enumeration, assumption open/close markers.

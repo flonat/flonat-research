@@ -44,21 +44,23 @@ assets:
       path: skills/audit-paper-book
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     audit-project-research:
       path: skills/audit-project-research
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     beamer-deck:
       path: skills/beamer-deck
       clients:
@@ -69,6 +71,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     bib-coverage:
       path: skills/bib-coverage
       clients:
@@ -79,6 +82,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     bib-filter:
       path: skills/bib-filter
       clients:
@@ -88,6 +92,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     bib-parse:
       path: skills/bib-parse
       clients:
@@ -99,6 +104,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     bib-validate:
       path: skills/bib-validate
       clients:
@@ -110,6 +116,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     brief-compliance-check:
       path: skills/brief-compliance-check
       clients:
@@ -120,6 +127,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     camera-ready:
       path: skills/camera-ready
       clients:
@@ -129,6 +137,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     causal-design:
       path: skills/causal-design
       clients:
@@ -138,6 +147,7 @@ assets:
       - filesystem
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     checkpoint:
       path: skills/checkpoint
       clients:
@@ -147,6 +157,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     code-archaeology:
       path: skills/code-archaeology
       clients:
@@ -155,32 +166,29 @@ assets:
       requires:
       - filesystem
       - shell
-    codex-math:
-      path: skills/codex-math
-      clients:
-      - claude
-      requires:
-      - claude-home-layout
-      - filesystem
-      - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     compile-knowledge:
       path: skills/compile-knowledge
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     computational-experiments:
       path: skills/computational-experiments
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     cross-language-check:
       path: skills/cross-language-check
       clients:
@@ -191,6 +199,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     data-analysis:
       path: skills/data-analysis
       clients:
@@ -200,6 +209,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     devils-advocate:
       path: skills/devils-advocate
       clients:
@@ -209,15 +219,18 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     docs-consistency:
       path: skills/docs-consistency
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     docx:
       path: skills/docx
       clients:
@@ -226,7 +239,9 @@ assets:
       requires:
       - filesystem
       - shell
+      - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     experiment-design:
       path: skills/experiment-design
       clients:
@@ -236,16 +251,18 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     gather-readings:
       path: skills/gather-readings
       clients:
       - claude
+      - codex
       requires:
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     grill-me:
       path: skills/grill-me
       clients:
@@ -255,6 +272,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     handoff:
       path: skills/handoff
       clients:
@@ -262,6 +280,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     ideas:
       path: skills/ideas
       clients:
@@ -271,16 +290,19 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     init-paper-book:
       path: skills/init-paper-book
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     init-project:
       path: skills/init-project
       clients:
@@ -289,6 +311,7 @@ assets:
       - claude-tool-syntax
       - filesystem
       - shell
+      reason: Hand-maintained public scaffolder uses AskUserQuestion and remains Claude-only.
     init-project-course:
       path: skills/init-project-course
       clients:
@@ -298,36 +321,49 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     init-project-light:
       path: skills/init-project-light
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
+    init-project-orchestration:
+      path: skills/init-project-orchestration
+      clients:
+      - claude
+      - codex
+      requires:
+      - filesystem
+      - shell
+      - skill-routing
+      reason: reviewed client-neutral project orchestration with deterministic Claude and Codex adapters
     init-project-research:
       path: skills/init-project-research
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     insights-deck:
       path: skills/insights-deck
       clients:
       - claude
+      - codex
       requires:
-      - claude-tool-syntax
       - filesystem
       - shell
       - skill-routing
       - subagents
-      - web
+      reason: selected by the reviewed public distribution
     interview-me:
       path: skills/interview-me
       clients:
@@ -336,13 +372,16 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     knowledge-lint:
       path: skills/knowledge-lint
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     latex:
       path: skills/latex
       clients:
@@ -352,6 +391,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     latex-diff:
       path: skills/latex-diff
       clients:
@@ -361,6 +401,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     latex-health-check:
       path: skills/latex-health-check
       clients:
@@ -370,6 +411,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     latex-polish:
       path: skills/latex-polish
       clients:
@@ -379,6 +421,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     latex-posters:
       path: skills/latex-posters
       clients:
@@ -389,6 +432,7 @@ assets:
       - shell
       - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     latex-scaffold:
       path: skills/latex-scaffold
       clients:
@@ -398,6 +442,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     latex-template:
       path: skills/latex-template
       clients:
@@ -407,6 +452,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     lean-check:
       path: skills/lean-check
       clients:
@@ -416,6 +462,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     literature:
       path: skills/literature
       clients:
@@ -427,6 +474,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     math-proof:
       path: skills/math-proof
       clients:
@@ -435,16 +483,18 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     mcp-builder:
       path: skills/mcp-builder
       clients:
       - claude
+      - codex
       requires:
-      - claude-mcp
       - filesystem
       - shell
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     meetings-cleanup:
       path: skills/meetings-cleanup
       clients:
@@ -453,7 +503,7 @@ assets:
       requires:
       - filesystem
       - shell
-      - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-debrief:
       path: skills/meetings-debrief
       clients:
@@ -463,6 +513,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-list:
       path: skills/meetings-list
       clients:
@@ -471,7 +522,7 @@ assets:
       requires:
       - filesystem
       - shell
-      - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-prep:
       path: skills/meetings-prep
       clients:
@@ -481,6 +532,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-recap:
       path: skills/meetings-recap
       clients:
@@ -490,6 +542,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-search:
       path: skills/meetings-search
       clients:
@@ -498,7 +551,7 @@ assets:
       requires:
       - filesystem
       - shell
-      - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-verify:
       path: skills/meetings-verify
       clients:
@@ -507,7 +560,7 @@ assets:
       requires:
       - filesystem
       - shell
-      - skill-routing
+      reason: selected by the reviewed public distribution
     meetings-weekly:
       path: skills/meetings-weekly
       clients:
@@ -517,6 +570,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     memory-cleanup:
       path: skills/memory-cleanup
       clients:
@@ -526,6 +580,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     method-audit:
       path: skills/method-audit
       clients:
@@ -535,6 +590,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     multi-perspective:
       path: skills/multi-perspective
       clients:
@@ -544,6 +600,7 @@ assets:
       - filesystem
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     numerical-check:
       path: skills/numerical-check
       clients:
@@ -553,6 +610,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     pdf:
       path: skills/pdf
       clients:
@@ -561,7 +619,9 @@ assets:
       requires:
       - filesystem
       - shell
+      - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     pipeline-manifest:
       path: skills/pipeline-manifest
       clients:
@@ -570,6 +630,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     playwright-cli:
       path: skills/playwright-cli
       clients:
@@ -578,7 +639,9 @@ assets:
       requires:
       - filesystem
       - shell
+      - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     postmortem:
       path: skills/postmortem
       clients:
@@ -587,6 +650,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     pre-commit-audit:
       path: skills/pre-commit-audit
       clients:
@@ -597,6 +661,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     pre-submission-report:
       path: skills/pre-submission-report
       clients:
@@ -607,14 +672,17 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     preprint:
       path: skills/preprint
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     preregister:
       path: skills/preregister
       clients:
@@ -625,6 +693,7 @@ assets:
       - shell
       - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     project-deck:
       path: skills/project-deck
       clients:
@@ -633,6 +702,7 @@ assets:
       requires:
       - filesystem
       - shell
+      reason: selected by the reviewed public distribution
     project-safety:
       path: skills/project-safety
       clients:
@@ -640,6 +710,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     proof-readability:
       path: skills/proof-readability
       clients:
@@ -648,6 +719,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     proofread:
       path: skills/proofread
       clients:
@@ -657,6 +729,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     python-env:
       path: skills/python-env
       clients:
@@ -665,6 +738,7 @@ assets:
       requires:
       - filesystem
       - shell
+      reason: selected by the reviewed public distribution
     quarto-deck:
       path: skills/quarto-deck
       clients:
@@ -676,6 +750,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     rename-project-research:
       path: skills/rename-project-research
       clients:
@@ -685,6 +760,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     reorg:
       path: skills/reorg
       clients:
@@ -694,6 +770,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     replication-audit:
       path: skills/replication-audit
       clients:
@@ -705,6 +782,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     replication-package:
       path: skills/replication-package
       clients:
@@ -714,6 +792,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     retarget-journal:
       path: skills/retarget-journal
       clients:
@@ -723,6 +802,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     review-cluster:
       path: skills/review-cluster
       clients:
@@ -733,6 +813,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     review-response:
       path: skills/review-response
       clients:
@@ -741,6 +822,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     save-context:
       path: skills/save-context
       clients:
@@ -749,6 +831,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     session-close:
       path: skills/session-close
       clients:
@@ -759,15 +842,17 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     session-health:
       path: skills/session-health
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     session-log:
       path: skills/session-log
       clients:
@@ -777,6 +862,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     skill-creator:
       path: skills/skill-creator
       clients:
@@ -785,27 +871,30 @@ assets:
       - claude-client-instruction
       - filesystem
       - shell
-      - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     skill-extract:
       path: skills/skill-extract
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     skill-health:
       path: skills/skill-health
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     skill-preflight:
       path: skills/skill-preflight
       clients:
@@ -814,6 +903,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     split-pdf:
       path: skills/split-pdf
       clients:
@@ -825,6 +915,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     strategic-revision:
       path: skills/strategic-revision
       clients:
@@ -835,6 +926,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     symbolic-check:
       path: skills/symbolic-check
       clients:
@@ -844,6 +936,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     sync-permissions:
       path: skills/sync-permissions
       clients:
@@ -853,6 +946,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     synthesise-reviews:
       path: skills/synthesise-reviews
       clients:
@@ -862,6 +956,7 @@ assets:
       - filesystem
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     synthetic-data:
       path: skills/synthetic-data
       clients:
@@ -871,26 +966,29 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     system-audit:
       path: skills/system-audit
       clients:
       - claude
+      - codex
       requires:
-      - claude-home-layout
       - filesystem
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     tailscale-mosh-recover:
       path: skills/tailscale-mosh-recover
       clients:
       - claude
+      - codex
       requires:
       - filesystem
-      - machine-specific-layout
       - shell
       - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     task-management:
       path: skills/task-management
       clients:
@@ -898,15 +996,18 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     test-iterate-loop:
       path: skills/test-iterate-loop
       clients:
       - claude
+      - codex
       requires:
       - filesystem
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     tikz:
       path: skills/tikz
       clients:
@@ -916,6 +1017,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     update-focus:
       path: skills/update-focus
       clients:
@@ -925,6 +1027,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     update-project-doc:
       path: skills/update-project-doc
       clients:
@@ -934,6 +1037,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     venue-fork:
       path: skills/venue-fork
       clients:
@@ -943,6 +1047,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     verify-math:
       path: skills/verify-math
       clients:
@@ -952,6 +1057,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     voice-analyzer:
       path: skills/voice-analyzer
       clients:
@@ -960,6 +1066,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     voice-editor:
       path: skills/voice-editor
       clients:
@@ -968,6 +1075,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     weakness-scanner:
       path: skills/weakness-scanner
       clients:
@@ -977,6 +1085,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     webapp-testing:
       path: skills/webapp-testing
       clients:
@@ -986,6 +1095,7 @@ assets:
       - filesystem
       - shell
       - web
+      reason: selected by the reviewed public distribution
     wiki-curate:
       path: skills/wiki-curate
       clients:
@@ -995,6 +1105,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     wiki-grow:
       path: skills/wiki-grow
       clients:
@@ -1005,6 +1116,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     wiki-merge:
       path: skills/wiki-merge
       clients:
@@ -1014,6 +1126,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     wire-shared-package:
       path: skills/wire-shared-package
       clients:
@@ -1023,6 +1136,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     xlsx:
       path: skills/xlsx
       clients:
@@ -1032,6 +1146,7 @@ assets:
       - filesystem
       - shell
       - web
+      reason: selected by the reviewed public distribution
   agents:
     artifact-coherence-auditor.md:
       path: agents/artifact-coherence-auditor.md
@@ -1041,6 +1156,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     blindspot.md:
       path: agents/blindspot.md
       clients:
@@ -1049,6 +1165,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     claim-verify.md:
       path: agents/claim-verify.md
       clients:
@@ -1059,6 +1176,7 @@ assets:
       - shell
       - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     code-paper-auditor.md:
       path: agents/code-paper-auditor.md
       clients:
@@ -1068,6 +1186,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     code-review.md:
       path: agents/code-review.md
       clients:
@@ -1078,6 +1197,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     codex-research.md:
       path: agents/codex-research.md
       clients:
@@ -1087,6 +1207,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
     domain-reviewer.md:
       path: agents/domain-reviewer.md
       clients:
@@ -1095,6 +1216,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     fatal-error-check.md:
       path: agents/fatal-error-check.md
       clients:
@@ -1103,6 +1225,7 @@ assets:
       requires:
       - filesystem
       - skill-routing
+      reason: selected by the reviewed public distribution
     fixer.md:
       path: agents/fixer.md
       clients:
@@ -1113,6 +1236,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     gemini-research.md:
       path: agents/gemini-research.md
       clients:
@@ -1123,6 +1247,7 @@ assets:
       - shell
       - skill-routing
       - web
+      reason: selected by the reviewed public distribution
     paper-critic.md:
       path: agents/paper-critic.md
       clients:
@@ -1133,6 +1258,7 @@ assets:
       - shell
       - skill-routing
       - subagents
+      reason: selected by the reviewed public distribution
     peer-reviewer.md:
       path: agents/peer-reviewer.md
       clients:
@@ -1144,6 +1270,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     proposal-reviewer.md:
       path: agents/proposal-reviewer.md
       clients:
@@ -1155,6 +1282,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     referee2-reviewer.md:
       path: agents/referee2-reviewer.md
       clients:
@@ -1166,6 +1294,7 @@ assets:
       - skill-routing
       - subagents
       - web
+      reason: selected by the reviewed public distribution
     reproducibility-auditor.md:
       path: agents/reproducibility-auditor.md
       clients:
@@ -1175,6 +1304,7 @@ assets:
       - filesystem
       - shell
       - skill-routing
+      reason: selected by the reviewed public distribution
   hooks:
     block-destructive-git.sh:
       path: hooks/block-destructive-git.sh
@@ -1183,6 +1313,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     context-monitor.py:
       path: hooks/context-monitor.py
       clients:
@@ -1190,6 +1321,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     handoff-read.sh:
       path: hooks/handoff-read.sh
       clients:
@@ -1197,6 +1329,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     postcompact-restore.py:
       path: hooks/postcompact-restore.py
       clients:
@@ -1204,6 +1337,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     precompact-autosave.py:
       path: hooks/precompact-autosave.py
       clients:
@@ -1211,6 +1345,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     promise-checker.sh:
       path: hooks/promise-checker.sh
       clients:
@@ -1218,6 +1353,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     protect-source-files.sh:
       path: hooks/protect-source-files.sh
       clients:
@@ -1225,6 +1361,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     resume-context-loader.sh:
       path: hooks/resume-context-loader.sh
       clients:
@@ -1232,6 +1369,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
     startup-context-loader.sh:
       path: hooks/startup-context-loader.sh
       clients:
@@ -1239,6 +1377,7 @@ assets:
       requires:
       - claude-hooks
       - filesystem
+      reason: selected by the reviewed public distribution
   rules:
     audit-before-fix.md:
       path: rules/audit-before-fix.md
@@ -1247,6 +1386,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     client-guidance-ownership.md:
       path: rules/client-guidance-ownership.md
       clients:
@@ -1254,6 +1394,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     design-before-results.md:
       path: rules/design-before-results.md
       clients:
@@ -1261,6 +1402,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     doi-verification.md:
       path: rules/doi-verification.md
       clients:
@@ -1268,6 +1410,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     latex-hygiene.md:
       path: rules/latex-hygiene.md
       clients:
@@ -1275,6 +1418,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     lean-guidance-files.md:
       path: rules/lean-guidance-files.md
       clients:
@@ -1282,6 +1426,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     learn-tags.md:
       path: rules/learn-tags.md
       clients:
@@ -1289,6 +1434,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     mark-unverified.md:
       path: rules/mark-unverified.md
       clients:
@@ -1296,6 +1442,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     no-hardcoded-results.md:
       path: rules/no-hardcoded-results.md
       clients:
@@ -1303,6 +1450,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     overleaf-separation.md:
       path: rules/overleaf-separation.md
       clients:
@@ -1310,6 +1458,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     paper-code-consistency.md:
       path: rules/paper-code-consistency.md
       clients:
@@ -1317,6 +1466,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     plan-first.md:
       path: rules/plan-first.md
       clients:
@@ -1324,6 +1474,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     python-uv.md:
       path: rules/python-uv.md
       clients:
@@ -1331,6 +1482,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     read-docs-first.md:
       path: rules/read-docs-first.md
       clients:
@@ -1338,6 +1490,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     scope-discipline.md:
       path: rules/scope-discipline.md
       clients:
@@ -1345,6 +1498,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     severity-gradient.md:
       path: rules/severity-gradient.md
       clients:
@@ -1352,6 +1506,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     spec-before-quality.md:
       path: rules/spec-before-quality.md
       clients:
@@ -1359,6 +1514,7 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
     subagent-write-guard.md:
       path: rules/subagent-write-guard.md
       clients:
@@ -1366,6 +1522,9 @@ assets:
       - codex
       requires:
       - filesystem
+      reason: selected by the reviewed public distribution
+  mcps: {}
+  clis: {}
 documents:
   dual-client-ai-control-plane:
     path: docs/dual-client-ai-control-plane.md

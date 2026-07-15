@@ -1,7 +1,7 @@
 # Identification Strategies Reference
 
 > Quick-reference for identification approaches in experimental and quasi-experimental designs.
-> Read during Design mode of `/experiment-design`. For full causal design workflows, see `/causal-design`.
+> Read during Design mode of `experiment-design`. For full causal design workflows, see `causal-design`.
 
 ## Strategy Selection Guide
 

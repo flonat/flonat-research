@@ -3,6 +3,7 @@ name: bib-validate
 description: "Use when you need to validate a paper's bibliography — cross-references \\cite{} keys against .bib files or embedded \\bibitem entries, finds missing/unused/typo'd keys, and checks every key against the Paperpile library via the local resolver. Deep verification mode spawns parallel agents for DOI/metadata validation at scale. Fix mode rekeys drifted keys to canonical and stages missing entries for Paperpile."
 allowed-tools: Read, Glob, Grep, Task, Write, Bash(mkdir*), Bash(ls*), Bash(rm*), Bash(paperpile*), Bash(uv:*), Bash(latexmk*)
 argument-hint: "[project-path or tex-file] [--verify-doi] [--fix]"
+skill-dependencies: [literature]
 ---
 
 # Bibliography Validation
@@ -17,7 +18,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<paper-slug>/bib-validate/<YYYY-MM-DD-HHMM>.md` inside the project (where `<paper-slug>` is the paper directory slug, e.g., `paper-jtp`, `paper-philtech`). Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -25,9 +26,9 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 | Invocation | Behaviour |
 |---|---|
-| `/bib-validate` | Standard: cross-reference \cite{} ↔ .bib, library check, preprint staleness |
-| `/bib-validate --verify-doi` | **Adds DOI resolution**: each `@article`/`@inproceedings` entry gets its DOI checked via `scholarly scholarly-verify-dois`. Bib entries with no DOI or unresolvable DOIs are flagged. Use before submission to catch fabricated/hallucinated entries. |
-| `/bib-validate --fix` | Auto-fixes resolvable issues in the project `.bib`; genuinely-missing entries are staged under `.paperpile-import/` with their draft cites marked `\CiteTodo{...}` (build-blocking) for manual Paperpile import. The Paperpile CLI is read-only — it cannot write to the library, so additions are staged, not auto-inserted. |
+| `bib-validate` | Standard: cross-reference \cite{} ↔ .bib, library check, preprint staleness |
+| `bib-validate --verify-doi` | **Adds DOI resolution**: each `@article`/`@inproceedings` entry gets its DOI checked via `scholarly scholarly-verify-dois`. Bib entries with no DOI or unresolvable DOIs are flagged. Use before submission to catch fabricated/hallucinated entries. |
+| `bib-validate --fix` | Auto-fixes resolvable issues in the project `.bib`; genuinely-missing entries are staged under `.paperpile-import/` with their draft cites marked `\CiteTodo{...}` (build-blocking) for manual Paperpile import. The Paperpile CLI is read-only — it cannot write to the library, so additions are staged, not auto-inserted. |
 | Combine: `--verify-doi --fix` | Verify, then fix unverified entries by re-fetching from Crossref |
 
 ## When to Use
@@ -35,21 +36,21 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - Before compiling a final version of a paper
 - After adding new citations to check nothing was missed
 - When `biber`/`bibtex` reports undefined citations
-- As part of a pre-submission checklist (pair with `/proofread`)
+- As part of a pre-submission checklist (pair with `proofread`)
 
 ## When NOT to Use
 
-- **Finding new references** — use `/literature` for discovery
-- **Building a bibliography from scratch** — use `/literature` with `.bib` generation
-- **General proofreading** belongs to `/proofread` (which also flags citation format issues)
+- **Finding new references** — use `literature` for discovery
+- **Building a bibliography from scratch** — use `literature` with `.bib` generation
+- **General proofreading** belongs to `proofread` (which also flags citation format issues)
 
 ## Phase 0: Session Log (Suggested)
 
-Bibliography validation with preprint staleness checks can be context-heavy (OpenAlex lookups, web searches for published versions). Before starting, **suggest** running `/session-log` to capture prior work as a recovery checkpoint. If the user declines, proceed without it.
+Bibliography validation with preprint staleness checks can be context-heavy (OpenAlex lookups, web searches for published versions). Before starting, **suggest** running `session-log` to capture prior work as a recovery checkpoint. If the user declines, proceed without it.
 
 ## Convention
 
-**Default bibliography file is `references.bib`** — this is the standard across all projects (per the `/latex` skill convention). However, the skill also supports:
+**Default bibliography file is `references.bib`** — this is the standard across all projects (per the `latex` skill convention). However, the skill also supports:
 
 - Any `.bib` file found in the same directory as the `.tex` files being audited
 - Embedded bibliographies using `\begin{thebibliography}` / `\bibitem{key}` blocks
@@ -286,15 +287,15 @@ bash <skills-root>/_shared/review-state-log.sh \
 - Verdict: PASS if no missing/unused/typo'd citations; ISSUES FOUND otherwise.
 - Score: the numeric quality score if computed; `—` otherwise.
 - Open issues: total of (missing + unused + typo'd) at run time.
-- Trigger: pass orchestrator name only if invoked via `/pre-submission-report` or `/review-cluster`. Otherwise omit.
+- Trigger: pass orchestrator name only if invoked via `pre-submission-report` or `review-cluster`. Otherwise omit.
 
 Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
 
 ## Cross-References
 
-- **`/proofread`** — For overall paper quality including citation format
-- **`/literature`** — For finding and adding new references (includes full OpenAlex workflows)
-- **`/bib-coverage`** — Compare project `.bib` vs Paperpile label — find uncited papers and unfiled references
-- **`/latex`** — For compilation with reference checking
-- **`/latex`** — For compilation and error resolution. Run after fixing bibliography issues to verify citations compile cleanly.
+- **`proofread`** — For overall paper quality including citation format
+- **`literature`** — For finding and adding new references (includes full OpenAlex workflows)
+- **`bib-coverage`** — Compare project `.bib` vs Paperpile label — find uncited papers and unfiled references
+- **`latex`** — For compilation with reference checking
+- **`latex`** — For compilation and error resolution. Run after fixing bibliography issues to verify citations compile cleanly.
 - **`shared/reference-resolution.md`** — Canonical lookup + filing sequence used by Ref Manager Cross-Reference and Fix Mode

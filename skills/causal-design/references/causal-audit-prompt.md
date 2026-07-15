@@ -1,6 +1,6 @@
 # Causal Audit Prompt for Domain Reviewer
 
-> This prompt is sent to the `domain-reviewer` agent when `/causal-design` delegates an adversarial review.
+> This prompt is sent to the `domain-reviewer` agent when `causal-design` delegates an adversarial review.
 > Customise the strategy-specific section before sending.
 
 ---

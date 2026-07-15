@@ -3,6 +3,7 @@ name: replication-audit
 description: "Use when you need to audit which findings in a literature have been replicated or failed."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
+skill-dependencies: [literature, method-audit]
 ---
 
 # Replication Audit
@@ -19,7 +20,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<scope>/replication-audit/<YYYY-MM-DD-HHMM>.md` inside the project, where `<scope>` is the paper slug (e.g., `paper-jtp`) for paper-level reviews or `_project` for project-level reviews. Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if the run timestamp already exists, append a same-run descriptor (`{timestamp}-revision.md`, `{timestamp}-r2.md`) — never overwrite the same `<YYYY-MM-DD-HHMM>` path.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -33,8 +34,8 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 ## When NOT to Use
 
 - **Your own results** — use the `referee2-reviewer` agent
-- **Methodological comparison** — use `/method-audit`
-- **Finding papers** — use `/literature` first
+- **Methodological comparison** — use `method-audit`
+- **Finding papers** — use `literature` first
 
 ## Input
 
@@ -203,7 +204,7 @@ Schema: `~/Task-Management/docs/reference/review-state-schema.md`.
 
 | Skill | When to use instead/alongside |
 |-------|-------------------------------|
-| `/method-audit` | For broader methodological comparison (not replication-specific) |
-| `/weakness-scanner` | For logical and argumentative weaknesses (not replication status) |
-| `/literature` | To find the replication studies identified in this audit |
-| `/split-pdf` | To deep-read any replication study found |
+| `method-audit` | For broader methodological comparison (not replication-specific) |
+| `weakness-scanner` | For logical and argumentative weaknesses (not replication status) |
+| `literature` | To find the replication studies identified in this audit |
+| `split-pdf` | To deep-read any replication study found |

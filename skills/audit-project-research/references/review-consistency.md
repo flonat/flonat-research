@@ -1,7 +1,7 @@
 # Phase 4.6: Review Process Consistency
 
-> Detailed check for `/audit-project-research` Phase 4.6.
-> Canonical layout: `rules/submission-file-archive.md` § "per-round folder". Retrofit tool: `/tidy-project-reviews`.
+> Detailed check for `audit-project-research` Phase 4.6.
+> Canonical layout: `rules/submission-file-archive.md` § "per-round folder". Retrofit tool: the `tidy-project-reviews` skill.
 
 If `correspondence/referee-reviews/` exists and is non-empty, verify it matches the **nested per-round** convention and detect legacy/flat layouts that need retrofitting.
 
@@ -25,7 +25,7 @@ List the immediate children of `correspondence/referee-reviews/`.
 | Condition | Severity |
 |-----------|----------|
 | Only `{surface}-round{N}/` dirs (+ optional `.gitkeep`) | OK — check each round |
-| **Loose file** directly under `referee-reviews/` matching `*-round*-reviews.{pdf,md}` | **Degraded (retrofit)** — "flat review file — move into `{surface}-round{N}/` via `/tidy-project-reviews`" |
+| **Loose file** directly under `referee-reviews/` matching `*-round*-reviews.{pdf,md}` | **Degraded (retrofit)** — "flat review file — move into `{surface}-round{N}/` with the `tidy-project-reviews` skill" |
 | Loose file `reviews-original.*` (legacy name) | **Degraded (retrofit)** — "legacy `reviews-original.*` — rename to `{surface}-round{N}-reviews.*` inside a round folder" |
 | Any other loose file (dissection memo, response draft at this level) | **Degraded (retrofit)** — "response-prep file loose in `referee-reviews/` — belongs inside its `{surface}-round{N}/` (rebuttal → `{surface}-round{N}-rebuttal.md`; analysis → `{round}/analysis/`)" |
 | Dir not matching `*-round*` | **Info** — "unrecognized directory in `referee-reviews/`" |
@@ -42,7 +42,7 @@ For each `{surface}-round{N}/`:
 | `{surface}-round{N}-rebuttal.md` | No | not flagged — appears when response work begins |
 | `analysis/`, `plan/` | No | not flagged — strategic-revision workspace, present only after that skill runs |
 
-**Naming drift:** a reviews PDF/MD present but not named `{surface}-round{N}-reviews.*` (e.g. `reviews-original.pdf`, `ARR-official-reviews.pdf`) → **Degraded (retrofit)** — "review file misnamed — rename to taxonomy via `/tidy-project-reviews`".
+**Naming drift:** a reviews PDF/MD present but not named `{surface}-round{N}-reviews.*` (e.g. `reviews-original.pdf`, `ARR-official-reviews.pdf`) → **Degraded (retrofit)** — "review file misnamed — rename to taxonomy with the `tidy-project-reviews` skill".
 
 ## Step 3: History pointer is PDF-only
 
@@ -61,7 +61,7 @@ Scan each round folder for stray LaTeX build artifacts (`*.aux *.bbl *.blg *.fdb
 
 ## Step 5: Misplaced review files elsewhere
 
-Scan `docs/venues/` and project root for files that belong in a round folder (`reviewer-comment*`, `comment-tracker*`, `review-analysis*`, `*referee-report*`, `reviews-original*`) → **Degraded** — "review file outside `referee-reviews/{round}/` — relocate via `/tidy-project-reviews`".
+Scan `docs/venues/` and project root for files that belong in a round folder (`reviewer-comment*`, `comment-tracker*`, `review-analysis*`, `*referee-report*`, `reviews-original*`) → **Degraded** — "review file outside `referee-reviews/{round}/` — relocate with the `tidy-project-reviews` skill".
 
 ## Report format
 
@@ -81,7 +81,7 @@ Retrofit needed:
 Review Process Consistency (RETROFIT NEEDED):
   referee-reviews/aies-round1-reviews.pdf   flat file — move into aies-round1/
   referee-reviews/aies-round1-reviews.md    flat file — move into aies-round1/
-  → run /tidy-project-reviews to migrate
+  → use the tidy-project-reviews skill to migrate
 ```
 
 ## When to skip

@@ -129,7 +129,7 @@ If the spec is complete, acknowledge and proceed. If anything is missing, probe 
 
 ## How Skills and Agents Use This
 
-### In analysis skills (`/data-analysis`, `/causal-design`, `/experiment-design`)
+### In analysis skills (`data-analysis`, `causal-design`, `experiment-design`)
 
 1. Detect the method type from user's request
 2. Present the relevant probing questions

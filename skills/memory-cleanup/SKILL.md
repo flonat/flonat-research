@@ -13,7 +13,7 @@ Inspired by npcsh's knowledge graph sleep/dream cycles — memory consolidation 
 
 ## When to Use
 
-- Monthly maintenance (pair with `/system-audit`)
+- Monthly maintenance (pair with `system-audit`)
 - When a `MEMORY.md` exceeds 100 entries
 - After completing a major project milestone (e.g., paper submission)
 - When starting a new session and `MEMORY.md` feels cluttered
@@ -254,7 +254,7 @@ $TM/.context/auto-memory/
 
 ## Cross-References
 
-- **`/system-audit`** — Run consolidation as part of periodic maintenance
-- **`/skill-extract`** — Creates the entries that this skill consolidates
+- **`system-audit`** — Run consolidation as part of periodic maintenance
+- **`skill-extract`** — Creates the entries that this skill consolidates
 - **`[LEARN]` tags** (rule) — The tagging system that feeds MEMORY.md
-- **`/session-close`** — May surface entries worth recording before consolidation
+- **`session-close`** — May surface entries worth recording before consolidation

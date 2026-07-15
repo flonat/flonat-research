@@ -6,8 +6,8 @@ description: 'Fork an existing conference/journal paper into a second-venue subm
   run compile + anonymity + render-level QA, and write back vault submission + atlas
   output with concurrency/withdrawal clauses. Use for: ''submit this paper also to
   X'', ''concurrent submission'', ''make the WINE/EC/conference version'', ''reformat
-  for another venue''. NOT for preprints/arXiv (use /preprint), NOT for moving a paper
-  to a new target (use /retarget-journal), NOT post-acceptance (use /camera-ready).'
+  for another venue''. NOT for preprints/arXiv (use preprint), NOT for moving a paper
+  to a new target (use retarget-journal), NOT post-acceptance (use camera-ready).'
 ---
 
 # Shared skill adapter

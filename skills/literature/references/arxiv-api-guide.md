@@ -1,6 +1,6 @@
 # arXiv API Reference
 
-> For use by the `/literature` skill — Phase 2 pre-fetch and Phase 4.5 deep loop.
+> For use by the `literature` skill — Phase 2 pre-fetch and Phase 4.5 deep loop.
 > arXiv is available through portable `scholarly` CLI commands (`scholarly arxiv-search`, `scholarly arxiv-get-paper`, `scholarly arxiv-search-category`).
 
 ## CLI Commands (Preferred)

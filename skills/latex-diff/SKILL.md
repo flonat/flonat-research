@@ -21,8 +21,8 @@ argument-hint: "[old] [new] (files, dirs, or git revisions)"
 
 ## When NOT to Use
 
-- **Compiling** a document → `/latex`
-- **Prose quality / proofreading** → `/proofread`
+- **Compiling** a document → `latex`
+- **Prose quality / proofreading** → `proofread`
 - A raw line diff is enough → `git diff` (this skill is LaTeX-aware: it knows a
   changed `\cite` key from a reflowed paragraph)
 
@@ -108,8 +108,8 @@ Useful filters (compose freely): `--min-severity high`, `--type citation`,
 
 | Skill | Relationship |
 |-------|-------------|
-| `/latex` | Compiles documents; this skill compares versions of them |
-| `/strategic-revision` | Consumes this to auto-draft the R&R "summary of changes" |
-| `/preprint` | Consumes this for a vN→vN+1 changelog on version bump |
+| `latex` | Compiles documents; this skill compares versions of them |
+| `strategic-revision` | Consumes this to auto-draft the R&R "summary of changes" |
+| `preprint` | Consumes this for a vN→vN+1 changelog on version bump |
 | `paper-critic` / `referee2-reviewer` | Can take `--semantic-only` JSON to focus a re-review on what changed |
 | `packages/latex-diff/README.md` | Full CLI flags, schema, and design notes |

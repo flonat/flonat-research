@@ -143,7 +143,7 @@ All requirements met, depth_score ≥ 0.4, no red flags (or red flags are minor)
 
 ## How Skills Use This
 
-### In `/literature` (before synthesis)
+### In `literature` (before synthesis)
 
 1. Request concept plan from user
 2. Run validation checks

@@ -1,6 +1,6 @@
 # Phase 5-7: MEMORY.md Templates, Settings & Vault Sync
 
-> Templates for seeding MEMORY.md, settings.local.json, and vault entries for `/init-project-course`.
+> Templates for seeding MEMORY.md, settings.local.json, and vault entries for `init-project-course`.
 
 ---
 

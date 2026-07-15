@@ -72,6 +72,6 @@ Visual invariants the Playwright script checks (per chapter):
 7. **Sidebar chapter list**: 8 chapters + references = 9 entries in the sidebar `<nav>`.
 8. **No console errors**: `page.on('console', msg => …)` collects all console output; non-empty error stream fails the page.
 
-Output JSON: `{chapter: {pass: bool, failures: [<list>]}}`. Any chapter with `pass: false` → end-of-run report lists the failure and the screenshot path; this does NOT block the skill from completing (the book is already live), but it surfaces the issue for fix in a follow-up `/audit-paper-book` run.
+Output JSON: `{chapter: {pass: bool, failures: [<list>]}}`. Any chapter with `pass: false` → end-of-run report lists the failure and the screenshot path; this does NOT block the skill from completing (the book is already live), but it surfaces the issue for fix in a follow-up `audit-paper-book` run.
 
 Acceptance: every chapter returns 200 in HTTP smoke; Playwright visual check returns `pass: true` for every chapter; references chapter shows ≥1 ref-card in DOM.

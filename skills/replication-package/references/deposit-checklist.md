@@ -1,6 +1,6 @@
 # Deposit Checklist for Replication Packages
 
-> Completeness checklist for depositing replication packages on various platforms. Used by `/replication-package` Audit mode (Check 6) and as a pre-deposit reference in Assemble mode.
+> Completeness checklist for depositing replication packages on various platforms. Used by `replication-package` Audit mode (Check 6) and as a pre-deposit reference in Assemble mode.
 
 ---
 

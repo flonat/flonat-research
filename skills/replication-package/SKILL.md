@@ -3,6 +3,7 @@ name: replication-package
 description: "Use when you need to assemble, anonymize, or audit a replication package."
 allowed-tools: Bash(cp*), Bash(rm*), Bash(mkdir*), Bash(ls*), Bash(git*), Bash(find*), Bash(sed*), Bash(grep*), Bash(du*), Bash(wc*), Bash(dirname*), Bash(basename*), Bash(readlink*), Bash(rsync*), Bash(mv*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[project-path] [--mode assemble|blind|audit]"
+skill-dependencies: [latex]
 ---
 
 # Replication Package — Assemble, Anonymize, and Audit
@@ -110,7 +111,7 @@ Runs Audit mode (read-only) on the specified package directory.
 
 ### Explicit path and mode
 
-> "/replication-package <project-path> --mode blind"
+> "replication-package <project-path> --mode blind"
 
 Runs Blind mode on the specified project path.
 
@@ -122,7 +123,7 @@ Runs Blind mode on the specified project path.
 - **`overleaf-separation` rule** — `paper/` structure is preserved; symlinks resolved by rsync
 - **`shared/multi-language-conventions.md`** — dependency detection patterns for Python, R, Julia, MATLAB
 - **`shared/publication-output.md`** — output file verification and freshness checks
-- **`/latex`** — compilation check in Audit mode
+- **`latex`** — compilation check in Audit mode
 - **`references/aea-readme-template.md`** — AEA-style README template for Assemble mode
 - **`references/figure-table-crosswalk.md`** — per-figure/table crosswalk (with LaTeX Label) + paper-consistency check, appended to the README (Phase 4)
 - **`references/logging-skeletons.md`** — per-script logging + master-script skeletons (R/Python/Julia/Stata) offered in Phase 5

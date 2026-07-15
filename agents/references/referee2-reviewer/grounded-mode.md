@@ -125,7 +125,7 @@ report: reviews/paper-emnlp/referee2-reviewer/2026-05-25-1830.md
 notes: mode: grounded; 18/22 grounded; 2 failed-verification findings
 ```
 
-The `notes:` field carries `mode: grounded` (or `mode: deep+grounded`, etc.) as the first segment so `/review-recap` can parse it and render mode-aware rows.
+The `notes:` field carries `mode: grounded` (or `mode: deep+grounded`, etc.) as the first segment so `review-recap` can parse it and render mode-aware rows.
 
 ---
 

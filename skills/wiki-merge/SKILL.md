@@ -1,6 +1,6 @@
 ---
 name: wiki-merge
-description: "Use when /wiki-curate has identified an overlap cluster and you want to collapse it. Takes a canonical winner slug + one or more fold-in slugs; merges bodies, rewrites all [[wikilink]] references in the corpus, deletes losers, denylists them. Dry-run by default; --apply writes."
+description: "Use when wiki-curate has identified an overlap cluster and you want to collapse it. Takes a canonical winner slug + one or more fold-in slugs; merges bodies, rewrites all [[wikilink]] references in the corpus, deletes losers, denylists them. Dry-run by default; --apply writes."
 allowed-tools: Bash, Read
 argument-hint: "[--apply] <winner-slug> <loser-slug-1> [<loser-slug-2> ...]"
 ---
@@ -10,12 +10,12 @@ argument-hint: "[--apply] <winner-slug> <loser-slug-1> [<loser-slug-2> ...]"
 > Folds one or more concept slugs into a single canonical entry.
 > Preserves provenance, rewrites incoming wikilinks across atlas /
 > books / concepts / project knowledge folders, deletes the losers,
-> and denylists them so the Saturday `/wiki-grow` cron doesn't
+> and denylists them so the Saturday `wiki-grow` cron doesn't
 > re-promote.
 
 ## When to Use
 
-- Right after `/wiki-curate` flags an overlap cluster in Section A
+- Right after `wiki-curate` flags an overlap cluster in Section A
   and you've decided which slug should be canonical.
 - Manual cleanup when you notice two concepts that should be one.
 
@@ -101,7 +101,7 @@ Performs all six steps. After the run:
   display label preserved as the alias.
 - `~/vault/concepts/.denylist` has two new lines.
 
-**Verify with `/wiki-curate`** — the goodhart cluster should be gone
+**Verify with `wiki-curate`** — the goodhart cluster should be gone
 on the next run.
 
 ---
@@ -137,6 +137,6 @@ on the next run.
 
 | Skill | Relationship |
 |-------|-------------|
-| `/wiki-curate` | Identifies the clusters this skill collapses. |
-| `/wiki-grow` | Writer of auto-promoted concepts; denylist entries from `/wiki-merge` prevent it from re-promoting losers. |
-| `/compile-knowledge` | Source of project knowledge articles that get promoted to concepts. |
+| `wiki-curate` | Identifies the clusters this skill collapses. |
+| `wiki-grow` | Writer of auto-promoted concepts; denylist entries from `wiki-merge` prevent it from re-promoting losers. |
+| `compile-knowledge` | Source of project knowledge articles that get promoted to concepts. |

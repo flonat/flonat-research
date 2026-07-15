@@ -15,7 +15,7 @@ Wire a shared Python package as an editable local dependency across multiple res
 - "Add collusion-sim as a dependency to these projects"
 - "Wire up the shared package"
 - "Set up cross-project dependency"
-- After creating a shared package with `/computational-experiments` scaffold mode
+- After creating a shared package with `computational-experiments` scaffold mode
 
 ## Phase 1: Discover
 

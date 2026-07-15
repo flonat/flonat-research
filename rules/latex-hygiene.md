@@ -109,7 +109,7 @@ If that still errors, `sudo tlmgr update --self --all` first, then re-run. Never
 
 ## Applies To
 
-All LaTeX compilations on all machines: papers, proposals, presentations, teaching materials, standalone docs. Both Overleaf-linked `paper/` dirs and standalone projects. Both `/latex` and manual `latexmk`.
+All LaTeX compilations on all machines: papers, proposals, presentations, teaching materials, standalone docs. Both Overleaf-linked `paper/` dirs and standalone projects. Both `latex` and manual `latexmk`.
 
 ## Why This Matters
 

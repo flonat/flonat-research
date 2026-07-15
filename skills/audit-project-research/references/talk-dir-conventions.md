@@ -1,8 +1,8 @@
 # Talk Directory Conventions (audit reference — Phase 4.7)
 
 Conventions for conference/seminar talk decks and their `links.example.com` landing pages.
-Produced by `/talk-deck` (deck) + `/talk-page` (QR slide + landing page). **Report-only** in
-the audit — talk artefacts are not scaffolded by `/init-project-research`.
+Produced by `talk-deck` (deck) + `talk-page` (QR slide + landing page). **Report-only** in
+the audit — talk artefacts are not scaffolded by `init-project-research`.
 
 ## Two folder patterns
 

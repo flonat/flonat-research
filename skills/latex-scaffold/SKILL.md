@@ -3,6 +3,7 @@ name: latex-scaffold
 description: "Use when you need to convert a Markdown draft into a buildable LaTeX project."
 argument-hint: "[path/to/draft.md]"
 allowed-tools: Read, Write, Edit, Bash(latexmk*), Bash(mkdir*), Bash(ls*), Glob, Grep
+skill-dependencies: [latex]
 ---
 
 # LaTeX Scaffold
@@ -23,8 +24,8 @@ Convert an approved Markdown draft into a minimal, compilable LaTeX project. Thi
 
 ## Outputs
 
-- A `.tex` file ready to compile with `/latex`
-- A `.latexmkrc` if one doesn't already exist (see `/latex` for config details — must include `$out_dir = 'out'` and the `END {}` block to copy the PDF back)
+- A `.tex` file ready to compile with `latex`
+- A `.latexmkrc` if one doesn't already exist (see `latex` for config details — must include `$out_dir = 'out'` and the `END {}` block to copy the PDF back)
 
 ---
 
@@ -117,7 +118,7 @@ These indicate incomplete conversion — fix them.
 
 ### Step 5: Compile and Verify
 
-Run `/latex` to compile. Verify:
+Run `latex` to compile. Verify:
 - [ ] Document compiles without errors
 - [ ] All citations resolve (or are marked as TODO)
 - [ ] Tables render correctly
@@ -131,7 +132,7 @@ Run `/latex` to compile. Verify:
 - **No content rewriting** — this is format conversion only. Do not improve prose, fix grammar, or reorganise sections.
 - **Preserve all content** — every paragraph, figure reference, and citation in the draft must appear in the `.tex` output.
 - **Strip heading numbering** — if the draft has numbered headings like `1.2 Methods`, let LaTeX handle the numbering (just use `\subsection{Methods}`).
-- **Use `/latex`** for compilation — never bare `pdflatex` or `latexmk` without `out/` directory.
+- **Use `latex`** for compilation — never bare `pdflatex` or `latexmk` without `out/` directory.
 - **Bold caption lines** like `**Table 1. Description**` immediately before a pipe table should become `\caption{Description}` inside a `table` float.
 
 ---
@@ -140,11 +141,11 @@ Run `/latex` to compile. Verify:
 
 | Skill | When to use alongside |
 |-------|----------------------|
-| `/latex` | Compile the scaffolded `.tex` file |
-| `/latex` | For manual compilation config and `.latexmkrc` setup |
-| `/bib-validate` | After scaffolding to verify all citation keys resolve |
-| `/proofread` | After scaffolding for grammar and consistency check |
-| `/latex-template` | After scaffolding to verify preamble aligns with the working paper template |
+| `latex` | Compile the scaffolded `.tex` file |
+| `latex` | For manual compilation config and `.latexmkrc` setup |
+| `bib-validate` | After scaffolding to verify all citation keys resolve |
+| `proofread` | After scaffolding for grammar and consistency check |
+| `latex-template` | After scaffolding to verify preamble aligns with the working paper template |
 
 ## Citation Contract
 

@@ -189,7 +189,7 @@ If `<project>/github-repo/` exists with a GitHub remote whose name embeds the ol
    - Update `github-repo/.git/config` remote URL (gh handles this automatically when `gh repo rename` runs locally).
    - Naming follows whichever mode applies: Mode A (`<venue>-<year>-<new-slug>-artifact`) or Mode B (`paper-<theme>-<new-slug>`). See `init-project-research/references/github-release-repo.md`.
 
-4. **Update vault submission `artifact_repo:` field** to the new GitHub URL. Atlas `outputs[].artifact_repo:` likewise. Same atomicity rule as `/anonymous-artifact` Phase 6 — apply all writebacks together or none.
+4. **Update vault submission `artifact_repo:` field** to the new GitHub URL. Atlas `outputs[].artifact_repo:` likewise. Same atomicity rule as `anonymous-artifact` Phase 6 — apply all writebacks together or none.
 
 ### Phase 6: Verification
 
@@ -248,7 +248,7 @@ Remaining references: [list or "none"]
 
 | Skill | Relationship |
 |-------|-------------|
-| `/audit-project-research` | Run after rename to verify structure |
-| `/session-close` | Atlas cross-ref check will validate the rename |
+| `audit-project-research` | Run after rename to verify structure |
+| `session-close` | Atlas cross-ref check will validate the rename |
 | `vault sync (edit vault files directly)` | Can be used for follow-up vault sync if needed |
-| `/sync-atlas` | Can be used for follow-up atlas-vault sync |
+| `sync-atlas` skill | Can be used for follow-up atlas-vault sync where that optional skill is available |

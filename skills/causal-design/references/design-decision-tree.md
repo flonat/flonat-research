@@ -1,7 +1,7 @@
 # Design Decision Tree
 
 > Walk through these questions to select the strongest identification strategy for your research setting.
-> Read during `/causal-design` Design Phase 2.
+> Read during `causal-design` Design Phase 2.
 
 ---
 
@@ -12,7 +12,7 @@ Start at Question 1. Follow the arrows.
 ### Q1: Do you assign treatment?
 
 - **Yes** -- you control the assignment mechanism
-  - **Random assignment?** --> **RCT** (use `/experiment-design`, not `/causal-design`)
+  - **Random assignment?** --> **RCT** (use `experiment-design`, not `causal-design`)
   - **Non-random assignment but you control it?** --> Consider a designed quasi-experiment, continue to Q2
 - **No** -- treatment is observational --> Continue to Q2
 
@@ -158,7 +158,7 @@ Some research settings support combining strategies for stronger identification:
 
 | Resource | Relationship |
 |----------|-------------|
-| `/causal-design` SKILL.md | Parent skill -- this tree is read during Design Phase 2 |
+| `causal-design` SKILL.md | Parent skill -- this tree is read during Design Phase 2 |
 | `experiment-design/references/identification-strategies.md` | Overlapping content for experimental settings |
-| `/data-analysis` references/estimation-recipes.md | Implementation recipes for each strategy |
+| `data-analysis` references/estimation-recipes.md | Implementation recipes for each strategy |
 | `design-before-results` rule | Strategy must be selected before examining results |

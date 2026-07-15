@@ -183,7 +183,7 @@ def check_saturation(coded_data, code_var='frame', window=50, threshold=0.05):
 
 ## Integration
 
-### In `/data-analysis` Phase 1
+### In `data-analysis` Phase 1
 
 When data includes engagement metrics (likes, shares, retweets, etc.), automatically:
 1. Compute composite engagement score
@@ -191,7 +191,7 @@ When data includes engagement metrics (likes, shares, retweets, etc.), automatic
 3. Report tier distribution in EDA output
 4. Flag if analysis sample is not engagement-stratified
 
-### In `/experiment-design`
+### In `experiment-design`
 
 When designing content analysis studies:
 1. Include engagement stratification in sampling plan

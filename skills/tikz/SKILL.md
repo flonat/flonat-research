@@ -1,6 +1,6 @@
 ---
 name: tikz
-description: Use when labels overlap arrows in a TikZ figure, text sits on boxes, or arrows cross each other. Audits and fixes residual TikZ visual collisions in any .tex file using mathematical gap calculations and Bézier depth formulas — no eyeballing. Downstream repair tool; the upstream defense is generating TikZ safely via /beamer-deck and tikz_rules.md.
+description: Use when labels overlap arrows in a TikZ figure, text sits on boxes, or arrows cross each other. Audits and fixes residual TikZ visual collisions in any .tex file using mathematical gap calculations and Bézier depth formulas — no eyeballing. Downstream repair tool; the upstream defense is generating TikZ safely via beamer-deck and tikz_rules.md.
 allowed-tools: Bash(pdflatex*), Bash(latexmk*), Bash(grep*), Bash(ls*), Read, Edit, Glob
 argument-hint: '[path/to/file.tex]'
 ---
@@ -15,7 +15,7 @@ argument-hint: '[path/to/file.tex]'
 
 ## Critical context: this is a repair tool, not the primary defense
 
-`/tikz` runs **after** TikZ has been generated. It audits existing code and fixes what it finds. But it cannot reliably fix diagrams that were never built with measurement in mind.
+`tikz` runs **after** TikZ has been generated. It audits existing code and fixes what it finds. But it cannot reliably fix diagrams that were never built with measurement in mind.
 
 **The upstream defense** is writing TikZ safely from the start:
 
@@ -25,11 +25,11 @@ argument-hint: '[path/to/file.tex]'
 4. Standard diagram types use canonical safe templates
 5. `scale` is never used on complex diagrams
 
-When new decks are authored via `/beamer-deck`, prefer applying these rules during generation. `/tikz` is the downstream cleanup pass for anything that slipped through or for legacy/hand-written TikZ.
+When new decks are authored via `beamer-deck`, prefer applying these rules during generation. `tikz` is the downstream cleanup pass for anything that slipped through or for legacy/hand-written TikZ.
 
-**When upstream rules were applied**: `/tikz` should find few or no issues. Run it as a check.
+**When upstream rules were applied**: `tikz` should find few or no issues. Run it as a check.
 
-**When upstream rules were NOT applied** (legacy TikZ, hand-written diagrams, inherited decks): `/tikz` does its best, but expect more findings, more iteration, and lower reliability on autosized nodes and scaled diagrams.
+**When upstream rules were NOT applied** (legacy TikZ, hand-written diagrams, inherited decks): `tikz` does its best, but expect more findings, more iteration, and lower reliability on autosized nodes and scaled diagrams.
 
 The companion reference `tikz_rules.md` (in this skill's directory) contains the full formulas and worked examples — read it once before running the audit passes below.
 
@@ -244,11 +244,11 @@ That count is how many diagrams need a clean bill of health.
 
 ## Known limitations
 
-These are the cases where `/tikz` is least reliable. When you encounter them, the better fix is almost always upstream (rewrite the TikZ safely) rather than downstream (try to repair it).
+These are the cases where `tikz` is least reliable. When you encounter them, the better fix is almost always upstream (rewrite the TikZ safely) rather than downstream (try to repair it).
 
 | Limitation | Why it's hard | Upstream fix |
 |---|---|---|
-| **Autosized nodes** (no `minimum width`/`minimum height`) | Rendered dimensions depend on text content and font — `/tikz` can only estimate, not compute exactly | Add explicit dimensions |
+| **Autosized nodes** (no `minimum width`/`minimum height`) | Rendered dimensions depend on text content and font — `tikz` can only estimate, not compute exactly | Add explicit dimensions |
 | **`scale` on complex diagrams** | Coordinates shrink but text does not; gap calculations require fragile compensation | Redesign at intended size |
 | **Math-mode label widths** | `$\hat{\beta}_{it}$` is wider than character-count × width/char suggests | Overestimate by 20–30% or measure with a test compile |
 | **Nested `tikzpicture` environments** | Coordinate systems interact unpredictably | Flatten into a single environment |
@@ -273,4 +273,4 @@ These are the cases where `/tikz` is least reliable. When you encounter them, th
 
 ## Acknowledgments
 
-Ported from Scott Cunningham's MixtapeTools skill library (`resources/academics/scott-cunningham/MixtapeTools/.claude/skills/tikz/`). The companion `tikz_rules.md` is adapted from `MixtapeTools/.claude/skills/compiledeck/tikz_rules.md`. Upstream-defense references have been rewritten to point at `/beamer-deck` and the user's unified `user-beamer` template.
+Ported from Scott Cunningham's MixtapeTools skill library (`resources/academics/scott-cunningham/MixtapeTools/.claude/skills/tikz/`). The companion `tikz_rules.md` is adapted from `MixtapeTools/.claude/skills/compiledeck/tikz_rules.md`. Upstream-defense references have been rewritten to point at `beamer-deck` and the user's unified `user-beamer` template.

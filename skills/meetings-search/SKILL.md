@@ -4,7 +4,7 @@ description: Search past meeting transcripts and voice memos for specific topics
 user_invocable: true
 ---
 
-# /meetings-search
+# meetings-search
 
 Find information across all meeting transcripts and voice memos.
 

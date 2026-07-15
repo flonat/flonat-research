@@ -1,8 +1,9 @@
 ---
 name: wiki-curate
-description: "Use when you need to audit the vault wiki (~/vault/concepts/) for fragmentation, missing tags, write-only concepts, and draft/anatomy conformance. Read-only — produces a markdown report at /tmp/wiki-curate-report.md. Companion to /wiki-grow (which writes) and /wiki-merge (which fixes overlap clusters)."
+description: "Use when you need to audit the vault wiki (~/vault/concepts/) for fragmentation, missing tags, write-only concepts, and draft/anatomy conformance. Read-only — produces a markdown report at /tmp/wiki-curate-report.md. Companion to wiki-grow (which writes) and wiki-merge (which fixes overlap clusters)."
 allowed-tools: Bash, Read
 argument-hint: "(no arguments)"
+skill-dependencies: [wiki-merge]
 ---
 
 # Wiki Curate — Read-only Audit
@@ -12,24 +13,24 @@ argument-hint: "(no arguments)"
 > **tag gaps** (untagged concepts + orphan/near-duplicate tags),
 > **write-only concepts** (zero backrefs from the corpus), and
 > **anatomy/lifecycle** issues (drafts awaiting curation + curated
-> pages that regressed the concept anatomy). Companion to `/wiki-grow`
-> (which adds new concepts) and `/wiki-merge` (which collapses overlap
+> pages that regressed the concept anatomy). Companion to `wiki-grow`
+> (which adds new concepts) and `wiki-merge` (which collapses overlap
 > clusters).
 
 ## When to Use
 
-- After a `/wiki-grow` run, to check what the new stubs introduced.
+- After a `wiki-grow` run, to check what the new stubs introduced.
 - Before deciding which concepts to refine or merge.
 - Monthly, to keep the wiki's signal-to-noise ratio high.
 
 ## When NOT to Use
 
 - For project knowledge folders — those are audited via
-  `/knowledge-lint`.
-- For atlas topics — that's `/atlas-audit`.
-- For mechanical edits — this skill never writes. Use `/wiki-merge` to
+  `knowledge-lint`.
+- For atlas topics — that's `atlas-audit`.
+- For mechanical edits — this skill never writes. Use `wiki-merge` to
   collapse overlap clusters and the planned tag-inference pass in
-  `/wiki-grow` to backfill missing tags.
+  `wiki-grow` to backfill missing tags.
 
 ---
 
@@ -75,7 +76,7 @@ Example output from a recent run:
 - `goodhart-taxonomy`    — auto, 3902 chars
 - `goodharts-law`        — curated, 3111 chars  ← canonical (suggested)
 
-Suggested action: /wiki-merge goodharts-law goodhart-taxonomy goodhart-resistance
+Suggested action: wiki-merge goodharts-law goodhart-taxonomy goodhart-resistance
 ```
 
 ### B. Tag coverage
@@ -150,7 +151,7 @@ Report: /tmp/wiki-curate-report.md
 JSON:   /tmp/wiki-curate.json
 ```
 
-The JSON sidecar feeds the planned `/wiki-merge` skill so it can
+The JSON sidecar feeds the planned `wiki-merge` skill so it can
 read the suggested winner/fold-in lists without re-running the
 detection.
 
@@ -160,11 +161,11 @@ detection.
 
 | Mode | Invocation | Behaviour |
 |------|-----------|-----------|
-| **Default** | `/wiki-curate` (or `uv run python scripts/wiki-curate-scan.py`) | Run all three audits, write report + JSON, print summary to stdout. Read-only. |
+| **Default** | `wiki-curate` (or `uv run python scripts/wiki-curate-scan.py`) | Run all three audits, write report + JSON, print summary to stdout. Read-only. |
 
 There's no `--autonomous` flag here — the skill is already pure-read
 and idempotent. Future cron integration: chained after the Saturday
-06:45 `/wiki-grow` run, the audit can land in
+06:45 `wiki-grow` run, the audit can land in
 `log/audits/wiki-curate-YYYY-MM-DD.md` for a weekly health snapshot.
 
 ---
@@ -178,8 +179,8 @@ After running:
    conform. Fix in place (add `## In one line`, or rename/add the
    `## In my portfolio` section and move project-voiced prose under it).
 2. **Section A** — every overlap cluster fragments knowledge. Pick a
-   canonical winner (often the suggestion) and run `/wiki-merge
-   <winner> <fold-in-slugs>` to collapse. Re-run `/wiki-curate` to
+   canonical winner (often the suggestion) and run `wiki-merge
+   <winner> <fold-in-slugs>` to collapse. Re-run `wiki-curate` to
    confirm the cluster is gone.
 3. **Section D drafts** — curate each `draft` to the anatomy:
    - Extract a 2-4 sentence project-agnostic definition into
@@ -191,7 +192,7 @@ After running:
    - Flip `status: draft` → `status: curated` in frontmatter and set
      `last_updated`.
 4. **Section B** — untagged concepts won't surface in the tag filter.
-   Until the planned `/wiki-grow` tag-inference pass lands, add tags
+   Until the planned `wiki-grow` tag-inference pass lands, add tags
    manually for the auto-promoted stubs you care about.
 5. **Section C** — write-only concepts. Decide per-concept: link from
    a topic, denylist, or accept.
@@ -202,8 +203,8 @@ After running:
 
 | Skill | Relationship |
 |-------|-------------|
-| `/wiki-grow` | Writes the auto-promoted concepts this skill audits. |
-| `/wiki-merge` | Acts on the overlap clusters this skill finds (planned — not yet built). |
-| `/compile-knowledge` | Upstream of `/wiki-grow`; produces the project knowledge articles that get promoted. |
-| `/atlas-audit` | Audits atlas topics; complementary lens. |
-| `/knowledge-lint` | Audits per-project knowledge folders; complementary lens. |
+| `wiki-grow` | Writes the auto-promoted concepts this skill audits. |
+| `wiki-merge` | Acts on the overlap clusters this skill finds (planned — not yet built). |
+| `compile-knowledge` | Upstream of `wiki-grow`; produces the project knowledge articles that get promoted. |
+| `atlas-audit` | Audits atlas topics; complementary lens. |
+| `knowledge-lint` | Audits per-project knowledge folders; complementary lens. |

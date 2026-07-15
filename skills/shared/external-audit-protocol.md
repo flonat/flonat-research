@@ -6,7 +6,7 @@
 
 Uses an external LLM CLI (Codex or Gemini) to get a **fresh, independent perspective** from a competing model on Claude Code infrastructure. This extends the agents-vs-skills principle: not just fresh Claude context, but an entirely different model reviewing the work.
 
-**Key difference from `/system-audit`:** System audit uses Claude sub-agents for mechanical checks (counts, symlinks, broken links). External audits are **qualitative** — architecture coherence, design quality, redundancy, missing capabilities, improvement suggestions.
+**Key difference from `system-audit`:** System audit uses Claude sub-agents for mechanical checks (counts, symlinks, broken links). External audits are **qualitative** — architecture coherence, design quality, redundancy, missing capabilities, improvement suggestions.
 
 **Model selection:** Pass `--model codex` or `--model gemini` (default: gemini). Running both triangulates — different training and reasoning patterns produce more reliable findings than either alone.
 
@@ -199,7 +199,7 @@ Ask if he wants to address any findings now.
 
 | Skill | Relationship |
 |-------|-------------|
-| `/system-audit` | Mechanical checks (counts, symlinks) — complementary, not overlapping |
-| `/audit-project-research` | Per-project structural audit — external audits are cross-cutting |
-| `/postmortem` | Critical findings can feed into post-mortems |
-| `/ideas` | Recommendations can be captured as improvement ideas |
+| `system-audit` | Mechanical checks (counts, symlinks) — complementary, not overlapping |
+| `audit-project-research` | Per-project structural audit — external audits are cross-cutting |
+| `postmortem` | Critical findings can feed into post-mortems |
+| `ideas` | Recommendations can be captured as improvement ideas |

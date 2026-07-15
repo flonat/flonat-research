@@ -1,6 +1,6 @@
 # Rhetoric Principles for Presentations
 
-> Shared reference for `/beamer-deck`, `/quarto-deck`, and `/quarto-course`. Drawn from Scott Cunningham's "The Rhetoric of Decks" essay.
+> Shared reference for `beamer-deck`, `quarto-deck`, and `quarto-course`. Drawn from Scott Cunningham's "The Rhetoric of Decks" essay.
 > Full source: `resources/academics/scott-cunningham/MixtapeTools/presentations/rhetoric_of_decks.md`
 
 ## The Three Laws

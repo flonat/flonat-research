@@ -2,6 +2,7 @@
 name: save-context
 description: "Use when you need to save information from the current conversation to the context library."
 allowed-tools: Read, Write, Edit
+skill-dependencies: [update-focus]
 ---
 
 # Save to Context Library
@@ -34,7 +35,7 @@ $TM/.context/
 - "I'm now working on..."
 - "Save where I left off"
 
-> **Preferred:** For structured end-of-session updates, use `/update-focus` instead. It preserves the full document structure and handles session rotation, open loops, and mental state. Use `/save-context` only for quick, targeted saves (e.g., adding a single note or updating one field). If `/update-focus` is not available, read the file first and merge carefully — never overwrite with a blank template.
+> **Preferred:** For structured end-of-session updates, use `update-focus` instead. It preserves the full document structure and handles session rotation, open loops, and mental state. Use `save-context` only for quick, targeted saves (e.g., adding a single note or updating one field). If `update-focus` is not available, read the file first and merge carefully — never overwrite with a blank template.
 
 **Format:** Read the existing file and update the relevant section. Do not use a template — the file has a rich structure that must be preserved.
 

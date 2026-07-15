@@ -46,7 +46,7 @@ Not all papers will match (SciSciNet covers 11M papers, biased toward STEM/socia
 Append to `.planning/state.md` (if exists) or `.context/current-focus.md`:
 
 ```
-### [/literature] Phase 3b complete [YYYY-MM-DD HH:MM]
+### [literature] Phase 3b complete [YYYY-MM-DD HH:MM]
 - **SciSciNet:** [M/N papers matched, avg disruption X.XXX, N hit-1% papers]
 - **Next:** Parallel verification (DOI + metadata)
 ```

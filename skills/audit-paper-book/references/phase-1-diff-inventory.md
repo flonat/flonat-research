@@ -2,7 +2,7 @@
 
 **Paper-tex resolution.** The audit needs to know which `.tex` file is the canonical paper. Resolution order:
 
-1. **Registry override.** If the book's entry in `~/vault/books/index.yaml` has a `paper_tex:` field, it's used as a path relative to the project root (e.g. `paper-acm-gecco/paper/gecco2026.tex`). Set this once at `/init-paper-book` setup when the paper's tex isn't named `main.tex` (common with ACM templates that name files after the venue).
+1. **Registry override.** If the book's entry in `~/vault/books/index.yaml` has a `paper_tex:` field, it's used as a path relative to the project root (e.g. `paper-acm-gecco/paper/gecco2026.tex`). Set this once at `init-paper-book` setup when the paper's tex isn't named `main.tex` (common with ACM templates that name files after the venue).
 2. **Canonical layout.** First `paper-*/paper/main.tex` under the project (the Overleaf symlink convention).
 3. **Backup fallback.** First `paper-*/backup/main.tex` (for when the Overleaf symlink is temporarily down).
 
@@ -52,7 +52,7 @@ When `outputs[0].status` starts with `Published`, the intro masthead must reflec
 
 Both fixes are deterministic and pull from the same atlas fields (`outputs[0].venue`, `.doi`, `.publication_date`). The canonical fix is to invoke `regenerate_intro.py --apply` — see the next paragraph.
 
-**Regenerate via the shared script.** When format-convention drift is found, the canonical fix is to invoke the regenerate script — same one `/init-paper-book` uses, so the format stays in lockstep:
+**Regenerate via the shared script.** When format-convention drift is found, the canonical fix is to invoke the regenerate script — same one `init-paper-book` uses, so the format stays in lockstep:
 
 ```bash
 ~/Task-Management/packages/atlas-workspace/.venv/bin/python \
@@ -66,7 +66,7 @@ This rebuilds `intro.md` from the atlas topic and re-appends anything below the 
 
 The canonical intro masthead is a definition list (atlas has `def_list` enabled). The old blockquote pattern (`> **Paper.** ...\n> **Authors.** ...`) is deprecated because it duplicates the H1 the template already supplies and wraps awkwardly on narrow screens. For each book under audit, check:
 
-- **Blockquote masthead present.** If `intro.md` starts with a `> **Paper.**` (or `> **Authors.**` / `> **Venue.**`) block, **propose migration** to the definition-list pattern below. This is the deprecation flagged in `/init-paper-book` Rule 12 + Intro-masthead-format section — Phase 3 `--apply` auto-migrates by regenerating via the shared script.
+- **Blockquote masthead present.** If `intro.md` starts with a `> **Paper.**` (or `> **Authors.**` / `> **Venue.**`) block, **propose migration** to the definition-list pattern below. This is the deprecation flagged in `init-paper-book` Rule 12 + Intro-masthead-format section — Phase 3 `--apply` auto-migrates by regenerating via the shared script.
 - **Redundant H1 in chapter body.** If any chapter file `~/vault/books/<slug>/<ch>.md` contains a top-level `^# ` heading anywhere in the body (the template already renders `<h1 class="page-title">` from `index.yaml`), **propose stripping** that line. This catches both legacy books and chapters that were hand-edited.
 - **Required masthead fields.** Verify `intro.md` masthead has at minimum `Authors`, `Venue`, and `Topic`. Optional fields: `Preprint`, `Source` (Overleaf — handled by the Overleaf-link rule above), `Status`. Missing required field → **report**, not auto-applied.
 - **Missing `Topic` field.** If `intro.md` masthead lacks a `Topic` definition linking to `https://atlas.example.com/topic/<slug>`, **propose addition**. This is the canonical bridge between book and atlas portfolio.
@@ -84,7 +84,7 @@ The canonical intro masthead is a definition list (atlas has `def_list` enabled)
   Marker drift is reported, not auto-fixed (a malformed marker could indicate intentional restructuring).
 - **Status normalised to a fixed enum.** Book mastheads use atlas `outputs[0].status` **verbatim** — including curated terms like `Curating` or `Curating (Route A — 12-week plan)`. If a book has normalised the status to a fixed enum (e.g. atlas says `Major Revision` but book says `R&R`), **report** and regenerate.
 
-Canonical masthead template (mirrors `/init-paper-book` SKILL.md §"Intro masthead format"):
+Canonical masthead template (mirrors `init-paper-book` SKILL.md §"Intro masthead format"):
 
 ```markdown
 ---

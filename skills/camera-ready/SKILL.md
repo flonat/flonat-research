@@ -1,6 +1,6 @@
 ---
 name: camera-ready
-description: "Convert an accepted anonymous-submission LaTeX paper (AAAI/AIES/ACM-style) to camera-ready and implement the accepted reviews. Use when a paper is accepted with no rebuttal and you need to de-anonymize, add copyright, turn on section numbering, implement each reviewer's minor revisions, optionally move proofs to a non-counted appendix, and QA. Not for R&R/revise-and-resubmit (use /strategic-revision) or for preprints (use /preprint)."
+description: "Convert an accepted anonymous-submission LaTeX paper (AAAI/AIES/ACM-style) to camera-ready and implement the accepted reviews. Use when a paper is accepted with no rebuttal and you need to de-anonymize, add copyright, turn on section numbering, implement each reviewer's minor revisions, optionally move proofs to a non-counted appendix, and QA. Not for R&R/revise-and-resubmit (use strategic-revision) or for preprints (use preprint)."
 allowed-tools:
   - Read
   - Write
@@ -19,11 +19,12 @@ allowed-tools:
   - Bash(uv run python*)
   - AskUserQuestion
   - Task
+skill-dependencies: [proofread]
 ---
 
 # camera-ready: Accepted Paper → Camera-Ready + Review Implementation
 
-For a paper that has been **accepted** (no rebuttal stage): produce the camera-ready version and implement the reviewers' (typically minor) revisions. Distinct from `/strategic-revision`, which handles **R&R** (rebuttal, DAG, resubmission strategy).
+For a paper that has been **accepted** (no rebuttal stage): produce the camera-ready version and implement the reviewers' (typically minor) revisions. Distinct from `strategic-revision`, which handles **R&R** (rebuttal, DAG, resubmission strategy).
 
 ## When to Use
 
@@ -51,7 +52,7 @@ For a paper that has been **accepted** (no rebuttal stage): produce the camera-r
 - Compile; confirm 0 undefined refs and the copyright slug renders on p1.
 
 ## Phase 2 — Bibliography
-- If adopting canonical (e.g. Paperpile) keys, invoke **`/bib-rekey`** (DOI-safe remap + diff-verified `\cite` rewrite).
+- If adopting canonical (e.g. Paperpile) keys, invoke **`bib-rekey`** (DOI-safe remap + diff-verified `\cite` rewrite).
 - Add the verified reviewer-suggested citations and any self-citations (camera-ready is de-anonymized, so self-cites are normal — use the **published** entry, not the arXiv preprint, when one exists).
 - Compile; **0 undefined citations**.
 
@@ -69,7 +70,7 @@ For a paper that has been **accepted** (no rebuttal stage): produce the camera-r
 - `latexmk` clean (exit 0); **0 undefined** refs/citations; no large overfull boxes; no placeholders/TODOs.
 - **Page-budget check**: locate where references/appendix begin (`pdftotext` + form-feed page count, or per-label pages from `.aux`); confirm **body ≤ limit** (appendix/refs exempt per Phase 3).
 - **Visual render** key pages (`pdftoppm`) — de-anon header + copyright slug, new tables/figures, appendix.
-- Run `/proofread` scoped to the **new prose** only.
+- Run `proofread` scoped to the **new prose** only.
 
 ## Phase 6 — Author-side handoff
 Report what remains for the human: **acknowledgments** (now un-anonymized — offer a funding stub), signed copyright/rights form, reproducibility checklist, and the vault/atlas **status update to Accepted** (per the Operating Rules caveat).
@@ -79,7 +80,7 @@ When the user confirms the camera-ready was uploaded: append the `history:` rows
 ## Anti-Patterns
 
 - **Don't move proofs to an appendix before confirming the appendix is page-exempt.** If it counts, you've just relocated, not saved, space.
-- **Don't `replace_all` or full-`Write` the live `.tex`.** Narrow edits; for bulk citekey work defer to `/bib-rekey`'s diff-verified flow.
+- **Don't `replace_all` or full-`Write` the live `.tex`.** Narrow edits; for bulk citekey work defer to `bib-rekey`'s diff-verified flow.
 - **Don't add a reviewer-suggested citation from memory.** Verify it — reviewers mis-cite.
 - **Don't chain all phases in one response.** Checkpoint per `phased-work.md`.
 - **Don't log acceptance to vault/atlas if the formal decision letter hasn't arrived** — confirm with the user.
@@ -94,7 +95,7 @@ When the user confirms the camera-ready was uploaded: append the `history:` rows
 
 | Skill | Relationship |
 |---|---|
-| `/bib-rekey` | Phase 2 bibliography rekey + `\cite` remap |
-| `/strategic-revision` | The R&R counterpart (rebuttal + DAG) — use that, not this, for revise-and-resubmit |
-| `/proofread`, `/latex`, `/bib-validate` | QA components composed in Phases 2 & 5 |
-| `/preprint` | For an arXiv/working-paper variant instead of a venue camera-ready |
+| `bib-rekey` | Phase 2 bibliography rekey + `\cite` remap |
+| `strategic-revision` | The R&R counterpart (rebuttal + DAG) — use that, not this, for revise-and-resubmit |
+| `proofread`, `latex`, `bib-validate` | QA components composed in Phases 2 & 5 |
+| `preprint` | For an arXiv/working-paper variant instead of a venue camera-ready |

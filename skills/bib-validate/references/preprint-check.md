@@ -1,6 +1,6 @@
 # Preprint Staleness Check
 
-> Reference file for `/bib-validate`. Protocol for checking whether preprints have been published.
+> Reference file for `bib-validate`. Protocol for checking whether preprints have been published.
 
 ## Detection — identify preprint entries by any of:
 

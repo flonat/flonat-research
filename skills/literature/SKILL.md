@@ -3,6 +3,7 @@ name: literature
 description: "Use when you need academic literature discovery, synthesis, or bibliography management. Supports standalone searches and end-to-end project pipelines with vault sync and auto-commit."
 allowed-tools: Bash(curl*), Bash(wget*), Bash(mkdir*), Bash(ls*), Bash(uv*), Bash(cd*), Bash(git*), Bash(cat*), Bash(date*), Bash(scholarly*), Bash(paperpile*), Bash(taskflow-cli*), Read, Write, Edit, Glob, Grep, WebSearch, WebFetch, Task, Agent
 argument-hint: "[topic-query] or <topic-slug> for full pipeline"
+skill-dependencies: [bib-validate, session-log, split-pdf]
 ---
 
 # Literature Skill
@@ -28,7 +29,7 @@ These rules protect against the highest-cost failure modes. Violation invalidate
 These rules govern style and consistency. Violation produces fixable artefacts, not invalid claims.
 
 4. **Library-first.** Always check Paperpile via `paperpile search-library` BEFORE any external search (Phase 1). Papers already held should be reused, not re-discovered.
-5. **Prefer the published version over preprints.** If a paper is found on arXiv, SSRN, NBER, or any working paper series, search for a published journal/conference version via `scholarly scholarly-search`. Cite a preprint only if no published version exists. Enforced in Phase 2 (discovery), Phase 3 (verify), and Phase 4 (`/bib-validate` runs the full preprint staleness check).
+5. **Prefer the published version over preprints.** If a paper is found on arXiv, SSRN, NBER, or any working paper series, search for a published journal/conference version via `scholarly scholarly-search`. Cite a preprint only if no published version exists. Enforced in Phase 2 (discovery), Phase 3 (verify), and Phase 4 (`bib-validate` runs the full preprint staleness check).
 6. **Better BibTeX-format keys** (e.g., `Author2016-xx`). When merging into an existing `.bib`, match existing keys. Never generate custom keys (`AuthorYear`, `AuthorKamenica2017`, etc.) unless explicitly told otherwise.
 7. **Match causal language to study design.** Reserve causal verbs ("causes", "increases", "reduces") for designs that warrant causal inference (experiments, RCTs, credible quasi-experiments). For observational work use "is associated with", "predicts", "correlates with". Match the language to the design — not the authors' own claims. State disagreements precisely; do not flatten into "the literature is mixed."
 8. **Python: always `uv run python`.** Never bare `python`, `python3`, `pip`, `pip3`.
@@ -60,10 +61,10 @@ Full schema + protocol: [`docs/reference/sprint-contract-protocol.md`](../../doc
 
 | Mode | Invocation | What it does |
 |------|-----------|-------------|
-| **Standalone** | `/literature [topic query]` | Search + verify + bib + synthesis. No project context needed. |
-| **Pipeline** | `/literature <topic-slug>` | Full cycle: resolve project → search → verify → bib → bib-validate gate → vault sync → auto-commit. |
-| **Deep** | `/literature --deep [query]` | Standalone or pipeline + iterative gap-filling loop after Phase 3. Also triggered by "deep", "thorough", or "comprehensive review" in the query. |
-| **Autonomous** | `/literature --autonomous <slug>` (or `-y`) | Pipeline + run end-to-end without inter-phase pauses. Stackable with `--deep`. Hard gates still run; defaults used at every choice point. See "Autonomy" below. |
+| **Standalone** | `literature [topic query]` | Search + verify + bib + synthesis. No project context needed. |
+| **Pipeline** | `literature <topic-slug>` | Full cycle: resolve project → search → verify → bib → bib-validate gate → vault sync → auto-commit. |
+| **Deep** | `literature --deep [query]` | Standalone or pipeline + iterative gap-filling loop after Phase 3. Also triggered by "deep", "thorough", or "comprehensive review" in the query. |
+| **Autonomous** | `literature --autonomous <slug>` (or `-y`) | Pipeline + run end-to-end without inter-phase pauses. Stackable with `--deep`. Hard gates still run; defaults used at every choice point. See "Autonomy" below. |
 
 **Mode detection:** if the argument matches an atlas topic slug (`~/vault/atlas/<slug>.md`), run in Pipeline mode. Otherwise, Standalone. When in doubt, ask. Deep is a flag on either base mode. Autonomous is a flag on either base mode.
 
@@ -76,7 +77,7 @@ Per the global `--autonomous` / `-y` convention defined in `<rules-root>/phased-
 - **No Phase 1.4 search-plan confirmation** — emit the plan to the session log and proceed
 - **No Phase 2.2 dedup/rank pause** — apply default filters and continue
 - **No Phase 3.5 deep-loop "continue?" prompts** — run up to 3 iterations (default), stop when <3 new papers per iteration
-- **No Phase 4.3 bib-validate "review and continue" pause** — `/bib-validate` still runs as a hard gate; warnings are logged and reported at the end; only `F1 fabricated citation` or `F2 invented bib key` block the run
+- **No Phase 4.3 bib-validate "review and continue" pause** — `bib-validate` still runs as a hard gate; warnings are logged and reported at the end; only `F1 fabricated citation` or `F2 invented bib key` block the run
 - **No `the available structured-question mechanism` mid-run** — every choice point uses the recommended/default option and logs the decision
 - **Auto-commit at end** in pipeline mode (subject to Phase 4.6 verifier)
 - **Single end-of-run report** is the only mandatory user-facing output
@@ -91,9 +92,9 @@ Hard correctness gates that still fire even with `--autonomous`:
 Recommended invocations:
 
 ```
-/literature --autonomous effort-weighted-yield                # pipeline, end-to-end, standard depth
-/literature --deep --autonomous effort-weighted-yield         # exhaustive, end-to-end
-/literature -y effort-weighted-yield                          # short form
+literature --autonomous effort-weighted-yield                # pipeline, end-to-end, standard depth
+literature --deep --autonomous effort-weighted-yield         # exhaustive, end-to-end
+literature -y effort-weighted-yield                          # short form
 ```
 
 ---
@@ -126,7 +127,7 @@ Sub-agents handle independent, parallelisable work (search, verification, PDF do
 
 ### 1.1 Session log + checkpoint
 
-Literature searches are context-heavy. Always run `/session-log` to create a recovery checkpoint per [`shared/checkpoint-resumability.md`](../shared/checkpoint-resumability.md). Pipeline mode writes a JSON checkpoint after each phase so a crash resumes from the last completed phase, not from scratch.
+Literature searches are context-heavy. Always run `session-log` to create a recovery checkpoint per [`shared/checkpoint-resumability.md`](../shared/checkpoint-resumability.md). Pipeline mode writes a JSON checkpoint after each phase so a crash resumes from the last completed phase, not from scratch.
 
 ### 1.2 Pre-search check
 
@@ -138,7 +139,7 @@ Find existing `.bib` files in project root, `/references`, `/bib`, `/bibliograph
 4. **Mandatory: check Paperpile.** Call `paperpile search-library` for the topic (and `paperpile get-items-by-label` if a relevant label exists) to *discover* what the library already holds and reuse those citation keys. This is topic discovery, **not** a membership test. **Membership/`NEW` tagging is decided authoritatively by DOI** (`paperpile lookup-by-doi`) in **Phase 3 Step 5** (the integrity gate), per [`shared/reference-resolution.md`](../shared/reference-resolution.md) § Membership Check — never default a paper to `NEW` because this topic search missed it. A topic-search hit here is a reuse *hint*; a topic-search miss proves nothing. If `paperpile` CLI is unavailable, log a warning and continue.
 5. **Resolve topic label** via `paperpile get-labels` for the current topic. Used in Phase 4 sync reporting.
 6. **Check source availability** via `scholarly source-status --json` (OpenAlex always; Scopus/WoS if API keys are set). Report so search agents know coverage.
-7. **Check scout-audit reports.** Glob `~/vault/reports/scout/portfolio/*<topic-slug>*.md` and `*<topic-keyword>*.md`. If a recent (≤90 days) report exists, parse the **Closest prior works** and **Most likely scoopers** sections — feed authors/papers/groups directly to Phase 2 search agents as seeds. This avoids re-discovering what scout already surfaced.
+7. **Check discovery-audit reports.** Glob `~/vault/reports/discovery/portfolio/*<topic-slug>*.md` and `*<topic-keyword>*.md`. If a recent (≤90 days) report exists, parse the **Closest prior works** and **Most likely scoopers** sections — feed authors/papers/groups directly to Phase 2 search agents as seeds. This avoids re-discovering what discovery already surfaced.
 8. **Cold-start branch.** If steps 4–7 yield <3 papers AND project status is `Idea` or `Drafting` (read from atlas topic frontmatter or skip if standalone), enter **scaffold-seeded mode**:
    - Search the project for a canonical scaffold document (`to-sort/*scaffold*.md`, `to-sort/*sketch*.md`, or `docs/*scaffold*.md`). Read it for the canonical reference list.
    - For canonical CS/ML references explicitly named in the scaffold (e.g. "Ghorbani-Zou Data Shapley ICML 2019"), use `scholarly arxiv-get-paper --arxiv-id <id>` directly when arXiv IDs are known — broad `scholarly-search` returns high-citation noise (climate, hydrogen) on generic ML queries like "data shapley".
@@ -146,7 +147,7 @@ Find existing `.bib` files in project root, `/references`, `/bib`, `/bibliograph
    - **Flag synthesis output** in `literature_summary.md` with a header banner: `> **Phase-1 seed synthesis** — scaffold-derived references only; broader external discovery deferred to next iteration.` This signals to downstream consumers that the bib is intentionally narrow.
    - Skip Phase 2's full parallel search; jump straight to Phase 3 verification on the scaffold-named references.
 
-Steps 4–7 are not optional — every literature search must check the library AND scout reports before external discovery. Step 8 fires conditionally and bypasses Phase 2 noise for cold-start projects.
+Steps 4–7 are not optional — every literature search must check the library AND discovery reports before external discovery. Step 8 fires conditionally and bypasses Phase 2 noise for cold-start projects.
 
 For parsing `scholarly` CLI JSON output (mixes stderr log lines with stdout JSON), use the helper in [`references/scholarly-output-parsing.md`](references/scholarly-output-parsing.md).
 
@@ -177,7 +178,7 @@ If CLI council enrichment fires here, run it as an additional parallel agent. If
 
 1. Merge results from all search agents.
 2. Remove duplicates — match on title similarity and DOI.
-3. **Field-framework extraction** for each candidate: Setting / Population / Method / Data / DV / IV / Key finding / Mechanism / Boundary. Always run, even if partial — feeds ranking, gap analysis, synthesis, and `/hypothesis-generation`. Definitions: [`references/field-framework.md`](references/field-framework.md).
+3. **Field-framework extraction** for each candidate: Setting / Population / Method / Data / DV / IV / Key finding / Mechanism / Boundary. Always run, even if partial — feeds ranking, gap analysis, synthesis, and `hypothesis-generation`. Definitions: [`references/field-framework.md`](references/field-framework.md).
 4. Rank by relevance, citation count, recency.
 5. Select top N to verify (typically 25-30 candidates for 20-25 verified).
 6. Assign batches of ~5 for verification.
@@ -236,11 +237,11 @@ Each output gets a [`shared/material-passport.md`](../shared/material-passport.m
 
 ### 4.3 Validate bibliography (HARD GATE)
 
-**Do not proceed to 4.4 or Phase 5 until `/bib-validate` has been invoked and the report reviewed.** Phase 3 verifies papers exist; `/bib-validate` catches a different class (missing BibTeX fields, preprint staleness, DOI problems, author formatting, unused entries). Running synthesis before validation means the narrative may reference entries with broken metadata that survive into the paper.
+**Do not proceed to 4.4 or Phase 5 until `bib-validate` has been invoked and the report reviewed.** Phase 3 verifies papers exist; `bib-validate` catches a different class (missing BibTeX fields, preprint staleness, DOI problems, author formatting, unused entries). Running synthesis before validation means the narrative may reference entries with broken metadata that survive into the paper.
 
-Mandatory on every `/literature` invocation (standalone, pipeline, deep) every time new entries are added.
+Mandatory on every `literature` invocation (standalone, pipeline, deep) every time new entries are added.
 
-**Sprint Contract self-check hook (pipeline mode).** After `/bib-validate` passes, run each contract dimension's `verification_rule` (D1–D5). Any F1 (DOI verification fails) or F2 (generated-key pattern with no DOI) triggers `producer_decision=revise_before_handoff` — go back to Phase 3, do NOT proceed to 4.4. Escalate via the 3-round override ladder if revision still fails.
+**Sprint Contract self-check hook (pipeline mode).** After `bib-validate` passes, run each contract dimension's `verification_rule` (D1–D5). Any F1 (DOI verification fails) or F2 (generated-key pattern with no DOI) triggers `producer_decision=revise_before_handoff` — go back to Phase 3, do NOT proceed to 4.4. Escalate via the 3-round override ladder if revision still fails.
 
 ### 4.4 Sync to reference managers
 

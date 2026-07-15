@@ -7,7 +7,7 @@ prose body under `## About this paper` are derived from atlas. Anything
 below the `<!-- preserve-below: ... -->` marker is captured verbatim and
 re-appended after regeneration.
 
-Used by `/init-paper-book` (initial scaffold) and `/audit-paper-book`
+Used by `init-paper-book` (initial scaffold) and `audit-paper-book`
 (format-convention drift auto-fix).
 
 Usage
@@ -22,7 +22,7 @@ Usage
 
 Conventions
 -----------
-* Atlas topic filename MUST equal the book slug (`/init-paper-book` Hard
+* Atlas topic filename MUST equal the book slug (`init-paper-book` Hard
   Rule 4). If the registry's `atlas_topic:` leaf differs, the script
   aborts with a clear message.
 * The intro chapter's page-title H1 is "Intro" (rendered from

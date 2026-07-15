@@ -2,30 +2,26 @@
 
 > Referenced from: `init-project-research/SKILL.md` Phase 7
 
-Creates the research topic in all systems: local file → vault atlas → Venues → project folder → documentation.
+Creates the research topic in the canonical Research Vault, then registers the corresponding project and Task Management context. Define `VAULT_ROOT` from `RESEARCH_VAULT_ROOT` when set or the home-relative `vault` directory otherwise.
 
 ## 7a. Create Atlas Topic File
 
-1. Read theme files from `~/vault/themes/` — current themes and their metadata
-2. Glob `~/vault/atlas/**/*.md` — existing slugs (avoid duplicates)
+1. Read theme files from `<vault-root>/themes/` — current themes and their metadata
+2. Glob `<vault-root>/atlas/**/*.md` — existing slugs (avoid duplicates)
 3. Determine the **slug** (kebab-case, 2-5 words). Pattern: `{contribution}-{domain-object}`. Names the idea, not venue/output/method. Within clusters (e.g., carbon, elicitation), each slug needs a unique distinguishing word. Anti-patterns: acronyms (`efficient-pe`), bare fields (`smart-meters`), venue names (`facct-paper`). Good: `carbon-collusion`, `elicitation-cost-tradeoffs`.
-4. Write `~/vault/atlas/{theme-dir}/{slug}.md` using the YAML frontmatter template from [`atlas-schema.md`](atlas-schema.md). Include `## Description`, `## Key References`, `## Open Questions`.
-5. **Validate the topic file** before proceeding: run `uv run python packages/atlas-vault/schema.py ~/vault/atlas/{theme-dir}/{slug}.md` from `$TM/packages/atlas-vault/`. If validation fails, fix the file before syncing to vault.
-6. If new theme needed: create the theme directory under `~/vault/atlas/` and add a theme file at `~/vault/themes/{slug}.md`. The topic file created in step 4 is sufficient — no separate slug list to maintain.
+4. Write `<vault-root>/atlas/{theme-dir}/{slug}.md` using the YAML frontmatter template from [`atlas-schema.md`](atlas-schema.md). Include `## Description`, `## Key References`, `## Open Questions`.
+5. **Validate the topic file** before proceeding: from `$TM_ROOT/packages/atlas-vault/`, run `uv run python schema.py <vault-root>/atlas/{theme-dir}/{slug}.md`. If validation fails, fix the file before continuing.
+6. If a new theme is needed, create the theme directory under `<vault-root>/atlas/` and add a theme file at `<vault-root>/themes/{slug}.md`. The topic file created in step 4 is sufficient — no separate slug list to maintain.
 
-## 7b. Create vault Atlas Entry (if syncing to vault)
+## 7b. Confirm vault transport
 
-Atlas entries in the vault are synced from the local markdown files via `/sync-atlas`. The vault Topic Inventory is a read-only downstream copy:
-
-1. Run `/sync-atlas push` to sync the newly created local topic file to the vault
-2. The sync tool will map YAML fields to vault properties per the sync spec
-3. Only use valid Methods multi-select values (see `atlas-schema.md` reference)
+The Markdown file written in 7a is already the canonical Atlas entry. Syncthing transports the Research Vault between managed machines; no client-specific Atlas push command is involved. Verify the file exists at the resolved vault path and use only valid Methods values from `atlas-schema.md`. If the vault is unavailable, stop this phase and report incomplete state rather than writing a second copy elsewhere.
 
 ## 7b2. Create Vault Submission Entry (MANDATORY)
 
 **Always create a submission entry — regardless of topic status (even Idea stage).** This makes the topic visible to taskflow MCP queries, deadline tracking, and portfolio views.
 
-Write `~/vault/submissions/{slug}.md`:
+Write `<vault-root>/submissions/{slug}.md`:
 
 ```yaml
 ---

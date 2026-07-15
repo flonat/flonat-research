@@ -13,7 +13,7 @@ Multi-model council that answers questions in 3 stages:
 
 - **Backend**: FastAPI + httpx (async OpenRouter calls) + JSON file storage
 - **Frontend**: React + Vite (separate app)
-- **API**: OpenRouter only (same as our Scout migration)
+- **API**: OpenRouter only (same as our research discovery workflow migration)
 - **Config**: `COUNCIL_MODELS` list + `CHAIRMAN_MODEL` in `config.py`
 - **Streaming**: SSE endpoint streams stage completions to frontend
 - Dependencies: `fastapi`, `httpx`, `pydantic`, `uvicorn`, `python-dotenv`
@@ -43,7 +43,7 @@ Multi-model council that answers questions in 3 stages:
 - Fixed council membership — no per-query model selection
 - No conversation context (each turn is independent, no history passed)
 
-## Relevance for Scout
+## Relevance for research discovery workflow
 
 Core 3-stage pattern is directly reusable:
 1. Query N models with the same prompt (research idea to evaluate)

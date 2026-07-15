@@ -1,6 +1,6 @@
 # Dropbox EPERM on the headless Mini — FDA on `mosh-server` (not tmux)
 
-> A mosh-adjacent failure on the headless Mac mini (`mosh → tmux → Claude Code`): mid-session, every Bash-tool access to `/Volumes/SSD/Dropbox/…` starts returning **"Operation not permitted" (EPERM)**, while the same paths work from the user's own SSH terminal. Root cause is TCC/Full-Disk-Access gating on the wrong responsible process. First diagnosed 2026-06-05 during QUIVER-EA (the trigger incident); the mechanism is general to any Dropbox-synced project reached headlessly.
+> A mosh-adjacent failure on the headless Mac mini (`mosh → tmux → AI coding client`): mid-session, every shell access to the configured SSD-backed Dropbox root starts returning **"Operation not permitted" (EPERM)**, while the same paths work from the user's own SSH terminal. Root cause is TCC/Full-Disk-Access gating on the wrong responsible process. First diagnosed 2026-06-05 during QUIVER-EA (the trigger incident); the mechanism is general to any Dropbox-synced project reached headlessly.
 
 ## Symptom
 
@@ -37,8 +37,9 @@ tmux kill-server                       # from inside the broken session
 ## Verify it took
 
 ```sh
-ls  /Volumes/SSD/Dropbox/Research/…/results/          # should succeed, no EPERM
-cat /Volumes/SSD/Dropbox/Research/…/CLAUDE.md | head
+RESEARCH_ROOT="$(head -1 "$HOME/.config/task-mgmt/research-root")"
+ls "$RESEARCH_ROOT/<theme>/<project>/results/"                 # should succeed, no EPERM
+head "$RESEARCH_ROOT/<theme>/<project>/CLAUDE.md"
 ```
 
 If still EPERM, the mosh-server is still the pre-grant one — `ps -o pid,ppid,command -p $(pgrep mosh-server)`; the PID must **post-date** the FDA grant timestamp.

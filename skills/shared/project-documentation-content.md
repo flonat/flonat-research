@@ -268,7 +268,7 @@ Summary table:
 
 When referencing code, use backtick-quoted names that match the source exactly:
 
-- Classes: `` `ScoutOrchestrator` ``
+- Classes: `` `DiscoveryOrchestrator` ``
 - Methods: `` `discover_topics()` ``
 - Files: `` `services/llm.py` ``
 
@@ -367,7 +367,7 @@ Tips are defined in a `WORKFLOW_TIPS` dict keyed by workflow name, with `title`,
 
 Section slugs in `WORKFLOW_TIPS` must match actual heading slugs in `user-manual.md`. Validate this automatically:
 - CI script checks slug integrity on every push
-- `/sync-repo scout` checks during manual audits
+- `documentation consistency` checks during manual audits
 
 ---
 

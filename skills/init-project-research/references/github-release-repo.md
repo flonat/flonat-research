@@ -38,7 +38,7 @@ Examples:
 - `neurips-2026-audit-gaming-artifact`
 - `ccs-2026-formal-verification-artifact`
 
-Use `/anonymous-artifact` to create the repo, sanitize content, push, and submit to anonymous.4open.science. Repo is **private**; visibility is mediated by the 4open.science mirror.
+Use `anonymous-artifact` to create the repo, sanitize content, push, and submit to anonymous.4open.science. Repo is **private**; visibility is mediated by the 4open.science mirror.
 
 ### Mode B — Post-acceptance public release
 
@@ -74,7 +74,7 @@ Mode A is the default for any pre-acceptance submission. Mode B applies after ca
 
 ## Setup (during init or at release time)
 
-**For Mode A (anonymous artifact, double-blind submission):** prefer `/anonymous-artifact <slug>` — it scaffolds, sanitizes, pushes, submits to anonymous.4open.science, and writes back to vault + paper + atlas in one pass. Do not run the manual setup below for Mode A; it skips the sanitization gates.
+**For Mode A (anonymous artifact, double-blind submission):** prefer `anonymous-artifact <slug>` — it scaffolds, sanitizes, pushes, submits to anonymous.4open.science, and writes back to vault + paper + atlas in one pass. Do not run the manual setup below for Mode A; it skips the sanitization gates.
 
 **For Mode B (post-acceptance public release):** the manual setup below is fine. Take care to follow the inclusion/exclusion table above.
 

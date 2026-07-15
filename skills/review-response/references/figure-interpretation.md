@@ -41,7 +41,7 @@ A usable caption should specify:
 - Writing or reviewing a Results section
 - Responding to reviewer comments about figures
 - Creating new figures for a paper or presentation
-- Running `/proofread` — check that every figure has a corresponding interpretation block in the text
+- Running `proofread` — check that every figure has a corresponding interpretation block in the text
 
 ## Adapted from
 

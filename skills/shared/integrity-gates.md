@@ -9,9 +9,9 @@
 ## When This Protocol Applies
 
 Any skill that writes references to output files:
-- `/literature` — Phase 4 (synthesis) blocked until Phase 2 (verification) passes
-- `/hypothesis-generation` — claims must cite verified sources
-- `/bib-validate` — deep-verify mode is an integrity gate
+- `literature` — Phase 4 (synthesis) blocked until Phase 2 (verification) passes
+- `hypothesis-generation` — claims must cite verified sources
+- `bib-validate` — deep-verify mode is an integrity gate
 - Paper-critic / domain-reviewer — can flag gate failures as blocking issues
 
 ## Gate Architecture

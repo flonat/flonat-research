@@ -30,9 +30,9 @@ Default: **Design**. If user provides a `.qsf` file, auto-select Survey mode.
 
 ## When NOT to Use
 
-- Running the analysis → `/data-analysis`
-- Auditing identification strategy for observational studies → `/causal-design`
-- Generating synthetic test data → `/synthetic-data`
+- Running the analysis → `data-analysis`
+- Auditing identification strategy for observational studies → `causal-design`
+- Generating synthetic test data → `synthetic-data`
 
 ## Shared References
 
@@ -98,7 +98,7 @@ If the user doesn't know the expected effect size, guide them:
 4. **Write design document** — save to `docs/experiment-design.md` or project-appropriate location
 5. **Lock the design** — record in `MEMORY.md` Estimand Registry (if project has one) or flag for the user to lock before analysis
 
-This design document is what `/data-analysis` Phase 3 checks for before allowing estimation.
+This design document is what `data-analysis` Phase 3 checks for before allowing estimation.
 
 ---
 
@@ -183,6 +183,6 @@ Read `references/survey-design-checklist.md` for the full checklist. Key checks:
 | `references/qsf-parsing-guide.md` | Survey mode (QSF parsing) |
 | `references/known-scales-registry.md` | Survey mode (scale recognition) |
 | `design-before-results` rule | Design + PAP modes produce the locked design |
-| `/data-analysis` skill | Consumes the design document |
-| `/causal-design` skill | For observational identification (not experiments) |
-| `/synthetic-data` skill | For generating pilot data |
+| `data-analysis` skill | Consumes the design document |
+| `causal-design` skill | For observational identification (not experiments) |
+| `synthetic-data` skill | For generating pilot data |

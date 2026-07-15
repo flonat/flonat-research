@@ -4,7 +4,7 @@ description: Verify that the meeting-transcribe pipeline is properly set up — 
 user_invocable: true
 ---
 
-# /meetings-verify
+# meetings-verify
 
 Run a health check on the **meeting-transcribe** pipeline (the local whisper.cpp + sherpa-onnx tool that replaced the old `minutes` transcription binary).
 

@@ -1,6 +1,6 @@
 # Deep Loop Protocol
 
-> Iterative deepening for `/literature` Phase 4.5. Activated by `--deep` flag or keywords: "deep", "thorough", "comprehensive review".
+> Iterative deepening for `literature` Phase 4.5. Activated by `--deep` flag or keywords: "deep", "thorough", "comprehensive review".
 
 ## Entry Conditions
 

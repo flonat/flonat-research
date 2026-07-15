@@ -76,4 +76,4 @@ This gives you:
 
 **When to use:** Deep verification of a specific paper's claims, extracting precise definitions or theorems, understanding methodology details that abstracts omit, or finding papers cited by the target paper.
 
-**Limitation:** Only works for arXiv papers with source available. For journal-only papers, use `/split-pdf` instead.
+**Limitation:** Only works for arXiv papers with source available. For journal-only papers, use `split-pdf` instead.

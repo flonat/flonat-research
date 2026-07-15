@@ -91,18 +91,20 @@ done
 
 ## Permissions Sync (Phase 4)
 
-After writing `.claude/settings.local.json` (with hook config), merge global permissions into it so the new project starts with full permissions from day one:
+If the Claude adapter is being created, merge canonical Task Management permissions into `.claude/settings.local.json` so the new project starts with the current shared policy:
 
-1. Read `~/.claude/settings.json` → extract `permissions.allow` array
-2. Read the newly created `.claude/settings.local.json`
-3. Compute the union: `local_permissions ∪ global_permissions`
-4. Write the merged `permissions.allow` back to `.claude/settings.local.json` (preserving the `hooks` key)
+1. Resolve `TM_ROOT` from `$HOME/.config/task-mgmt/path`.
+2. Read `$TM_ROOT/.claude/settings.json` and extract `permissions.allow`.
+3. Read the newly created `.claude/settings.local.json`.
+4. Compute the union: `local_permissions ∪ global_permissions`.
+5. Write the merged `permissions.allow` back to `.claude/settings.local.json` (preserving the `hooks` key).
 
 ```bash
 # Merge global permissions into the new project's settings
+TM_ROOT="$(head -1 "$HOME/.config/task-mgmt/path")"
 jq -s '.[0].permissions.allow as $global |
   .[1] | .permissions.allow = ((.permissions.allow // []) + $global | unique | sort)' \
-  ~/.claude/settings.json .claude/settings.local.json > .claude/settings.local.json.tmp \
+  "$TM_ROOT/.claude/settings.json" .claude/settings.local.json > .claude/settings.local.json.tmp \
   && mv .claude/settings.local.json.tmp .claude/settings.local.json
 ```
 

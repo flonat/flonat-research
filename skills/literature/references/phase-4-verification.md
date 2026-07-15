@@ -78,7 +78,7 @@ For each included working paper, **state which ≥2 criteria it meets** in the b
 Append to `.planning/state.md` (if exists) or `.context/current-focus.md`:
 
 ```
-### [/literature] Phase 4 complete [YYYY-MM-DD HH:MM]
+### [literature] Phase 4 complete [YYYY-MM-DD HH:MM]
 - **Done:** [N verified, N dropped (not found), N DOI mismatches corrected]
 - **Outputs:** [verified paper list ready for bib assembly]
 - **Next:** PDF download → bib assembly → validation

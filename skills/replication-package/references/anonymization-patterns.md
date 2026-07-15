@@ -1,6 +1,6 @@
 # Anonymization Patterns Reference
 
-> Detailed replacement tables for `/replication-package` Blind mode (Phases 9-10). The SKILL.md provides the protocol; this file has the pattern tables.
+> Detailed replacement tables for `replication-package` Blind mode (Phases 9-10). The SKILL.md provides the protocol; this file has the pattern tables.
 
 ## LaTeX Author Blocks (Phase 9a)
 

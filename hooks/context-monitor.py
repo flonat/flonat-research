@@ -28,9 +28,9 @@ from pathlib import Path
 # --- Configuration ---
 MAX_TOOL_CALLS = 150  # Conservative: 150 calls ~ 100% context
 THRESHOLDS = [
-    (0.90, "critical", "Context at ~90%. Complete current task. Run `/session-health` to review preservation state."),
+    (0.90, "critical", "Context at ~90%. Complete current task. Run `session-health` to review preservation state."),
     (0.80, "warning", "Context at ~80%. Auto-compact approaching. Ensure plan + session log are current."),
-    (0.60, "info", "Context at ~60%. Consider saving key state with `/update-focus` or `/session-log`."),
+    (0.60, "info", "Context at ~60%. Consider saving key state with `update-focus` or `session-log`."),
 ]
 THROTTLE_SECONDS = 60  # Minimum seconds between info-level messages
 

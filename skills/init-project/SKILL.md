@@ -111,5 +111,5 @@ Project created: ~/Research/<project-name>/
 Next steps:
   1. Start writing in paper/ (or link Overleaf)
   2. Add code to code/python/ or code/R/
-  3. Run /session-log when you finish working
+  3. Run session-log when you finish working
 ```

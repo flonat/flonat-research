@@ -92,5 +92,5 @@ conventions recur.
 
 ## When to skip
 
-- The user passes `--no-pdf` to `/init-paper-book` (future flag; not yet wired)
+- The user passes `--no-pdf` to `init-paper-book` (future flag; not yet wired)
 - The book has no `index.yaml` registry entry (means Phase 5 didn't run — Phase 6 has nothing to do)

@@ -44,7 +44,7 @@ from institutional positions to network centrality [VERIFY: exact claim on p. 12
 
 - **Drafting tier:** [VERIFY] tags are acceptable — resolve before finalising
 - **Publication tier:** All [VERIFY] tags must be resolved (read the actual source)
-- Run `/bib-validate` to catch any remaining [VERIFY] tags before submission
+- Run `bib-validate` to catch any remaining [VERIFY] tags before submission
 
 ## Multi-Model Synthesis (Optional)
 

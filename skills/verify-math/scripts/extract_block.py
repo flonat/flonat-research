@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""extract_block.py — pull a theorem/proof block (+ referenced equations) from a .tex file.
+"""Pull a theorem/proof block and its referenced equations from a .tex file.
 
-Part of the `codex-math` skill (Theorist Toolbox, Moran Koren — adapted for the user's
-system: the original shipped as `extract_block.sh`; reimplemented in stdlib Python for
-robust LaTeX-environment parsing).
+Part of the client-neutral `verify-math` skill. Adapted from Moran Koren's
+Theorist Toolbox helper (`extract_block.sh`) and reimplemented in stdlib Python
+for robust LaTeX-environment parsing.
 
 Usage:
     uv run python extract_block.py <file.tex> <pattern>
@@ -16,8 +16,8 @@ stdout:
   2. any displayed equations (equation/align/gather/multline, starred or not) whose
      \\label is \\ref/\\eqref/\\cref'd inside that block.
 
-This gives Codex (via the `codex-research` agent) a clean, self-contained block to verify
-or extend, without the caller pasting context by hand. It does NOT call Codex itself.
+This gives any verification rung a clean, self-contained block to inspect without
+the caller pasting context by hand. It does not call an AI client or external model.
 
 Exit codes: 0 ok · 1 bad usage / missing file · 2 pattern not found.
 """

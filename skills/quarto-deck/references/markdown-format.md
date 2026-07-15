@@ -1,6 +1,6 @@
 # Reveal.js Markdown Format Reference
 
-> Format reference for `/quarto-deck`. All slides live in a single `.md` file with `---` separators.
+> Format reference for `quarto-deck`. All slides live in a single `.md` file with `---` separators.
 
 ## Basic Structure
 

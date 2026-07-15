@@ -1,6 +1,6 @@
 # Audit Rubric — 11-Check Reproducibility Scoring
 
-> Scoring rubric for `/replication-package` Audit mode. Each check gets Pass, Partial, or Fail. The overall score is the count of passes.
+> Scoring rubric for `replication-package` Audit mode. Each check gets Pass, Partial, or Fail. The overall score is the count of passes.
 
 ---
 
@@ -29,7 +29,7 @@ Does the package compile?
 | **Fail** | Does not compile. Missing packages, broken references, or fatal errors. |
 | **N/A** | No LaTeX files in the package. |
 
-**How to test:** Run `latexmk -pdf` (or invoke `/latex` in check-only mode) on the main `.tex` file.
+**How to test:** Run `latexmk -pdf` (or invoke `latex` in check-only mode) on the main `.tex` file.
 
 ---
 

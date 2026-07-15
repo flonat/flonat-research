@@ -2,6 +2,7 @@
 name: playwright-cli
 description: Use when you need to automate browser interactions, test web pages and work with Playwright tests.
 allowed-tools: Bash(playwright-cli:*) Bash(npx:*) Bash(npm:*)
+skill-dependencies: [webapp-testing]
 ---
 
 # Browser Automation with playwright-cli

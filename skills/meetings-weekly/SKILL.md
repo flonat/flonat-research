@@ -2,9 +2,10 @@
 name: meetings-weekly
 description: Weekly meeting synthesis — themes, decision arcs, stale commitments, and what deserves your attention next week. Use when the user says "weekly review", "what happened this week", "weekly summary", "recap my week", "any outstanding items", "week in review", or at the end of a work week.
 user_invocable: true
+skill-dependencies: [meetings-prep]
 ---
 
-# /meetings-weekly
+# meetings-weekly
 
 Synthesize an entire week of meetings and voice memos into a forward-looking brief — themes, decision arcs, stale commitments, and what deserves attention Monday.
 
@@ -148,7 +149,7 @@ End with three beats:
 2. **Assignment** — The single most important thing to do Monday.
    "First thing Monday: send the pricing doc to Alex. It's overdue and she's waiting."
 
-3. **Next skill nudge** — "For your most important meeting Monday, run `/meetings-prep` to go in prepared."
+3. **Next skill nudge** — "For your most important meeting Monday, run `meetings-prep` to go in prepared."
 
 ## Gotchas
 

@@ -1,6 +1,6 @@
 # Known Error Patterns & Auto-Fixes
 
-> Reference file for `/latex`. Each pattern maps a log signature to a fix.
+> Reference file for `latex`. Each pattern maps a log signature to a fix.
 
 ## 1. Missing package
 

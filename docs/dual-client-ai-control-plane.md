@@ -57,6 +57,29 @@ when two copies diverge. The control-plane model replaces that ambiguity with
 declared ownership, reviewable transformations, and observable deployment
 state.
 
+## Main design issues to settle
+
+Before implementing a bilingual Claude Code–Codex system, make each of these
+decisions explicit. Most failures come from leaving one of them implicit rather
+than from the adapter code itself.
+
+| Issue | Decision the system needs | Typical failure when omitted |
+|---|---|---|
+| Canonical ownership | One versioned authoring source for each skill, agent, rule, hook invariant, and registration | Home-directory copies drift or overwrite one another |
+| Capability parity | Define the behavior each asset requires, then target only clients that can provide it or a tested fallback | A copied file is labelled portable even though its tools do not exist |
+| Neutral source language | Use relative/configured paths, semantic skill names, and explicit client-only blocks | New assets continuously reintroduce slash syntax, client homes, or machine paths |
+| Discovery and naming | Give every installed asset one owner and one discovery root per client | Skills appear twice or an obsolete copy shadows the canonical one |
+| Durable context | Put guidance, handoff state, focus, plans, and curated memory in shared files | Client history or a hook cache becomes the only copy of important context |
+| Hook semantics | Map protected invariants to supported events, commands, or file fallbacks | A missing lifecycle event silently disables safety or continuity |
+| MCP, CLI, and credentials | Separate capability registration, shell fallback, and least-privilege local secrets | Codex is told to call unavailable MCP tools, or credentials leak into sync state |
+| Deployment ownership | Distinguish managed files from runtime artefacts; import unexpected edits and record receipts | First-run lockfiles/caches block every deploy, or force mode destroys useful edits |
+| Machine transport | Use fast-forward-only canonical transport and host-local deployment with offline-tolerant evidence | One machine is Git-current but adapter-stale, or offline work is treated as failure |
+| Health coverage | Check control plane, runtime inventory, external services, and data-plane freshness independently | Green configuration checks conceal a broken storage, ingestion, or network pipeline |
+| Disclosure boundary | Keep client support separate from private/friends/public distribution policy | A technically portable asset leaks identity, paths, credentials, or operational state |
+
+The rest of this guide shows how those decisions fit together and how to stage
+their adoption without requiring feature identity between the clients.
+
 ## The synchronization modalities
 
 There are three distinct synchronization problems. Treating them separately is
@@ -155,6 +178,8 @@ Canonical content should be boringly portable:
 - resolve project roots from a stable indirection file or environment contract;
 - avoid absolute user, volume, and cloud-storage paths;
 - describe skills by neutral name instead of embedding client slash syntax;
+- declare mandatory workflow calls in `skill-dependencies` frontmatter;
+  ordinary semantic references remain non-blocking mentions;
 - invoke Python through the project's environment manager;
 - never require an MCP-only tool without a declared fallback;
 - keep client-specific instructions in explicit adapter blocks;

@@ -1,7 +1,7 @@
 # QSF Parsing Guide
 
 > How to parse Qualtrics `.qsf` files and extract design elements.
-> Read during Survey mode (Entry Point A) of `/experiment-design`.
+> Read during Survey mode (Entry Point A) of `experiment-design`.
 
 ## QSF File Structure
 

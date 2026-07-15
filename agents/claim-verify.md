@@ -67,7 +67,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Write reports to:** `reviews/<paper-slug>/claim-verify/<YYYY-MM-DD-HHMM>.md` inside the project, where `<paper-slug>` is the directory name of the paper being reviewed (e.g., `paper-eaamo`). Path is relative to the research project root, not the Task-Management repo.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if today's file exists, append a same-day descriptor (`{date}-revision.md`, `{date}-r2.md`, `{date}-pre-submission.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `/review-recap` will rebuild the index next time it runs.
+- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -83,7 +83,7 @@ Self-bias is a structural risk for citation-fidelity audits. The same context th
 | `domain-reviewer` agent | Math, derivations, assumptions, code-theory alignment |
 | `referee2-reviewer` agent | Adversarial peer review |
 | `code-paper-auditor` agent | Numbers in paper match code output |
-| `/bib-validate` skill | Citation keys exist in `.bib` |
+| `bib-validate` skill | Citation keys exist in `.bib` |
 | **`claim-verify` agent (this)** | **Cited claims faithfully represent what sources say** |
 
 These are complements, not substitutes.
@@ -115,7 +115,7 @@ Invoke when the user says:
 - "A reviewer flagged this attribution"
 
 Do NOT invoke for:
-- Citation key validity (use `/bib-validate`)
+- Citation key validity (use `bib-validate`)
 - Number accuracy against code output (use `code-paper-auditor`)
 - General paper quality (use `paper-critic`)
 

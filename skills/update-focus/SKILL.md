@@ -2,6 +2,7 @@
 name: update-focus
 description: "Use when you need to update current-focus.md with a structured session summary."
 allowed-tools: Read, Edit, Bash(git log*), Bash(date*), Bash(ls*)
+skill-dependencies: [session-log]
 ---
 
 # Update Focus Skill
@@ -16,7 +17,7 @@ The stop hook nudges to update `current-focus.md` at session end, but ad-hoc edi
 
 - At the end of a work session (triggered by stop hook or manually)
 - When the user says "update my focus", "save where I left off", "update current focus"
-- After `/session-log` if `current-focus.md` wasn't updated
+- After `session-log` if `current-focus.md` wasn't updated
 
 ## Canonical Document Structure
 
@@ -164,15 +165,15 @@ Updated .context/current-focus.md:
 - [Any other changes]
 ```
 
-If no session log was created this session, offer: "Want me to run `/session-log` too?"
+If no session log was created this session, offer: "Want me to run `session-log` too?"
 
 ## Integration with Other Skills
 
 | Skill | Relationship |
 |-------|-------------|
-| `/session-log` | Creates the detailed log; `/update-focus` updates the working memory. Often run together. |
-| `/save-context` | For ad-hoc saves to any context file. Defers to `/update-focus` for structured focus updates. |
-| `vault sync (edit vault files directly)` | Updates `projects/_index.md` and vault. For full session-level focus updates, defers to `/update-focus`. |
+| `session-log` | Creates the detailed log; `update-focus` updates the working memory. Often run together. |
+| `save-context` | For ad-hoc saves to any context file. Defers to `update-focus` for structured focus updates. |
+| `vault sync (edit vault files directly)` | Updates `projects/_index.md` and vault. For full session-level focus updates, defers to `update-focus`. |
 
 ## Example Interaction
 
@@ -181,7 +182,7 @@ If no session log was created this session, offer: "Want me to run `/session-log
 **Session summary:**
 ```
 ### Last Session Summary (2026-02-08 — Update Focus Skill)
-- Created `/update-focus` skill for structured current-focus.md updates
+- Created `update-focus` skill for structured current-focus.md updates
 - Updated stop hook, session-log, and update-context with cross-references
 - Updated CLAUDE.md skills list (16 → 17)
 ```
@@ -190,7 +191,7 @@ If no session log was created this session, offer: "Want me to run `/session-log
 - [x] ~~Commit all pending changes~~ (done this session)
 - [ ] Test new skills on CAPE-MOBO or MRes paper *(keep)*
 - [ ] Try replication protocol on a real paper *(keep)*
-- **New:** [ ] Test `/update-focus` skill end-to-end
+- **New:** [ ] Test `update-focus` skill end-to-end
 
 Does this look right? Any open loops to add or change?
 
@@ -201,4 +202,4 @@ Does this look right? Any open loops to add or change?
 - Open loops: 2 checked off, 1 added
 - Previous sessions rotated (oldest dropped)
 
-Want me to run `/session-log` too?
+Want me to run `session-log` too?

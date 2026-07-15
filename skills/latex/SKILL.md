@@ -3,6 +3,7 @@ name: latex
 description: "Use when you need to compile a LaTeX document — includes autonomous error resolution, citation audit, and quality scoring."
 allowed-tools: Bash(latexmk*), Bash(xelatex*), Bash(pdflatex*), Bash(biber*), Bash(bibtex*), Bash(mkdir*), Bash(ls*), Bash(wc*), Bash(cp*), Read, Write, Edit, Grep, Glob
 argument-hint: [tex-file-path]
+skill-dependencies: [bib-validate]
 ---
 
 # LaTeX Document Compilation
@@ -37,13 +38,13 @@ Start at 100, deduct per issue found, apply verdict. Include the Score Block in 
 ## Critical Rules
 
 1. **Build artifacts go to `out/`, PDF stays in the source directory.** Ensure `.latexmkrc` exists with `$out_dir = 'out'` and an `END {}` block to copy the PDF back (see pre-flight below). For VS Code builds, `.latexmkrc` in subdirectories is **not picked up** — see "VS Code Integration" section for the required `.vscode/settings.json` config.
-2. **NEVER write BibTeX entries from memory.** Always verify against web sources (CrossRef, Google Scholar, DOI lookup) before writing. See the `/literature` skill.
+2. **NEVER write BibTeX entries from memory.** Always verify against web sources (CrossRef, Google Scholar, DOI lookup) before writing. See the `literature` skill.
 3. **Check document class before adding packages.** Some classes load packages internally (e.g., `elsarticle` loads `natbib` — adding `\usepackage{natbib}` causes errors).
 4. **Maximum 5 fix iterations.** If the document still has errors after 5 auto-fix cycles, stop and report the unresolved errors to the user.
 5. **Never silently swallow errors.** Every fix must be reported: what was wrong, what was changed, and which file was edited.
 6. **Preserve user intent.** Auto-fixes should be minimal and conservative. Add packages or overrides — never remove user content.
 7. **Citation audit requires clean compilation.** Only run the `\cite{}` vs `.bib` cross-check after zero errors.
-8. **Run `/bib-validate` when new citations were added.** The citation audit only checks key cross-references. When `.bib` entries were added or modified since the last validation, also run `/bib-validate` for full metadata quality checks (preprint staleness, DOI presence, required fields, author formatting). This is mandatory.
+8. **Run `bib-validate` when new citations were added.** The citation audit only checks key cross-references. When `.bib` entries were added or modified since the last validation, also run `bib-validate` for full metadata quality checks (preprint staleness, DOI presence, required fields, author formatting). This is mandatory.
 
 ---
 
@@ -180,7 +181,7 @@ The only safe auto-fix is inserting `\usepackage{microtype}` when genuinely abse
 
 **Breadcrumb:** Append to `.planning/state.md` (if exists) or `.context/current-focus.md`:
 ```
-### [/latex] Compilation complete [YYYY-MM-DD HH:MM]
+### [latex] Compilation complete [YYYY-MM-DD HH:MM]
 - **Done:** [Clean/Errors remaining, N iterations, N pages, N fixes applied]
 - **Outputs:** [PDF at <path>]
 - **Next:** [Citation audit (if clean) or manual error resolution]
@@ -238,7 +239,7 @@ For Patterns 2–9 and tool findings: report only.
 #### When to skip
 
 - Compile failed in Phase 2 (pathology lint is meaningless without a build).
-- User explicitly invoked `/latex --no-lint`.
+- User explicitly invoked `latex --no-lint`.
 
 ---
 
@@ -346,11 +347,11 @@ See [`references/templates.md`](references/templates.md) for working paper templ
 
 | Situation | Delegate to |
 |-----------|-------------|
-| Need to find or verify a bibliography entry | `/literature` |
-| Full academic proofreading after clean compilation | `/proofread` |
-| Detailed `.bib` validation beyond cite-key matching | `/bib-validate` |
-| Beamer presentations specifically | `/beamer-deck` (which uses this skill internally for compilation) |
-| Fleet-wide compilation health check | `/latex-health-check` (project discovery, 3 iterations per project, cross-project checks) |
+| Need to find or verify a bibliography entry | `literature` |
+| Full academic proofreading after clean compilation | `proofread` |
+| Detailed `.bib` validation beyond cite-key matching | `bib-validate` |
+| Beamer presentations specifically | `beamer-deck` (which uses this skill internally for compilation) |
+| Fleet-wide compilation health check | `latex-health-check` (project discovery, 3 iterations per project, cross-project checks) |
 
 ---
 

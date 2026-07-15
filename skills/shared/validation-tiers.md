@@ -73,7 +73,7 @@
 
 ## How to Declare
 
-### At project initialisation (`/init-project-research`)
+### At project initialisation (`init-project-research`)
 
 The tier is recorded in `.planning/state.md`:
 

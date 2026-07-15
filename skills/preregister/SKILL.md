@@ -1,7 +1,8 @@
 ---
 name: preregister
-description: "Use when the user needs to write a preregistration for an empirical study before collecting data — OSF-Standard 'Pre-Data Collection Registration' by default, or the shorter AsPredicted 9-question form via `--aspredicted`. Triggers on phrases like 'preregister this study', 'OSF prereg', 'AsPredicted', 'register hypotheses', 'prereg the experiment', 'lock in the analysis plan before running', or whenever the user is about to launch a Prolific / lab / survey / computational-audit experiment and wants a time-stamped record of the design + analysis. Produces a single, upload-ready markdown file with every standard section filled in (hypotheses, design, sampling, variables, analysis, exclusions, stopping rule). Composes /hypothesis-generation, /experiment-design, /causal-design, /synthetic-data (power), and /ethics-review by reference."
+description: "Use when the user needs to write a preregistration for an empirical study before collecting data — OSF-Standard 'Pre-Data Collection Registration' by default, or the shorter AsPredicted 9-question form via `--aspredicted`. Triggers on phrases like 'preregister this study', 'OSF prereg', 'AsPredicted', 'register hypotheses', 'prereg the experiment', 'lock in the analysis plan before running', or whenever the user is about to launch a Prolific / lab / survey / computational-audit experiment and wants a time-stamped record of the design + analysis. Produces a single, upload-ready markdown file with every standard section filled in (hypotheses, design, sampling, variables, analysis, exclusions, stopping rule). Composes hypothesis-generation, experiment-design, causal-design, synthetic-data (power), and ethics-review by reference."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
+skill-dependencies: [causal-design, synthetic-data]
 ---
 
 # Preregister
@@ -40,7 +41,7 @@ Also trigger proactively (after surfacing the suggestion, not auto-running) when
 | **Update** | `--update <existing.md>` | The study has been registered already and the user wants a revised version (e.g. amendment after pilot). Diff-aware. |
 | **Autonomous** | `--autonomous` / `-y` | No mid-run questions; use sensible defaults at every choice point and flag uncertainties as `[UNVERIFIED]` for the user to resolve in the final pass. Honours `phased-work.md`'s autonomy convention. |
 
-Modes compose: `/preregister --aspredicted --from docs/plans/2026-06-09_pilot.md` is valid.
+Modes compose: `preregister --aspredicted --from docs/plans/2026-06-09_pilot.md` is valid.
 
 ## Workflow
 
@@ -93,8 +94,8 @@ This is where the skill earns its keep. Before writing the document:
 
 - **Hypotheses must be falsifiable.** "We expect a positive effect" is not a hypothesis. "H1: the AI-assisted condition will produce significantly higher (p < .05, two-sided) decision quality scores than the unassisted condition, with a Cohen's d ≥ 0.3" is.
 - **Each hypothesis must name its test.** No floating predictions without a matching line in the analysis plan.
-- **Power calculations must be honest.** If the user has no pilot data and no published effect size to anchor on, *say so* and pick a smallest-effect-size-of-interest (SESOI) instead of inventing a plausible-looking `d`. Use `/synthetic-data` for power simulation when the design is non-standard.
-- **Identification.** For causal claims, call `/causal-design` semantics: what's the estimand, what's the assignment mechanism, what threats are being addressed by design vs by assumption?
+- **Power calculations must be honest.** If the user has no pilot data and no published effect size to anchor on, *say so* and pick a smallest-effect-size-of-interest (SESOI) instead of inventing a plausible-looking `d`. Use `synthetic-data` for power simulation when the design is non-standard.
+- **Identification.** For causal claims, call `causal-design` semantics: what's the estimand, what's the assignment mechanism, what threats are being addressed by design vs by assumption?
 - **Exclusion rules can't be open-ended.** "We will exclude inattentive participants" is not enough — name the attention check, the threshold, and the expected exclusion rate.
 - **Exploratory ≠ confirmatory.** Anything the user "might also look at" goes in the exploratory section, not the confirmatory plan. Mixing them is the single biggest source of registration credibility loss.
 
@@ -133,11 +134,11 @@ Print the next steps:
 
 | Skill | When to invoke | Why |
 |-------|----------------|-----|
-| `/hypothesis-generation` | Phase 2 if hypotheses are vague or single-direction | Forces directional, falsifiable phrasing |
-| `/experiment-design` | Phase 2 if assignment, blocking, or counterbalancing is unclear | Ensures the design supports the test |
-| `/causal-design` | Phase 3 if a causal claim is being made | Identification before analysis plan |
-| `/synthetic-data` | Phase 3 if power requires simulation (multilevel, ordinal, non-standard) | Honest power, not invented `d` |
-| `/ethics-review` | Phase 3 for online / participant studies | Catch consent, debrief, PII issues before they delay collection |
+| `hypothesis-generation` | Phase 2 if hypotheses are vague or single-direction | Forces directional, falsifiable phrasing |
+| `experiment-design` | Phase 2 if assignment, blocking, or counterbalancing is unclear | Ensures the design supports the test |
+| `causal-design` | Phase 3 if a causal claim is being made | Identification before analysis plan |
+| `synthetic-data` | Phase 3 if power requires simulation (multilevel, ordinal, non-standard) | Honest power, not invented `d` |
+| `ethics-review` | Phase 3 for online / participant studies | Catch consent, debrief, PII issues before they delay collection |
 
 These are pointers, not auto-invocations. Suggest them when the gap is visible; don't burn turns running every composed skill on every study.
 
@@ -193,11 +194,11 @@ data_collection_status: not_yet_started | pilot_only | started
 - **The file is the local record, not the registration.** The OSF / AsPredicted server timestamp is what matters legally; the markdown is for the project's records. Don't claim "preregistered" until the URL is back.
 - **Amendments are normal but must be explicit.** If anything changes after submission, write `YYYY-MM-DD-{slug}-amendment.md` next to the original. Editing the original in-place destroys the trail.
 - **Don't conflate this with a vault submission.** A prereg post is not a venue submission — it lives in `outputs[*]` on the atlas topic, not in `~/vault/submissions/` (same logic as `preprint-vs-submission.md`).
-- **Don't run `/proofread` over the prereg.** The voice is intentionally terse and template-driven; copy-editing it the way you would a paper is wasted effort.
+- **Don't run `proofread` over the prereg.** The voice is intentionally terse and template-driven; copy-editing it the way you would a paper is wasted effort.
 
 ## When to skip
 
-- The user just wants to *think out loud* about a study; offer `/experiment-design` or `/hypothesis-generation` instead and circle back when they're ready to commit
+- The user just wants to *think out loud* about a study; offer `experiment-design` or `hypothesis-generation` instead and circle back when they're ready to commit
 - The study is already collected — preregistration after data collection is not preregistration; that's a "registered report" or, if disclosed, a "post-hoc registration" and should be labelled as such in the paper, not slipped through this skill
 - The study is pure theory or simulation with no empirical data — there's nothing to preregister in the OSF/AsPredicted sense
 

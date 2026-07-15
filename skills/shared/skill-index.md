@@ -18,10 +18,7 @@
 | `atlas-audit` | Full audit of all topics across 4 systems |
 | `atlas-deploy` | Manual-only schema validation + Mac Mini launchd restart for `atlas-workspace` (atlas.example.com). No compile/push step — atlas-workspace reads vault directly via Syncthing. |
 | `hypothesis-generation` | Generate competing testable hypotheses from observations with experimental designs and predictions |
-| `scout-pulse` | Daily/weekly research pulse for a monitored topic: scans arXiv + target venues, generates ranked ideas, persistent profile + observations diary |
 | `bridges` | Find cross-project connections: shared methods, overlapping papers, conceptual bridges via Paperpile vector search + atlas metadata |
-| `scout-audit` | Batch novelty checks with venue and idea iteration for research topic audits |
-| `scout-ideas` | Generate and rank research ideas via Scout CLI (follow-up ideas, next-project ranking) |
 | `idea-pivot` | Structured reframe for a below-threshold research idea (nested: research/) |
 
 ### Literature (19)
@@ -59,13 +56,12 @@
 | `voice-editor` | Edit content to match a voice profile (6-pass workflow, 4 editing modes) |
 | `figure` | Generate publication-quality academic figures (statistical plots, TikZ diagrams, multi-pass pipeline) |
 
-### Theory & Proof (7)
+### Theory & Proof (6)
 
 | Skill | Purpose |
 |-------|---------|
 | `math-proof` | Write one complete, gap-free mathematical proof in a single careful pass — state-before-show, every term signed, full intermediate steps |
 | `proof-readability` | Post-verification exposition pass for already-verified proofs — 6 layers (architecture, signposting, line-level justification, notation, …) |
-| `codex-math` | OpenAI Codex (gpt-5.5) as an adversarial mathematician — verify / write / explore modes for hard proofs + counterexample search |
 | `numerical-check` | R1 verification — falsify a self-authored monotonicity/threshold/comparative-static/closed-form claim by seeded Monte-Carlo sweep (dense sampling, interior grid, characterize violators) |
 | `symbolic-check` | R2 verification — prove/refute an algebra/derivative/limit/closed-form step via sympy (`.equals()` True/False/None) |
 | `lean-check` | R3 verification — machine-check a lemma in Lean 4 + mathlib (`lake build`, no-`sorry`); toolchain at `~/lean-verify/mathlib_verify` |
@@ -90,7 +86,7 @@
 
 | Skill | Purpose |
 |-------|---------|
-| `latex-polish` | Deep visual-quality review after `/latex` clean build — source-pathology lint + vision check of rendered PDF pages |
+| `latex-polish` | Deep visual-quality review after `latex` clean build — source-pathology lint + vision check of rendered PDF pages |
 | `bib-rekey` | Rekey a project `.bib` to Paperpile canonical citekeys (preserving entry content), then remap every `\cite` in the `.tex` |
 | `latex` | **Default compiler** — autonomous error resolution, citation audit, quality scoring |
 | `latex-health-check` | Compile all projects, auto-fix, check cross-project consistency |
@@ -149,7 +145,7 @@
 | `email-digest` | Scan Gmail labels, score/deduplicate, generate categorised markdown digest |
 | `decision-toolkit` | Structured decision-making frameworks with bias checking and scenario analysis |
 | `file-organizer` | Organize files and directories: analyze, deduplicate, restructure with safety checks |
-| `portfolio-briefing` | Monday-morning research portfolio briefing: atlas state, deadlines, stale-but-active projects, novelty-scout deltas, suggested venue retargets |
+| `portfolio-briefing` | Monday-morning research portfolio briefing: atlas state, deadlines, stale-but-active projects, novelty-reviewer deltas, suggested venue retargets |
 | `process-inbox` | Triage the maintenance inbox at `atlas.example.com/inbox` interactively; action each item (done/drop/snooze) with side-effects to atlas, vault submissions, venue files, tasks |
 
 ### Code & Analysis (11)
@@ -197,7 +193,7 @@
 | `sync-friends-repo` | Regenerate the friends distribution from private rules |
 | `sync-resources` | Pull latest from cloned resource repos |
 | `sync-permissions` | Sync global permissions into projects |
-| `full-commit` | Commit and push all 11 global repos with leak guard |
+| `full-commit` | Commit and push the registry-selected maintain-and-push set with leak guard |
 | `release` | Full publication pipeline: sync, version bump, commit, tag, publish |
 | `amend-recent-commits` | Rewrite messages of recent git commits without `rebase -i` (which is blocked in the harness) |
 | `pre-commit-audit` | Fast pre-commit safety scan: file size, anonymity (author/affiliation strings in tex/bib), hardcoded secrets |
@@ -215,7 +211,7 @@
 | `docs-consistency` | Cross-cutting doc review: count consistency, component coverage, stale refs, public-private sync, user manual |
 | `skill-health` | See invocation counts, success rates, and health status for skills |
 | `feedback-review` | Review accumulated feedback signals and generate skill improvement proposals |
-| `multi-repo-audit` | Orchestrates /system-audit + per-repo /repo-doc-audit in parallel across all infrastructure repos; produces consolidated dashboard with cross-repo inconsistency checks |
+| `multi-repo-audit` | Orchestrates system-audit + per-repo repo-doc-audit in parallel across all infrastructure repos; produces consolidated dashboard with cross-repo inconsistency checks |
 | `ui-critic` | Scored adversarial audit of a web package's UI: rendered page capture + four parallel specialist sub-agents (hierarchy/theme, accessibility, HTMX patterns/copy, aesthetic) with fixer-actionable report |
 | `code-suite` | Parallel multi-angle code-side audit before replication: code-review + code-paper-auditor + reproducibility-auditor in parallel + auto-synthesise |
 | `review-cluster` | Mid-draft adversarial review: paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesise into a prioritised revision plan |

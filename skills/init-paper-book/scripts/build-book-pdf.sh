@@ -197,7 +197,7 @@ def read_book_index_title(slug):
 # frontispiece and the web cover never show different dates.
 import datetime as _dt
 # Chapter files only — exclude hidden dotfiles (e.g. .audit-report-*.md that
-# /audit-paper-book leaves behind); pathlib.glob matches them but the web
+# audit-paper-book leaves behind); pathlib.glob matches them but the web
 # cover's registered-chapter set does not, so including them would desync the
 # two dates.
 _mtimes = [p.stat().st_mtime for p in book_dir.glob("*.md") if not p.name.startswith(".")]

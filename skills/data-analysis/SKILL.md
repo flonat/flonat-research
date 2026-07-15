@@ -4,6 +4,7 @@ description: "Use when you need an end-to-end analysis pipeline: EDA, estimation
 allowed-tools: Bash(uv*, Rscript*, R*, stata*, julia*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[data-path or project-path] [--mode eda|estimation|full]"
 agent-dependencies: [code-review]
+skill-dependencies: [experiment-design]
 ---
 
 # Data Analysis Pipeline
@@ -28,10 +29,10 @@ Default: **Full**. Detect mode from user request or ask if ambiguous.
 
 ## When NOT to Use
 
-- Experimental design or power analysis → `/experiment-design`
-- Generating synthetic data for testing → `/synthetic-data`
-- Auditing identification strategy → `/causal-design`
-- Proofreading or compiling the paper → `/proofread`, `/latex`
+- Experimental design or power analysis → `experiment-design`
+- Generating synthetic data for testing → `synthetic-data`
+- Auditing identification strategy → `causal-design`
+- Proofreading or compiling the paper → `proofread`, `latex`
 
 ## Shared References
 
@@ -50,7 +51,7 @@ Default: **Full**. Detect mode from user request or ask if ambiguous.
 2. **Detect language:** Check existing scripts, user preference, or ask. Read `shared/multi-language-conventions.md` for the chosen language's conventions.
 3. **Locate data:** Find datasets in `data/raw/` or `data/processed/`. **Never modify `data/raw/`** (per `data-sensitivity` rule). For social-media datasets, follow [`shared/engagement-stratified-sampling.md`](../shared/engagement-stratified-sampling.md) when constructing analysis samples.
 4. **Confirm validation tier** per [`shared/validation-tiers.md`](../shared/validation-tiers.md). Tier dictates claim-strength language allowed in Phase 4 outputs and how strict the locked-design gate (step 5) is enforced.
-5. **Check for locked design:** Look for analysis plan in `log/plans/`, `.context/project-recap.md`, or `MEMORY.md` estimand registry. If running Estimation or Full mode and no design exists, **stop and warn:** "No locked research design found. Run `/experiment-design` or `/causal-design` first, or confirm the specification before proceeding." Use [`shared/method-probing-questions.md`](../shared/method-probing-questions.md) to probe gaps if the user pushes back on the gate.
+5. **Check for locked design:** Look for analysis plan in `log/plans/`, `.context/project-recap.md`, or `MEMORY.md` estimand registry. If running Estimation or Full mode and no design exists, **stop and warn:** "No locked research design found. Run `experiment-design` or `causal-design` first, or confirm the specification before proceeding." Use [`shared/method-probing-questions.md`](../shared/method-probing-questions.md) to probe gaps if the user pushes back on the gate.
 
 ### Phase 2: Exploratory Data Analysis
 
@@ -104,7 +105,7 @@ Generate publication-ready tables and figures. Read `shared/publication-output.m
 1. **Verify outputs exist:** Check all expected files in `paper/tables/` and `paper/figures/`
 2. **Run the `code-review` agent** on all generated scripts (auto-invoke via skill-routing mechanism)
 3. **Log the analysis:** Record what was done, which scripts were created, which outputs were generated
-4. **Suggest next steps:** compilation with `/latex`, or additional analyses
+4. **Suggest next steps:** compilation with `latex`, or additional analyses
 
 ## Script Structure
 
@@ -137,8 +138,8 @@ Every generated script follows this header template:
 | `no-hardcoded-results` rule | Phase 4 (output routing) |
 | `overleaf-separation` rule | Phase 4 (file placement) |
 | the `code-review` agent | Phase 5 (auto-invoked) |
-| `/experiment-design` skill | Suggested if no design exists |
-| `/causal-design` skill | Suggested if no design exists |
-| `/econ-plots` skill | Economics-specific figures |
-| `/r-econometrics` skill | R-specific estimation |
-| `/econ-data` skill | Data download from public APIs |
+| `experiment-design` skill | Suggested if no design exists |
+| `causal-design` skill | Suggested if no design exists |
+| `econ-plots` skill | Economics-specific figures |
+| `r-econometrics` skill | R-specific estimation |
+| `econ-data` skill | Data download from public APIs |

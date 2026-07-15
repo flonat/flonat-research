@@ -49,8 +49,8 @@ Both survived multiple internal review cycles. The external reviewers that caugh
 |---|---|
 | `code-paper-auditor` agent | Does this at audit time. This rule applies the same discipline at edit time, so fewer drift bugs reach audit. |
 | `mark-unverified.md` | Same family: catch claims that aren't grounded before they ship. |
-| `/proofread` | Reads prose carefully but does not cross-check against code. This rule fills that gap. |
-| `/pre-submission-report` | The kitchen-sink final check; this rule is the daily-edit check. |
+| `proofread` | Reads prose carefully but does not cross-check against code. This rule fills that gap. |
+| `pre-submission-report` | The kitchen-sink final check; this rule is the daily-edit check. |
 
 ## Anti-Patterns
 

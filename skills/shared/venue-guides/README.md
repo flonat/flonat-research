@@ -37,10 +37,10 @@ Writing style guides, reviewer expectations, and formatting requirements for aca
 
 | Skill / Agent | What it uses |
 |---------------|-------------|
-| `/retarget-journal` | Formatting requirements + writing style when switching venues |
+| `retarget-journal` | Formatting requirements + writing style when switching venues |
 | `paper-critic` agent | Reviewer expectations when evaluating paper quality |
 | `referee2-reviewer` agent | Reviewer expectations for venue-appropriate critique |
 
 ## Origin
 
-Extracted from the venue-templates skill (K-Dense Inc., MIT license). US grant templates (NSF, NIH, DOE, DARPA) and poster guidelines were excluded — grants are not relevant to UK-based research, and posters are covered by `/latex-posters`.
+Extracted from the venue-templates skill (K-Dense Inc., MIT license). US grant templates (NSF, NIH, DOE, DARPA) and poster guidelines were excluded — grants are not relevant to UK-based research, and posters are covered by `latex-posters`.

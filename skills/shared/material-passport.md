@@ -150,16 +150,16 @@ artifacts:
 
 | Skill | Role |
 |-------|------|
-| `/literature` | Producer of .bib and synthesis. Sets passport on output. |
-| `/bib-validate` | Verifier. Updates passport status to VERIFIED on pass. |
+| `literature` | Producer of .bib and synthesis. Sets passport on output. |
+| `bib-validate` | Verifier. Updates passport status to VERIFIED on pass. |
 | `paper-critic` | Consumer + verifier. Flags STALE artifacts as blocking issues. |
 | `integrity-gates` | Verifier. Runs gates and updates passport status. |
-| `/computational-experiments` | Producer of tables/figures. Sets passport with data dependencies. |
-| `/audit-project-research` | Auditor. Scans all passports for STALE artifacts. |
+| `computational-experiments` | Producer of tables/figures. Sets passport with data dependencies. |
+| `audit-project-research` | Auditor. Scans all passports for STALE artifacts. |
 
 ## When to Skip
 
-- Quick one-off searches (standalone `/literature`)
+- Quick one-off searches (standalone `literature`)
 - Early exploration where nothing is "produced" yet
 - Projects without multi-stage pipelines
 - When the user says "don't bother tracking this"

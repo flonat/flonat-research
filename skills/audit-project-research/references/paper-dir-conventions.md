@@ -13,7 +13,7 @@ Each `paper*/` directory should be a **real directory** containing a `paper/` sy
 | `paper*/paper/` symlink exists | `test -L paper-xxx/paper` | Missing if absent |
 | Symlink target exists | `test -d paper-xxx/paper` | Missing — "Overleaf target missing" |
 | Symlink target in Overleaf | `readlink paper-xxx/paper` contains "Overleaf" | Info if pointing elsewhere |
-| Symlink path is **relative** | `readlink paper-xxx/paper` does NOT start with `/`, `~`, `/Volumes/`, or `~/Library/CloudStorage/` | Degraded — "Absolute symlink embeds this machine's Dropbox root and breaks across machines (incident 2026-04-19, see `rules/multi-machine.md`). Should be relative (e.g., `../../../../../Apps/Overleaf/<folder>`)." |
+| Symlink path is **relative** | `readlink paper-xxx/paper` does not start with `/` or `~` (including volume mounts and `<home>/Library/CloudStorage`) | Degraded — "Absolute symlink embeds this machine's Dropbox root and breaks across machines (incident 2026-04-19, see `rules/multi-machine.md`). Should be relative (e.g., `../../../../../Apps/Overleaf/<folder>`)." |
 
 Remediation for absolute symlink: `cd paper-xxx && rm paper && ln -s '../../../../../Apps/Overleaf/<folder>' paper`.
 

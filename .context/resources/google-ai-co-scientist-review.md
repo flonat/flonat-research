@@ -53,7 +53,7 @@ Expert-in-the-loop results (Fig 6): AI-augmented expert hypotheses eventually su
 - Proximity graph for idea deduplication and exploration-space mapping
 
 ### Borrowed for Claude Code infrastructure
-- **Multi-turn debate** added to `/devils-advocate` (3-round: critic -> defense -> adjudication)
+- **Multi-turn debate** added to `devils-advocate` (3-round: critic -> defense -> adjudication)
 
 ### Not worth implementing
 - Full tournament/Elo infrastructure (overkill for 6 projects vs. hundreds of hypotheses)

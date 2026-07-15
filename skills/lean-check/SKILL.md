@@ -1,6 +1,6 @@
 ---
 name: lean-check
-description: "Use when you need to MACHINE-CHECK a self-authored lemma/theorem by formalizing it in Lean 4 + mathlib and running `lake build` — the strongest verification (a clean build with no `sorry` IS a proof). R3 of the verification spectrum. Runs against the pre-seeded mathlib project at ~/lean-verify/mathlib_verify on the Mac Mini. Triggers: /lean-check, 'formalize this lemma in Lean', 'machine-check this theorem', 'prove this in Lean'. NOT for stress-testing a distributional claim (use /numerical-check), an algebra step (use /symbolic-check), or claims too rich to faithfully state (escalate to domain-reviewer). The hard part is a FAITHFUL statement — a Lean lemma that doesn't match the paper is false confidence."
+description: "Use when you need to MACHINE-CHECK a self-authored lemma/theorem by formalizing it in Lean 4 + mathlib and running `lake build` — the strongest verification (a clean build with no `sorry` IS a proof). R3 of the verification spectrum. Runs against the pre-seeded mathlib project at ~/lean-verify/mathlib_verify on the Mac Mini. Triggers: lean-check, 'formalize this lemma in Lean', 'machine-check this theorem', 'prove this in Lean'. NOT for stress-testing a distributional claim (use numerical-check), an algebra step (use symbolic-check), or claims too rich to faithfully state (escalate to domain-reviewer). The hard part is a FAITHFUL statement — a Lean lemma that doesn't match the paper is false confidence."
 allowed-tools:
   - Read
   - Write
@@ -16,15 +16,15 @@ Formalize a lemma/theorem in Lean 4 + mathlib and let the kernel check it. A `la
 ## When to Use
 
 - A **critical lemma** whose correctness you want beyond doubt (the load-bearing step of a theorem).
-- `/lean-check`, "formalize this in Lean", "machine-check this lemma", "prove this in Lean 4".
-- After `/numerical-check` fails to falsify a claim and it's important enough to *prove*.
+- `lean-check`, "formalize this in Lean", "machine-check this lemma", "prove this in Lean 4".
+- After `numerical-check` fails to falsify a claim and it's important enough to *prove*.
 
 ## When NOT to Use
 
 | Situation | Use instead |
 |---|---|
-| Stress-test / hunt a counterexample to a distributional claim | `/numerical-check` (R1) |
-| Verify an algebra / derivative / limit / closed-form step | `/symbolic-check` (R2) |
+| Stress-test / hunt a counterexample to a distributional claim | `numerical-check` (R1) |
+| Verify an algebra / derivative / limit / closed-form step | `symbolic-check` (R2) |
 | A statement too rich to faithfully formalize in reasonable time (heavy measure theory, bespoke objects) | `domain-reviewer` — do NOT force a lossy Lean statement |
 
 ## Position in the verification spectrum
@@ -112,4 +112,4 @@ reproduce: cd ~/lean-verify/mathlib_verify && lake build MathlibVerify.<Name>   
 
 ## Worked example (toolchain smoke)
 
-`theorem lc_smoke (a b : ℝ) (h : a ≤ b) : a - 1 < b + 1 := by linarith` → `lake build` exit 0, no `sorry`, standard axioms → **VERIFIED**. (A faithful Lean formalization of the median-collapse *theorem* itself — Φ, medians of distributions, the large-council limit — is a genuine formalization project; `/lean-check` is for the tractable load-bearing lemmas, with R1/R2 covering the rest.)
+`theorem lc_smoke (a b : ℝ) (h : a ≤ b) : a - 1 < b + 1 := by linarith` → `lake build` exit 0, no `sorry`, standard axioms → **VERIFIED**. (A faithful Lean formalization of the median-collapse *theorem* itself — Φ, medians of distributions, the large-council limit — is a genuine formalization project; `lean-check` is for the tractable load-bearing lemmas, with R1/R2 covering the rest.)

@@ -57,6 +57,6 @@ Callaway & Sant'Anna DiD applied to Brazilian deinstitutionalisation (CAPS) and 
 
 ## Relevance
 
-- Complements existing `/code-review` skill (which already has cross-language verification as category 7/11) — but Cunningham's version is more aggressive: full pipeline replication, not just spot-checking
-- Does NOT replace design-level audits (`/devils-advocate`, `design-before-results` rule) — those catch the conceptual errors this approach misses
+- Complements existing `code-review` skill (which already has cross-language verification as category 7/11) — but Cunningham's version is more aggressive: full pipeline replication, not just spot-checking
+- Does NOT replace design-level audits (`devils-advocate`, `design-before-results` rule) — those catch the conceptual errors this approach misses
 - Most applicable to empirical papers with deterministic estimation pipelines

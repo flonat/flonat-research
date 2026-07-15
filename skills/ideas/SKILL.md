@@ -15,24 +15,24 @@ argument-hint: "capture [text] | integrate [since:YYYY-MM-DD] [dryrun]"
 
 # Ideas: Capture & Integrate
 
-> An inbox for improvement ideas — the gap between `[LEARN]` tags (immediate corrections) and `/skill-extract` (full skill creation). Captures raw improvement ideas and periodically integrates the best ones into the system.
+> An inbox for improvement ideas — the gap between `[LEARN]` tags (immediate corrections) and `skill-extract` (full skill creation). Captures raw improvement ideas and periodically integrates the best ones into the system.
 
 ## Two Modes
 
 | Mode | Trigger | What it does |
 |------|---------|-------------|
-| **Capture** | `/ideas capture [text]` | Append a structured idea entry to `log/ideas.md` |
-| **Integrate** | `/ideas integrate` | Review unprocessed ideas and turn them into actions |
+| **Capture** | `ideas capture [text]` | Append a structured idea entry to `log/ideas.md` |
+| **Integrate** | `ideas integrate` | Review unprocessed ideas and turn them into actions |
 
 ---
 
 ## Mode 1: Capture
 
-### With argument: `/ideas capture [text]`
+### With argument: `ideas capture [text]`
 
 Parse the text and append a structured entry to `log/ideas.md`.
 
-### Without argument: `/ideas capture`
+### Without argument: `ideas capture`
 
 Ask interactively:
 1. "What's the idea?" (free text)
@@ -72,13 +72,13 @@ Skip `[low]` ideas — if it's not worth recording, don't record it.
 
 ### After Capture
 
-Confirm: "Idea captured in `log/ideas.md`. You have [N] unprocessed ideas — run `/ideas integrate` when ready to act on them."
+Confirm: "Idea captured in `log/ideas.md`. You have [N] unprocessed ideas — run `ideas integrate` when ready to act on them."
 
 ---
 
 ## Mode 2: Integrate
 
-### Trigger: `/ideas integrate [since:YYYY-MM-DD] [dryrun]`
+### Trigger: `ideas integrate [since:YYYY-MM-DD] [dryrun]`
 
 ### Step 1: Read State
 
@@ -150,5 +150,5 @@ When `dryrun` is specified, run steps 1-4 only — classify and present, but don
 - Ideas are **not** tasks — they're raw material that may or may not become actionable
 - The capture threshold is deliberately low — if something seems worth noting, capture it
 - Integration should happen periodically (weekly or when the backlog reaches 10+ ideas)
-- This skill complements `[LEARN]` tags (which record corrections) and `/skill-extract` (which creates full skills)
+- This skill complements `[LEARN]` tags (which record corrections) and `skill-extract` (which creates full skills)
 - Break-the-glass rules still apply — direct proposals that modify protected files need confirmation

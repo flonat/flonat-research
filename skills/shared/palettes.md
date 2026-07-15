@@ -1,6 +1,6 @@
 # Reference Colour Palettes
 
-> Shared reference for `/beamer-deck` and `/quarto-deck`. Starting points drawn from Scott Cunningham's example decks. Always create an original palette.
+> Shared reference for `beamer-deck` and `quarto-deck`. Starting points drawn from Scott Cunningham's example decks. Always create an original palette.
 
 ## Professional (Deep Blues)
 

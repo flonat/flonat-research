@@ -1,6 +1,6 @@
 # Interview Round 3 — Research Content Questions
 
-> Paper-type-specific questions for Phase 1, Round 3 of `/init-project-research`. Adapted from Lopez-Lira's idea evaluation template.
+> Paper-type-specific questions for Phase 1, Round 3 of `init-project-research`. Adapted from Lopez-Lira's idea evaluation template.
 
 ## Common Questions (all types)
 

@@ -10,7 +10,7 @@
 ## When to Skip
 
 - Single-file fixes (typos, one-line bugs)
-- Running existing skills (`/proofread`, `/bib-validate`, etc.)
+- Running existing skills (`proofread`, `bib-validate`, etc.)
 - Informational questions ("What does this function do?")
 - Updating context files (`.context/current-focus.md`)
 

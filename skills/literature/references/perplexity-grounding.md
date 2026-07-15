@@ -50,4 +50,4 @@ Every paper Perplexity names must be independently verified via `scholarly schol
 
 ## Cost note
 
-Sonar Pro via OpenRouter is ~$0.003-0.015 per query depending on context. Budget one call per `/literature` invocation unless the deep loop runs (Phase 4.5 may trigger additional calls for gap-specific grounding).
+Sonar Pro via OpenRouter is ~$0.003-0.015 per query depending on context. Budget one call per `literature` invocation unless the deep loop runs (Phase 4.5 may trigger additional calls for gap-specific grounding).

@@ -3,6 +3,7 @@ name: session-log
 description: "Use when you need to create a timestamped progress log for a research session."
 allowed-tools: Read, Write, Edit, Bash(mkdir*), Bash(ls*)
 argument-hint: [project-name-or-path]
+skill-dependencies: [update-focus]
 ---
 
 # Session Log Skill
@@ -57,7 +58,7 @@ This lets a future session in one project discover that related work happened el
 
 ### Step 4: Offer Follow-Up
 
-- **Offer to run `/update-focus`** for a structured update (session rotation, open loops), rather than making ad-hoc edits to `current-focus.md`
+- **Offer to run `update-focus`** for a structured update (session rotation, open loops), rather than making ad-hoc edits to `current-focus.md`
 - If multiple projects were touched, offer to update focus for each
 
 ## Log Template

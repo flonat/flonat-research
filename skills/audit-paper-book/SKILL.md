@@ -1,21 +1,22 @@
 ---
 name: audit-paper-book
-description: "Use when you need to detect drift between an existing paper-book companion and a revised version of its source paper, then sync the mechanical pieces (new bib entries, new/changed figures) and report the substantive drift (renamed sections, changed numbers, new theorems, new contributions) for the user to triage. Counterpart to /init-paper-book. Read-only by default; --apply flag opts in to mechanical fixes."
+description: "Use when you need to detect drift between an existing paper-book companion and a revised version of its source paper, then sync the mechanical pieces (new bib entries, new/changed figures) and report the substantive drift (renamed sections, changed numbers, new theorems, new contributions) for the user to triage. Counterpart to init-paper-book. Read-only by default; --apply flag opts in to mechanical fixes."
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: "<slug> [--apply] [--dry-run]"
+skill-dependencies: [init-paper-book]
 ---
 
 # Audit Paper Book
 
 A book companion goes stale the moment its source paper revises. This skill walks the gap between the paper and the book, classifies each drift item by mechanical-vs-substantive, and produces a single report. With `--apply`, the mechanical drift (new bib entries, new figures) is fixed in place; substantive drift always requires user judgement.
 
-For NEW books, use `/init-paper-book`. This skill never creates a book that doesn't already exist.
+For NEW books, use `init-paper-book`. This skill never creates a book that doesn't already exist.
 
 ## Hard rules
 
 1. **Never edit chapter prose without explicit user approval.** Mechanical fixes touch `references.bib` and `figures/*` only. Section content drift is reported, not fixed.
 2. **Numeric changes always block.** If the paper changed a result number (mean gap, accuracy, theorem constant), the book reports it but does NOT auto-update. The user verifies the new number is intentional.
-3. **Atlas slug match.** The book's slug must equal the atlas topic filename. Drift in either is a `/init-project-research`-level concern, not this skill's job.
+3. **Atlas slug match.** The book's slug must equal the atlas topic filename. Drift in either is a `init-project-research`-level concern, not this skill's job.
 4. **Read-only is the default.** `--apply` is opt-in; without it, this skill produces a report and changes nothing.
 5. **Accessibility floor.** The book must remain readable by someone with an undergraduate degree in a quantitative field (linear algebra, probability, basic optimisation/statistics — not necessarily Bayesian methods or domain-specific machinery). Concretely:
     - Every acronym must be expanded at first use within each chapter (e.g. "expected hypervolume improvement (EHVI)").
@@ -35,16 +36,16 @@ For NEW books, use `/init-paper-book`. This skill never creates a book that does
 
 ## When NOT to use
 
-- The book doesn't exist yet (`/init-paper-book`)
+- The book doesn't exist yet (`init-paper-book`)
 - The paper hasn't actually changed (no point)
-- You want a full re-write, not a sync (delete the book + `/init-paper-book` is faster)
+- You want a full re-write, not a sync (delete the book + `init-paper-book` is faster)
 
 ## Inputs accepted
 
 ```
-/audit-paper-book <slug>              # report only, no writes (default)
-/audit-paper-book <slug> --apply      # apply mechanical fixes (bib + figures); report substantive drift
-/audit-paper-book <slug> --dry-run    # alias for default; explicit no-write
+audit-paper-book <slug>              # report only, no writes (default)
+audit-paper-book <slug> --apply      # apply mechanical fixes (bib + figures); report substantive drift
+audit-paper-book <slug> --dry-run    # alias for default; explicit no-write
 ```
 
 ## Pre-flight (block-on-fail)
@@ -53,14 +54,14 @@ For NEW books, use `/init-paper-book`. This skill never creates a book that does
 SLUG="<resolved-slug>"
 
 # 1. Book must exist in vault
-[[ -d ~/vault/books/"$SLUG" ]] || die "No book at vault. Use /init-paper-book."
+[[ -d ~/vault/books/"$SLUG" ]] || die "No book at vault. Use init-paper-book."
 
 # 2. Registry entry must exist
 grep -q "^${SLUG}:" ~/vault/books/index.yaml \
     || die "${SLUG} not in books/index.yaml. Add a registry entry first."
 
 # 3. Atlas topic + project_path must resolve.
-#    Hard Rule 4 (from /init-paper-book): book slug MUST equal atlas topic
+#    Hard Rule 4 (from init-paper-book): book slug MUST equal atlas topic
 #    filename. The registry's `atlas_topic:` field is the source of truth — its
 #    leaf must match the book slug exactly. Drift here is an existential
 #    failure; the book and atlas are no longer the same artefact.
@@ -71,11 +72,11 @@ ATLAS_TOPIC_REF=$(awk -v slug="$SLUG" '
 ' ~/vault/books/index.yaml)
 ATLAS_TOPIC_LEAF="${ATLAS_TOPIC_REF##*/}"
 [[ "$ATLAS_TOPIC_LEAF" == "$SLUG" ]] \
-    || die "SLUG DRIFT: book '${SLUG}' points at atlas topic '${ATLAS_TOPIC_LEAF}'. Rename one side so they match (Hard Rule 4). See /init-paper-book SKILL.md."
+    || die "SLUG DRIFT: book '${SLUG}' points at atlas topic '${ATLAS_TOPIC_LEAF}'. Rename one side so they match (Hard Rule 4). See init-paper-book SKILL.md."
 
 ATLAS_TOPIC=$(find ~/vault/atlas -name "${SLUG}.md" -type f | head -1)
 [[ -n "$ATLAS_TOPIC" ]] \
-    || die "No atlas topic file at ~/vault/atlas/*/${SLUG}.md. Either rename the book to match an existing atlas topic, or create the missing topic via /init-project-research."
+    || die "No atlas topic file at ~/vault/atlas/*/${SLUG}.md. Either rename the book to match an existing atlas topic, or create the missing topic via init-project-research."
 PROJECT_PATH=$(grep -E "^project_path:" "$ATLAS_TOPIC" | cut -d' ' -f2- | tr -d "'\"")
 RR=$(cat ~/.config/task-mgmt/research-root)
 [[ -d "$RR/$PROJECT_PATH" ]] || die "project_path in atlas does not resolve."

@@ -31,7 +31,7 @@ argument-hint: "[no arguments — runs full sweep]"
 
 ## Autonomy
 
-Per the global `--autonomous` / `-y` convention in `<rules-root>/phased-work.md` § "Autonomy flag convention". Invoke as `/system-audit --autonomous` (or `-y`). When set:
+Per the global `--autonomous` / `-y` convention in `<rules-root>/phased-work.md` § "Autonomy flag convention". Invoke as `system-audit --autonomous` (or `-y`). When set:
 
 - **No inter-phase pauses** — Lint → Dispatch → Collect → Consolidate → Present chain end-to-end.
 - **No `the available structured-question mechanism` mid-run** — sub-agent count defaults to 3 (SA2/SA3/SA6), all sub-agents launch in parallel without confirmation.
@@ -40,13 +40,13 @@ Per the global `--autonomous` / `-y` convention in `<rules-root>/phased-work.md`
 - **Report-only invariant preserved** — `--autonomous` does NOT change the skill's read-only nature; it only suppresses confirmation prompts. No fixes are ever applied.
 - **Single end-of-run report** at `log/audits/system-audit-YYYY-MM-DD.md` is the only mandatory user-facing output.
 
-This is one of the safer skills to run autonomously — it's read-only by design, sub-agents have no write access to the system, and the output is a single timestamped report that you can review afterward. Recommended for scheduled monthly runs via `/scheduled-job`.
+This is one of the safer skills to run autonomously — it's read-only by design, sub-agents have no write access to the system, and the output is a single timestamped report that you can review afterward. Recommended for scheduled monthly runs via `scheduled-job`.
 
 Recommended invocations:
 
 ```
-/system-audit --autonomous                              # full sweep, end-to-end
-/system-audit -y                                        # short form
+system-audit --autonomous                              # full sweep, end-to-end
+system-audit -y                                        # short form
 ```
 
 ---
@@ -81,11 +81,11 @@ Run:
 grep -E "^After producing (DOMAIN-REVIEW|CODE-REVIEW|your verdict|your referee|the verification)" .claude/agents/*.md
 ```
 
-**Pass criteria:** 0 matches. Any match means a review-agent definition is using the stale/fragile logger-gate intro pattern that was fixed by the 5-agent patch (commit `23ebcfff`, 2026-05-17). The fragile pattern conditions the `review-state-log.sh` call on producing a stale top-level filename (`DOMAIN-REVIEW.md`-style) or a soft generic phrase (`"your verdict"`, `"the verification"`); when orchestrators like `/review-cluster` send "Return findings as a structured list, NOT a file write", the gate fails and the helper never fires — leaving a logger gap detectable by `/review-recap`.
+**Pass criteria:** 0 matches. Any match means a review-agent definition is using the stale/fragile logger-gate intro pattern that was fixed by the 5-agent patch (commit `23ebcfff`, 2026-05-17). The fragile pattern conditions the `review-state-log.sh` call on producing a stale top-level filename (`DOMAIN-REVIEW.md`-style) or a soft generic phrase (`"your verdict"`, `"the verification"`); when orchestrators like `review-cluster` send "Return findings as a structured list, NOT a file write", the gate fails and the helper never fires — leaving a logger gap detectable by `review-recap`.
 
 If matches > 0, list them in the report under a **Review-Agent Logger-Gate** section with the suggested replacement intro:
 
-> Write [your <X> report] to `reviews/<source-slug>/<YYYY-MM-DD-HHMM>.md` (`mkdir -p reviews/<source-slug>/` first). Then append a row to the project's `REVIEW-STATE.md` so `/review-recap` can render the run. Use the shared helper:
+> Write [your <X> report] to `reviews/<source-slug>/<YYYY-MM-DD-HHMM>.md` (`mkdir -p reviews/<source-slug>/` first). Then append a row to the project's `REVIEW-STATE.md` so `review-recap` can render the run. Use the shared helper:
 
 Reference pattern: see `paper-critic.md` line ~432 (already patched).
 
@@ -225,12 +225,12 @@ Show the user:
 
 | Skill | Relationship |
 |-------|-------------|
-| `/bib-validate` | Run on projects flagged by the Bibliography Hygiene sub-agent |
-| `/audit-project-research` | Complements Convention Compliance with deeper per-project checks |
-| `/update-project-doc` | Fix documentation staleness found by Documentation Freshness |
-| `/sync-permissions` | Fix symlink issues found by Inventory Auditor |
-| `/atlas-audit` | Full cross-system audit (local + vault + Paperpile + pipeline) — deeper than this sweep |
-| `/insights-deck` | Maintenance findings can feed into system insights presentations |
-| `/repo-doc-audit friends` | Dedicated deep audit for friends-repo — Sub-agent 7 is a quick health check; the audit skill is the full version |
-| `/sync-friends-repo` | Fix freshness issues found by Sub-agent 7 |
+| `bib-validate` | Run on projects flagged by the Bibliography Hygiene sub-agent |
+| `audit-project-research` | Complements Convention Compliance with deeper per-project checks |
+| `update-project-doc` | Fix documentation staleness found by Documentation Freshness |
+| `sync-permissions` | Fix symlink issues found by Inventory Auditor |
+| `atlas-audit` | Full cross-system audit (local + vault + Paperpile + pipeline) — deeper than this sweep |
+| `insights-deck` | Maintenance findings can feed into system insights presentations |
+| `repo-doc-audit friends` | Dedicated deep audit for friends-repo — Sub-agent 7 is a quick health check; the audit skill is the full version |
+| `sync-friends-repo` | Fix freshness issues found by Sub-agent 7 |
 | [`_shared/audit-integrity.md`](../_shared/audit-integrity.md) | Fan-out integrity contract — the Inventory Auditor's counts must come from `count_inventory.py` (Rule 1), never a sub-agent's own tally; findings cite evidence (Rule 2) |

@@ -1,6 +1,6 @@
 # Metadata Verification
 
-> Reference file for `/bib-validate`. Use when missing entries or suspicious metadata are found.
+> Reference file for `bib-validate`. Use when missing entries or suspicious metadata are found.
 
 ## Preferred: `scholarly` CLI
 

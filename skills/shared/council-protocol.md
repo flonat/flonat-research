@@ -81,7 +81,7 @@ perspectives:
    - `paper-critic` — adversarial LaTeX audit (grammar, notation, citation, tone, LaTeX, TikZ)
    - `domain-reviewer` — substantive correctness (assumptions, derivations, citations, code-theory, backward logic)
    - `referee2-reviewer` — full Reviewer 2 audit (identification, methods, robustness, presentation, scholarly rigour)
-3. **Synthesise:** Once all three agents return, run `/synthesise-reviews` to cross-reference issues, apply consensus escalation, and produce a unified `REVISION-PLAN.md`.
+3. **Synthesise:** Once all three agents return, run `synthesise-reviews` to cross-reference issues, apply consensus escalation, and produce a unified `REVISION-PLAN.md`.
 
 This pattern maximises coverage by combining complementary review perspectives. Each agent has different check dimensions and catches different classes of issues. Parallel launch saves time compared to sequential runs.
 

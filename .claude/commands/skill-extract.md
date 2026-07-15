@@ -1,0 +1,12 @@
+---
+description: 'Extract reusable knowledge from the current session into a persistent
+  skill.
+
+  Use when you discover something non-obvious, create a workaround, or develop
+
+  a multi-step workflow that future sessions would benefit from.'
+---
+
+# Shared skill adapter
+
+Read and follow `~/.claude/shared-skills/skill-extract/SKILL.md`. Resolve bundled resources relative to `~/.claude/shared-skills/skill-extract/`.

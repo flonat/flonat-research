@@ -3,6 +3,7 @@ name: review-response
 description: "Systematic reviewer response workflow: parse comments, classify by severity, develop response strategy, write structured rebuttal. Use when asked to 'write rebuttal', 'respond to reviewers', 'draft review response', or 'handle R&R'."
 tags: [Research, Academic, Rebuttal, Paper Writing]
 version: 1.0.0
+skill-dependencies: [proofread]
 ---
 
 # Review Response
@@ -201,7 +202,7 @@ across a revision cycle:
 
 - **Before writing:** Read the reviewer comments and the paper to understand context
 - **During writing:** Cross-reference the paper for specific section/page numbers
-- **After writing:** Run `/proofread` on the rebuttal document itself for tone and clarity
+- **After writing:** Run `proofread` on the rebuttal document itself for tone and clarity
 - **If paper changes are needed:** Track them separately — the rebuttal documents the *response*, not the *revision*
 
 ## Reference Documents

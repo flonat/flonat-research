@@ -1,7 +1,7 @@
 # Pre-Analysis Plan Template
 
 > Structured template for pre-analysis plans following AEA/OSF/EGAP conventions.
-> Read during PAP mode of `/experiment-design`.
+> Read during PAP mode of `experiment-design`.
 
 ## PAP Structure
 

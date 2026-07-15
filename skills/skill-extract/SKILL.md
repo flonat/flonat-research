@@ -9,11 +9,12 @@ allowed-tools:
   - Grep
   - Bash(uv run python*)
   - AskUserQuestion
+skill-dependencies: [proofread]
 ---
 
 # Learn: Session Knowledge Extraction
 
-Extract reusable workflows, workarounds, and multi-step procedures discovered during a session into persistent skills. Complementary to the `learn-tags` rule — while `[LEARN]` tags record one-liner corrections in MEMORY.md, `/skill-extract` creates full skill definitions in `skills/`.
+Extract reusable workflows, workarounds, and multi-step procedures discovered during a session into persistent skills. Complementary to the `learn-tags` rule — while `[LEARN]` tags record one-liner corrections in MEMORY.md, `skill-extract` creates full skill definitions in `skills/`.
 
 ## When to Use
 
@@ -151,7 +152,7 @@ The `description:` field in frontmatter is what triggers skill discovery. Write 
 
 - **Include specific error messages or symptoms** — "Fix `Package biblatex Error: File 'references.bib' not found`"
 - **Include context markers** — file types, tools, situations where this applies
-- **Include negative cases** — "Not for general proofreading (use /proofread instead)"
+- **Include negative cases** — "Not for general proofreading (use proofread instead)"
 - **Use natural trigger phrases** — the exact words a user would type
 
 ### Extraction Checklist
@@ -215,6 +216,6 @@ The validator checks: frontmatter validity, name format and directory match, des
 
 ## What This Skill Does NOT Do
 
-- **Does not replace `[LEARN]` tags** — one-liner corrections still go in MEMORY.md via the `learn-tags` rule; `/skill-extract` is for multi-step procedures, not one-liners
+- **Does not replace `[LEARN]` tags** — one-liner corrections still go in MEMORY.md via the `learn-tags` rule; `skill-extract` is for multi-step procedures, not one-liners
 - **Does not create agents** — agents need separate context and persistent memory
 - **Does not modify existing skills** — if an existing skill needs updating, do that directly
