@@ -31,7 +31,7 @@ except ModuleNotFoundError:
 
 
 def get_ground_truth(root: Path) -> dict[str, int]:
-    """Derive infrastructure counts from the filesystem."""
+    """Derive infrastructure counts from files plus the host-aware registry."""
     skills = len(list((root / "skills").glob("**/SKILL.md")))
     # Also count skill.md (lowercase) to avoid missing any
     skills += len([p for p in (root / "skills").glob("**/skill.md")
@@ -61,15 +61,10 @@ def get_ground_truth(root: Path) -> dict[str, int]:
         if artifacts.is_dir():
             resource_repos += sum(1 for p in artifacts.glob("*/.git"))
 
-    # Packages: immediate subdirectories of packages/ (each is a package,
-    # whether a nested git repo or a local-only dir).
-    packages = 0
-    packages_root = root / "packages"
-    if packages_root.is_dir():
-        packages = sum(
-            1 for p in packages_root.iterdir()
-            if p.is_dir() and not p.name.startswith(".")
-        )
+    # Package documentation describes the portable control plane, so include
+    # registry-declared immediate packages even when a host-specific checkout
+    # is intentionally absent (for example pdf-extract on the MacBook).
+    packages = len(list_packages(root))
 
     return {
         "skills": skills,
@@ -81,8 +76,8 @@ def get_ground_truth(root: Path) -> dict[str, int]:
     }
 
 
-def list_packages(root: Path) -> list[str]:
-    """Return the names of all package directories under packages/."""
+def list_physical_packages(root: Path) -> list[str]:
+    """Return immediate package directories physically present on this host."""
     packages_root = root / "packages"
     if not packages_root.is_dir():
         return []
@@ -94,7 +89,10 @@ def list_packages(root: Path) -> list[str]:
 
 def list_registered_package_paths(root: Path) -> list[str]:
     """Return registry-owned paths below packages/, including nested children."""
-    specs = repo_registry.load_registry(root / "scripts/repos.conf")
+    registry = root / "scripts/repos.conf"
+    if not registry.is_file():
+        return []
+    specs = repo_registry.load_registry(registry)
     return sorted(
         spec.relative_path
         for spec in specs
@@ -102,13 +100,29 @@ def list_registered_package_paths(root: Path) -> list[str]:
     )
 
 
+def list_packages(root: Path) -> list[str]:
+    """Return the portable immediate-package inventory.
+
+    Physical host-local packages are combined with immediate package paths in
+    the validated repository registry. This keeps the documented count stable
+    across machines whose clone sets intentionally differ.
+    """
+    physical = set(list_physical_packages(root))
+    registered = {
+        Path(path).parts[1]
+        for path in list_registered_package_paths(root)
+        if len(Path(path).parts) >= 2
+    }
+    return sorted(physical | registered)
+
+
 def check_package_coverage(root: Path) -> list[str]:
     """Return package catalogue entries absent from docs/components/packages.md.
 
-    Immediate package directories remain the physical package count. The
-    validated repository registry adds deeper package-owned repositories (for
-    example ``packages/shared-code/research-sae-audit``), so a new registry row
-    cannot disappear merely because its parent namespace is already documented.
+    Immediate packages use the portable physical-plus-registry inventory. The
+    validated repository registry also adds deeper package-owned repositories
+    (for example ``packages/shared-code/research-sae-audit``), so a new registry
+    row cannot disappear merely because its parent namespace is documented.
     """
     doc = root / "docs" / "components" / "packages.md"
     if not doc.exists():

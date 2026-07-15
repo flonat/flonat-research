@@ -292,6 +292,7 @@ flonat-research/
 │   └── resources/               # Reference data (journal rankings, etc.)
 ├── .scripts/                    # CLI tools for Notion task management
 ├── packages/
+│   ├── cli-council/             # cli-council
 │   ├── council-api/             # Multi-model council via OpenRouter API
 │   ├── council-cli/             # Multi-model council via local CLI tools
 │   ├── mcp-scholarly/             # mcp-scholarly
