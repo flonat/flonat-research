@@ -1,7 +1,7 @@
 ---
 name: bib-coverage
-description: "Use when you need to compare a project .bib against a Paperpile label to find uncited papers or unfiled entries."
-allowed-tools: Read, Glob, Greps_by_label, Bash(paperpile*)
+description: "Use when you need to compare a project .bib against a Paperpile project/topic folder to find uncited papers or unfiled entries."
+allowed-tools: Read, Glob, Grep, Bash(paperpile*)
 argument-hint: [project-path or tex-file]
 skill-dependencies: [bib-validate, literature]
 ---
@@ -10,13 +10,13 @@ skill-dependencies: [bib-validate, literature]
 
 **LIBRARY-FIRST RULE: ALWAYS check Paperpile (`paperpile search-library`) when assessing coverage.**
 
-Compare a project's `.bib` file against a Paperpile label to identify gaps between the project bibliography and the reference library.
+Compare a project's `.bib` file against a Paperpile project/topic folder to identify gaps between the project bibliography and the reference library.
 
 ## When to Use
 
 - After a literature search, to see what % of the topic collection is cited
 - Before submitting a paper, to catch references you forgot to cite
-- When reviewing a Paperpile label, to find items not yet in any project's `.bib`
+- When reviewing a Paperpile project/topic folder, to find items not yet in any project's `.bib`
 - After `bib-validate`, as a complementary check (validate checks quality; coverage checks completeness)
 
 ## When NOT to Use
@@ -28,7 +28,7 @@ Compare a project's `.bib` file against a Paperpile label to identify gaps betwe
 ## Inputs
 
 1. **Project `.bib` file** — detected automatically (same logic as `bib-validate`: look for `references.bib`, then any `.bib` in the project)
-2. **Paperpile label** — resolved from:
+2. **Paperpile folder** — resolved from:
    - Explicit `--topic <slug>` argument
    - Project's `CLAUDE.md` or Atlas topic frontmatter
    - Directory name if inside a research project
@@ -40,11 +40,15 @@ Compare a project's `.bib` file against a Paperpile label to identify gaps betwe
 
 Parse the `.bib` file to extract all entry keys and titles.
 
-### 2. Load Paperpile Label
+### 2. Load Paperpile Folder
 
-1. Call `paperpile get-labels` to find the relevant topic label
-2. Call `paperpile get-items-by-label` to get items in that label
+1. Call `paperpile get-folders` to find the relevant full topic path
+2. Call `paperpile get-items-by-folder "<full path>"` to get items in that folder
 3. Extract item keys (citekey) and titles
+
+Paperpile's `labelsNamed` and `foldersNamed` are distinct. Project/topic
+collections use folders. If a leaf occurs under multiple parents, stop and
+request or derive the full path; never silently choose one.
 
 **Graceful degradation:** If the `paperpile` CLI is unavailable, skip with a warning — report .bib-only stats.
 
@@ -54,24 +58,24 @@ Produce three lists:
 
 | Category | Description | Action |
 |----------|-------------|--------|
-| **Cited + In Label** | Items in both `.bib` and Paperpile label | No action — healthy |
-| **Cited but Not in Label** | Items in `.bib` but not in the Paperpile label | Need labelling in Paperpile |
-| **In Label but Not Cited** | Items in Paperpile label but not cited in any `.tex` | Potential references — review for inclusion |
+| **Cited + In Folder** | Items in both `.bib` and the Paperpile folder | No action — healthy |
+| **Cited but Not in Folder** | Items in `.bib` but not in the Paperpile folder | Needs filing in Paperpile |
+| **In Folder but Not Cited** | Items in the Paperpile folder but not cited in any `.tex` | Potential references — review for inclusion |
 
 ### 4. Coverage Stats
 
 ```
 ## Coverage Report
 
-**Paperpile label:** [label name] ([N] items)
+**Paperpile folder:** [full path] ([N] items)
 **Project .bib:** [M] entries
 
 | Metric | Count | % |
 |--------|-------|---|
-| Cited + In Label | X | X/N |
-| Cited but Not Labelled | Y | — |
-| In Label, Not Cited | Z | Z/N |
-| Coverage (cited/label) | — | X/N% |
+| Cited + In Folder | X | X/N |
+| Cited but Not Filed | Y | — |
+| In Folder, Not Cited | Z | Z/N |
+| Coverage (cited/folder) | — | X/N% |
 ```
 
 ### 5. Recommendations
@@ -106,7 +110,7 @@ When coverage is low (<50%) or the user says "find what I'm missing", use the S2
 
 1. **Select seed papers** — pick the 3-5 most-cited papers from the `.bib` file
 2. **Get recommendations** — run `scholarly scholarly-similar-works <paper_id> --json` for each seed paper to get ML-based similar paper suggestions
-3. **Filter against existing** — remove papers already in the `.bib` or Paperpile label
+3. **Filter against existing** — remove papers already in the `.bib` or Paperpile folder
 4. **Rank by relevance** — sort by citation count and recency
 5. **Present candidates** — show a table of recommended additions with titles, years, citation counts
 

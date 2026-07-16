@@ -274,7 +274,7 @@ After completion, provide a summary:
 ## Cross-References
 
 - [`bib-validate`](../bib-validate/SKILL.md) — validates the generated `.bib` file (called automatically in Phase 4.2)
-- [`bib-coverage`](../bib-coverage/SKILL.md) — compare project `.bib` vs Paperpile label — find uncited papers and unfiled references
+- [`bib-coverage`](../bib-coverage/SKILL.md) — compare project `.bib` vs Paperpile project/topic folder — find uncited papers and unfiled references
 - [`split-pdf`](../split-pdf/SKILL.md) — reads the input PDF (called in Phase 1.1)
 - [`literature`](../literature/SKILL.md) — for finding additional references beyond what's in the PDF
 - [`shared/reference-resolution.md`](../shared/reference-resolution.md) — canonical lookup + filing sequence used by Phase 2.3 and Phase 4.1

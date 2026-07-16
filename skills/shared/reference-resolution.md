@@ -52,14 +52,14 @@ uv run python <skills-root>/_shared/reconcile_bib.py <bib> --apply --enrich # al
 5. **Abort on duplicate keys.** After applying, if the result contains any duplicate citekey, abort and keep the backup — do not write.
 6. **Consistent diacritic folding on both sides** (LaTeX `\'o` → `o` *and* Unicode `ó` → `o` via NFKD), so `Mikl{\'o}s-Thal` and `Miklós-Thal` compare equal.
 
-### What reconciliation copies
+### What reconciliation copies before canonical rebuild
 
 When the helper (or a manual fallback) finds a Paperpile match, reconcile the local `.bib` entry as follows:
 
 1. **Copy the Paperpile citekey into the local entry** — replace the locally-generated Better BibTeX key with the Paperpile `citekey` so `\cite{}` resolves against the user's library. This is the default behaviour, not optional.
 2. **Backfill the DOI** from Paperpile if the local entry lacks one (`paperpile export-bib --citekeys <key>` / `lookup-by-doi` carries DOIs the source PDF often doesn't print).
-3. **Keep the richer local metadata** — do NOT wholesale-replace the local entry with Paperpile's `export-bib` output. Paperpile's export is metadata-thin: it emits everything as `@misc`, abbreviates authors (`Calvano E and ...`), and frequently omits `journal`/`volume`/`pages`. Take only the key + DOI from Paperpile; keep the local entry's type, journal, volume, pages, and full author names.
-4. **Leave a breadcrumb** — add `note = {key reconciled to Paperpile <key>}` (or append to an existing note) so the swap is auditable.
+3. **Treat the helper's retained local fields as transitional only.** `reconcile_bib.py` maps keys and backfills DOIs without destructively replacing a working file. After the mapping is accepted, regenerate the committed active bibliography through `scripts/bib/rebuild_paperpile_bib.py`, which uses the schema-aware Paperpile exporter (normalized `pubtype`, full authors, and venue/volume/issue/pages/publisher/booktitle when present). If the canonical item lacks a required field, report it for correction in Paperpile; do not preserve a hand-authored override in the committed `.bib`.
+4. **Leave a temporary breadcrumb** — the helper adds `note = {key reconciled to Paperpile <key>}` so the transition is auditable. The note may disappear when the active bibliography is canonically rebuilt.
 
 Working-paper → published **year drift** (e.g. local SSRN/NBER 2023 vs Paperpile published 2025) is a genuine match, not a conflict: adopt the Paperpile (published) key — it's the version the user will cite.
 
@@ -70,7 +70,11 @@ Working-paper → published **year drift** (e.g. local SSRN/NBER 2023 vs Paperpi
 
 References with **no** Paperpile match — confirmed by the DOI Membership Check above, not merely a topic-search miss — are `NEW`; stage them for import per the Filing Sequence below. Do not invent a Paperpile key, and do not tag `NEW` off a `search-library` miss alone.
 
-> Rationale: this is the reconciliation behaviour applied in the 2026-05-30 Werner-2024 bib-parse run — copy keys + backfill DOIs, keep the fuller local metadata. Codified here so `bib-parse`, `bib-validate` (fix mode), `literature` (Phase 4.4), and `bib-coverage` all behave the same way.
+> Rationale: the older exporter was metadata-thin, so the rekey helper was
+> deliberately non-destructive. The current schema-aware exporter removes that
+> exception for committed output: the helper remains the safe mapping step,
+> while the subsequent rebuild makes Paperpile canonical for both keys and
+> metadata.
 
 ## Status Categories
 

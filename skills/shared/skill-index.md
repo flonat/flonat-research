@@ -95,7 +95,7 @@
 | `bib-validate` | Cross-reference `\cite{}` keys against .bib files + Paperpile library; deep mode flags likely-fabricated entries (LLM hallucination detection) (report only) |
 | `bib-parse` | Extract citations from a PDF, generate validated `.bib`, stage for Paperpile import. Phase 1.5 skeleton-confirmation gate for ≥10 references |
 | `bib-filter` | Filter a .bib file to only entries actually cited in a .tex project |
-| `bib-coverage` | Compare project `.bib` against Paperpile label to find uncited papers and unfiled references |
+| `bib-coverage` | Compare project `.bib` against a Paperpile project/topic folder to find uncited papers and unfiled references |
 | `tikz` | Audit and repair residual TikZ visual collisions (overlapping labels, arrows crossing boxes) using mathematical gap/Bézier calculations — no eyeballing |
 | `orcid-fill` | Insert ORCID iDs into a paper's `\author{}` block from vault people frontmatter; doc-class-aware macro choice (`\orcidID`/`\orcid`/`\orcidlink`); idempotent |
 | `latex-diff` | Compare two versions of a LaTeX doc (files / dirs / git revisions) — human summary + severity-graded semantic changes |
@@ -303,7 +303,7 @@ Files in `skills/shared/` that multiple skills and agents reference. These are n
 | `skill-design-patterns.md` | Structural patterns for skill architecture |
 | `rhetoric-principles.md` | Presentation rhetoric for deck skills |
 | `multi-language-conventions.md` | R/Python/Stata/Julia conventions for analysis skills |
-| `reference-resolution.md` | Logic for resolving Paperpile labels and topic references |
+| `reference-resolution.md` | Logic for resolving Paperpile membership, citekeys, metadata, and topic folders |
 | `research-quality-rubric.md` | Research quality rubric for review agents |
 | `council-protocol.md` | Multi-model council deliberation protocol |
 | `external-audit-protocol.md` | Protocol for external LLM audits |

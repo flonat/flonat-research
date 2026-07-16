@@ -9,7 +9,7 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | Skill | Description |
 |-------|-------------|
 | `beamer-deck` | Use when you need to create an academic Beamer presentation with original theme and multi-agent review |
-| `bib-coverage` | Use when you need to compare a project .bib against a Paperpile label to find uncited papers or unfiled entries |
+| `bib-coverage` | Use when you need to compare a project .bib against a Paperpile project/topic folder to find uncited papers or unfiled entries |
 | `bib-filter` | Use when you need to filter a .bib file to only entries actually cited in a .tex project |
 | `bib-parse` | Use when you need to extract citations from a PDF and generate a validated .bib file. Reads the PDF, identifies all referenced works, constructs BibTeX entries with metadata verification, then runs bib-validate |
 | `brief-compliance-check` | Use when you need to check a LaTeX submission against a PDF assessment brief |

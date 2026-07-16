@@ -56,19 +56,23 @@ The `submission_date` becomes `{cutoff_date}` — all literature searches are co
 
 | Priority | Tool | Use for |
 |----------|------|---------|
-| 0 | `refpile search-library "<query>" --json` | Search the user's indexed PDFs (~28K papers, full-text vectorized) |
-| 0 | `refpile get-paper <citekey> --json` | Retrieve full content for known citekeys |
+| 0 | `refpile search-library "<query>" --json` | Semantic discovery across about 30K Paperpile records (metadata/abstract production index) |
+| 0 | `refpile get-paper <citekey> --json` | Retrieve metadata + abstract for a known citekey |
+| 0 | `paperpile get-pdf-section <citekey> "<section>"` | Read targeted evidence from an attached PDF (`get-pdf-text` for the whole document) |
 | 1 | `scholarly scholarly-search` | Multi-source broad search (papers NOT in Paperpile) |
 | 2 | `scholarly openalex-search-works` | Structured metadata + citation counts |
 | 3 | `scholarly dblp-search` | CS venue-specific search |
 | 4 | `scholarly scholarly-verify-dois` | Batch DOI verification |
 | 5 | web search | Fallback for preprints, blogs, GitHub |
 
-**Why Paperpile first:** It contains full-text content, not just abstracts. When assessing novelty or methodology, having the actual paper content produces richer context than metadata-only results from scholarly APIs.
+**Why Paperpile first:** RefPile searches the private library semantically, and
+Paperpile is the exact metadata/PDF authority. RefPile identifies candidates;
+Paperpile's PDF commands provide the actual evidence when novelty or
+methodology must be checked beyond an abstract.
 
 **Process:**
 
-1. **Paperpile sweep:** Run `refpile search-library "<query>" --json` with the paper's research question, method name, and key terms. For each hit, run `refpile get-paper <citekey> --json` to retrieve detailed content. Mark these as `in_paperpile: true`.
+1. **Paperpile sweep:** Run `refpile search-library "<query>" --json` with the paper's research question, method name, and key terms. Use `refpile get-paper <citekey> --json` for metadata/abstract details. When the assessment depends on methods, results, or wording, read the attached PDF with `paperpile get-pdf-section` or `paperpile get-pdf-text`. Mark verified records as `in_paperpile: true`.
 
 2. **External sweep:** Use `scholarly scholarly-search` + `scholarly openalex-search-works` for papers NOT found in Paperpile. Target 15-20 additional papers. Constrain to `{cutoff_date}`.
 
@@ -202,7 +206,7 @@ If bibliography CLIs or their backing services are unavailable:
 
 | Unavailable | Fallback | Impact |
 |-------------|----------|--------|
-| RefPile CLI/service | Skip Paperpile sweep; proceed with `scholarly` CLI | Lose full-text library context |
+| RefPile CLI/service | Use Paperpile keyword/exact search, then proceed with `scholarly` CLI | Lose semantic discovery over the private library; Paperpile PDF reading remains available when the Mini route is healthy |
 | Scholarly CLI/service | Use web search for all literature queries | Lose structured metadata and citation counts |
 | Both RefPile + Scholarly | web search-only mode | Significantly reduced context quality |
 
