@@ -32,7 +32,7 @@ Everything below is shared; mode-specific differences are called out inline.
 
 - You want a **written critique** of a paper, not a live drill → `referee2-reviewer` / `paper-critic` / `review-cluster`.
 - You want to **stress-test an argument in prose** → `devils-advocate`.
-- You want to **draft a rebuttal** to reviews you already have → `review-response` / `strategic-revision`.
+- You want to **draft a rebuttal** to genuine venue reviews you already have → `review-response` / `strategic-revision --external`.
 - You want a **passive summary** of the material → just ask for one; grill-me is for being *tested*.
 
 grill-me is the only one where *you* are the one answering. If you don't want to type answers back and forth, use one of the above.

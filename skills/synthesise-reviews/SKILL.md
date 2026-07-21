@@ -23,7 +23,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 ## Purpose
 
-After running parallel review agents (paper-critic, domain-reviewer, referee2-reviewer), this skill reads all their reports, cross-references issues, and produces a unified `REVISION-PLAN.md` that groups issues into workstreams by priority and theme.
+After running parallel review agents (paper-critic, domain-reviewer, referee2-reviewer), this skill reads their internal reports, cross-references issues, and produces a unified synthesis grouped into workstreams by priority and theme. It decides the consolidated issue set; `strategic-revision --internal` is the separate step that turns a complex issue set into an executable DAG.
 
 Inspired by APE Papers' `reviewer_response_plan_1.md` pattern — workstreams grouped by priority, each concern traced to its reviewer.
 
@@ -32,13 +32,14 @@ Inspired by APE Papers' `reviewer_response_plan_1.md` pattern — workstreams gr
 - After running 2+ review agents on a paper
 - After a council review round
 - When preparing a revision plan from multiple feedback sources
-- After receiving referee reports (processed via `strategic-revision`)
+- Before an optional `strategic-revision --internal` handoff when the consolidated issues are interdependent
 
 ## When NOT to Use
 
 - Before reviews exist — run the review agents first
 - To run reviews — use the individual agents (`paper-critic`, `domain-reviewer`, `referee2-reviewer`)
 - For a single review — just read the report directly
+- For genuine venue referee reports or an R&R response — use `strategic-revision --external`
 
 ## Workflow
 
@@ -52,12 +53,6 @@ reviews/<check>/YYYY-MM-DD*.md (legacy: e.g. reviews/paper-critic/2026-06-28-143
 ```
 
 Where `<scope>` is a paper slug (e.g. `paper-jtp`) or `_project`.
-
-Also check for processed referee comments:
-
-```
-docs/venues/*/revision-*/reviewer-comments/comment-tracker.md
-```
 
 If no reports found, ask the user where the reports are.
 
@@ -78,10 +73,6 @@ For each report, extract the issue list:
 **From referee2-reviewer REFEREE2-REPORT.md:**
 - Parse the structured findings from each audit dimension
 - Extract severity-tagged issues
-
-**From processed referee comments (comment-tracker.md):**
-- Parse the comment tracker table
-- Each referee comment becomes an issue with severity from the tracker
 
 ### Step 2.5: Spot-verify findings against their cited location (integrity gate)
 
@@ -175,36 +166,11 @@ Issues/strengths noted positively by multiple reviewers:
 - Total unique issues: N
 ```
 
-### Step 6: Optionally Output REPLY-TO-REVIEWERS.md
+### Step 6: Optionally Hand Off to Internal Strategic Revision
 
-If the reviews include processed referee comments (from `strategic-revision`), also generate:
+If the synthesis contains multiple blocking or interdependent workstreams, offer `strategic-revision --internal <synthesis-path>`. That skill creates the executable task DAG and retains this synthesis as a source in its manifest. Do not invoke it when a ranked synthesis is sufficient.
 
-```markdown
-# Reply to Reviewers
-
-**Paper:** [title]
-**Date:** YYYY-MM-DD
-
-## Reviewer 1
-
-### Comment R1-C1: [short title]
-
-> [Original comment — blockquote]
-
-**Response:**
-[Placeholder — to be filled by author]
-
-**Changes made:**
-- [Placeholder]
-
-### Comment R1-C2: ...
-
-## Reviewer 2
-
-[Same format]
-```
-
-Ask the user before generating this file.
+Never generate a venue response letter from internal review material. Genuine referee comments and rebuttal scaffolds belong to `strategic-revision --external` and remain under the venue correspondence package.
 
 ## Anti-Patterns
 
@@ -213,3 +179,4 @@ Ask the user before generating this file.
 - **Do NOT escalate severity beyond consensus rules** — if only one reviewer flagged something, keep their severity unless it's confirmed by others
 - **Do NOT invent issues** — only report what the reviewers found
 - **Do NOT merge issues that are genuinely different** — only merge when the same underlying problem is described differently
+- **Do NOT produce venue correspondence or response letters** — this skill consolidates internal review evidence only

@@ -1,6 +1,6 @@
 ---
 name: camera-ready
-description: "Convert an accepted anonymous-submission LaTeX paper (AAAI/AIES/ACM-style) to camera-ready and implement the accepted reviews. Use when a paper is accepted with no rebuttal and you need to de-anonymize, add copyright, turn on section numbering, implement each reviewer's minor revisions, optionally move proofs to a non-counted appendix, and QA. Not for R&R/revise-and-resubmit (use strategic-revision) or for preprints (use preprint)."
+description: "Convert an accepted anonymous-submission LaTeX paper (AAAI/AIES/ACM-style) to camera-ready and implement the accepted reviews. Use when a paper is accepted with no rebuttal and you need to de-anonymize, add copyright, turn on section numbering, implement each reviewer's minor revisions, optionally move proofs to a non-counted appendix, and QA. Not for R&R/revise-and-resubmit (use strategic-revision --external) or for preprints (use preprint)."
 allowed-tools:
   - Read
   - Write
@@ -24,7 +24,7 @@ skill-dependencies: [proofread]
 
 # camera-ready: Accepted Paper → Camera-Ready + Review Implementation
 
-For a paper that has been **accepted** (no rebuttal stage): produce the camera-ready version and implement the reviewers' (typically minor) revisions. Distinct from `strategic-revision`, which handles **R&R** (rebuttal, DAG, resubmission strategy).
+For a paper that has been **accepted** (no rebuttal stage): produce the camera-ready version and implement the reviewers' (typically minor) revisions. Distinct from `strategic-revision --external`, which handles **R&R** (rebuttal, DAG, resubmission strategy).
 
 ## When to Use
 
@@ -96,6 +96,6 @@ When the user confirms the camera-ready was uploaded: append the `history:` rows
 | Skill | Relationship |
 |---|---|
 | `bib-rekey` | Phase 2 bibliography rekey + `\cite` remap |
-| `strategic-revision` | The R&R counterpart (rebuttal + DAG) — use that, not this, for revise-and-resubmit |
+| `strategic-revision --external` | The R&R counterpart (rebuttal + DAG) — use that, not this, for revise-and-resubmit |
 | `proofread`, `latex`, `bib-validate` | QA components composed in Phases 2 & 5 |
 | `preprint` | For an arXiv/working-paper variant instead of a venue camera-ready |

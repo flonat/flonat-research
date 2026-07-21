@@ -11,6 +11,7 @@ A JSON object where each key is a task ID and each value is a task descriptor.
 ```json
 {
   "<task_id>": {
+    "source_ids": ["<SourceID>", ...],
     "category": "STRUCTURAL | ARGUMENTATIVE | EMPIRICAL | CLARIFICATION | EDITORIAL",
     "block": "A | B | C | D | E",
     "description": "Short imperative description of the task",
@@ -36,16 +37,17 @@ An optional wrapper format is also accepted:
 
 | Field | Type | Required | Source Phase | Notes |
 |-------|------|----------|-------------|-------|
-| task_id (key) | string | Yes | Phase 1 SourceID | Unique identifier for each task |
-| category | string | Yes | Phase 2 | One of: STRUCTURAL, ARGUMENTATIVE, EMPIRICAL, CLARIFICATION, EDITORIAL |
-| block | string | Yes | Phase 4 | Execution block letter (A, B, C, D, E) |
-| description | string | Yes | Phase 1 | Short imperative action description |
-| depends_on | list of strings | Yes (can be `[]`) | Phase 3, Table 1 | Task IDs this task is blocked by |
-| collateral_risks | list of objects | No | Phase 3, Table 2 | Tasks that may be affected if this task's results change |
+| task_id (key) | string | Yes | Phase 5 | Unique identifier for each task |
+| source_ids | list of strings | Yes | Phase 5 | One or more atomic finding IDs from the mode-locked source package |
+| category | string | Yes | Phase 6 | One of: STRUCTURAL, ARGUMENTATIVE, EMPIRICAL, CLARIFICATION, EDITORIAL |
+| block | string | Yes | Phase 9 | `?` is allowed only at the Phase 8 structural gate; full analysis requires A, B, C, D, or E |
+| description | string | Yes | Phase 5 | Short imperative action description |
+| depends_on | list of strings | Yes (can be `[]`) | Phase 7, Table 1 | Task IDs this task is blocked by |
+| collateral_risks | list of objects | No | Phase 7, Table 2 | Tasks that may be affected if this task's results change |
 
 ## Task ID Conventions
 
-Use the SourceID from Phase 1 as the basis, adapted for JSON keys:
+Use the SourceID from Phase 5 as the basis, adapted for JSON keys:
 
 - Replace dots with underscores: `R1.a1` becomes `R1_a1`
 - Optionally prefix with block letter: `A_R1_a1` for a Block A task
@@ -59,10 +61,11 @@ Consistency matters more than the specific convention.
 
 ## Handling Deduplication
 
-When Phase 1 identified duplicate requests across reviewers (e.g., `R2.c1 = EiC.3a`), use only one task ID for the deduplicated task. Mention both SourceIDs in the description field:
+When Phase 5 identified duplicate requests across reviewers (e.g., `R2.c1 = EiC.3a`), use only one task ID for the deduplicated task. Preserve both IDs in `source_ids` and mention the relationship in the description field:
 
 ```json
 "A_EiC_3a": {
+  "source_ids": ["EiC.3a", "R2.c1"],
   "category": "EMPIRICAL",
   "block": "A",
   "description": "Add continuous firm size to Model 1 (EiC.3a = R2.c1)",
@@ -80,6 +83,7 @@ Collateral risks are informational — they do NOT create structural edges in th
 
 ```json
 "A1_size_control": {
+  "source_ids": ["R1.2"],
   "category": "EMPIRICAL",
   "block": "A",
   "description": "Add continuous firm size variable to RQ1",
@@ -93,32 +97,45 @@ Collateral risks are informational — they do NOT create structural edges in th
 }
 ```
 
+## Validation failures
+
+The validator rejects the task set when any of the following holds:
+
+- a required field is absent or has the wrong type;
+- `source_ids` is empty, so a task cannot be traced to atomic feedback;
+- a category or block value is outside the declared enums;
+- `depends_on` or a collateral-risk `task_id` names an undefined task;
+- the dependency graph contains a cycle;
+- a prerequisite is assigned to a later execution block than its dependent; or
+- full Phase 11 analysis is requested while any task still has `block: "?"`.
+
 ## Worked Example
 
-Given these Phase 3 tables:
+Given these Phase 7 tables:
 
-**Phase 3, Table 1 — Upstream Blockers:**
+**Phase 7, Table 1 — Upstream Blockers:**
 
 | Downstream Task | Blocked By | Rationale |
 |-----------------|------------|-----------|
 | R1.5 (Rewrite discussion) | R1.2 (New regressions) | Need results before interpretation |
 | R2.3 (Update conclusion) | R1.5 (Rewrite discussion) | Conclusion follows discussion |
 
-**Phase 3, Table 2 — Collateral Risks:**
+**Phase 7, Table 2 — Collateral Risks:**
 
 | If You Do This Task | It May Affect | Risk |
 |---------------------|---------------|------|
 | R1.2 (New regressions) | R1.5 (Rewrite discussion) | New controls may change coefficient significance |
 
-**Phase 2 classifications:** R1.2 = EMPIRICAL, R1.5 = ARGUMENTATIVE, R2.3 = STRUCTURAL
+**Phase 6 classifications:** R1.2 = EMPIRICAL, R1.5 = ARGUMENTATIVE, R2.3 = STRUCTURAL
 
-**Phase 4 block assignments:** R1.2 = Block A, R1.5 = Block C, R2.3 = Block D
+**Phase 9 block assignments:** R1.2 = Block A, R1.5 = Block C, R2.3 = Block D
 
 **Resulting `revision_tasks.json`:**
 
 ```json
 {
   "A_R1_2": {
+    "source_ids": ["R1.2"],
     "category": "EMPIRICAL",
     "block": "A",
     "description": "Run new regressions with added controls",
@@ -131,12 +148,14 @@ Given these Phase 3 tables:
     ]
   },
   "C_R1_5": {
+    "source_ids": ["R1.5"],
     "category": "ARGUMENTATIVE",
     "block": "C",
     "description": "Rewrite discussion section with new results",
     "depends_on": ["A_R1_2"]
   },
   "D_R2_3": {
+    "source_ids": ["R2.3"],
     "category": "STRUCTURAL",
     "block": "D",
     "description": "Update conclusion to match revised discussion",

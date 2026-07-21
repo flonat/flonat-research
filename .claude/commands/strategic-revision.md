@@ -1,8 +1,7 @@
 ---
-description: Use when you receive referee comments for a paper (R&R, revise-and-resubmit)
-  and need a DAG-validated revision master plan — atomic task extraction, dependency
-  mapping, computational critical-path analysis, execution blocks, venue strategy.
-  Merges /parse-reviews ingestion with Sihvonen's strategic-revision architecture.
+description: Turn external referee correspondence or internal pre-submission feedback
+  into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency
+  mapping, critical-path analysis, and execution blocks.
 ---
 
 # Shared skill adapter

@@ -110,7 +110,7 @@
 | `anonymous-artifact` | Push the in-tree `github-repo/` artifact to a private GitHub repo, mint an anonymous.4open.science URL (semi-automated), and write back to vault submission, paper LaTeX, and atlas. Three-layer sanitization. |
 | `pre-submission-report` | All quality checks in one dated report |
 | `retarget-journal` | Switch paper to different journal (rename, reformat, rekey) |
-| `strategic-revision` | Referee comments PDF → DAG-validated revision master plan (atomic parsing, dependency graph, critical path, blocks A-E, venue strategy) |
+| `strategic-revision` | Two-mode DAG planning: `--internal` turns review findings into an executable plan; `--external` turns genuine venue comments into an R&R plan, rebuttal scaffold, and strategy |
 | `synthesise-reviews` | Synthesise parallel review reports into a prioritised revision plan |
 | `brief-compliance-check` | Check LaTeX submission against assessment brief (deliverables, word limits, required files) |
 | `research-grants` | UK-first research grant proposals (UKRI: ESRC/EPSRC/AHRC; Leverhulme; British Academy; Horizon Europe ERC/MSCA) — scheme selection, Case for Support, FEC budgeting, impact narrative |
@@ -247,7 +247,7 @@
 | `rename-project-research` | Rename an atlas topic slug across all connected files (topics, themes, paperpile, merge-reviewed) |
 | `mcp-builder` | Guide for creating MCP servers (Python/FastMCP or TypeScript). *From Anthropic.* |
 | `wire-shared-package` | Wire a shared Python package as an editable dependency across projects |
-| `scheduled-job` | Create, diagnose, or manage scheduled launchd jobs on the Mac Mini |
+| `scheduled-job` | Manage Mac Mini launchd automation or machine-local diagnostic watchers with optional post-event notification |
 | `plan-to-issues` | Convert an approved plan into GitHub issues with dependencies (nested: engineering/) |
 | `swarm-setup` | Multi-agent orchestration via GitHub issues, branches, PRs (nested: engineering/) |
 

@@ -50,7 +50,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - Paper is in final pre-submission state — use `pre-submission-report --parallel` (13 sub-agents, full kitchen sink)
 - Paper is in early scaffold (introduction only, no method/results) — review will flag everything as missing
 - Reviewing someone else's paper — use `peer-reviewer` agent
-- R&R revision response — use `strategic-revision` instead (referee-comment-driven)
+- R&R revision response — use `strategic-revision --external` instead (genuine venue-comment-driven)
 
 ## Modes
 
@@ -184,7 +184,7 @@ Save to `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = p
 |---|---|
 | `pre-submission-report --parallel` | Final-gate kitchen sink (13 agents) — this skill is the mid-draft analogue (4 agents) |
 | `synthesise-reviews` | The merge step this skill invokes |
-| `strategic-revision` | After this skill produces a revision plan, optionally hand off to strategic-revision for DAG-validated execution |
+| `strategic-revision` | After this skill produces a synthesis, optionally hand it to `strategic-revision --internal <synthesis-path>` when interdependent issues need a DAG and critical path |
 | `paper-critic`, `domain-reviewer`, `claim-verify`, `blindspot` agents | The 4 sub-agents this skill orchestrates |
 | `verify-math` | Phase 3 node for theory papers — machine-verifies the math (R1/R2/R3 rungs the agents can't run); self-stamps its own report |
 | `code-suite` | Code-side counterpart for projects with code |

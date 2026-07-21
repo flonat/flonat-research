@@ -1,6 +1,6 @@
-# R&R Comment Classification and Routing
+# Revision Finding Classification and Routing
 
-> Used during Phase 5 (Comment Tracker) to classify referee comments for efficient revision routing.
+> Used during Phase 6 to classify external referee comments or internal review findings for efficient revision routing. The labels describe work type in both modes; response-letter behavior applies only in external mode.
 > Adapted from Sant'Anna's clo-author revision protocol.
 
 ## Classification System
@@ -11,7 +11,7 @@ Every atomic referee comment is classified into one of four categories:
 |---------------|------------|-------------|---------|
 | **NEW ANALYSIS** | Requires new estimation, data work, or robustness checks | "run", "test", "control for", "check", "estimate", "add specification", "heterogeneity" | Code changes → table/figure updates → paper text |
 | **CLARIFICATION** | Text revision sufficient — no new analysis needed | "explain", "clarify", "discuss", "motivate", "justify", "elaborate", "rewrite" | Paper text only |
-| **DISAGREE** | The reviewer asks for something the authors believe is wrong or infeasible | "fundamentally", "reject the premise", contradicts identification strategy | Flag for user — never auto-respond to disagreements |
+| **DISAGREE** | The source asks for something the authors believe is wrong or infeasible | "fundamentally", "reject the premise", contradicts identification strategy | Flag for author adjudication — never auto-resolve |
 | **MINOR** | Typos, formatting, citation fixes, wording tweaks | "typo", "citation", "footnote", "spelling", "format" | Quick paper edits |
 
 ## Classification Rules
@@ -45,7 +45,7 @@ Every atomic referee comment is classified into one of four categories:
 - **"Interesting but..."** → the "but" is the real concern, classify that
 - **Editor's letter highlights specific comments** → those are Critical regardless
 
-## Routing in the Response
+## Routing in the Work
 
 ### NEW ANALYSIS workflow
 1. Identify the required analysis (new regression, robustness check, subsample)
@@ -59,18 +59,18 @@ Every atomic referee comment is classified into one of four categories:
 3. Quote the changed passage in the response letter (before/after)
 
 ### DISAGREE workflow
-1. **Flag for user** — Claude never autonomously pushes back on referees
-2. Draft a diplomatic response that:
+1. **Flag for user** — never autonomously reject a Major/Critical finding
+2. Record the evidence and a recommended decision. In external mode only, prepare raw material for a diplomatic response that:
    - Acknowledges the reviewer's concern
    - Explains why the current approach is preferred
    - Offers a compromise if possible (e.g., mention in footnote, add to appendix)
-3. User reviews and approves before including in response
+3. User reviews and approves before any external response. In internal mode, record Adopt / Adapt / Reject / Defer plus rationale and do not create response prose.
 
 ### MINOR workflow
 1. Fix directly in the paper
-2. Brief acknowledgement in response letter: "We have corrected the typo on p.X"
+2. External mode: note the eventual brief acknowledgement. Internal mode: mark the task complete without response machinery.
 
-## Response Letter Structure
+## External-mode response-letter structure
 
 For each referee comment:
 

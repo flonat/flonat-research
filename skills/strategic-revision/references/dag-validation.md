@@ -12,7 +12,7 @@
 ## Prerequisites
 
 - Phase 7 (dependency mapping) must be complete and `plan/revision_tasks.json` must exist
-- Python ≥ 3.10 and `networkx` available (`uv pip install networkx`)
+- Python ≥ 3.10; invoke with the ephemeral `networkx` dependency shown below
 - Copy `dag_validator.py` from `skills/strategic-revision/scripts/` into the plan directory before running
 
 ---
@@ -23,12 +23,12 @@ Runs a cycle check and exits. Use this to fail fast before investing effort in P
 
 ```bash
 cd correspondence/referee-reviews/{venue}-round{n}/plan
-uv run python dag_validator.py revision_tasks.json --validate-only
+uv run --with networkx python dag_validator.py revision_tasks.json --validate-only
 ```
 
 Output:
-- **PASSED** — graph is acyclic. Proceed to Phase 9.
-- **FAILED** — cycle exists. Output shows the cycle path (e.g., `A -> B -> C -> A`).
+- **PASSED** — required task fields and references are valid, the graph is acyclic, and no assigned blocks are inverted. Proceed to Phase 9.
+- **FAILED** — schema/provenance fields are invalid, a dependency target is undefined, a cycle exists, or assigned blocks are inverted. Cycle output includes the path (e.g., `A -> B -> C -> A`).
 
 ### If the validator reports a cycle
 
@@ -40,6 +40,8 @@ Return to Phase 7 tables and resolve:
 | Bidirectional dependency (A blocks B AND B blocks A) | Determine which task truly must come first; remove the reverse edge |
 | Transitive chain through merged tasks | Split the merged task into two sequential tasks, or remove the redundant edge |
 | Copy-paste error in task IDs | Verify IDs match exactly between `depends_on` references and task keys |
+| Missing/empty `source_ids` | Restore the atomic finding IDs from the mode-locked source package |
+| Block inversion | Move the prerequisite earlier or the dependent later; never schedule a dependent before its blocker |
 
 Regenerate `revision_tasks.json` and re-run `--validate-only`. Repeat until PASSED.
 
@@ -60,10 +62,10 @@ By this point Phase 9 has assigned execution blocks, so `revision_tasks.json` sh
 
 ```bash
 # Default output path
-uv run python dag_validator.py revision_tasks.json
+uv run --with networkx python dag_validator.py revision_tasks.json
 
 # Custom output path
-uv run python dag_validator.py revision_tasks.json --output my_analysis.json
+uv run --with networkx python dag_validator.py revision_tasks.json --output my_analysis.json
 ```
 
 The script produces:
@@ -76,8 +78,10 @@ The script produces:
 |-------|-----|
 | File not found | Verify `revision_tasks.json` exists in the working directory |
 | Invalid JSON | Check for syntax errors (trailing commas, unquoted keys) |
-| Unknown task in `depends_on` | A task references a dependency that does not exist as a key — fix the task ID or add the missing task |
+| Unknown task in `depends_on` or `collateral_risks` | A task references a task ID that does not exist as a key — fix the ID or add the missing task |
 | Cycle detected | Should not occur if Phase 8 passed. If it does, a Phase 9 edit introduced a new dependency. Return to Phase 8 and re-validate. |
+| Unassigned block | Replace every `block: "?"` placeholder with A-E before full analysis |
+| Block inversion | A prerequisite is assigned later than its dependent — revise the block assignments and re-run Phase 8 |
 
 ---
 

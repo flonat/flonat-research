@@ -6,11 +6,11 @@ Validates task dependencies, computes execution schedules, identifies
 critical paths and bottlenecks using NetworkX graph algorithms.
 
 Usage:
-    uv run python dag_validator.py <tasks_json_file> [--output <output_json>]
-    uv run python dag_validator.py revision_tasks.json
-    uv run python dag_validator.py revision_tasks.json --validate-only
-    uv run python dag_validator.py revision_tasks.json --quiet
-    uv run python dag_validator.py revision_tasks.json --task A1_size_control
+    uv run --with networkx python dag_validator.py <tasks_json_file> [--output <output_json>]
+    uv run --with networkx python dag_validator.py revision_tasks.json
+    uv run --with networkx python dag_validator.py revision_tasks.json --validate-only
+    uv run --with networkx python dag_validator.py revision_tasks.json --quiet
+    uv run --with networkx python dag_validator.py revision_tasks.json --task A1_size_control
 
 Input format: See task-schema.md in the skill references.
 """
@@ -25,10 +25,23 @@ from typing import Dict, List, Optional
 try:
     import networkx as nx
 except ImportError:
-    logging.error("networkx is not installed. Install with: pip install networkx")
+    logging.error(
+        "networkx is not installed. Run with: "
+        "uv run --with networkx python dag_validator.py ..."
+    )
     sys.exit(1)
 
 logger = logging.getLogger(__name__)
+
+VALID_CATEGORIES = {
+    "STRUCTURAL",
+    "ARGUMENTATIVE",
+    "EMPIRICAL",
+    "CLARIFICATION",
+    "EDITORIAL",
+}
+VALID_BLOCKS = {"A", "B", "C", "D", "E"}
+BLOCK_ORDER = {block: index for index, block in enumerate("ABCDE")}
 
 
 # ======================================================================
@@ -37,9 +50,12 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ValidationResult:
+    is_valid: bool
     is_acyclic: bool
     cycles: List[List[Dict[str, str]]]
+    errors: List[str]
     warnings: List[str]
+    block_inversions: List[Dict[str, str]]
 
 
 @dataclass
@@ -76,7 +92,11 @@ def load_tasks(filepath: str) -> Dict[str, Dict]:
     """
     with open(filepath, "r", encoding="utf-8") as f:
         data = json.load(f)
-    if "tasks" in data and isinstance(data["tasks"], dict):
+    if not isinstance(data, dict):
+        raise ValueError("Task JSON root must be an object")
+    if "tasks" in data:
+        if not isinstance(data["tasks"], dict):
+            raise ValueError("Wrapped task JSON must contain an object at 'tasks'")
         return data["tasks"]
     return data
 
@@ -101,10 +121,100 @@ class RevisionDAGValidator:
     """Validate and analyze a revision master plan DAG."""
 
     def __init__(self, tasks: Dict[str, Dict]):
+        if not isinstance(tasks, dict):
+            raise ValueError("Tasks must be a dictionary keyed by task ID")
         self.tasks = tasks
         self.G = nx.DiGraph()
+        self._errors: List[str] = []
         self._warnings: List[str] = []
+        self._validate_task_schema()
         self._build_graph()
+
+    def _validate_task_schema(self):
+        """Validate required fields and types before graph construction."""
+        if not self.tasks:
+            self._errors.append("Task set is empty")
+            return
+
+        required = {
+            "source_ids",
+            "category",
+            "block",
+            "description",
+            "depends_on",
+        }
+        for task_id, info in self.tasks.items():
+            if not isinstance(task_id, str) or not task_id.strip():
+                self._errors.append(f"Invalid task ID: {task_id!r}")
+                continue
+            if not isinstance(info, dict):
+                self._errors.append(f"Task '{task_id}' must be an object")
+                continue
+
+            missing = sorted(required - set(info))
+            if missing:
+                self._errors.append(
+                    f"Task '{task_id}' is missing required fields: {', '.join(missing)}"
+                )
+
+            source_ids = info.get("source_ids")
+            if (
+                not isinstance(source_ids, list)
+                or not source_ids
+                or not all(isinstance(value, str) and value.strip() for value in source_ids)
+            ):
+                self._errors.append(
+                    f"Task '{task_id}' field 'source_ids' must be a non-empty list of strings"
+                )
+
+            category = info.get("category")
+            if category not in VALID_CATEGORIES:
+                self._errors.append(
+                    f"Task '{task_id}' has invalid category {category!r}"
+                )
+
+            block = info.get("block")
+            if block not in VALID_BLOCKS | {"?"}:
+                self._errors.append(
+                    f"Task '{task_id}' has invalid block {block!r}; expected A-E or '?'"
+                )
+
+            description = info.get("description")
+            if not isinstance(description, str) or not description.strip():
+                self._errors.append(
+                    f"Task '{task_id}' field 'description' must be a non-empty string"
+                )
+
+            depends_on = info.get("depends_on")
+            if not isinstance(depends_on, list) or not all(
+                isinstance(value, str) and value.strip() for value in depends_on
+            ):
+                self._errors.append(
+                    f"Task '{task_id}' field 'depends_on' must be a list of task IDs"
+                )
+
+            collateral_risks = info.get("collateral_risks", [])
+            if not isinstance(collateral_risks, list):
+                self._errors.append(
+                    f"Task '{task_id}' field 'collateral_risks' must be a list"
+                )
+            else:
+                for index, risk in enumerate(collateral_risks):
+                    if not isinstance(risk, dict):
+                        self._errors.append(
+                            f"Task '{task_id}' collateral risk {index} must be an object"
+                        )
+                        continue
+                    target = risk.get("task_id")
+                    detail = risk.get("risk")
+                    if not isinstance(target, str) or not target.strip():
+                        self._errors.append(
+                            f"Task '{task_id}' collateral risk {index} needs a task_id"
+                        )
+                    if not isinstance(detail, str) or not detail.strip():
+                        self._errors.append(
+                            f"Task '{task_id}' collateral risk {index} needs a risk description"
+                        )
 
     # ------------------------------------------------------------------
     # Graph construction
@@ -120,33 +230,77 @@ class RevisionDAGValidator:
                 "description": info.get("description", ""),
             })
             for tid, info in self.tasks.items()
+            if isinstance(tid, str) and tid.strip() and isinstance(info, dict)
         )
 
         # Add edges and collateral risks
         for task_id, info in self.tasks.items():
-            for prereq in info.get("depends_on", []):
-                if prereq in self.tasks:
+            if task_id not in self.G or not isinstance(info, dict):
+                continue
+            depends_on = info.get("depends_on", [])
+            if not isinstance(depends_on, list):
+                depends_on = []
+            for prereq in depends_on:
+                if prereq in self.G:
                     self.G.add_edge(prereq, task_id)
-                else:
+                elif isinstance(prereq, str):
                     msg = (
                         f"Task '{task_id}' depends on '{prereq}', "
                         f"which is not defined in the task set"
                     )
-                    logger.warning(msg)
-                    self._warnings.append(msg)
+                    self._errors.append(msg)
 
             # Collateral risks stored as node attributes — not structural
             # edges — so they do not affect cycle detection or sorting.
-            for risk in info.get("collateral_risks", []):
+            collateral_risks = info.get("collateral_risks", [])
+            if not isinstance(collateral_risks, list):
+                collateral_risks = []
+            for risk in collateral_risks:
+                if not isinstance(risk, dict):
+                    continue
+                target = risk.get("task_id")
+                if isinstance(target, str) and target not in self.G:
+                    msg = (
+                        f"Task '{task_id}' collateral risk targets '{target}', "
+                        f"which is not defined in the task set"
+                    )
+                    self._errors.append(msg)
                 self.G.nodes[task_id].setdefault("risk_affects", []).append(risk)
 
     # ------------------------------------------------------------------
     # Validation
     # ------------------------------------------------------------------
 
-    def validate(self) -> ValidationResult:
-        """Check for circular dependencies."""
+    def _get_block_inversions(self) -> List[Dict[str, str]]:
+        """Return dependencies whose prerequisite is scheduled in a later block."""
+        inversions = []
+        for prerequisite, dependent in self.G.edges():
+            prerequisite_block = self.tasks[prerequisite].get("block", "?")
+            dependent_block = self.tasks[dependent].get("block", "?")
+            if (
+                prerequisite_block in BLOCK_ORDER
+                and dependent_block in BLOCK_ORDER
+                and BLOCK_ORDER[prerequisite_block] > BLOCK_ORDER[dependent_block]
+            ):
+                inversions.append({
+                    "from": prerequisite,
+                    "from_block": prerequisite_block,
+                    "to": dependent,
+                    "to_block": dependent_block,
+                })
+        return inversions
+
+    def validate(self, require_blocks: bool = False) -> ValidationResult:
+        """Check schema integrity, acyclicity, and execution-block ordering."""
         cycles: List[List[Dict[str, str]]] = []
+        errors = list(self._errors)
+        if require_blocks:
+            for task_id, info in self.tasks.items():
+                if isinstance(info, dict) and info.get("block") == "?":
+                    errors.append(
+                        f"Task '{task_id}' still has block '?'; full analysis requires A-E"
+                    )
+
         is_acyclic = nx.is_directed_acyclic_graph(self.G)
         if not is_acyclic:
             try:
@@ -154,10 +308,20 @@ class RevisionDAGValidator:
                 cycles.append([{"from": e[0], "to": e[1]} for e in raw])
             except nx.NetworkXNoCycle:
                 pass
+        block_inversions = self._get_block_inversions()
+        for inversion in block_inversions:
+            errors.append(
+                "Block inversion: prerequisite "
+                f"'{inversion['from']}' [{inversion['from_block']}] is later than "
+                f"dependent '{inversion['to']}' [{inversion['to_block']}]"
+            )
         return ValidationResult(
+            is_valid=is_acyclic and not errors,
             is_acyclic=is_acyclic,
             cycles=cycles,
+            errors=errors,
             warnings=list(self._warnings),
+            block_inversions=block_inversions,
         )
 
     # ------------------------------------------------------------------
@@ -247,8 +411,8 @@ class RevisionDAGValidator:
 
     def export_full_analysis(self) -> Dict:
         """Produce complete analysis summary."""
-        validation = self.validate()
-        if not validation.is_acyclic:
+        validation = self.validate(require_blocks=True)
+        if not validation.is_valid:
             return {"validation": asdict(validation)}
 
         critical_path = self.get_critical_path()
@@ -296,6 +460,11 @@ class RevisionDAGValidator:
             for w in v["warnings"]:
                 print(f"  WARNING: {w}")
 
+        if v["errors"]:
+            print(_section("Errors"))
+            for error in v["errors"]:
+                print(f"  ERROR: {error}")
+
         print(_section("Cycle Detection"))
         if not v["is_acyclic"]:
             print("  FAILED: Circular dependency detected")
@@ -306,6 +475,10 @@ class RevisionDAGValidator:
             return
 
         print("  PASSED: No circular dependencies")
+
+        if not v["is_valid"]:
+            print("\n  FAILED: Schema or execution-block validation failed")
+            return
 
         meta = result["metadata"]
         print(_section("Summary"))
@@ -408,7 +581,7 @@ def main():
     parser.add_argument(
         "--validate-only", "-v",
         action="store_true",
-        help="Check acyclicity and warnings only (Phase 3b gate check)",
+        help="Check acyclicity and warnings only (Phase 8 gate check)",
     )
     parser.add_argument(
         "--quiet", "-q",
@@ -428,7 +601,7 @@ def main():
     except FileNotFoundError:
         logger.error("File not found: %s", args.tasks_file)
         sys.exit(1)
-    except json.JSONDecodeError as e:
+    except (json.JSONDecodeError, ValueError) as e:
         logger.error("Invalid JSON in %s: %s", args.tasks_file, e)
         sys.exit(1)
 
@@ -437,42 +610,52 @@ def main():
 
     validator = RevisionDAGValidator(tasks)
 
-    # Validate-only mode (Phase 3b gate check)
+    # Validate-only mode (Phase 8 gate check)
     if args.validate_only:
         validation = validator.validate()
         if not args.quiet:
-            print(_divider("Phase 3b: Structural Validation"))
+            print(_divider("Phase 8: Structural Validation"))
             if validation.warnings:
                 print(_section("Warnings"))
                 for w in validation.warnings:
                     print(f"  WARNING: {w}")
+            if validation.errors:
+                print(_section("Errors"))
+                for error in validation.errors:
+                    print(f"  ERROR: {error}")
             print(_section("Cycle Detection"))
-            if validation.is_acyclic:
-                print("  PASSED: No circular dependencies")
+            if validation.is_valid:
+                print("  PASSED: Schema valid; no circular dependencies or block inversions")
                 print(f"\n  {len(tasks)} tasks, "
                       f"{validator.G.number_of_edges()} dependencies — "
                       f"graph is a valid DAG.")
-                print("  Proceed to Phase 4 (Sequencing).")
-            else:
+                print("  Proceed to Phase 9 (Sequencing).")
+            elif not validation.is_acyclic:
                 print("  FAILED: Circular dependency detected")
                 for cycle in validation.cycles:
                     path = " -> ".join(
                         [e["from"] for e in cycle] + [cycle[-1]["to"]]
                     )
                     print(f"  Cycle: {path}")
-                print("\n  Fix Phase 3 dependency tables and re-run.")
+                print("\n  Fix Phase 7 dependency tables and re-run.")
+            else:
+                print("  FAILED: Schema or execution-block validation failed")
             print(f"\n{'=' * 72}")
         output = {"validation": asdict(validation)}
         with open(args.output, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2, ensure_ascii=False)
         if not args.quiet:
             print(f"\nValidation result written to {args.output}")
-        if not validation.is_acyclic:
+        if not validation.is_valid:
             sys.exit(1)
         return
 
     # Single-task mode
     if args.task:
+        validation = validator.validate()
+        if not validation.is_valid:
+            logger.error("Task set failed validation; fix it before task analysis")
+            sys.exit(1)
         analysis = validator.analyze_task(args.task)
         if analysis is None:
             logger.error("Task '%s' not found in %s", args.task, args.tasks_file)
@@ -497,7 +680,7 @@ def main():
     if not args.quiet:
         print(f"\nFull analysis written to {args.output}")
 
-    if not result["validation"]["is_acyclic"]:
+    if not result["validation"]["is_valid"]:
         sys.exit(1)
 
 

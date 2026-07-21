@@ -6,46 +6,74 @@
 
 ---
 
-## Phase 1 (FB): Setup
+## Phase 1 (FB): Provenance and Setup
 
-**Goal:** scaffold the output directories and copy (never move) the source PDF.
+**Goal:** lock the source provenance and mode before creating the corresponding workspace. Read [modes.md](modes.md) before this phase.
 
-1. Gather inputs. If not provided, ask the user directly; use the client's structured-input capability when available:
-   - Reviews PDF path — try auto-discovery first (`to-sort/*.pdf`, then `correspondence/referee-reviews/{venue}-round{n}/*.pdf`, then `correspondence/referee-reviews/*.pdf`)
-   - Project path — auto-detect from cwd if a `CLAUDE.md` or `paper*/` is present
-   - Venue slug (e.g., `ejor`, `facct-2026`)
-   - Revision round (integer, default 1)
-   - Response deadline (date or "TBD")
+1. Identify who authored each feedback source and in what role. Lock one mode:
+   - `external`: human reviewer/editor acting for a venue;
+   - `internal`: AI review/tool/agent or informal supervisor/co-author feedback.
+   If provenance is unclear, ask before writing. An auto-generated referee persona remains internal.
+
+2. Gather shared inputs:
+   - Feedback path(s)
+   - Project path — auto-detect from cwd if project guidance or `paper*/` is present
+   - Paper scope (e.g., `paper-eacl`, or `_project`)
    - Coordinating author
 
-2. Resolve the output root:
+3. Record the manuscript draft identity using a Git revision, archived-submission hash, or a manifest of manuscript file hashes.
+
+### External branch
+
+4. Gather venue slug, revision round, response deadline, and original venue-supplied files. Auto-discover review PDFs in `to-sort/*.pdf`, then existing round folders, then `correspondence/referee-reviews/*.pdf`.
+
+5. Resolve the output root:
    ```
    <project>/correspondence/referee-reviews/{venue}-round{n}/
    ```
 
-3. Check for overwrite. If the directory exists and contains outputs, version new outputs (`comment-tracker-v2.md`, `REVISION_MASTER_PLAN-v2.md`). Always flag before writing.
+6. Check for overwrite. If the directory exists and contains outputs, version new outputs (`comment-tracker-v2.md`, `REVISION_MASTER_PLAN-v2.md`). Always flag before writing.
 
-4. Create the scaffold:
+7. Create the scaffold:
    ```bash
    mkdir -p correspondence/referee-reviews/{venue}-round{n}/reviews
    mkdir -p correspondence/referee-reviews/{venue}-round{n}/analysis
    mkdir -p correspondence/referee-reviews/{venue}-round{n}/plan
    ```
 
-5. Copy (never move) the source PDF:
+8. Copy (never move) the source PDF using the submission taxonomy:
    ```bash
-   cp "<source-pdf>" correspondence/referee-reviews/{venue}-round{n}/reviews-original.pdf
+   cp "<source-pdf>" correspondence/referee-reviews/{venue}-round{n}/{venue}-round{n}-reviews.pdf
    ```
 
-6. Create an empty `rebuttal.md` placeholder for the user's response draft.
+9. Reserve `{venue}-round{n}-reviews.md` for the searchable parsed transcription produced in Phase 3, completing the required PDF/Markdown review pair.
+
+10. Create an empty `{venue}-round{n}-rebuttal.md` placeholder for the user's response draft.
+
+11. Append the `reviews-in` history event to the canonical submission entry as part of this external-ingestion batch.
+
+### Internal branch
+
+4. Resolve a new timestamped output root:
+   ```
+   <project>/reviews/{scope}/strategic-revision/{YYYY-MM-DD-HHMM}/
+   ```
+
+5. Check whether a same-draft internal package already exists. If so, use fold-in rather than creating a parallel plan. If the draft changed materially, create a new timestamped package.
+
+6. Create `analysis/` and `plan/` below the package root.
+
+7. Write `source-manifest.md` with each source path, provenance (`ai`, `external-ai-manual`, or `human-collaborator`), review date, SHA-256, and the manuscript draft identity. Link sources in place; never copy AI review text into `correspondence/`.
+
+8. Record explicitly that rebuttal, verbatim transcription, venue strategy, and submission-history stamping are not applicable.
 
 ---
 
-## Phase 2 (FB): Read Reviews
+## Phase 2 (FB): Read Feedback
 
 **Goal:** extract structured per-reviewer data in memory before writing anything to disk.
 
-1. Read `reviews-original.pdf` with the `Read` tool. If the PDF exceeds 10 pages, use the `pages` parameter to read in chunks.
+1. External mode: read `{venue}-round{n}-reviews.pdf`. Internal mode: read every source listed in `source-manifest.md`; when multiple reports exist, prefer a grounded `synthesise-reviews` report plus its source list.
 
 2. For each reviewer (R1, R2, R3, EiC, AE), extract into memory:
    - Reviewer label (R1, R2, ...) and any explicit role (Associate Editor, Editor-in-Chief)
@@ -58,13 +86,17 @@
    - **Decision letter** (EiC, AE) usually comes first and highlights key concerns
    - **Attached reviews** follow
 
-4. Note any DONE markers if the file is a Round 2+ (i.e., reviewer confirms earlier fix). Flag these for exclusion from active planning.
+4. Note DONE/resolved markers. External Round 2+ confirmations and internal resolution records are excluded from active planning but retained in provenance.
 
 ---
 
-## Phase 3 (FB): Individual Reviewer Files
+## Phase 3 (FB): Source Records
 
-**Goal:** produce one markdown file per reviewer in `reviews/`.
+**Goal:** make every planning input traceable without changing its provenance.
+
+### External branch
+
+Produce the required searchable `{venue}-round{n}-reviews.md` transcription at the round root and one markdown file per venue reviewer/editor in the round workspace's `reviews/` directory. The combined transcription completes the source pair required by `submission-file-archive.md`; the split files support atomic planning.
 
 For each reviewer, write `reviews/reviewer-{N}.md` (or `reviews/editor.md`, `reviews/associate-editor.md`):
 
@@ -89,12 +121,21 @@ Rules:
 - Preserve reviewer's numbering when present
 - Do not merge distinct comments
 - Flag any comments where reviewer-provided numbering is ambiguous — handled in Phase 5 with SourceIDs
+- Keep the combined transcription faithful to the source and clearly label any OCR repair; do not place analysis or responses in it
+
+### Internal branch
+
+Do not duplicate source reports. Confirm `source-manifest.md` points to every report used and records its hash. For a manual human-collaborator source, preserve the source under `correspondence/internal/` and link to it. For AI sources, preserve them under their canonical `reviews/<scope>/<source>/` folders.
 
 ---
 
-## Phase 4 (FB): LaTeX Verbatim Transcription
+## Phase 4 (FB): Verbatim Gate
 
-**Goal:** produce a compilable `reviewer-comments-verbatim.tex` that a co-author can read on paper.
+**Goal:** preserve genuine venue wording exactly while avoiding false correspondence artifacts for internal reviews.
+
+### External branch
+
+Produce a compilable `reviewer-comments-verbatim.tex` that a co-author can read on paper.
 
 1. Copy the LaTeX template from `templates/referee-comments/reviewer-comments-verbatim.tex` into `analysis/`.
 
@@ -111,6 +152,10 @@ Rules:
    ```
 
 6. Build artefacts must end up in `out/` (the `.latexmkrc` enforces this). If compilation fails, fix and retry — **Phase 5 cannot begin until this file compiles cleanly.**
+
+### Internal branch
+
+Skip transcription. Record `Phase 4: not applicable — internal provenance` in `source-manifest.md`. The original source report is already the durable review artifact; creating a faux referee-verbatim document would blur provenance.
 
 ---
 
@@ -173,6 +218,8 @@ Extend `analysis/comment-tracker.md` with two new columns:
 
 Append a summary counts table at the bottom (e.g., "🔴 STRUCTURAL: 3 | 🟠 ARGUMENTATIVE: 8 | 🟡 EMPIRICAL: 5 | 🟢 CLARIFICATION: 12 | 🔵 EDITORIAL: 4"; "NEW ANALYSIS: 5 | CLARIFICATION: 15 | DISAGREE: 2 | MINOR: 10").
 
+Internal mode may retain the routing labels for execution semantics, but `DISAGREE` means "requires author adjudication," not "write a rebuttal."
+
 ### Typical correlations
 
 - STRUCTURAL ↔ usually CLARIFICATION routing (text rearrangement)
@@ -234,18 +281,15 @@ Write `plan/revision_tasks.json` per the schema in [task-schema.md](task-schema.
       correspondence/referee-reviews/{venue}-round{n}/plan/
    ```
 
-2. Ensure `networkx` is installed:
-   ```bash
-   uv pip install networkx
-   ```
-
-3. Run in validate-only mode:
+2. Run in validate-only mode with an ephemeral dependency:
    ```bash
    cd correspondence/referee-reviews/{venue}-round{n}/plan
-   uv run python dag_validator.py revision_tasks.json --validate-only
+   uv run --with networkx python dag_validator.py revision_tasks.json --validate-only
    ```
 
-4. Interpret:
+   In internal mode, use the timestamped package's `plan/` directory instead.
+
+3. Interpret:
    - **PASSED** — graph is acyclic. Proceed to Phase 9.
    - **FAILED** — cycle exists. Output shows cycle path (e.g., `A -> B -> C -> A`).
 
@@ -343,7 +387,9 @@ Identify decisions that require author input (not autonomous resolution).
 
 Always provide a clear recommendation with rationale, but flag these for the authors rather than deciding unilaterally.
 
-### 10.4 Strategic Coaching (FB)
+### 10.4 Mode-appropriate author decisions (FB)
+
+#### External branch
 
 For each **Major** or **Critical** comment (skip Minor/Editorial), walk the user through:
 
@@ -360,6 +406,18 @@ Rules:
 - Maximum 2 rounds of dialogue per comment.
 - **Do not write the actual response letter** — that remains the user's job.
 
+#### Internal branch
+
+For every Major/Critical finding, record:
+
+1. **Understanding:** the load-bearing concern;
+2. **Decision:** Adopt / Adapt / Reject / Defer;
+3. **Risk:** consequence of the decision for submission readiness;
+4. **Rationale:** one sentence grounded in the manuscript or locked design; and
+5. **Execution link:** the task ID(s) implementing the decision.
+
+Use **Decision** + **Rationale** columns rather than Position + response Strategy. Do not draft a response letter or simulate a referee dialogue.
+
 ---
 
 ## Phase 11 (Both): Computational Optimization + Review Analysis
@@ -370,7 +428,7 @@ Run the validator in full mode:
 
 ```bash
 cd correspondence/referee-reviews/{venue}-round{n}/plan
-uv run python dag_validator.py revision_tasks.json
+uv run --with networkx python dag_validator.py revision_tasks.json
 # produces revision_dag_analysis.json
 ```
 
@@ -427,7 +485,9 @@ Revise the Phase 9 ASCII roadmap:
 - Add parallel execution notes where batches cross blocks
 - Adjust block boundaries if computational analysis reveals unnecessary sequential constraints
 
-### 11.2 Venue Strategy & Review Analysis (FB)
+### 11.2 Mode-specific strategy and review analysis (FB)
+
+#### External branch
 
 Populate `analysis/review-analysis.md` using `templates/referee-comments/review-analysis.md`:
 
@@ -439,20 +499,47 @@ Populate `analysis/review-analysis.md` using `templates/referee-comments/review-
 - **Recommendation table:** 3-5 venues ranked with rationale. First option should always be "revise for current venue" if acceptance probability >~30%.
 - **Key Decision:** frame the core trade-off (speed vs. impact, minimal vs. substantial effort).
 
+#### Internal branch
+
+Populate `analysis/review-analysis.md` with:
+
+- source inventory and cross-review picture;
+- `SUBMIT`, `HOLD`, or `DEFER` readiness decision;
+- blocking critical-path tasks;
+- explicitly deferred beyond-submission scope;
+- post-execution re-review gates; and
+- a one-sentence author decision boundary.
+
+Do not add alternative venues unless the user separately requests venue strategy.
+
 ---
 
 ## Completion checklist
 
-Before reporting the skill run complete:
+Before reporting the skill run complete, verify the shared core and the applicable mode branch.
 
-- [ ] `reviews-original.pdf` copied (source PDF untouched)
-- [ ] `reviews/reviewer-{N}.md` files written for every reviewer
-- [ ] `analysis/reviewer-comments-verbatim.tex` compiles cleanly
-- [ ] `analysis/comment-tracker.md` has atomic tasks with Category + R&R + Priority + Position + Strategy
-- [ ] `analysis/review-analysis.md` has venue strategy and recommendation table
+### Shared core
+
+- [ ] Source provenance and manuscript draft identity recorded
+- [ ] `analysis/comment-tracker.md` has atomic tasks with Category + R&R + Priority + mode-appropriate decision columns
 - [ ] `plan/revision_tasks.json` validates acyclic (Phase 8 PASSED)
 - [ ] `plan/revision_dag_analysis.json` generated
-- [ ] `plan/REVISION_MASTER_PLAN.md` includes all six Sihvonen tables, blocks A-E, coaching notes, and annotated roadmap
-- [ ] `rebuttal.md` exists (empty placeholder) — user writes the response letter separately
+- [ ] `plan/REVISION_MASTER_PLAN.md` includes dependency/risk tables, blocks A--E, decisions, and annotated roadmap
 
-Report to the user: counts per reviewer, counts per category/routing, critical path length, bottleneck count, and the GO/NO-GO flag if Block A has high-risk empirical tasks.
+### External R&R mode
+
+- [ ] `{venue}-round{n}-reviews.pdf` copied (source untouched)
+- [ ] `reviews/reviewer-{N}.md` files written for every reviewer
+- [ ] `analysis/reviewer-comments-verbatim.tex` compiles cleanly
+- [ ] `analysis/review-analysis.md` has venue strategy and recommendation table
+- [ ] `{venue}-round{n}-rebuttal.md` exists (empty placeholder)
+- [ ] `reviews-in` history event appended once
+
+### Internal revision mode
+
+- [ ] Timestamped package written under `reviews/{scope}/strategic-revision/`
+- [ ] `source-manifest.md` links sources in place with provenance, dates, hashes, and draft identity
+- [ ] Readiness decision and re-review gate recorded
+- [ ] No rebuttal, verbatim-referee artifact, venue event, or venue strategy created
+
+Report to the user: mode, source counts, counts per category/routing, critical path length, bottleneck count, readiness/venue decision, and the GO/NO-GO flag if Block A has high-risk empirical tasks.

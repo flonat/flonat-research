@@ -122,7 +122,7 @@ If the paper contains formal environments (`grep -lE '\\begin\{(theorem|proposit
 | Trigger | Skill |
 |---|---|
 | Paper has code (detect: non-tex/non-bib files in project) AND venue is double-blind | `anonymous-artifact` — assemble + sanitize + push to anonymous repo, mint URL |
-| Strategic-revision context (paper has referee comments) | `strategic-revision` — revision plan after the swarm flags issues |
+| Swarm yields multiple blocking or interdependent issues | `strategic-revision --internal <synthesis-or-report-path>` — executable DAG after internal review; genuine referee comments are handled separately by `--external` |
 
 The conditional follow-ups are NOT in the parallel batch — they're sequential because they may modify files (and so violate the read-only invariant of the parallel sub-agents).
 

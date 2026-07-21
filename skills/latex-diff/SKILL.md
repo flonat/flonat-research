@@ -109,7 +109,7 @@ Useful filters (compose freely): `--min-severity high`, `--type citation`,
 | Skill | Relationship |
 |-------|-------------|
 | `latex` | Compiles documents; this skill compares versions of them |
-| `strategic-revision` | Consumes this to auto-draft the R&R "summary of changes" |
+| `strategic-revision --external` | Consumes this as evidence for the R&R "summary of changes"; it does not turn internal findings into venue claims |
 | `preprint` | Consumes this for a vN→vN+1 changelog on version bump |
 | `paper-critic` / `referee2-reviewer` | Can take `--semantic-only` JSON to focus a re-review on what changed |
 | `packages/latex-diff/README.md` | Full CLI flags, schema, and design notes |
