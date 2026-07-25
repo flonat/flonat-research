@@ -90,35 +90,7 @@
 % Math and Proofs
 % ============================================
 
-\numberwithin{equation}{section}  % (1.1), (1.2), ... in S1; (2.1), ... in S2
-
-%-------------- Theorem Styles --------------%
-%  plain  -> italic body, bold heading
-%  definition -> upright body, bold heading
-%  remark     -> upright body, italic heading
-
-\theoremstyle{plain}
-  \newtheorem{theorem}{Theorem}[section]
-  \newtheorem{proposition}[theorem]{Proposition}
-  \newtheorem{lemma}[theorem]{Lemma}
-  \newtheorem{corollary}[theorem]{Corollary}
-
-\theoremstyle{definition}
-  \newtheorem{definition}[theorem]{Definition}
-  \newtheorem{assumption}[theorem]{Assumption}
-  \newtheorem{example}[theorem]{Example}
-
-\theoremstyle{remark}
-  \newtheorem{remark}[theorem]{Remark}
-  \newtheorem{hypothesis}[theorem]{Hypothesis}
-
-%-------------- Custom Math Commands --------------%
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\E}{\mathbb{E}}
-\newcommand{\Prob}{\mathbb{P}}
-\newcommand{\indicator}{\mathbb{I}}
-
-%-------------- Operators --------------%
-\DeclareMathOperator{\argmin}{arg\,min}
-\DeclareMathOperator{\argmax}{arg\,max}
+% Shared math core (macros, operators, theorem environments) lives in
+% flonat-math.sty so venue papers get the identical set — see that file.
+% [eqnsection] keeps the working-paper (1.1), (1.2) per-section numbering.
+\RequirePackage[eqnsection]{flonat-math}

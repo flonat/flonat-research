@@ -1,0 +1,152 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{flonat-math}[2026/07/24 Shared math core — macros, operators, theorem environments]
+
+% Portable math core, extracted from flonat-wp.sty 2026-07-24 so that VENUE
+% papers (acmart, neurips, ACL, LIPIcs, …) get the same macros as working
+% papers instead of re-defining \E/\Prob/\R/\argmax by hand in every preamble
+% (a survey of the live portfolio found exactly those redefined most often).
+%
+% Engine-agnostic on purpose: no fontspec, no unicode-math — works under
+% pdflatex, lualatex, and xelatex alike. Clash-safe by construction: every
+% macro is defined only if the class/another package has not already defined
+% it, so loading this after acmart or a venue kit cannot break their symbols.
+%
+% Usage:
+%   \usepackage{flonat-math}                  % macros + operators + theorems
+%   \usepackage[notheorems]{flonat-math}      % macros only (venue kit owns theorems)
+%   \usepackage[eqnsection]{flonat-math}      % also number equations (1.1), (1.2) per section
+%   \usepackage[verbose]{flonat-math}         % log every macro skipped as already-defined
+
+% ============================================
+% Options
+% ============================================
+\newif\ifflonatmath@theorems  \flonatmath@theoremstrue
+\newif\ifflonatmath@eqnsection \flonatmath@eqnsectionfalse
+\newif\ifflonatmath@verbose   \flonatmath@verbosefalse
+
+\DeclareOption{theorems}{\flonatmath@theoremstrue}
+\DeclareOption{notheorems}{\flonatmath@theoremsfalse}
+\DeclareOption{eqnsection}{\flonatmath@eqnsectiontrue}
+\DeclareOption{verbose}{\flonatmath@verbosetrue}
+\ProcessOptions\relax
+
+\RequirePackage{amsmath,amssymb,amsfonts,mathtools}
+\ifflonatmath@theorems\RequirePackage{amsthm}\fi
+
+% ============================================
+% Clash-safe definition helpers
+% ============================================
+% \flonat@def{name}{body} — define \name only when it is currently undefined.
+% Anything already provided by the class or a venue kit is left untouched (its
+% semantics are the venue's business, not ours).
+\newcommand{\flonat@skipnote}[1]{%
+  \ifflonatmath@verbose
+    \PackageInfo{flonat-math}{\string#1 already defined — left as is}%
+  \fi
+}
+\newcommand{\flonat@def}[2]{%
+  \ifdefined#1\flonat@skipnote{#1}\else\newcommand{#1}{#2}\fi
+}
+\newcommand{\flonat@defn}[3]{% name, arg count, body
+  \ifdefined#1\flonat@skipnote{#1}\else\newcommand{#1}[#2]{#3}\fi
+}
+\newcommand{\flonat@op}[2]{% \name, printed operator
+  \ifdefined#1\flonat@skipnote{#1}\else\DeclareMathOperator{#1}{#2}\fi
+}
+\newcommand{\flonat@opstar}[2]{% limits-style operator (arg under the symbol)
+  \ifdefined#1\flonat@skipnote{#1}\else\DeclareMathOperator*{#1}{#2}\fi
+}
+
+% ============================================
+% Number sets and probability
+% ============================================
+\flonat@def{\R}{\mathbb{R}}
+\flonat@def{\N}{\mathbb{N}}
+\flonat@def{\Z}{\mathbb{Z}}
+\flonat@def{\Q}{\mathbb{Q}}
+\flonat@def{\E}{\mathbb{E}}
+\flonat@def{\Prob}{\mathbb{P}}
+\flonat@def{\indicator}{\mathbb{I}}
+
+% ============================================
+% Operators
+% ============================================
+% argmin/argmax take limits (subscript sits underneath in display math), which
+% is the convention in every paper in the portfolio that hand-rolled them.
+\flonat@opstar{\argmin}{arg\,min}
+\flonat@opstar{\argmax}{arg\,max}
+\flonat@op{\Var}{Var}
+\flonat@op{\Cov}{Cov}
+\flonat@op{\Corr}{Corr}
+\flonat@op{\sign}{sign}
+\flonat@op{\supp}{supp}
+\flonat@op{\diag}{diag}
+\flonat@op{\tr}{tr}
+\flonat@opstar{\plim}{plim}
+
+% ============================================
+% Delimiters (mathtools: starred form auto-sizes, [n] for manual size)
+% ============================================
+\ifdefined\abs\flonat@skipnote{\abs}\else
+  \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\fi
+\ifdefined\norm\flonat@skipnote{\norm}\else
+  \DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\fi
+\ifdefined\ceil\flonat@skipnote{\ceil}\else
+  \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\fi
+\ifdefined\floorbr\flonat@skipnote{\floorbr}\else
+  \DeclarePairedDelimiter{\floorbr}{\lfloor}{\rfloor}
+\fi
+\ifdefined\set\flonat@skipnote{\set}\else
+  \DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+\fi
+
+% Conditioning bar that spaces correctly: \given inside \Prob{...}, \E{...}.
+% (A bare | is wrong spacing in TeX and collides with table columns in
+% markdown-rendered notes — see rules/markdown-math-delimiters.md.)
+\flonat@def{\given}{\mid}
+
+% ============================================
+% Theorem environments (optional)
+% ============================================
+% Skipped entirely under [notheorems] AND skipped per-environment when the
+% class already defines it — venue kits (acmart, LIPIcs) ship their own.
+\ifflonatmath@theorems
+  \newcommand{\flonat@newthm}[3]{% env, shared-counter-or-empty, printed name
+    \@ifundefined{#1}{%
+      \ifx\relax#2\relax
+        \newtheorem{#1}{#3}[section]%
+      \else
+        \newtheorem{#1}[#2]{#3}%
+      \fi
+    }{\ifflonatmath@verbose
+        \PackageInfo{flonat-math}{theorem environment `#1' already defined — left as is}%
+      \fi}%
+  }
+  \theoremstyle{plain}
+    \flonat@newthm{theorem}{\relax}{Theorem}
+    \flonat@newthm{proposition}{theorem}{Proposition}
+    \flonat@newthm{lemma}{theorem}{Lemma}
+    \flonat@newthm{corollary}{theorem}{Corollary}
+  \theoremstyle{definition}
+    \flonat@newthm{definition}{theorem}{Definition}
+    \flonat@newthm{assumption}{theorem}{Assumption}
+    \flonat@newthm{example}{theorem}{Example}
+  \theoremstyle{remark}
+    \flonat@newthm{remark}{theorem}{Remark}
+    \flonat@newthm{hypothesis}{theorem}{Hypothesis}
+  \theoremstyle{plain}
+\fi
+
+% ============================================
+% Equation numbering (optional)
+% ============================================
+% Off by default: venue classes often fix their own scheme, and numberwithin
+% on a class that already did it produces (1.1.1)-style nonsense.
+\ifflonatmath@eqnsection
+  \numberwithin{equation}{section}
+\fi
+
+\endinput
