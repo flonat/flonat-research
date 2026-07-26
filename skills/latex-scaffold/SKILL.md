@@ -25,7 +25,7 @@ Convert an approved Markdown draft into a minimal, compilable LaTeX project. Thi
 ## Outputs
 
 - A `.tex` file ready to compile with `latex`
-- A `.latexmkrc` if one doesn't already exist (see `latex` for config details — must include `$out_dir = 'out'` and the `END {}` block to copy the PDF back)
+- The fail-closed canonical `.latexmkrc` if one does not already exist. Invoke the `latex` pre-flight to copy the canonical artifact; never synthesize selected directives.
 
 ---
 

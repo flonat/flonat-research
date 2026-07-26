@@ -104,13 +104,10 @@ Write to `log/insights/YYYY-MM-DD/insights-YYYY-MM-DD-deck.tex` with:
 
 ### Step 4: Compile
 
-Create a `.latexmkrc` in the date folder if not present:
-
-```perl
-$out_dir = 'out';
-# Copy PDF back to source directory after build
-END { system("cp $out_dir/*.pdf . 2>/dev/null") if defined $out_dir; }
-```
+Install the fail-closed canonical `.latexmkrc` in the date folder if it is
+missing by invoking the `latex` pre-flight, which resolves its bundled canonical
+artifact. Never reconstruct a shortened recipe. If a file already exists and
+differs, classify it before migration.
 
 Then compile:
 
@@ -122,7 +119,7 @@ cd log/insights/YYYY-MM-DD && latexmk -pdf insights-YYYY-MM-DD-deck.tex
 
 Parse `out/*.log` for overfull/underfull hbox/vbox warnings. Fix every one. Recompile until clean.
 
-The `.latexmkrc` copies the PDF from `out/` back to the date folder automatically.
+The canonical `.latexmkrc` copies the requested PDF from `out/` back to the date folder only after a successful build.
 
 ---
 
@@ -135,7 +132,7 @@ log/insights/YYYY-MM-DD/
 ├── insights-YYYY-MM-DD-log.html     # Archived insights HTML
 ├── insights-YYYY-MM-DD-deck.tex     # Beamer source
 ├── insights-YYYY-MM-DD-deck.pdf     # Compiled PDF
-├── .latexmkrc                       # Build config
+├── .latexmkrc                       # Canonical build config
 └── out/                             # Build artifacts
 ```
 

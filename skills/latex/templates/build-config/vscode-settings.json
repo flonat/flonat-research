@@ -3,7 +3,7 @@
     {
       "name": "latexmk",
       "command": "latexmk",
-      "args": ["-cd", "-f", "-interaction=nonstopmode", "-synctex=1", "%DOC%"],
+      "args": ["-norc", "-r", "%DIR%/.latexmkrc", "-cd", "%DOC%"],
       "env": {}
     }
   ],

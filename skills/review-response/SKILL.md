@@ -100,6 +100,7 @@ Each response follows this structure:
 3. Every claim in the response has evidence (data, citation, or specific manuscript reference)
 4. Every change states its location (Section X, page Y, Table Z)
 5. Never say "The reviewer is wrong" — use "We would like to respectfully clarify"
+6. **Every "Changes:" entry is verified against the manuscript before the letter is assembled** — read/grep the actual `.tex` at the cited location; never trust the comment tracker, an earlier letter draft, or memory of the edit. A promised change with no matching manuscript edit is either downgraded to an honest acknowledgment ("we discuss rather than change...") or flagged to the user as unfulfilled — a letter must never describe the manuscript as more revised than it is. Record the outcome per commitment in the tracker's Fulfillment Ledger (`fulfilled` / `partial` / `not_fulfilled` / `acknowledgment_only`; see `templates/referee-comments/comment-tracker.md`).
 
 ## Step 4: Tone Check
 
@@ -194,7 +195,7 @@ across a revision cycle:
 
 1. Copy `templates/referee-comments/response-letter-ansrev.tex` into the project's `correspondence/` (or `paper-{venue}/paper/`) directory.
 2. Copy `templates/referee-comments/ansrev/{ansrev.sty,revquote.sty}` next to it — these are vendored from GitHub (not on CTAN). See `templates/referee-comments/ansrev/README.md` for provenance.
-3. Append `templates/referee-comments/ansrev/.latexmkrc-snippet` to the project's `.latexmkrc` so latexmk auto-recompiles the main paper for `xr` cross-refs.
+3. Keep the canonical project `.latexmkrc` unchanged. Copy `templates/referee-comments/ansrev/.latexmkrc.local` beside it so latexmk auto-recompiles the main paper for `xr` cross-refs. If `.latexmkrc.local` already exists, merge the custom dependency into that supplement rather than overwriting it.
 4. Set `main={<main-file-basename>}` in the scaffold's `\usepackage{ansrev}` options.
 5. Compile the main paper first, then the response file. Refer to comment-tracker IDs (`R1-C1`, `AE-C2`) as `\label{}`s inside each `\QA{}{}` — `\ref{R1-C1}` elsewhere expands to "Reviewer 1 Comment #1".
 

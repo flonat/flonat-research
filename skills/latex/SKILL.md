@@ -1,7 +1,7 @@
 ---
 name: latex
 description: "Use when you need to compile a LaTeX document — includes autonomous error resolution, citation audit, and quality scoring."
-allowed-tools: Bash(latexmk*), Bash(xelatex*), Bash(pdflatex*), Bash(biber*), Bash(bibtex*), Bash(mkdir*), Bash(ls*), Bash(wc*), Bash(cp*), Read, Write, Edit, Grep, Glob
+allowed-tools: Bash(latexmk*), Bash(xelatex*), Bash(pdflatex*), Bash(biber*), Bash(bibtex*), Bash(mkdir*), Bash(ls*), Bash(wc*), Bash(cp*), Bash(cmp*), Bash(head*), Read, Write, Edit, Grep, Glob
 argument-hint: "[tex-file-path]"
 skill-dependencies: []
 ---
@@ -37,7 +37,7 @@ Start at 100, deduct per issue found, apply verdict. Include the Score Block in 
 
 ## Critical Rules
 
-1. **Build artifacts go to `out/`, PDF stays in the source directory.** Ensure `.latexmkrc` exists with `$out_dir = 'out'` and an `END {}` block to copy the PDF back (see pre-flight below). For VS Code builds, `.latexmkrc` in subdirectories is **not picked up** — see "VS Code Integration" section for the required `.vscode/settings.json` config.
+1. **Build artifacts go to `out/`, PDF stays in the source directory.** Use this skill's fail-closed canonical bundle at `templates/build-config/.latexmkrc`; do not hand-write an `END { system(...) }` copy block because it can mask latexmk's failure status and copy stale PDFs. For VS Code builds, use the bundled canonical recipe that explicitly loads `%DIR%/.latexmkrc`—`-cd` alone is insufficient.
 2. **NEVER write BibTeX entries from memory.** Verify against authoritative metadata sources such as Crossref or the DOI resolver before writing. Use an installed literature-search workflow when one is configured.
 3. **Check document class before adding packages.** Some classes load packages internally (e.g., `elsarticle` loads `natbib` — adding `\usepackage{natbib}` causes errors).
 4. **Maximum 5 fix iterations.** If the document still has errors after 5 auto-fix cycles, stop and report the unresolved errors to the user.
@@ -54,13 +54,7 @@ Start at 100, deduct per issue found, apply verdict. Include the Score Block in 
 
 1. **Locate the `.tex` file.** Resolve the path (absolute or relative to CWD).
 2. **Identify the project directory** — the folder containing the `.tex` file.
-3. **Ensure `.latexmkrc` exists** in the project directory with at minimum:
-   ```perl
-   $out_dir = 'out';
-   # Copy PDF back to source directory after build
-   END { system("cp $out_dir/*.pdf . 2>/dev/null") if defined $out_dir; }
-   ```
-   If a `.latexmkrc` already exists, verify it sets `$out_dir = 'out'` and has the `END {}` block. If either is missing, add it. Do not overwrite other settings.
+3. **Ensure the canonical `.latexmkrc` exists** in the project directory. Resolve `templates/build-config/.latexmkrc` relative to this installed skill and stop if the bundle is missing. Never recreate a partial version from memory. Compare an existing file byte-for-byte with the bundled canonical; do not overwrite divergence blindly. Move project-specific bibliography paths or custom dependencies into `.latexmkrc.local`; move engine selection into a `% !TEX program = ...` driver comment. Replacing a divergent file remains an explicit migration.
 4. **Create `out/` directory** if it doesn't exist: `mkdir -p <project-dir>/out`.
 5. **Identify the `.bib` file(s)** referenced in the document (scan for `\bibliography{}`, `\addbibresource{}`, or `\bibinput{}`). Note their paths for Phase 5.
 
@@ -314,8 +308,8 @@ All LaTeX build artifacts (`.aux`, `.log`, `.bbl`, `.fls`, etc.) go to an `out/`
 
 The PDF-copy convention is enforced in **two places** — keep them in sync when making changes:
 
-1. **`.latexmkrc`** (per-project) — Perl `END {}` block copies PDF after terminal/Claude Code builds
-2. **VS Code `.vscode/settings.json`** (per-workspace) — explicit latexmk args in LaTeX Workshop tool definition
+1. **`.latexmkrc`** (per-project) — the canonical success-gated copy-back logic handles terminal builds
+2. **VS Code `.vscode/settings.json`** (per-workspace) — explicitly loads the document-directory canonical before `-cd`
 
 VS Code integration, engine auto-detection (pdfLaTeX/XeLaTeX/LuaLaTeX), manual override configs, reference checking scripts, and manual compilation commands:
 
@@ -374,3 +368,5 @@ Runs from Phase 2 directly (pre-flight can be skipped if `.latexmkrc` and `out/`
 > "My paper won't compile — something about Bbbk"
 
 Identifies as Pattern 2 (font conflict), applies the `\let\Bbbk\relax` fix, recompiles.
+
+**Source format.** Paper prose stays one line per paragraph; normalize edited files with `.scripts/latex_paragraph_format.py --apply` and recompile. Canonical: `rules/latex-source-format.md`.

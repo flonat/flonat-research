@@ -181,3 +181,28 @@ Package pgfkeys Error: I do not know the key '/tikz/<name>'
 ```
 
 Common reserved names that cause conflicts: `step`, `at`, `node`, `draw`, `fill`, `path`, `scale`, `shift`, `rotate`, `color`, `text`, `inner sep`, `outer sep`. Rename custom keys to avoid these (e.g., `stepsize`, `mynode`, `drawstyle`).
+
+## 9. latexmk vetoes bibtex — bib outside default search path
+
+**Symptom signature** (no error line — this wedge is silent):
+- `latexmk` reports `All targets (...) are up-to-date`, BUT the `.log` is full of `Citation ... undefined` and no fresh `.bbl` exists anywhere.
+- A forced run (`latexmk -gg`) prints the tell:
+```
+Latexmk: Veto of running of 'bibtex <out>/main' ($bibtex_use=1)
+Reason: I am configured only to use bibtex/biber if all .bib files exist
+```
+
+**Cause:** the project keeps its `.bib` outside the default search path (e.g. `resources/bib/references.bib`) and a project-local supplement wraps the command — `$bibtex = "BIBINPUTS=<dir>: bibtex %O %B"`. That env applies to the *command only*: latexmk's own `$bibtex_use=1` existence check does NOT see it, concludes the `.bib` is missing, and silently vetoes bibtex. Triggered whenever the `.bbl` is deleted or absent (a fresh clone, a clean, or a deliberate delete to force a bibliography rebuild). While a stale `.bbl` exists, the wedge is masked — the PDF just carries outdated references.
+
+**Fix (unwedge now):**
+1. Run bibtex manually with the env applied, from the project root:
+   ```bash
+   BIBINPUTS="<bibdir>:" bibtex <outdir>/main
+   ```
+   (trailing `:` keeps the default path appended; confirm success in the `.blg`)
+2. Re-run bare `latexmk` to finish the cross-reference passes.
+3. Verify: `grep -c "Citation.*undefined" <outdir>/main.log` → 0.
+
+**Fix (durable, in `.latexmkrc.local`):** either `$bibtex_use = 2;` (always run bibtex; skips the existence check) or make latexmk itself see the file: `ensure_path('BIBINPUTS', './resources/bib');`. End the supplement with `1;` and keep the canonical `.latexmkrc` unchanged.
+
+**Do NOT** conclude from "up-to-date" that the bibliography is fine, and do NOT keep deleting aux files hoping latexmk recovers — the veto reproduces every time until the search path is fixed. (Real incident: COMSM0165 Portfolio, 2026-07-23 — three compile cycles lost to the silent up-to-date claim.)

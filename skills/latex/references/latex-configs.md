@@ -5,65 +5,59 @@
 
 ## Canonical `.latexmkrc`
 
-**Source of truth:** the bundled `../templates/build-config/.latexmkrc`
-relative to this reference file in the installed `latex` skill.
+Maintainers edit the repository's top-level `templates/latexmkrc/.latexmkrc`.
+The installed `latex` skill exposes that artifact at
+`templates/build-config/.latexmkrc`: the private source tree uses a reviewed
+symlink, while published distributions receive a dereferenced byte-identical
+copy. The bundle is a deployment surface, not a second authoring source.
 
 It auto-detects the engine, builds to `out/`, and copies the PDF back to the source dir. Drop it into any directory with `.tex` files — including Overleaf-symlinked paper folders (the file goes into the symlink target so it syncs to Overleaf's web compiler too):
 
 ```bash
-cp ../templates/build-config/.latexmkrc <target-dir>/
+LATEX_SKILL_DIR="<installed latex skill directory>"
+cp "$LATEX_SKILL_DIR/templates/build-config/.latexmkrc" <target-dir>/.latexmkrc
 ```
 
-See `../templates/build-config/README.md` for the full spec and rationale.
+Stop if the installed bundle is unavailable. Compare existing files
+byte-for-byte before any migration; `.latexmkrc.local` is the only
+project-specific supplement.
+
+See `../templates/build-config/README.md` for the full fail-closed contract and
+rationale.
 
 ## VS Code LaTeX Workshop Setup
 
 Two gotchas to know:
 
-1. **`.latexmkrc` in subdirectories is NOT picked up by default.** LaTeX Workshop runs latexmk from the workspace root. Fix: pass `-cd` so latexmk changes to the `.tex` file's directory before running. The canonical VS Code config below already does this.
+1. **`.latexmkrc` in subdirectories is NOT picked up by default.** Latexmk reads rc files before processing `-cd`, so `-cd` alone cannot fix this. The canonical recipe uses `-norc -r %DIR%/.latexmkrc -cd %DOC%` to load the document-directory config explicitly and exclude ambient rc files.
 2. **`% !TEX program` magic comments override custom recipes.** Set `latex-workshop.latex.build.forceRecipeUsage: true` (the canonical config does this).
 
 ### Canonical `.vscode/settings.json`
 
-**Source of truth:** the bundled
-`../templates/build-config/vscode-settings.json`.
+Use the generated bundle at
+`../templates/build-config/vscode-settings.json`; maintainers edit its
+top-level `templates/latexmkrc/vscode-settings.json` authoring source.
 
 ```bash
 mkdir -p .vscode
-cp ../templates/build-config/vscode-settings.json .vscode/settings.json
+cp /path/to/canonical/vscode-settings.json .vscode/settings.json
 ```
 
-This config delegates everything to `latexmk` with `-cd`, so the project's `.latexmkrc` is the single authority. No engine flag in the VS Code config — auto-detection happens in `.latexmkrc`.
+This config loads the document-directory canonical explicitly before `-cd`, so the project's `.latexmkrc` is the single authority. No engine flag appears in the VS Code config — auto-detection happens in `.latexmkrc`.
 
-## Manual Override (rare)
+## Explicit engine selection
 
-If a project needs a hard-coded engine instead of auto-detect, replace the canonical `.latexmkrc` with one of:
+Do not fork or replace the canonical config. When source inspection cannot infer
+the intended engine—for example, a font happens to resolve only through
+LuaTeX—declare it in the driver:
 
-**pdfLaTeX** (standard fonts):
-```perl
-$out_dir = 'out';
-$pdf_mode = 1;
-$pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error -synctex=1 %O %S';
-END { system("cp $out_dir/*.pdf . 2>/dev/null") if defined $out_dir; }
+```tex
+% !TEX program = lualatex
 ```
 
-**XeLaTeX** (system fonts via `fontspec`):
-```perl
-$out_dir = 'out';
-$pdf_mode = 5;
-$xelatex = 'xelatex -interaction=nonstopmode -halt-on-error -synctex=1 %O %S';
-END { system("cp $out_dir/*.pdf . 2>/dev/null") if defined $out_dir; }
-```
-
-**LuaLaTeX** (`luacode`, `lua-ul`, `luamplib`):
-```perl
-$out_dir = 'out';
-$pdf_mode = 4;
-$lualatex = 'lualatex -interaction=nonstopmode -halt-on-error -synctex=1 %O %S';
-END { system("cp $out_dir/*.pdf . 2>/dev/null") if defined $out_dir; }
-```
-
-All three include the `END {}` block so the PDF lands next to the `.tex` source.
+Accepted values are `pdflatex`, `xelatex`, and `lualatex`. For a one-off terminal
+build, pass the matching latexmk flag. An explicit CLI flag wins over automatic
+detection.
 
 ---
 

@@ -20,7 +20,7 @@ Research posters are a critical medium for scientific communication at conferenc
 
 ## Compilation Convention
 
-**Always use `latex` to compile posters.** Build artifacts go to `out/`, final PDF is copied back to the source directory. Ensure a `.latexmkrc` exists alongside the poster `.tex` file with `$out_dir = 'out'`.
+**Always use `latex` to compile posters.** Its pre-flight installs or verifies the fail-closed canonical `.latexmkrc` beside the poster driver. Build artifacts go to `out/`, and the requested PDF is copied back only after a successful build. Never hand-write a poster-specific rc file.
 
 ---
 

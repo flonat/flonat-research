@@ -68,9 +68,9 @@
 | Check | Detail |
 |-------|--------|
 | `.latexmkrc` exists | In project root or paper directory |
-| Engine match | Template uses `lualatex` via `$pdf_mode = 4` |
-| Output directory | Template uses `$out_dir = 'out'` |
-| PDF copy-back | Template has `END { system("cp ...") }` |
+| Canonical identity | Byte-identical to the resolved `templates/latexmkrc/.latexmkrc` source or installed build-config bundle |
+| Local supplement | Optional `.latexmkrc.local` contains only genuine project settings and never assigns `$pdf_mode` |
+| Engine declaration | The driver uses a standard magic comment only when canonical inference is insufficient |
 
 ---
 
@@ -133,9 +133,9 @@ Beyond the preamble files, check consistency of related files:
 | Check | Detail |
 |-------|--------|
 | Exists | In project root or paper directory |
-| Engine | Template: `lualatex` via `$pdf_mode = 4` |
-| Output dir | Template: `$out_dir = 'out'` |
-| PDF copy-back | `END { system("cp $out_dir/*.pdf . 2>/dev/null") }` |
+| Canonical identity | `cmp -s <resolved-canonical> .latexmkrc` succeeds |
+| Local supplement | Optional; flag `$pdf_mode`, accept necessary paths/dependencies/`$bibtex_use`/`$clean_ext`/`@default_files` |
+| Migration | Never patch selected directives into a divergent file; classify settings and replace only after approval |
 
 ### Economics Paper Conventions (if `docs/domain-profile.md` exists or JEL codes present)
 

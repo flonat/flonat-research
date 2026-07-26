@@ -11,6 +11,9 @@ allowed-tools:
   - Bash(latexmk*)
   - Bash(lualatex*)
   - Bash(biber*)
+  - Bash(cmp*)
+  - Bash(cp*)
+  - Bash(head*)
   - AskUserQuestion
   - Skill
 argument-hint: "[project-path] [--apply]"
@@ -63,6 +66,8 @@ skill-dependencies: [latex, retarget-journal]
 
    **NEVER** check settings/style files in subdirectories like `docs/`, `to-sort/`, `docs/venues/`, or any non-paper location. Only the main paper's preamble is relevant.
 
+   **New papers:** copy `templates/venues/_shared/user-math.sty` in alongside the venue kit and `\usepackage{user-math}` (clash-safe; `[notheorems]` if the kit owns theorem envs) rather than hand-declaring `\E`/`\Prob`/`\R`/`\argmax`. Existing compiling papers are not retrofitted — see `templates/venues/_shared/README.md`.
+
    If no preamble files are found, report error and exit.
 
 3. **Read the template.** Resolve the sibling installed skill path, then use
@@ -81,7 +86,7 @@ skill-dependencies: [latex, retarget-journal]
    | **Bibliography** | System (biblatex/natbib), all options, `\addbibresource`, source mappings, field clearing (`\AtEveryBibitem`), possessive citation commands |
    | **Custom commands** | All `\newcommand`, `\renewcommand`, `\DeclareMathOperator`, `\newcolumntype` |
    | **Theorem environments** | All `\newtheorem` declarations with their styles and counters |
-   | **Build config** | `.latexmkrc` content (engine, output dir, PDF copy-back) |
+   | **Build config** | Canonical `.latexmkrc` byte identity and optional `.latexmkrc.local` validity |
 
    For packages, normalise options: `\usepackage[a,b]{pkg}` and `\usepackage[b,a]{pkg}` are equivalent.
 
@@ -91,7 +96,7 @@ skill-dependencies: [latex, retarget-journal]
 
 For each semantic block, compare the project against the template. Detailed check tables for each block: [`references/comparison-checklist.md`](references/comparison-checklist.md)
 
-Blocks to compare: **Packages** (missing, extra, options, load order, duplicates) · **Hyperref** (missing keys, different values, urlstyle, cleveref ordering) · **Bibliography** (system mismatch, options, source mappings, field clearing, possessive citations) · **Custom Commands** (missing, different definitions, column types, math commands) · **Theorem Environments** (missing, different styles/counters, numberwithin) · **Build Config** (.latexmkrc existence, engine, output dir, PDF copy-back)
+Blocks to compare: **Packages** (missing, extra, options, load order, duplicates) · **Hyperref** (missing keys, different values, urlstyle, cleveref ordering) · **Bibliography** (system mismatch, options, source mappings, field clearing, possessive citations) · **Custom Commands** (missing, different definitions, column types, math commands) · **Theorem Environments** (missing, different styles/counters, numberwithin) · **Build Config** (canonical `.latexmkrc` identity and local-supplement policy)
 
 ---
 
@@ -105,7 +110,7 @@ Full classification rules and when-to-use-each-label guidance: [`references/comp
 
 ### Phase 4: Check Auxiliaries
 
-Check `main.tex` (preamble loading, documentclass, printbibliography, no stale bibliography commands) and `.latexmkrc` (exists, engine, output dir, PDF copy-back).
+Check `main.tex` (preamble loading, documentclass, printbibliography, no stale bibliography commands), compare `.latexmkrc` byte-for-byte with the resolved canonical, and inspect any `.latexmkrc.local` for a forbidden `$pdf_mode` assignment.
 
 Full check tables: [`references/comparison-checklist.md`](references/comparison-checklist.md#phase-4-auxiliary-checks)
 
@@ -123,7 +128,7 @@ Start at **100** and deduct per issue:
 
 | Tier | Deduction | Examples |
 |------|-----------|----------|
-| **Critical** | -15 to -25 | Missing `.latexmkrc`, natbib vs biblatex conflict, missing `hyperref`, `hyperref`/`cleveref` load order wrong |
+| **Critical** | -15 to -25 | Missing or divergent canonical `.latexmkrc`, natbib vs biblatex conflict, missing `hyperref`, `hyperref`/`cleveref` load order wrong |
 | **Major** | -5 to -14 | Missing common packages (booktabs, microtype, enumitem), missing `dvipsnames`, duplicate package loads, missing custom commands (\todo, \red, \blue), missing source mappings, missing field clearing, missing `cleveref` |
 | **Minor** | -1 to -4 | Missing optional packages, different hyperref colours, missing theorem environments, missing math operators, missing `\numberwithin` |
 
@@ -162,7 +167,7 @@ Apply changes in dependency order to avoid compilation breakage:
 4. **Bibliography changes** (only if user approves — always `the available structured-question mechanism` for system changes)
 5. **Custom commands** (append after existing commands section)
 6. **Theorem environments** (append after existing theorem section)
-7. **`.latexmkrc`** (create or update)
+7. **`.latexmkrc`** (with approval, copy the resolved canonical verbatim; migrate legitimate project settings to `.latexmkrc.local` and never set `$pdf_mode` there)
 8. **Cleanup** (remove duplicates, drop redundancies)
 
 #### Apply Rules

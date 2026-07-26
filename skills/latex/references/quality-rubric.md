@@ -24,7 +24,7 @@
 | Issue | Deduction | Notes |
 |-------|-----------|-------|
 | Overfull hbox > 10pt remaining | -5 | Per instance |
-| Missing `.latexmkrc` or incorrect `$out_dir` config | -10 | Build hygiene failure |
+| Missing or divergent canonical `.latexmkrc` | -10 | Build-contract failure; optional valid `.latexmkrc.local` is allowed |
 | Stale auxiliary files causing warnings | -5 | Should have been caught by cache clean |
 | Package added but not strictly necessary | -5 | Per unnecessary package |
 | Cited keys in `.tex` not found in `.bib` (audit) | -8 | Per missing key |

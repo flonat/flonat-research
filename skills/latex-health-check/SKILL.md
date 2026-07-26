@@ -14,6 +14,8 @@ allowed-tools:
   - Bash(ls*)
   - Bash(mkdir*)
   - Bash(cp*)
+  - Bash(cmp*)
+  - Bash(head*)
   - Bash(ln*)
   - Bash(wc*)
   - Bash(readlink*)
@@ -61,7 +63,9 @@ For each discovered project, record:
 For each project:
 
 ### 2a. Pre-flight
-- Check for `.latexmkrc` — create if missing (with `$out_dir = 'out'` and PDF copy-back)
+- Resolve the byte-identical `templates/build-config/.latexmkrc` bundle from the installed `latex` skill; stop if it is unavailable.
+- If `.latexmkrc` is missing, copy the resolved canonical verbatim. If it exists, compare it byte-for-byte; report divergence and do not overwrite it without explicit migration approval.
+- Allow `.latexmkrc.local` for project-specific paths, dependencies, `$bibtex_use`, `$clean_ext`, or `@default_files`, but flag any `$pdf_mode` assignment.
 - Create `out/` directory if missing
 
 ### 2b. Compile
@@ -69,7 +73,7 @@ For each project:
 cd <project-dir> && latexmk -interaction=nonstopmode <main.tex> 2>&1
 ```
 
-**Engine selection:** Do NOT hardcode `-pdf`. The project's `.latexmkrc` (created in 2a) controls the engine — it auto-detects xelatex via `fontspec`, or defaults to pdflatex. Passing `-pdf` overrides this and breaks xelatex/lualatex projects. Let latexmk read `.latexmkrc`.
+**Engine selection:** Do NOT hardcode `-pdf`. The canonical recursively infers pdfLaTeX, XeLaTeX, or LuaLaTeX from the requested driver and local dependencies. Passing `-pdf` overrides this and breaks Unicode-engine projects. Let latexmk read `.latexmkrc`.
 
 ### 2c. Parse log
 Extract from `out/*.log`:
@@ -175,7 +179,7 @@ Closes the "hallucinated outputs" failure class (commit `b2cff75`, 2026-04-18). 
 | Skill | Relationship |
 |-------|-------------|
 | `latex` | Single-project deep fix (5 iterations). This skill runs a lighter version (3 iterations) at fleet scale. For ERROR projects, recommend running `latex` directly. |
-| `latex` | Manual compilation config and `.latexmkrc` reference — health-check creates `.latexmkrc` files using the conventions defined there. |
+| `latex` | Canonical `.latexmkrc` resolution, migration rules, and single-project deep compilation. |
 | `audit-project-research` | Checks project structure (directories, files). This skill checks build health. |
 | `bib-validate` | Validates bibliography entries. This skill checks if citations compile. |
 | `latex-template` | Checks preamble alignment with the working paper template. Complementary: run after health-check to ensure preamble consistency. |

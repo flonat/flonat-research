@@ -28,7 +28,7 @@ Create polished, zero-warning Beamer decks for academic contexts: seminars, conf
 
 ## Critical Rules
 
-1. **Build artifacts go to `out/`, PDF stays in the source directory.** Create `.latexmkrc` with `$out_dir = 'out'` and an `END {}` block to copy the PDF back if missing. Use `latex` for compilation — it handles error resolution automatically. See `latex` for manual config details.
+1. **Build artifacts go to `out/`, PDF stays in the source directory.** Use the `latex` pre-flight to install the fail-closed canonical `.latexmkrc`; never hand-write a partial config or copy block. Use `latex` for compilation and engine resolution.
 2. **Python:** Always use `uv run python`. Never bare `python`, `python3`, `pip`, or `pip3`.
 2. **Fix ALL warnings.** Overfull hbox, underfull hbox, overfull vbox, underfull vbox — no matter how small. Parse the `.log` file. Recompile until clean.
 3. **Titles are assertions, not labels.** "Distance increases abortion rates" — not "Results". Every frame title states a claim.
@@ -102,7 +102,7 @@ Present the outline to the user for approval before building.
 1. **Generate figures first** — run R/Python scripts, save to `figures/`
 2. **Write `.tex` file** using the unified template: `\documentclass[aspectratio=169,11pt]{beamer}` + `\usepackage[university]{user-beamer}` (or other institution option). Use `\fbinstitute` and `\fbemail` for metadata. Custom commands: `\contribcard`, `\phasecircle`, `\accentbox`, `\highlightbox`, `standoutframe` environment.
 3. **Use 16:9 aspect ratio** (already in the documentclass above)
-4. **Create `.latexmkrc`** if not present (`$out_dir = 'out'` + `END {}` block to copy PDF back)
+4. **Install the canonical `.latexmkrc`** through the `latex` pre-flight if it is missing; classify any divergent existing config before migration
 5. **Compile using `latex`** — this handles missing packages, font conflicts, citation key mismatches, and stale cache automatically
 6. **If using citations**: add `\addbibresource{references.bib}` or `\bibliography{}` as appropriate
 
@@ -172,7 +172,7 @@ A completed deck directory should contain:
 project/
 ├── deck.tex              # Main Beamer file (uses user-beamer.sty)
 ├── deck.pdf              # Compiled PDF (copied from out/ by .latexmkrc)
-├── .latexmkrc            # Output directory config
+├── .latexmkrc            # Canonical build config
 ├── out/                  # Build artifacts only
 ├── figures/              # Generated figures (if any)
 │   ├── figure_1.png
