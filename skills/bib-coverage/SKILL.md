@@ -2,7 +2,7 @@
 name: bib-coverage
 description: "Use when you need to compare a project .bib against a Paperpile project/topic folder to find uncited papers or unfiled entries."
 allowed-tools: Read, Glob, Grep, Bash(paperpile*)
-argument-hint: [project-path or tex-file]
+argument-hint: "[project-path or tex-file]"
 ---
 
 # Bibliography Coverage
