@@ -1,7 +1,7 @@
 ---
-description: Turn external referee correspondence or internal pre-submission feedback
-  into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency
-  mapping, critical-path analysis, and execution blocks.
+description: Use when you need to turn external referee correspondence or internal
+  pre-submission feedback into a provenance-safe, DAG-validated revision master plan
+  with atomic tasks, dependency mapping, critical-path analysis, and execution blocks.
 ---
 
 # Shared skill adapter

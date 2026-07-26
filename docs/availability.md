@@ -10,7 +10,7 @@ has an explicit client list, with no implicit `both` default.
 
 | Surface | Shipped | Claude | Codex |
 |---|---:|---:|---:|
-| Skills | 93 | 93 | 90 |
+| Skills | 94 | 94 | 91 |
 | Agents | 15 | 15 | 14 |
 | Rules | 18 | 18 | 18 |
 | Hooks | 3 | 3 | 0 |
@@ -93,6 +93,7 @@ has an explicit client list, with no implicit `both` default.
 | `skill-preflight` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |
 | `split-pdf` | Yes | Yes | filesystem, shell, skill-routing, subagents, web | selected by the reviewed public distribution |
 | `strategic-revision` | Yes | Yes | filesystem, shell, skill-routing, subagents | selected by the reviewed public distribution |
+| `submission-cover-letter` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `symbolic-check` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `sync-permissions` | Yes | No | claude-home-layout, filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `synthesise-reviews` | Yes | Yes | filesystem, skill-routing, subagents | selected by the reviewed public distribution |

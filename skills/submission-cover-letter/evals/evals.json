@@ -1,0 +1,29 @@
+{
+  "skill_name": "submission-cover-letter",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Draft and compile the initial-submission cover letter for the active Nature Machine Intelligence paper in this project. Use my past journal cover letters as precedents and follow the captured NMI requirements.",
+      "expected_output": "A venue-specific canonical source at paper-nmi/paper/cover-letter/cover-letter.tex, a resolving compatibility symlink at paper-nmi/submission/cover-letter.tex, and a verified PDF in paper-nmi/submission, grounded in the live manuscript, NMI guidance, Vault metadata, and two or three disclosed precedents; unresolved declarations remain visible confirmation blockers.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Prepare a cover letter for this coauthored double-blind journal submission. The author order is known, but funding, contributions, acknowledgements, and prior-editor contact have not been confirmed.",
+      "expected_output": "A compilable draft on the Overleaf collaboration surface that keeps editor-only identities confined to cover-letter/ and marks every unknown declaration for confirmation without inventing facts; the reviewer-facing manuscript, supplement, anonymous artifact, and source bundle remain anonymous.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Update the existing cover letter after the manuscript title and target journal changed. Keep the established letter style and make it submission-ready.",
+      "expected_output": "A conservative revision of the canonical Overleaf source that revalidates all variable metadata and claims, uses appropriate current precedents, compiles cleanly to an uploadable PDF in submission/, and is not archived as submitted.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Move the editable cover letters for my current submissions into Overleaf so coauthors can review them. Preserve the submitted-file record and tell me how reviewer anonymity is protected.",
+      "expected_output": "Only approved editable sources move into each paper's paper/cover-letter/ subfolder, with relative submission/cover-letter.tex compatibility symlinks and verified submission PDFs. Historical sources pin the submission date evidenced by the immutable as-sent PDF instead of silently rendering today's date. Human-supplied archive PDFs remain untouched, and the workflow explicitly excludes cover-letter/ from reviewer-facing source bundles.",
+      "files": []
+    }
+  ]
+}

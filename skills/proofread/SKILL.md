@@ -291,6 +291,8 @@ bash <skills-root>/_shared/review-state-log.sh \
 
 Schema: the installed shared resource `shared/review-state-schema.md`.
 
+**Source format.** Paper prose stays one line per paragraph; normalize edited files with `.scripts/latex_paragraph_format.py --apply` and recompile. Canonical: `rules/latex-source-format.md`.
+
 ## Cross-References
 
 - **Installed bibliography validator** — For thorough bibliography cross-referencing and metadata checks

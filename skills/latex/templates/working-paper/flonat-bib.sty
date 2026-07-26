@@ -7,9 +7,44 @@
 \newif\ifharvard
 \harvardtrue  % default: Harvard ON
 
+\newif\ifflonatbib@citetodo
+\flonatbib@citetodotrue  % default: fail-closed \CiteTodo guard ON
+
 \DeclareOption{harvard}{\harvardtrue}
 \DeclareOption{noharvard}{\harvardfalse}
+\DeclareOption{citetodo}{\flonatbib@citetodotrue}
+\DeclareOption{nocitetodo}{\flonatbib@citetodofalse}
 \ProcessOptions\relax
+
+% ============================================
+% Unresolved-citation guard (fail-closed)
+% ============================================
+% Folded in from citation-placeholders.tex 2026-07-24 so the guard travels with
+% the bibliography configuration instead of a separate \input every paper has to
+% remember. rules/paperpile-citations.md: an unresolved citation MUST be
+% \CiteTodo{short-slug}{title; authors; year; DOI/hint} — NEVER a guessed
+% \cite{author2024} key. The guard ERRORS the build by default, so a fabricated
+% citekey can never compile silently.
+%
+% Draft mode (placeholders render as visible red flags instead of erroring):
+%   \draftcitationstodotrue   % in the preamble, AFTER loading flonat-bib
+%
+% Loading the legacy citation-placeholders.tex alongside this package is safe:
+% that file now no-ops when the guard is already present.
+\ifflonatbib@citetodo
+  \expandafter\ifx\csname ifdraftcitationstodo\endcsname\relax
+    \expandafter\newif\csname ifdraftcitationstodo\endcsname
+  \fi
+  \providecommand{\CiteTodo}[2]{%
+    \ifdraftcitationstodo
+      \textbf{[UNRESOLVED CITATION: #1 --- #2]}%
+    \else
+      \PackageError{flonat-bib}{Unresolved citation `#1': #2}{%
+        Resolve via Paperpile/refpile (paperpile export-bib). Do not invent a citekey.%
+      }%
+    \fi
+  }
+\fi
 
 % ============================================
 % Bibliography - biblatex/biber

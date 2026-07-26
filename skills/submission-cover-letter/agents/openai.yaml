@@ -1,0 +1,4 @@
+interface:
+  display_name: "Submission Cover Letter"
+  short_description: "Draft evidence-grounded submission cover letters"
+  default_prompt: "Use $submission-cover-letter to draft and compile a venue-specific cover letter for this manuscript."

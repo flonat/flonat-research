@@ -1,6 +1,6 @@
 ---
 name: strategic-revision
-description: "Turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency mapping, critical-path analysis, and execution blocks."
+description: "Use when you need to turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency mapping, critical-path analysis, and execution blocks."
 argument-hint: "[--external <reviews-pdf-or-folder> | --internal <review-or-synthesis-path>]"
 skill-dependencies: [latex-diff, proofread, synthesise-reviews]
 ---
@@ -229,6 +229,8 @@ Do not recommend alternative venues in internal mode unless the user asks for ve
 11. **Provenance controls routing.** AI-simulated referee reports remain internal; genuine venue correspondence remains external.
 12. **External-only side effects stay external.** Internal mode never creates a rebuttal, venue-history event, or referee-verbatim artifact.
 13. **Do not cross-fold modes.** A new source with different provenance gets its own package; cross-reference completed work without moving or relabelling source material.
+14. **No silent claim-strength moves.** Revision edits touching claim-bearing text follow the claim-strength ladder ([`docs/reference/claim-strength-ladder.md`](../../docs/reference/claim-strength-ladder.md)): any move up or down the epistemic scale — including deleting a hedge, scope caveat, or null result — must be authorized by a task's SourceID, and the executing session states the move in its summary. After a revision block completes, run the token-conservation check on each edited file (`uv run python .scripts/check_token_conservation.py --source <pre-revision> --revision <current>`) and reconcile every advisory row (changed number, dropped/added citation) against the tasks that authorized it.
+15. **Close out with a Fulfillment Ledger.** When execution completes (final block done, or fold-in close), fill the tracker's Fulfillment Ledger: every reviewer commitment gets `fulfilled` / `partial` / `not_fulfilled` / `acknowledgment_only`, verified **against the manuscript** — read/grep the `.tex` for the promised change; never mark `fulfilled` on the response letter's or the tracker's say-so (exception: `acknowledgment_only`, whose evidence is the letter). `partial` and `not_fulfilled` require an explicit rationale + residual action. (Ported from ARS v3.19 commitment ledger.)
 
 ## Fold-in mode — second-review extension of an existing DAG
 

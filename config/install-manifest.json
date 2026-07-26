@@ -1092,6 +1092,21 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/submission-cover-letter.md",
+      "target": ".claude/commands/submission-cover-letter.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/submission-cover-letter",
+      "target": ".claude/shared-skills/submission-cover-letter"
+    },
+    {
+      "client": "codex",
+      "source": "skills/submission-cover-letter",
+      "target": ".agents/skills/submission-cover-letter"
+    },
+    {
+      "client": "claude",
       "source": ".claude/commands/symbolic-check.md",
       "target": ".claude/commands/symbolic-check.md"
     },

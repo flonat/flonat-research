@@ -24,6 +24,7 @@ The user wants you to read, review, or summarize an academic paper. The input is
 **If a local file path is provided:**
 - Verify the file exists
 - **Use the PDF in place** — do not move or copy it. The folder containing the PDF becomes the working directory for splits and extracts.
+- If downstream work will cite page numbers, run the read-integrity preflight first (`pdf-extract <file> --preflight`) — a non-PASS verdict means page indices from this file are untrustworthy (truncated or silently repaired document).
 - Proceed to Step 2
 
 **If a search query or paper title is provided:**

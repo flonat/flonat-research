@@ -3,7 +3,7 @@ name: pre-submission-report
 description: "Use when you need all quality checks run before submission, producing a single dated report. Also provides a citation-integrity-only mode that composes bib-validate and claim-verify without repeating their checks."
 allowed-tools: Bash(latexmk*, mkdir*, ls*, wc*), Bash(uv:*), Read, Write, Edit, Glob, Grep, Task, Skill
 argument-hint: "[path/to/main.tex or no arguments to auto-detect] [--parallel|--citation-integrity-only]"
-agent-dependencies: [artifact-coherence-auditor, blindspot, claim-verify, code-paper-auditor, domain-reviewer, paper-critic, referee2-reviewer, reproducibility-auditor]
+agent-dependencies: [artifact-coherence-auditor, blindspot, claim-verify, clarity-reviewer, code-paper-auditor, domain-reviewer, paper-critic, referee2-reviewer, reproducibility-auditor]
 skill-dependencies: [latex, verify-math]
 ---
 
@@ -73,6 +73,9 @@ Run these checks first. If any fail, stop and report — do not proceed to quali
 4. **Broken references** — grep for `??` in the compiled PDF output or `.log` file (undefined `\ref{}` or `\cite{}`). Any `??` in output is a FAIL.
 5. **Anonymity gate (only if the venue is double-blind)** — load `_shared/double-blind-anonymity-checklist.md` and run **all** P1–P8 paper-side checks. Any FAIL is a hard stop. In particular: P4 (self-citation bib must be blinded if cited paper's author list overlaps the submission's) and P5 (body text must not name authors of self-cited works) — these are the CCS 2026 #1328 desk-reject triggers and require the submission's author list to be loaded from the vault submission frontmatter or prompted from the user. If the artifact has been minted via `anonymous-artifact`, also confirm A1–A9 ran clean for that artifact (state file at `<project>/.anonymous-artifact-state.json`). Skip this entire step only when the user explicitly says "single-blind" or "non-blind".
 
+6. **Token conservation vs prior round (advisory — never a FAIL by itself)** — when a prior submitted/reviewed version of the manuscript exists (a `backup/` copy, an as-submitted archive, or a git tag), run `uv run python .scripts/check_token_conservation.py --source <prior>.tex --revision <current>.tex` per main file. List each advisory row (changed number, dropped/added citation, protected-term delta) in the report with whether an authorizing revision item covers it; unexplained deltas are flagged for the human, and claim-bearing rewordings are spot-checked against the claim-strength ladder (`docs/reference/claim-strength-ladder.md`). Skip silently when no prior version exists (first submission).
+7. **Arithmetic forensics (HARD findings block; NOTE/CONDITIONAL advisory)** — run `uv run python .scripts/check_stat_forensics.py <main>.tex` on every empirical paper. It recomputes reported p-values from t/r statistics and df, checks df against reported N, recomputes t from descriptive pairs, and GRIM-checks 2-decimal means at n < 100 — the defect class LLM reviewers demonstrably miss (review-fleet baseline 2026-07-24: 0/4). A HARD finding (impossible p, df ≥ N, t contradicting descriptives) is treated like any other integrity FAIL unless the human confirms a legitimate design explanation (one-tailed test, corrected p, Welch df); CONDITIONAL GRIM rows are surfaced for judgment (integer-valued measures only). Theory-only papers with no reported test statistics: the checker returns CLEAN and costs nothing.
+
 **If any check fails:**
 ```
 INTEGRITY GATE: FAIL
@@ -101,18 +104,18 @@ Run these in order — each depends on a clean state from the previous:
 
 #### 3b. Parallel comprehensive fan-out (`--parallel` flag)
 
-Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Runs **13 independent checks** through their canonical skills/agents, dispatching the read-only agent checks in parallel, then consolidates findings.
+Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Runs **14 independent checks** through their canonical skills/agents, dispatching the read-only agent checks in parallel, then consolidates findings.
 
 **Hard rules for parallel mode:**
 1. **All sub-agents are read-only with respect to project files under review** — see `subagent-write-guard.md` rule. They do NOT modify the paper, bib, code, or any other artefact under review; the orchestrator (this skill) decides what to fix. **They DO write their own per-agent reports** to `reviews/<paper-slug>/<check>/<YYYY-MM-DD-HHMM>.md` per each agent's "Log to REVIEW-STATE.md (final step)" instruction (where `<paper-slug>` is the paper being reviewed and `<check>` is the agent name, e.g., `paper-critic`, `referee2-reviewer`) — this is the durable record + the INDEX.md stamp that `review-recap` reads. The "read-only" scope is the artefact under review, NOT a prohibition on writing the review report itself.
 2. **Each sub-agent gets the standard forbid-list** — no git, no latexmk, no edits to files outside their scope. The forbid-list explicitly carves out the `reviews/<paper-slug>/<check>/` path as a permitted write target (the agent's logging step needs it), where `<paper-slug>` is the paper being reviewed (passed in the dispatch) and `<check>` is the agent name.
-3. **Findings consolidate into a P0/P1/P2 fix list** before any edits — single triage point, not 13 streams. Sub-agents return structured findings to the orchestrator in addition to writing their report file; the consolidate step uses the structured returns.
+3. **Findings consolidate into a P0/P1/P2 fix list** before any edits — single triage point, not 14 streams. Sub-agents return structured findings to the orchestrator in addition to writing their report file; the consolidate step uses the structured returns.
 4. **No edit phase auto-runs** — the user reviews the consolidated report and approves which fixes to apply.
 5. **Evidence contract + spot-verify** (per [`_shared/audit-integrity.md`](../_shared/audit-integrity.md) Rule 2). Each sub-agent's dispatch prompt MUST require **every finding to cite `path:line` (or `§`) AND quote the exact text/code verbatim** — unanchored findings are inadmissible. Before consolidating (rule 3), the orchestrator **spot-verifies a random sample** of returned findings (≥3, or 20%, weighted to P0/P1): open the cited location, confirm the quote is there and the claim follows. Any miss ⇒ widen to that agent's full set and **drop** what can't be grounded. Record `Integrity: N sampled, M dropped` in the consolidated report.
 
 Before starting citation checks, create the frozen artifact manifest described in Citation-Integrity-Only Mode. Pass it unchanged to rows 1 and 2, validate their components, and assemble the full citation-integrity companion. Do not dispatch a shadow `bib-verifier`; row 1 is the existing `bib-validate` result retained from Integrity Gate step 2.
 
-**Always run (13 checks):**
+**Always run (14 checks):**
 
 | # | Agent | Scope | Output |
 |---|---|---|---|
@@ -129,6 +132,7 @@ Before starting citation checks, create the frozen artifact manifest described i
 | 11 | **anonymity / double-blind checker** | Apply paper-side checks P1-P8 from `_shared/double-blind-anonymity-checklist.md`; verify `[review]` mode if double-blind venue | Pass/fail + leak list |
 | 12 | **page-limit + LaTeX validator** | Verify page count under venue limit; check for compile warnings; check `out/` is current | Page count + warning summary |
 | 13 | **AI-detection** | If an AI-detection workflow is installed and configured, run it and flag hot zones for an optional humanizing pass; otherwise report `SKIPPED (unavailable)` and perform a manual prose-pattern review | Per-segment scores + hot-zone count, or explicit skip reason |
+| 14 | **clarity-reviewer** | Launch `clarity-reviewer` agent — bounded-context ingestion stress test (Predicted ingestion risks + C1–C10 adjudication; `pass1_validity: UNCONTROLLED` in this single-dispatch form). When the paper's prior referee reviews contain readability complaints, prefer the `clarity-review` skill instead (CONTROLLED, observed events) — run it before the fan-out and reuse its report here. | Clarity report (verdict CLEAR/TIGHTEN/HARD-TO-INGEST + Blockers/Quick wins) |
 
 **Conditional — math verification (theory papers):**
 

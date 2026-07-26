@@ -71,6 +71,8 @@ For a paper that has been **accepted** (no rebuttal stage): produce the camera-r
 - **Page-budget check**: locate where references/appendix begin (`pdftotext` + form-feed page count, or per-label pages from `.aux`); confirm **body ≤ limit** (appendix/refs exempt per Phase 3).
 - **Visual render** key pages (`pdftoppm`) — de-anon header + copyright slug, new tables/figures, appendix.
 - Run `proofread` scoped to the **new prose** only.
+- **Token conservation vs the submitted version** — `uv run python .scripts/check_token_conservation.py --source backup/<submitted>.tex --revision <current>.tex` per edited file: every advisory row (changed number, dropped/added citation) must map to a Phase-0 action-table row or a Phase-3 appendix move. Spot-check reworded claims against the claim-strength ladder ([`docs/reference/claim-strength-ladder.md`](../../docs/reference/claim-strength-ladder.md)) — no silent strength moves between the reviewed version and camera-ready.
+- **Arithmetic forensics** (empirical papers) — `uv run python .scripts/check_stat_forensics.py <main>.tex`: recomputed p-values, df-vs-N, t-vs-descriptives, GRIM. Any HARD finding gets resolved or explained before upload — reviewers approved the numbers as submitted; the camera-ready must not introduce (or ship) an arithmetic impossibility.
 
 ## Phase 6 — Author-side handoff
 Report what remains for the human: **acknowledgments** (now un-anonymized — offer a funding stub), signed copyright/rights form, reproducibility checklist, and the vault/atlas **status update to Accepted** (per the Operating Rules caveat).

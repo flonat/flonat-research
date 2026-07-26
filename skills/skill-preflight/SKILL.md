@@ -10,19 +10,30 @@ allowed-tools:
 
 # Creation Guard: Pre-Flight Duplicate Check
 
-Prevent duplicate functionality by analysing existing skills and agents before creating new ones. Intercepts creation intent, searches for overlap, and recommends one of 5 actions.
+Prevent duplicate functionality by analysing existing skills, agents, and rules before creating new ones. Intercepts creation intent, searches for overlap, and recommends one of 5 actions.
 
 ## When to Use
 
 Invoke **before** creating ANY new:
 - Skill (`skills/*/SKILL.md`)
 - Agent (`.claude/agents/*.md`)
+- Rule (`rules/*.md`)
 
 Trigger phrases:
 - "Create a skill for..."
 - "I want a new skill that..."
 - "Let's add an agent for..."
+- "We need a rule for..." / "add a rule that..."
 - Any intent to create new automation/tooling
+
+**Rules need this most, not least.** A duplicate skill is visible — it shows up
+in the catalogue and the slash menu. A duplicate rule is invisible: both copies
+load silently as system instructions, and the first sign of trouble is two
+subtly different versions of the same policy competing. Rules are also
+`break-the-glass` infrastructure, so an unnecessary one is a standing cost on
+every session. Check for an existing rule to **amend** before writing a new one
+— amendment is the usual correct outcome for rules, where PROCEED is the usual
+outcome for skills.
 
 ## Process
 
@@ -30,7 +41,7 @@ Trigger phrases:
 
 Extract from the request:
 - **Name**: Proposed name (kebab-case)
-- **Type**: skill | agent
+- **Type**: skill | agent | rule
 - **Purpose**: What it does (one sentence)
 - **Key Functions**: 3-5 main capabilities
 - **Keywords**: Searchable terms related to functionality
@@ -40,12 +51,13 @@ Extract from the request:
 Run these searches in parallel:
 
 1. **Read [`skills/shared/skill-index.md`](../shared/skill-index.md)** — scan the categorised table for potential duplicates by name and purpose
-2. **Keyword search** — grep skills and agents for each keyword:
+2. **Keyword search** — grep skills, agents, and rules for each keyword:
 
 ```
 Grep for each keyword across:
   - skills/*/SKILL.md (frontmatter + body)
   - .claude/agents/*.md (frontmatter + body)
+  - rules/*.md (frontmatter + body)
 ```
 
 3. **Agent scan** — read frontmatter of each agent to check purpose overlap:
@@ -54,6 +66,20 @@ Grep for each keyword across:
 Glob: .claude/agents/*.md
 Read first 20 lines of each match
 ```
+
+4. **Rule scan** — list every rule and read its Principle:
+
+```
+Glob: rules/*.md
+Read the frontmatter + "## Principle" section of each candidate
+```
+
+A rule's filename often understates its reach: the policy you want may live
+inside a broader rule under a different name. Check `docs/components/rules.md`
+for the full table, and read the Principle rather than matching on the title —
+`bibliography-routing.md` owns paper-lookup routing, which its name does not
+advertise. Also check the `paths:` frontmatter: a rule that exists but is
+path-scoped away from where you need it is a **scoping** fix, not a new rule.
 
 ### Step 3: Analyse Overlap
 

@@ -1,6 +1,6 @@
 ---
 name: review-cluster
-description: "Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 13 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission'."
+description: "Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission'."
 allowed-tools: Read, Glob, Grep, Bash(uv*), Bash(ls*), Bash(git*), Task, Skill, AskUserQuestion
 argument-hint: "[paper-path or no-args (auto-detect)] [--no-synthesise]"
 agent-dependencies: [paper-critic, domain-reviewer, claim-verify, blindspot]
@@ -9,7 +9,7 @@ skill-dependencies: [latex, pre-submission-report, strategic-revision, synthesis
 
 # Review Cluster — Mid-Draft Adversarial Feedback
 
-> Parallel fan-out of 4 read-only review agents on an active-drafting paper, with auto-synthesise downstream. Lighter than `pre-submission-report --parallel` (4 agents vs 13); designed for tight iteration, not final-gate verification. Outputs `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = paper slug from the paper path).
+> Parallel fan-out of 4 read-only review agents on an active-drafting paper, with auto-synthesise downstream. Lighter than `pre-submission-report --parallel` (4 agents vs 14); designed for tight iteration, not final-gate verification. Outputs `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = paper slug from the paper path).
 
 ## Output Path
 
@@ -37,6 +37,8 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 5. Single consolidated report at `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = paper slug) — not 4 separate files.
 6. Findings tiered M/m/n (Major / moderate / minor) per `severity-gradient.md`.
 7. Show which sub-agent flagged each finding (audit trail for traceability).
+8. **Clarity on request.** With `--clarity` (or when the paper's prior referee reviews contain readability complaints), add `clarity-reviewer` as a 5th parallel agent — reader-experience stall map + the 10 clarity diagnostic classes. Its findings join the synthesis like the others.
+9. **Yardstick continuity on repeat runs.** When a prior cluster report exists for the same paper (`reviews/<scope>/review-cluster/`), the new run reuses the prior run's frozen yardstick — same phase banner (severity-gradient), same rubric set, and the prior findings list passed to the agents as "verify addressedness + new issues only", never a fresh re-derivation of criteria from the revised text (scores across rounds must be comparable; a moved yardstick fakes improvement). If the prior report is unavailable or the user explicitly resets the phase, mark the report `[YARDSTICK-REGENERATED: <reason>]` under the phase banner. (Ported from ARS v3.19 re-review protocol, 2026-07-24.)
 
 ## When to Use
 

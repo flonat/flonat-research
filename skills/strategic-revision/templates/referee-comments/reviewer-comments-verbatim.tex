@@ -1,0 +1,140 @@
+% Reviewer Comments — Verbatim Transcription
+% {{PAPER_TITLE}}
+% {{VENUE}} — Revision {{ROUND}}
+%
+% Internal reference document. Not for submission.
+
+\documentclass[11pt,landscape]{article}
+
+% ---------- geometry ----------
+\usepackage[margin=1.5cm]{geometry}
+
+% ---------- fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% ---------- tables ----------
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+
+% ---------- boxes ----------
+\usepackage[skins,breakable]{tcolorbox}
+
+% ---------- custom column types ----------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+% W = wide column for longtable (Y/X only works in tabularx)
+\newcolumntype{W}{>{\raggedright\arraybackslash}p{\dimexpr\linewidth-4.3cm-6\tabcolsep\relax}}
+
+% ---------- colours ----------
+\definecolor{rowshade}{HTML}{EBF5FB}    % light blue row shading
+\definecolor{gencomment}{HTML}{D4E6F1}  % general comment box
+\definecolor{derivednote}{HTML}{FCF3CF} % derived ID box (amber)
+\definecolor{idcol}{HTML}{1A5276}       % comment ID text
+
+% ---------- box styles ----------
+\newtcolorbox{genbox}{
+  colback=gencomment, colframe=gencomment!80!black,
+  fonttitle=\bfseries, boxrule=0.5pt, arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+\newtcolorbox{derivedbox}{
+  colback=derivednote, colframe=derivednote!80!black,
+  fonttitle=\bfseries, boxrule=0.5pt, arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt
+}
+
+% ---------- macros ----------
+\newcommand{\cid}[1]{\textbf{\textcolor{idcol}{#1}}}
+
+% ---------- metadata ----------
+\title{Reviewer Comments — Verbatim Transcription\\[4pt]
+  \large {{PAPER_TITLE}}\\[2pt]
+  \normalsize {{VENUE}} — Revision {{ROUND}}}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% ============================================================
+% REVIEWER 1
+% ============================================================
+\section{Reviewer \#1 \normalfont\textit{(N comments --- recommendation)}}
+
+\begin{genbox}
+\textbf{General assessment (no tracker ID):}
+
+[Paste the reviewer's general/summary comments here.]
+\end{genbox}
+
+\vspace{0.5em}
+
+\rowcolors{2}{rowshade}{}
+\begin{tabularx}{\textwidth}{@{} L{1.8cm} l Y @{}}
+\toprule
+\textbf{ID(s)} & \textbf{Ref.} & \textbf{Full reviewer text} \\
+\midrule
+\cid{R1-C1}
+  & Sec.~1
+  & [Full verbatim text of comment.]
+\\
+\bottomrule
+\end{tabularx}
+
+% ============================================================
+% REVIEWER 2
+% ============================================================
+\section{Reviewer \#2 \normalfont\textit{(N comments --- recommendation)}}
+
+\begin{genbox}
+\textbf{General assessment (no tracker ID):}
+
+[Paste the reviewer's general/summary comments here.]
+\end{genbox}
+
+\vspace{0.5em}
+
+\rowcolors{2}{rowshade}{}
+\begin{tabularx}{\textwidth}{@{} L{1.8cm} l Y @{}}
+\toprule
+\textbf{ID(s)} & \textbf{Ref.} & \textbf{Full reviewer text} \\
+\midrule
+\cid{R2-C1}
+  & Sec.~1
+  & [Full verbatim text of comment.]
+\\
+\bottomrule
+\end{tabularx}
+
+% ============================================================
+% DERIVED IDs (if any)
+% ============================================================
+% Uncomment if some tracker IDs were split from or derived from
+% reviewer paragraphs rather than being direct verbatim quotes.
+
+% \section{Derived Tracker IDs}
+%
+% \begin{derivedbox}
+% \begin{tabularx}{\textwidth}{@{} L{1.8cm} L{3.5cm} Y @{}}
+% \toprule
+% \textbf{ID} & \textbf{Derived from} & \textbf{Explanation} \\
+% \midrule
+% \cid{R1-C2}
+%   & R1 general comment
+%   & [Why this was split into its own tracker ID.]
+% \\
+% \bottomrule
+% \end{tabularx}
+% \end{derivedbox}
+
+\vfill
+\begin{center}
+\small\textit{This is an internal reference document. Not for submission.}
+\end{center}
+
+\end{document}

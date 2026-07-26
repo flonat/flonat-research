@@ -1,14 +1,19 @@
-% citation-placeholders.tex — Paperpile citation placeholder guard.
+% citation-placeholders.tex — BACK-COMPAT SHIM (2026-07-24).
 %
-% Unresolved citations MUST use \CiteTodo{short-slug}{title; authors; year; DOI/hint}
-% NEVER a guessed \cite{author2024} key. \CiteTodo fails the build unless draft
-% mode is explicitly enabled, so a fabricated citation can never compile silently.
+% The \CiteTodo guard now ships inside flonat-bib.sty, so new papers need only:
+%   \usepackage[harvard]{flonat-bib}      % guard included, fail-closed
+%   \usepackage[nocitetodo]{flonat-bib}   % opt out
 %
-% Enable draft mode (renders placeholders as visible red flags instead of erroring):
-%   \draftcitationstodotrue   % in the preamble, AFTER \input{citation-placeholders}
+% This file remains so existing papers that \input it keep compiling. It defines
+% the guard only when flonat-bib has not already done so, and is a no-op
+% otherwise (loading both in either order is safe).
+%
+% Draft mode (placeholders render as visible red flags instead of erroring):
+%   \draftcitationstodotrue   % AFTER this file / flonat-bib is loaded
 
-\newif\ifdraftcitationstodo
-\draftcitationstodofalse
+\expandafter\ifx\csname ifdraftcitationstodo\endcsname\relax
+  \expandafter\newif\csname ifdraftcitationstodo\endcsname
+\fi
 
 \providecommand{\CiteTodo}[2]{%
   \ifdraftcitationstodo

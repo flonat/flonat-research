@@ -1,0 +1,72 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{flonat-rev}[2026/07/23 Revision highlighting — clean, revision, trackchanges]
+
+% ============================================
+% Three-mode revision highlighting for revision (v2+) surfaces.
+%
+% Usage:  \usepackage[trackchanges]{flonat-rev}   % internal review: blue additions,
+%                                                  % red struck deletions
+%         \usepackage[revision]{flonat-rev}        % reviewer-facing: blue additions,
+%                                                  % deletions hidden (fits page limits)
+%         \usepackage[clean]{flonat-rev}           % final submission: no markup (default)
+%
+% Commands: \new{added}         — new material (blue in revision/trackchanges)
+%           \removed{deleted}   — removed material (red struck in trackchanges,
+%                                 gone otherwise)
+%           \removedm{$math$}   — removed math (math-safe strike-through)
+%           \rev{reworded}      — light rewording (renders like \new)
+%           \begin{revblock}    — block-level addition (blue margin bar)
+%
+% Requires xcolor (most venue styles load it; \RequirePackage below is a no-op then).
+% Provenance: FAccT'26 audit-blindspots revision convention, packaged 2026-07-23.
+% ============================================
+
+% ---- Options -------------------------------
+\newif\if@fbrevclean
+\newif\if@fbrevrevision
+\newif\if@fbrevtrack
+\@fbrevcleantrue  % default: clean (fail-safe — forgetting the option can never ship markup); pass [trackchanges] or [revision] during revision work
+
+\DeclareOption{clean}{\@fbrevcleantrue\@fbrevrevisionfalse\@fbrevtrackfalse}
+\DeclareOption{revision}{\@fbrevrevisiontrue\@fbrevcleanfalse\@fbrevtrackfalse}
+\DeclareOption{trackchanges}{\@fbrevtracktrue\@fbrevcleanfalse\@fbrevrevisionfalse}
+\DeclareOption*{\PackageWarning{flonat-rev}{Unknown option '\CurrentOption'}}
+\ProcessOptions\relax
+
+% ---- Dependencies --------------------------
+\RequirePackage{xcolor}
+\RequirePackage[normalem]{ulem}  % \sout for trackchanges mode
+
+% ---- Shared block environment --------------
+\newenvironment{fb@revblock}{%
+  \par\noindent\hspace{-0.5em}%
+  \begin{minipage}[t]{2pt}\color{blue}\vrule width 2pt\end{minipage}%
+  \hspace{0.5em}\begin{minipage}[t]{\dimexpr\linewidth-1.5em}%
+}{\end{minipage}\par}
+
+% ---- Mode wiring ---------------------------
+\if@fbrevclean
+  \newcommand{\rev}[1]{#1}%
+  \newcommand{\new}[1]{#1}%
+  \newcommand{\removed}[1]{}%
+  \newcommand{\removedm}[1]{}%
+  \newenvironment{revblock}{}{}%
+\fi
+
+\if@fbrevrevision
+  \newcommand{\rev}[1]{\textcolor{blue}{#1}}%
+  \newcommand{\new}[1]{\textcolor{blue}{#1}}%
+  \newcommand{\removed}[1]{}%
+  \newcommand{\removedm}[1]{}%
+  \newenvironment{revblock}{\fb@revblock}{\endfb@revblock}%
+\fi
+
+\if@fbrevtrack
+  \newcommand{\rev}[1]{\textcolor{blue}{#1}}%
+  \newcommand{\new}[1]{\textcolor{blue}{#1}}%
+  \newcommand{\removed}[1]{{\color{red}\sout{#1}}}%
+  \newcommand{\removedm}[1]{\textcolor{red}{\sout{#1}}}%
+  \newenvironment{revblock}{\fb@revblock}{\endfb@revblock}%
+\fi
+
+\endinput

@@ -1,6 +1,6 @@
 # Skills
 
-> 93 reusable workflow definitions available across all projects.
+> 94 reusable workflow definitions available across all projects.
 
 Skills are client-neutral instruction sets (`SKILL.md` files). The contract exposes each skill only to clients with the capabilities it requires.
 
@@ -71,7 +71,7 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | `replication-audit` | Use when you need to audit which findings in a literature have been replicated or failed |
 | `replication-package` | Use when you need to assemble, anonymize, or audit a replication package |
 | `retarget-journal` | Use when you need to retarget a paper to a different journal (rename, swap bib, update citations) |
-| `review-cluster` | Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 13 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission' |
+| `review-cluster` | Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission' |
 | `review-response` | Systematic reviewer response workflow: parse comments, classify by severity, develop response strategy, write structured rebuttal. Use when asked to 'write rebuttal', 'respond to reviewers', 'draft review response', or 'handle R&R' |
 | `session-health` | Use when you need to check current context status and session health |
 | `session-log` | Use when you need to create a timestamped progress log for a research session |
@@ -79,7 +79,8 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | `skill-extract` | Extract reusable knowledge from the current session into a persistent skill.\nUse when you discover something non-obvious, create a workaround, or develop\na multi-step workflow that future sessions would benefit from |
 | `skill-preflight` | Use when you need a pre-flight duplicate check before creating new skills or agents |
 | `split-pdf` | Use when you need to download, split, and deeply read an academic PDF that is NOT in Paperpile (for Paperpile items, prefer paperpile get-pdf-text directly) |
-| `strategic-revision` | Turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency mapping, critical-path analysis, and execution blocks |
+| `strategic-revision` | Use when you need to turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency mapping, critical-path analysis, and execution blocks |
+| `submission-cover-letter` | Draft, revise, and compile evidence-grounded cover letters for journal and conference submissions. Use whenever a user asks to prepare a submission cover letter, revise an editor letter, adapt a past cover letter to a new venue, migrate editable cover-letter sources into Overleaf for coauthor collaboration, or complete cover-letter items identified by a submission checklist. Inventory the user's past submission correspondence, read the current venue requirements and manuscript metadata, preserve double-blind boundaries, and expose unresolved declarations instead of guessing |
 | `symbolic-check` | Use when you need to symbolically verify a SELF-AUTHORED algebra step, derivative, limit, comparative-static sign, or closed-form identity using a CAS (sympy) — proving or refuting it, not just stress-testing. R2 of the verification spectrum: unlike numerical-check (which only falsifies), symbolic verification can positively PROVE a manipulation. Triggers: symbolic-check, 'verify this algebra', 'is this derivative right', 'check the sign of a comparative static', 'does this closed form equal the original', 'verify the limit'. NOT for a full formal theorem (use lean-check), a probabilistic/distributional claim over a parameter space (use numerical-check), or empirical replication (use cross-language-check) |
 | `sync-permissions` | Use when you need to sync global permissions into the current project |
 | `synthesise-reviews` | Use when you need to synthesise parallel review reports into a prioritised revision plan |

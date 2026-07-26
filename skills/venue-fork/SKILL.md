@@ -70,6 +70,15 @@ Target submission formats like WINE's are satisfied by plain `\documentclass[11p
 - `.bst` files: `plainurl.bst` ships with TeX Live (urlbst); `splncs04.bst` must be copied into
   the fork. Check with `kpsewhich <name>.bst` before assuming.
 
+**Shared math core.** A class conversion is a legitimate adoption window for
+`user-math.sty` (`templates/venues/_shared/`): copy it in, load it AFTER the
+new class, and delete the preamble's now-duplicate `\newcommand{\E}`-style
+lines — it supplies the macro set, operators, delimiters, and theorem
+environments clash-safely (`[notheorems]` when the kit owns them). Papers not
+being converted are NOT retrofitted (`templates/venues/_shared/README.md`;
+candidates: `docs/reference/user-math-adoption-candidates.md`).
+
+
 ## Phase 3 — Page-budget refit (relocate, never cut)
 
 1. Compile; find where the body ends: `pdftotext -f N -l N main.pdf -` per page around the

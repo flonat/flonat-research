@@ -15,8 +15,6 @@
 | `atlas-coherence` | Map portfolio as a network: clusters, bridges, orphans, sequencing |
 | `interdisciplinary-bridge` | Import concepts from adjacent fields to solve open problems |
 | `future-research-agenda` | Generate provocative, fundable future research directions from a corpus |
-| `atlas-audit` | Full audit of all topics across 4 systems |
-| `atlas-deploy` | Manual-only schema validation + Mac Mini launchd restart for `atlas-workspace` (atlas.example.com). No compile/push step — atlas-workspace reads vault directly via Syncthing. |
 | `hypothesis-generation` | Generate competing testable hypotheses from observations with experimental designs and predictions |
 | `bridges` | Find cross-project connections: shared methods, overlapping papers, conceptual bridges via Paperpile vector search + atlas metadata |
 | `idea-pivot` | Structured reframe for a below-threshold research idea (nested: research/) |
@@ -102,7 +100,7 @@
 | `orcid-fill` | Insert ORCID iDs into a paper's `\author{}` block from vault people frontmatter; doc-class-aware macro choice (`\orcidID`/`\orcid`/`\orcidlink`); idempotent |
 | `latex-diff` | Compare two versions of a LaTeX doc (files / dirs / git revisions) — human summary + severity-graded semantic changes |
 
-### Submission (11)
+### Submission (12)
 
 | Skill | Purpose |
 |-------|---------|
@@ -110,6 +108,7 @@
 | `venue-fork` | Fork a paper into a second-venue submission variant — CFP concurrency check, new Overleaf project, doc-class conversion, page-budget refit to appendices, writeback |
 | `anonymous-artifact` | Push the in-tree `github-repo/` artifact to a private GitHub repo, mint an anonymous.4open.science URL (semi-automated), and write back to vault submission, paper LaTeX, and atlas. Three-layer sanitization. |
 | `pre-submission-report` | All quality checks in one dated report; citation-only mode composes bib-validate + claim-verify receipts without rerunning checks |
+| `submission-cover-letter` | Draft and compile venue-specific cover letters from current guidelines, manuscript/Vault metadata, and the portfolio precedent index; unresolved declarations remain explicit blockers |
 | `retarget-journal` | Switch paper to different journal (rename, reformat, rekey) |
 | `strategic-revision` | Two-mode DAG planning: `--internal` turns review findings into an executable plan; `--external` turns genuine venue comments into an R&R plan, rebuttal scaffold, and strategy |
 | `synthesise-reviews` | Synthesise parallel review reports into a prioritised revision plan |
@@ -185,7 +184,7 @@
 | `figure-feedback` | Vision-based structured feedback on generated figures (PDF/PNG/SVG): correctness, anomalies, publication readiness |
 | `preregister` | OSF-Standard or AsPredicted preregistration before data collection |
 
-### Sync & Deploy (10)
+### Sync & Deploy (11)
 
 | Skill | Purpose |
 |-------|---------|
@@ -199,12 +198,15 @@
 | `release` | Full publication pipeline: sync, version bump, commit, tag, publish |
 | `amend-recent-commits` | Rewrite messages of recent git commits without `rebase -i` (which is blocked in the harness) |
 | `pre-commit-audit` | Fast pre-commit safety scan: file size, anonymity (author/affiliation strings in tex/bib), hardcoded secrets |
+| `atlas-deploy` | Approval-gated Atlas projection, restart, and live verification after source or infrastructure changes |
 
-### Audit & Quality (14)
+### Audit & Quality (16)
 
 | Skill | Purpose |
 |-------|---------|
 | `pages-audit` | Functional/data-integrity audit of atlas web pages — BFS link crawl + invariants (taxonomy canon, review-state freshness, count parity); cron-able, optional --semantic pass |
+| `atlas-audit` | Research-content and portfolio-coherence audit across projects, Vault, Paperpile, submissions, venues, and Overleaf |
+| `atlas-infra-audit` | Read-only Atlas operational audit: Mini, launchd, SSD, tunnel, services, catalogue, backups, and dependencies |
 | `tidy-project-reviews` | Retrofit project to `review-artefact-routing` rule: move stray `*-REPORT.md` / `*-REVIEW.md` files into `reviews/<source>/YYYY-MM-DD.md` with provenance classification (AI vs human). `git mv` preserves history. Read-only `--dry-run` by default. |
 | `review-recap` | Per-paper retrospective inventory of review skills + agents already run. Coverage matrix, aggregate open issues, pre-submission gap check. Read-only stdout. |
 | `system-audit` | Parallel audits across skills, hooks, agents, rules, docs |
@@ -280,7 +282,7 @@
 | `grade-assignment` | Grade banded-rubric student submissions (e.g., PB130 Mixed Methods Poster) with two-tier output (instructor + student feedback), parallel isolated review, and calibration pass |
 | `course-reading-list` | Parse a syllabus, extract topics + learning outcomes, search scholarly + Paperpile per section, produce Markdown reading list with summaries and discussion questions |
 
-**Total: 200 skills across 18 categories.**
+**Total: 201 skills across 18 categories.**
 
 ## Shared References (not skills — cross-cutting protocols)
 
