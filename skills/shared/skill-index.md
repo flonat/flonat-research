@@ -1,322 +1,103 @@
-# Skill Index
+# Available skills
 
-> Compact discovery table for all skills. Scan this when checking for duplicates,
-> answering "what skills do I have for X?", or deciding where a new skill fits.
+> Generated from the product contract; do not hand-edit.
 
-## By Category
+Use this compact inventory when checking for duplicate workflows or deciding which
+installed skill fits a request. Client availability is also recorded in
+`docs/availability.md` at the repository root.
 
-### Ideation (3)
-
-| Skill | Purpose |
-|-------|---------|
-| `interview-me` | Interactive interview to formalise a research idea into a structured spec |
-| `devils-advocate` | Multi-turn debate to challenge assumptions and stress-test arguments |
-| `multi-perspective` | Parallel agents with distinct disciplinary lenses explore a question |
-| `atlas-coherence` | Map portfolio as a network: clusters, bridges, orphans, sequencing |
-| `interdisciplinary-bridge` | Import concepts from adjacent fields to solve open problems |
-| `future-research-agenda` | Generate provocative, fundable future research directions from a corpus |
-| `hypothesis-generation` | Generate competing testable hypotheses from observations with experimental designs and predictions |
-| `bridges` | Find cross-project connections: shared methods, overlapping papers, conceptual bridges via Paperpile vector search + atlas metadata |
-| `idea-pivot` | Structured reframe for a below-threshold research idea (nested: research/) |
-
-### Literature (20)
-
-| Skill | Purpose |
-|-------|---------|
-| `literature` | Academic search, citation verification, .bib management, end-to-end literature pipeline (Phase 3b: SciSciNet enrichment) |
-| `journals-biz` | Build Scopus ISSN boolean queries filtered by business/economics journal rankings (AJG/CABS, FT50). First in the `journals-*` family — see `log/ideas.md` for sibling proposals |
-| `split-pdf` | Deep-read academic papers via 4-page chunks with structured notes |
-| `paper-reading` | Read, visually inspect, explain, critique, and teach one academic article end to end; persist a lightweight Research Vault dossier |
-| `gather-readings` | Copy PDFs from Paperpile into project articles/ folder for corpus analysis |
-| `theory-mapper` | Map theoretical landscape across a corpus of papers |
-| `method-audit` | Compare data collection methods and spot biases across papers |
-| `evolution-timeline` | Chronological narrative of how a field's thinking evolved |
-| `quote-mining` | Extract exact quotes with page numbers and argument mapping |
-| `weakness-scanner` | Find weakest arguments and logical flaws across a literature |
-| `replication-audit` | Audit replication status of key findings in a literature |
-| `compile-knowledge` | Compile raw inputs (literature, meetings, logs) into a per-project knowledge wiki |
-| `store-insight` | File a single research finding or insight into the project's knowledge wiki |
-| `knowledge-lint` | Check compiled knowledge for contradictions, uncited claims, missing connections |
-| `wiki-grow` | Auto-promote project knowledge articles into vault wiki concepts (Saturday cron; de-links unresolvable wikilinks) |
-| `wiki-curate` | Read-only vault wiki audit — overlap clusters, tag coverage, backref health |
-| `wiki-merge` | Collapse a wiki overlap cluster — merge bodies, rewrite wikilinks, denylist folded slugs |
-| `sciscinet` | Query SciSciNet bibliometric database: field trends, venue intelligence, author networks, paper enrichment (disruption/novelty), citation graphs, raw SQL |
-| `threat-search` | Adversarial literature review — find papers that threaten an idea (nested: research/) |
-| `reading-note` | Capture pasted PDF highlights / reading notes for a paper and file them onto the atlas topic (`## Reading notes`) |
-
-### Writing (1)
-
-| Skill | Purpose |
-|-------|---------|
-| `proofread` | 7-category LaTeX proofreading scorecard (report only) |
-| `journal-voice` | Extract writing patterns and editorial voice from a target journal |
-| `academic-writing-polish` | Polish academic prose with separate accuracy/style stages and a protected-element preservation gate |
-| `review-response` | Systematic reviewer response drafting with classification, strategy, and tone checks |
-| `voice-analyzer` | Analyze writing samples to create a portable voice profile and style guide |
-| `voice-editor` | Edit content to match a voice profile (6-pass workflow, 4 editing modes) |
-| `figure` | Generate publication-quality academic figures (statistical plots, TikZ diagrams, multi-pass pipeline) |
-
-### Theory & Proof (6)
-
-| Skill | Purpose |
-|-------|---------|
-| `math-proof` | Write one complete, gap-free mathematical proof in a single careful pass — state-before-show, every term signed, full intermediate steps |
-| `proof-readability` | Post-verification exposition pass for already-verified proofs — 6 layers (architecture, signposting, line-level justification, notation, …) |
-| `numerical-check` | R1 verification — falsify a self-authored monotonicity/threshold/comparative-static/closed-form claim by seeded Monte-Carlo sweep (dense sampling, interior grid, characterize violators) |
-| `symbolic-check` | R2 verification — prove/refute an algebra/derivative/limit/closed-form step via sympy (`.equals()` True/False/None) |
-| `lean-check` | R3 verification — machine-check a lemma in Lean 4 + mathlib (`lake build`, no-`sorry`); toolchain at `~/lean-verify/mathlib_verify` |
-| `verify-math` | Umbrella — route a result's claims to R0–R3 and aggregate one verification report |
-
-### Presentation (10)
-
-| Skill | Purpose |
-|-------|---------|
-| `talk-deck` | Build a conference/seminar talk deck in the `paper-{venue}/talk/` convention — scaffold + rhetoric-driven Beamer deck (`user-beamer`) |
-| `talk-page` | Generate a conference-talk landing page at `links.example.com/{venue}{year}` — mobile-first HTML, QR code, matching thank-you slide |
-| `beamer-deck` | Rhetoric-driven Beamer slides using `user-beamer.sty` unified template with multi-agent review |
-| `quarto-deck` | Reveal.js HTML presentations (teaching, informal talks) |
-| `quarto-course` | Quarto course websites with slides and exercises |
-| `project-deck` | Status decks for supervisor meetings and handoffs |
-| `insights-deck` | Claude Code usage insights as a Beamer presentation |
-| `latex-posters` | Research posters in LaTeX (beamerposter, tikzposter, baposter) |
-| `translate-to-quarto` | Translate Beamer LaTeX slides to Quarto RevealJS |
-| `pptx` | Create, read, edit, or manipulate PowerPoint files |
-
-### LaTeX & Bibliography (13)
-
-| Skill | Purpose |
-|-------|---------|
-| `latex-polish` | Deep visual-quality review after `latex` clean build — source-pathology lint + vision check of rendered PDF pages |
-| `bib-rekey` | Rekey a project `.bib` to Paperpile canonical citekeys (preserving entry content), then remap every `\cite` in the `.tex` |
-| `latex` | **Default compiler** — autonomous error resolution, citation audit, quality scoring |
-| `latex-health-check` | Compile all projects, auto-fix, check cross-project consistency |
-| `latex-template` | Compare preamble against working paper template (report + apply) |
-| `latex-scaffold` | Convert Markdown draft into buildable LaTeX project (md→tex) |
-| `bib-validate` | Validate bibliography inventory, identity/DOI, retraction/update, and version status; emit a typed bibliography-component receipt |
-| `bib-parse` | Extract citations from a PDF, generate validated `.bib`, stage for Paperpile import. Phase 1.5 skeleton-confirmation gate for ≥10 references |
-| `bib-filter` | Filter a .bib file to only entries actually cited in a .tex project |
-| `bib-coverage` | Compare project `.bib` against a Paperpile project/topic folder to find uncited papers and unfiled references |
-| `tikz` | Audit and repair residual TikZ visual collisions (overlapping labels, arrows crossing boxes) using mathematical gap/Bézier calculations — no eyeballing |
-| `orcid-fill` | Insert ORCID iDs into a paper's `\author{}` block from vault people frontmatter; doc-class-aware macro choice (`\orcidID`/`\orcid`/`\orcidlink`); idempotent |
-| `latex-diff` | Compare two versions of a LaTeX doc (files / dirs / git revisions) — human summary + severity-graded semantic changes |
-
-### Submission (12)
-
-| Skill | Purpose |
-|-------|---------|
-| `camera-ready` | Convert an accepted anonymous submission to camera-ready + implement accepted reviews (de-anonymise, copyright, section numbers, optional appendix moves, QA) |
-| `venue-fork` | Fork a paper into a second-venue submission variant — CFP concurrency check, new Overleaf project, doc-class conversion, page-budget refit to appendices, writeback |
-| `anonymous-artifact` | Push the in-tree `github-repo/` artifact to a private GitHub repo, mint an anonymous.4open.science URL (semi-automated), and write back to vault submission, paper LaTeX, and atlas. Three-layer sanitization. |
-| `pre-submission-report` | All quality checks in one dated report; citation-only mode composes bib-validate + claim-verify receipts without rerunning checks |
-| `submission-cover-letter` | Draft and compile venue-specific cover letters from current guidelines, manuscript/Vault metadata, and the portfolio precedent index; unresolved declarations remain explicit blockers |
-| `retarget-journal` | Switch paper to different journal (rename, reformat, rekey) |
-| `strategic-revision` | Two-mode DAG planning: `--internal` turns review findings into an executable plan; `--external` turns genuine venue comments into an R&R plan, rebuttal scaffold, and strategy |
-| `synthesise-reviews` | Synthesise parallel review reports into a prioritised revision plan |
-| `brief-compliance-check` | Check LaTeX submission against assessment brief (deliverables, word limits, required files) |
-| `research-grants` | UK-first research grant proposals (UKRI: ESRC/EPSRC/AHRC; Leverhulme; British Academy; Horizon Europe ERC/MSCA) — scheme selection, Case for Support, FEC budgeting, impact narrative |
-| `preprint` | Create a preprint / working-paper variant of an existing paper; forks the Overleaf project with `your-template` template and wires a local symlink |
-| `archive-paper-draft` | Archive a paper draft after deferral/rejection/withdrawal: snapshot to `archive/`, drop Overleaf symlink, prompt to delete Overleaf project |
-
-### Project Setup & Session (27)
-
-| Skill | Purpose |
-|-------|---------|
-| `init-project-research` | Full project scaffold (interview, git, Overleaf, Atlas topic, vault pipeline entry) |
-| `init-project-course` | Course/module folder scaffold |
-| `init-project-light` | Lightweight scaffold (CLAUDE.md only, no git/vault) |
-| `init-project-orchestration` | Add project agents, commands, and planning to a research project |
-| `init-paper-book` | Scaffold a new educational companion book for a paper; vault-rendered via atlas, deployed to `books.example.com/<slug>/` |
-| `project-safety` | Safety rules and folder structures to prevent data loss |
-| `session-log` | Timestamped progress logs for session continuity |
-| `session-close` | End-of-session closing protocol — auto-detects project type (general vs research) and runs appropriate checks |
-| `update-focus` | Structured update to current-focus.md |
-| `session-health` | On-demand session health check |
-| `project-status` | Per-project recap to resume work: venue, deadlines, where you left off, recent activity, open issues, next 3 actions. Read-only synthesis from CLAUDE.md + atlas + vault + reviews/INDEX.md + logs + git |
-| `handoff` | Persistent shared handoff for Claude→Claude, Codex→Codex, and cross-client/cross-machine continuation |
-| `codex-handoff` | Target-specific `$handoff` alias for a receiving Codex session |
-| `claude-handoff` | Target-specific `$handoff` alias for a receiving Claude session |
-| `sync-ai-infra` | Diagnose, render, import, and deploy shared Claude/Codex infrastructure on either machine |
-| `save-context` | Save information to context library files |
-| `task-management` | Daily planning, weekly reviews, meeting actions, vault |
-| `ideas` | Capture improvement ideas for the infrastructure |
-| `memory-cleanup` | Prune, merge, and abstract MEMORY.md entries |
-| `update-project-doc` | Update a project's own docs to reflect current state |
-| `checkpoint` | Save session state to survive context compaction or handoff between sessions |
-| `restore` | Restore session state from a checkpoint after compaction or in a new session |
-| `email-digest` | Scan Gmail labels, score/deduplicate, generate categorised markdown digest |
-| `decision-toolkit` | Structured decision-making frameworks with bias checking and scenario analysis |
-| `file-organizer` | Organize files and directories: analyze, deduplicate, restructure with safety checks |
-| `portfolio-briefing` | Monday-morning research portfolio briefing: atlas state, deadlines, stale-but-active projects, novelty-reviewer deltas, suggested venue retargets |
-| `process-inbox` | Triage the maintenance inbox at `atlas.example.com/inbox` interactively; action each item (done/drop/snooze) with side-effects to atlas, vault submissions, venue files, tasks |
-
-### Code & Analysis (11)
-
-| Skill | Purpose |
-|-------|---------|
-| `cross-language-check` | Cross-language replication: same specification in a second language (R/Python/Stata/Julia), compare estimates within 0.1% tolerance |
-| `code-archaeology` | Review and document old code, data, and analysis files |
-| `pipeline-manifest` | Map scripts to inputs, outputs, and paper figures/tables |
-| `python-env` | Python environment management (enforces uv) |
-| `audit-project-research` | Audit project against init-project-research template |
-| `audit-paper-book` | Sync a paper-book companion to a revised paper; detect bib / figure / numeric / structural / Overleaf-link drift |
-| `audit-project-course` | Audit course folder against init-project-course template |
-| `webapp-testing` | Playwright-based web app testing with server lifecycle management. *From Anthropic.* |
-| `frontend-design` | Distinctive, production-grade frontend interfaces (anti-AI-slop aesthetics). *From Anthropic.* |
-| `playwright-cli` | Automate browser interactions, test web pages, and work with Playwright tests |
-| `test-iterate-loop` | Autonomously iterate on a code project until tests pass: root-cause failures, apply minimal fixes, retry. Generic over Python/R/Julia/HPC |
-
-### Experimental & Data (14)
-
-| Skill | Purpose |
-|-------|---------|
-| `locked-llm-experiment` | Scaffold a pre-locked, gate-enforced LLM scoring experiment — design-lock doc, hash-bound corpus, model lockfile gating runs, refusals/parse-fails as analysed outcomes |
-| `data-analysis` | End-to-end analysis pipeline (EDA, estimation, publication output) across R/Python/Stata/Julia |
-| `computational-experiments` | Scaffold, run, and publish computational research experiments (algorithm skeletons, config-driven sweeps, seed-deterministic runners, publication figures) |
-| `experiment-design` | Experimental and survey design: power analysis, PAP, QSF parsing, survey construction |
-| `causal-design` | Identification strategy design and audit (DiD/IV/RDD/SC/event study) |
-| `synthetic-data` | Generate structurally realistic synthetic datasets for pilot testing and power analysis |
-| `event-studies` | DiD and event study implementation in R: TWFE vs modern estimators, plotting, diagnostics |
-| `replication-package` | Replication package assembly, anonymization, and audit (replaces export-project-clean/anon) |
-| `econ-data` | Fetch economic data from FRED, World Bank, Eurostat, ECB, OECD, EEX APIs using R |
-| `r-econometrics` | General R econometrics: OLS, IV, panel, RDD, robust SEs, modelsummary table export |
-| `econ-plots` | Economics-standard ggplot2 visualisations: coefficient plots, binscatter, RDD, density, marginal effects |
-| `ethics-review` | Assess ethical risks: participant safety, data privacy, GDPR, AI ethics, ethics committee readiness |
-| `figure-feedback` | Vision-based structured feedback on generated figures (PDF/PNG/SVG): correctness, anomalies, publication readiness |
-| `preregister` | OSF-Standard or AsPredicted preregistration before data collection |
-
-### Sync & Deploy (11)
-
-| Skill | Purpose |
-|-------|---------|
-| `sync-repo` | Sync docs with system state for atlas, refpile, or private repos |
-| `sync-public-repo` | Sync to public repo (flonat-research), then commit public repo |
-| `sync-public-review` | Interactive review and editing of public sync allowlists |
-| `sync-friends-repo` | Regenerate the friends distribution from private rules |
-| `sync-resources` | Pull latest from cloned resource repos |
-| `sync-permissions` | Sync global permissions into projects |
-| `full-commit` | Commit and push the registry-selected maintain-and-push set with leak guard |
-| `release` | Full publication pipeline: sync, version bump, commit, tag, publish |
-| `amend-recent-commits` | Rewrite messages of recent git commits without `rebase -i` (which is blocked in the harness) |
-| `pre-commit-audit` | Fast pre-commit safety scan: file size, anonymity (author/affiliation strings in tex/bib), hardcoded secrets |
-| `atlas-deploy` | Approval-gated Atlas projection, restart, and live verification after source or infrastructure changes |
-
-### Audit & Quality (16)
-
-| Skill | Purpose |
-|-------|---------|
-| `pages-audit` | Functional/data-integrity audit of atlas web pages — BFS link crawl + invariants (taxonomy canon, review-state freshness, count parity); cron-able, optional --semantic pass |
-| `atlas-audit` | Research-content and portfolio-coherence audit across projects, Vault, Paperpile, submissions, venues, and Overleaf |
-| `atlas-infra-audit` | Read-only Atlas operational audit: Mini, launchd, SSD, tunnel, services, catalogue, backups, and dependencies |
-| `tidy-project-reviews` | Retrofit project to `review-artefact-routing` rule: move stray `*-REPORT.md` / `*-REVIEW.md` files into `reviews/<source>/YYYY-MM-DD.md` with provenance classification (AI vs human). `git mv` preserves history. Read-only `--dry-run` by default. |
-| `review-recap` | Per-paper retrospective inventory of review skills + agents already run. Coverage matrix, aggregate open issues, pre-submission gap check. Read-only stdout. |
-| `system-audit` | Parallel audits across skills, hooks, agents, rules, docs |
-| `external-audit` | External LLM audit of any repo (atlas, refpile, private, public, friends) via Codex/Gemini |
-| `repo-doc-audit` | Documentation quality audit for any repo (atlas, refpile, private, public, friends) |
-| `docs-consistency` | Cross-cutting doc review: count consistency, component coverage, stale refs, public-private sync, user manual |
-| `skill-health` | See invocation counts, success rates, and health status for skills |
-| `feedback-review` | Review accumulated feedback signals and generate skill improvement proposals |
-| `multi-repo-audit` | Orchestrates system-audit + per-repo repo-doc-audit in parallel across all infrastructure repos; produces consolidated dashboard with cross-repo inconsistency checks |
-| `ui-critic` | Scored adversarial audit of a web package's UI: rendered page capture + four parallel specialist sub-agents (hierarchy/theme, accessibility, HTMX patterns/copy, aesthetic) with fixer-actionable report |
-| `code-suite` | Parallel multi-angle code-side audit before replication: code-review + code-paper-auditor + reproducibility-auditor in parallel + auto-synthesise |
-| `review-cluster` | Mid-draft adversarial review: paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesise into a prioritised revision plan |
-
-### Skill Lifecycle (5)
-
-| Skill | Purpose |
-|-------|---------|
-| `skill-extract` | Extract session knowledge into a new persistent skill |
-| `skill-preflight` | Pre-flight duplicate check before creating new skills/agents |
-| `skill-creator` | Create, iterate, and benchmark skills with eval viewer and description optimizer. *From Anthropic.* |
-| `rate` | Rate the last skill invocation (good/needs-work) to feed feedback synthesis |
-| `paper-to-agent` | Turn a paper's method + code into a reusable agent or skill (nested: research/) |
-
-### Machine & Radar (4)
-
-| Skill | Purpose |
-|-------|---------|
-| `machine-inventory` | Audit machine environment (Homebrew, dotfiles, credentials, dev tools, nested repos, MCP servers) |
-| `machine-evaluation` | Holistic review of machine setup from snapshots: missing tools, redundant apps, cross-machine parity |
-| `radar` | Search the web for Claude Code updates, AI workflow patterns, new repos, and MCP ecosystem news |
-| `radar-integrate` | Convert saved radar tips into infrastructure changes (new skills, rules, cloned repos) |
-
-### Infrastructure (10)
-
-| Skill | Purpose |
-|-------|---------|
-| `chatgpt-pro` | Ask GPT-5.5 Pro (web-UI-only extended-thinking model) a hard question with a tight, secret-free file set, via the headless Oracle daemon on the Mac Mini. Safety preflight before every send |
-| `email-triage` | Batch-analyse recurring system-email noise — cluster by emitter, recommend silencing/fixing |
-| `tailscale-mosh-recover` | Diagnose + recover headless Mac mini mosh after Tailscale update/restart. Two layers: daemon health (GUI-vs-Homebrew dual-install, switch to launchd) + stale `mosh-server` cleanup on old Tailscale IP. Symptoms include "could not get canonical name", "Tailscale.CLIError error 1" |
-| `postmortem` | Structured post-mortem for incidents and stuck sessions |
-| `rename-project-research` | Rename an atlas topic slug across all connected files (topics, themes, paperpile, merge-reviewed) |
-| `mcp-builder` | Guide for creating MCP servers (Python/FastMCP or TypeScript). *From Anthropic.* |
-| `wire-shared-package` | Wire a shared Python package as an editable dependency across projects |
-| `scheduled-job` | Manage Mac Mini launchd automation or machine-local diagnostic watchers with optional post-event notification |
-| `plan-to-issues` | Convert an approved plan into GitHub issues with dependencies (nested: engineering/) |
-| `swarm-setup` | Multi-agent orchestration via GitHub issues, branches, PRs (nested: engineering/) |
-
-### Document Formats (3)
-
-| Skill | Purpose |
-|-------|---------|
-| `docx` | Create, read, edit, or manipulate Word documents |
-| `pdf` | Read, extract, combine, split, rotate, watermark PDF files |
-| `xlsx` | Create, read, edit spreadsheets (.xlsx, .csv, .tsv) |
-
-### Meetings (8)
-
-| Skill | Purpose |
-|-------|---------|
-| `meetings-debrief` | Post-meeting debrief — compare outcomes to prep intentions |
-| `meetings-prep` | Interactive meeting preparation with relationship briefs |
-| `meetings-recap` | Daily digest of meetings — decisions, action items, themes |
-| `meetings-weekly` | Weekly meeting synthesis — themes, decision arcs, stale commitments |
-| `meetings-search` | Search past meeting transcripts and voice memos |
-| `meetings-list` | List recent meetings and voice memos |
-| `meetings-verify` | Verify minutes setup — model, mic, directories |
-| `meetings-cleanup` | Manage old recordings — archive, delete, disk space |
-
-### Teaching (2)
-
-| Skill | Purpose |
-|-------|---------|
-| `grade-assignment` | Grade banded-rubric student submissions (e.g., PB130 Mixed Methods Poster) with two-tier output (instructor + student feedback), parallel isolated review, and calibration pass |
-| `course-reading-list` | Parse a syllabus, extract topics + learning outcomes, search scholarly + Paperpile per section, produce Markdown reading list with summaries and discussion questions |
-
-**Total: 201 skills across 18 categories.**
-
-## Shared References (not skills — cross-cutting protocols)
-
-Files in `skills/shared/` that multiple skills and agents reference. These are not invocable skills — they are guidance documents read on demand.
-
-### Methodological Protocols
-
-| File | Purpose | Used by |
-|------|---------|---------|
-| `escalation-protocol.md` | 4-level methodological pushback (Probe → Explain → Challenge → Flag) | paper-critic, referee2-reviewer, domain-reviewer, data-analysis, causal-design, experiment-design |
-| `method-probing-questions.md` | Mandatory pre-analysis questions by method (12 paradigms) | data-analysis, causal-design, experiment-design, referee2-reviewer, domain-reviewer |
-| `distribution-diagnostics.md` | DV distribution checks + model selection decision tree | data-analysis, referee2-reviewer, domain-reviewer |
-| `engagement-stratified-sampling.md` | Engagement-tier sampling for social media data | data-analysis, experiment-design, referee2-reviewer |
-| `intercoder-reliability.md` | Per-category reliability + LLM annotation validation | data-analysis, experiment-design, referee2-reviewer, domain-reviewer |
-
-### Skill Architecture
-
-| File | Purpose |
-|------|---------|
-| `quality-scoring.md` | Shared scoring framework for quality reports |
-| `progressive-disclosure.md` | Pattern for splitting large skills into core + references |
-| `skill-design-patterns.md` | Structural patterns for skill architecture |
-| `rhetoric-principles.md` | Presentation rhetoric for deck skills |
-| `multi-language-conventions.md` | R/Python/Stata/Julia conventions for analysis skills |
-| `reference-resolution.md` | Logic for resolving Paperpile membership, citekeys, metadata, and topic folders |
-| `research-quality-rubric.md` | Research quality rubric for review agents |
-| `council-protocol.md` | Multi-model council deliberation protocol |
-| `external-audit-protocol.md` | Protocol for external LLM audits |
-| `paid-api-safety.md` | Cost guardrails for paid API calls |
-| `mcp-degradation.md` | Graceful degradation when MCP tools are unavailable |
-| `project-documentation.md` | Project documentation conventions (index) |
-| `project-documentation-content.md` | Content conventions (README, manual, architecture, deploy) |
-| `project-documentation-format.md` | Format conventions (ASCII, LaTeX, Beamer, public variants) |
-| `system-documentation.md` | System documentation conventions |
-| `tikz-rules.md` | TikZ diagram conventions |
-| `palettes.md` | Colour palettes for visualisations |
-| `skill-index.md` | This file |
+| Skill | Clients | Purpose |
+|---|---|---|
+| `beamer-deck` | claude, codex | Use when you need to create an academic Beamer presentation with original theme and multi-agent review. |
+| `bib-coverage` | claude, codex | Use when you need to compare a project .bib against a Paperpile project/topic folder to find uncited papers or unfiled entries. |
+| `bib-filter` | claude, codex | Use when you need to filter a .bib file to only entries actually cited in a .tex project. |
+| `bib-parse` | claude, codex | Use when you need to extract citations from a PDF and generate a validated .bib file. Reads the PDF, identifies referenced works, constructs BibTeX entries, and verifies metadata. |
+| `brief-compliance-check` | claude, codex | Use when you need to check a LaTeX submission against a PDF assessment brief. |
+| `camera-ready` | claude, codex | Convert an accepted anonymous-submission LaTeX paper (AAAI/AIES/ACM-style) to camera-ready and implement the accepted reviews. Use when a paper is accepted with no rebuttal and you need to de-anonymize, add copyright, turn on section numbering, implement each reviewer's minor revisions, optionally move proofs to a non-counted appendix, and QA. Not for R&R/revise-and-resubmit (use strategic-revision --external) or for preprints (use preprint). |
+| `causal-design` | claude, codex | Use when you need to design or audit an identification strategy for an observational study. |
+| `checkpoint` | claude, codex | Use when you need to save session state to survive context compaction or handoff between sessions. |
+| `code-archaeology` | claude, codex | Use when you need to review and understand old code, data, or analysis files. |
+| `compile-knowledge` | claude, codex | Use when you need to compile raw inputs (literature, meeting notes, session logs, code findings) into a per-project knowledge wiki. Supports --autonomous / -y for end-to-end runs without prompts (used by the Saturday wiki-grow cron). |
+| `computational-experiments` | claude, codex | Use when you need to scaffold, run, or publish computational research experiments. |
+| `cross-language-check` | claude, codex | Use when you need to replicate a quantitative analysis in a second language (R↔Python↔Stata↔Julia) to verify correctness. Level 1 of the verification hierarchy. |
+| `data-analysis` | claude, codex | Use when you need an end-to-end analysis pipeline: EDA, estimation, or publication output. |
+| `devils-advocate` | claude, codex | Use when you need to challenge research assumptions or stress-test arguments. |
+| `docs-consistency` | claude, codex | Review user-facing documentation for accuracy, consistency, and completeness across private, public, nested repos, and the user manual. Use when docs feel stale, after major changes, or before sharing. (Replaces `repo-doc-audit`) |
+| `docx` | claude, codex | Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of 'Word doc', 'word document', '.docx', or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a 'report', 'memo', 'letter', 'template', or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation. |
+| `experiment-design` | claude, codex | Use when you need power analysis, pre-analysis plans, QSF parsing, or survey design. |
+| `grill-me` | claude, codex | Use when you want to be interrogated ONE question at a time — either to (a) defend your own research (viva, job talk, seminar Q&A, hostile-referee prep) or (b) study a class / subject you're learning (exam revision, active recall). An interactive adversarial/Socratic oral drill grounded in your actual material, escalating on weak answers, then a study sheet of what you fumbled with model answers. Triggers: 'grill me', 'grill me on X', 'viva prep', 'defend my paper', 'quiz me on this class', 'test me on <topic>', 'exam revision', 'help me study X'. Distinct from devils-advocate (stress-tests arguments in prose) and referee2-reviewer / paper-critic (produce a WRITTEN critique) — here YOU answer aloud. |
+| `handoff` | claude, codex | Create, receive, or update a persistent project handoff between AI sessions. Supports Claude-to-Claude, Codex-to-Codex, Claude-to-Codex, and Codex-to-Claude through the same `.context/ai-handoff.md` protocol. Use for 'handoff', 'continue in a new session', 'hand this to Claude', 'hand this to Codex', or cross-machine continuation. |
+| `ideas` | claude, codex | Use when you need to capture or integrate improvement ideas for Claude Code infrastructure. |
+| `init-project` | claude | Bootstrap a new research project. Interview for details, scaffold directory structure, create Overleaf symlink, initialise git, and create project context files. |
+| `init-project-course` | claude, codex | Use when you need to bootstrap a university course or module folder. |
+| `init-project-light` | claude, codex | Use when you need to bootstrap a lightweight project with minimal structure. |
+| `init-project-orchestration` | claude, codex | Create or migrate project-level agents, repeatable project workflows, and planning state from one client-neutral contract, then render repository-scoped adapters for both Claude Code and Codex. Use when a research project needs role separation, project commands, formal phase tracking, or conversion from an existing Claude-only .claude/agents and .claude/commands setup. |
+| `insights-deck` | claude, codex | Use when you need to archive an exported Claude Code insights HTML report and create a timestamped Beamer presentation. The deck-building workflow works from Claude Code or Codex; the Claude insights export is an input artifact. |
+| `interview-me` | claude, codex | Use when you need to conduct a structured interview to extract knowledge or preferences. |
+| `knowledge-lint` | claude, codex | Use when you need to check compiled knowledge for contradictions, uncited claims, missing connections, stale articles, and orphaned concepts. |
+| `latex` | claude, codex | Use when you need to compile a LaTeX document — includes autonomous error resolution, citation audit, and quality scoring. |
+| `latex-diff` | claude, codex | Use when you need to see what changed between two versions of a LaTeX document — two files, two project directories, or two git revisions. Produces a human-readable change summary plus a machine-readable, severity-graded list of semantic changes. |
+| `latex-health-check` | claude, codex | Use when you need to compile all LaTeX projects and check cross-project consistency. |
+| `latex-polish` | claude, codex | Use when latex reports a clean build but the document still needs a deeper visual-quality review. Runs the Phase 4 source-pathology lint AND renders selected PDF pages to images for vision-model inspection, catching rendered-output issues that grep cannot — weird title pages, clipped tables, bad float placement, illegible shrunken figures. |
+| `latex-posters` | claude, codex | Use when you need to create a research poster in LaTeX (beamerposter, tikzposter, or baposter). |
+| `latex-scaffold` | claude, codex | Use when you need to convert a Markdown draft into a buildable LaTeX project. |
+| `latex-template` | claude, codex | Use when you need to compare a project's LaTeX preamble against the working paper template. |
+| `lean-check` | claude, codex | Use when you need to MACHINE-CHECK a self-authored lemma/theorem by formalizing it in Lean 4 + mathlib and running `lake build` — the strongest verification (a clean build with no `sorry` IS a proof). R3 of the verification spectrum. Runs against the pre-seeded mathlib project at ~/lean-verify/mathlib_verify on the Mac Mini. Triggers: lean-check, 'formalize this lemma in Lean', 'machine-check this theorem', 'prove this in Lean'. NOT for stress-testing a distributional claim (use numerical-check), an algebra step (use symbolic-check), or claims too rich to faithfully state (escalate to domain-reviewer). The hard part is a FAITHFUL statement — a Lean lemma that doesn't match the paper is false confidence. |
+| `math-proof` | claude, codex | Write clear, detailed mathematical proofs for academic papers. Use when the user asks to prove a result, derive an equation, justify a claim analytically, or expand a proof sketch into a full proof. Also trigger on "prove", "show analytically", "derive", "justify mathematically", or "write a proof". |
+| `mcp-builder` | claude, codex | Guide for creating MCP servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK). |
+| `meetings-cleanup` | claude, codex | Manage old recordings — find large files, archive old meetings, delete processed originals. Use when the user says "clean up recordings", "how much space are meetings using", "delete old recordings", "archive meetings", "manage meeting storage", or asks about disk space from minutes. |
+| `meetings-debrief` | claude, codex | Post-meeting debrief — analyzes what happened, compares outcomes to your prep intentions, tracks decision evolution. Use when the user says "debrief", "what just happened in that meeting", "what did we decide", "debrief that call", "post-meeting", "what changed", or right after stopping a recording. |
+| `meetings-list` | claude, codex | List recent meetings and voice memos. Use when the user asks "what meetings did I have", "show my recent recordings", "any meetings today", "list my voice memos", or wants an overview of their meeting history. Also use when they need to find a specific meeting by browsing rather than searching. |
+| `meetings-prep` | claude, codex | Interactive meeting preparation — builds a relationship brief and talking points before a call. Use when the user says "prep me for my call with", "I'm meeting with X", "prepare me for", "what should I bring up with", "meeting prep", "get ready for my call", or wants to review history with someone before a meeting. |
+| `meetings-recap` | claude, codex | Generate a daily digest of today's meetings and voice memos — key decisions, action items, and themes across all recordings. Use when the user asks "recap my day", "what happened in my meetings today", "daily summary", "what did I discuss today", "any action items from today", or wants a consolidated view of the day's conversations. |
+| `meetings-search` | claude, codex | Search past meeting transcripts and voice memos for specific topics, people, decisions, or ideas. Use this whenever the user asks "what did we discuss about X", "find that meeting where we talked about Y", "what did Alex say", "did we decide on", "what was that idea about", or any question that could be answered by searching their meeting history. Also use for "do I have any notes about" or "check my meetings for". |
+| `meetings-weekly` | claude, codex | Weekly meeting synthesis — themes, decision arcs, stale commitments, and what deserves your attention next week. Use when the user says "weekly review", "what happened this week", "weekly summary", "recap my week", "any outstanding items", "week in review", or at the end of a work week. |
+| `method-audit` | claude, codex | Use when you need to extract and compare data collection methods across empirical papers. |
+| `multi-perspective` | claude, codex | Use when you need to explore a research question from multiple independent perspectives. |
+| `numerical-check` | claude, codex | Use when you need to numerically stress-test / falsify a SELF-AUTHORED mathematical claim — monotonicity, threshold, comparative-static, inequality, closed-form, or limit — by Monte-Carlo/sweep over its parameter space. Finds a counterexample (definitive falsification) or supports the claim with a large-N no-counterexample sweep, with artifact-avoidance discipline (dense sampling, interior grid, noise-aware tolerance, characterize violators). R1 of the verification spectrum; the empirical arm of mark-unverified for self-authored math. Triggers: numerical-check, 'stress-test my conjecture', 'find a counterexample to', 'is this monotone/threshold true'. NOT for algebra identities (use symbolic-check), machine-proving a lemma (use lean-check), or replicating an empirical result (use cross-language-check). |
+| `pdf` | claude, codex | Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill. |
+| `pipeline-manifest` | claude, codex | Use when you need to map scripts to their inputs, outputs, and paper figures/tables. |
+| `playwright-cli` | claude, codex | Use when you need to automate browser interactions, test web pages and work with Playwright tests. |
+| `postmortem` | claude, codex | Use when you need a structured post-mortem after incidents, mistakes, or stuck sessions. |
+| `pre-commit-audit` | claude, codex | Use when you need a fast pre-commit safety scan: file size, anonymity (author / affiliation strings in tex/bib), and hardcoded secrets. Triggers: 'audit before commit', 'check before push', 'pre-commit scan', 'safety check'. |
+| `pre-submission-report` | claude, codex | Use when you need all quality checks run before submission, producing a single dated report. Also provides a citation-integrity-only mode that composes bib-validate and claim-verify without repeating their checks. |
+| `project-deck` | claude, codex | Use when you need to create a presentation deck to communicate project status. |
+| `project-safety` | claude, codex | Use when you need to set up safety rules and folder structures for a research project. |
+| `proof-readability` | claude, codex | Use when you need to improve the readability and exposition of mathematical proofs already verified as correct, without changing their mathematical content — polish or edit a proof, lemma, or appendix; after a proof has been written and verified; or on "make this proof readable", "polish this proof", "improve the exposition", "readability pass". |
+| `proofread` | claude, codex | Use when you need academic proofreading of a LaTeX paper (11 check categories). |
+| `python-env` | claude, codex | Use when you need Python environment management with uv (install, create venv, manage deps). |
+| `quarto-deck` | claude, codex | Use when you need to generate a Reveal.js HTML presentation from Markdown. |
+| `reorg` | claude, codex | Use when you need content-aware file reorganisation or deduplication driven by a LOCAL model (Ollama on the Mac Mini) that actually reads each file's contents, not just its name — proposes a folder structure or finds exact/near duplicates, always dry-runs first, and executes only on approval with a full undo. Triggers: 'reorganise this folder', 'tidy up Downloads with the local model', 'reorg', 'find duplicate files', 'dedup this folder', 'sort these files by reading them'. |
+| `replication-audit` | claude, codex | Use when you need to audit which findings in a literature have been replicated or failed. |
+| `replication-package` | claude, codex | Use when you need to assemble, anonymize, or audit a replication package. |
+| `retarget-journal` | claude, codex | Use when you need to retarget a paper to a different journal (rename, swap bib, update citations). |
+| `review-cluster` | claude, codex | Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission'. |
+| `review-response` | claude, codex | Systematic reviewer response workflow: parse comments, classify by severity, develop response strategy, write structured rebuttal. Use when asked to 'write rebuttal', 'respond to reviewers', 'draft review response', or 'handle R&R'. |
+| `session-health` | claude, codex | Use when you need to check current context status and session health. |
+| `session-log` | claude, codex | Use when you need to create a timestamped progress log for a research session. |
+| `skill-creator` | claude | Use when you need to create, modify, or measure performance of skills. |
+| `skill-extract` | claude, codex | Extract reusable knowledge from the current session into a persistent skill. Use when you discover something non-obvious, create a workaround, or develop a multi-step workflow that future sessions would benefit from. |
+| `skill-preflight` | claude, codex | Use when you need a pre-flight duplicate check before creating new skills or agents. |
+| `split-pdf` | claude, codex | Use when you need to download, split, and deeply read an academic PDF that is NOT in Paperpile (for Paperpile items, prefer paperpile get-pdf-text directly). |
+| `strategic-revision` | claude, codex | Use when you need to turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency mapping, critical-path analysis, and execution blocks. |
+| `symbolic-check` | claude, codex | Use when you need to symbolically verify a SELF-AUTHORED algebra step, derivative, limit, comparative-static sign, or closed-form identity using a CAS (sympy) — proving or refuting it, not just stress-testing. R2 of the verification spectrum: unlike numerical-check (which only falsifies), symbolic verification can positively PROVE a manipulation. Triggers: symbolic-check, 'verify this algebra', 'is this derivative right', 'check the sign of a comparative static', 'does this closed form equal the original', 'verify the limit'. NOT for a full formal theorem (use lean-check), a probabilistic/distributional claim over a parameter space (use numerical-check), or empirical replication (use cross-language-check). |
+| `sync-permissions` | claude | Use when you need to sync global permissions into the current project. |
+| `synthesise-reviews` | claude, codex | Use when you need to synthesise parallel review reports into a prioritised revision plan. |
+| `synthetic-data` | claude, codex | Use when you need to generate structurally realistic synthetic datasets for pilot testing or power analysis. |
+| `tailscale-mosh-recover` | claude, codex | Use when mosh hangs / fails to connect to a headless Mac mini after a Tailscale update or restart, OR when a remote-access tool (RustDesk, VNC, AnyDesk) fails to reach its public relay from an MDM-managed client. Layers — Tailscale daemon health (dual-install conflict, headless GUI-app limitation, Homebrew launchd takeover), downstream mosh-server cleanup (stale UDP bindings to old Tailscale IP), macOS resolver stuck state, and Tailscale direct-IP as relay-bypass fallback. Symptoms include `could not get canonical name for <host>`, `failed to connect to local Tailscale service`, `Tailscale.CLIError error 1`, `Connection closed by UNKNOWN port 65535`, `Failed to connect to rs-ny.rustdesk.com:21116: Please try later`. |
+| `task-management` | claude, codex | Use for daily planning, weekly reviews, meeting actions, or read/write queries over the Research Vault and research portfolio: tasks, topics, papers, outputs, submissions, venues, people, institutions, and deadlines. Triggers include 'do I have any topics for this venue?', 'which institution-X projects target venue Y?', and 'what is recorded for this paper?'. For venue suitability or recommendations rather than recorded state, query the portfolio first, then use the installed venue-recommendation workflow. |
+| `test-iterate-loop` | claude, codex | Use when you need to autonomously iterate on a code project until tests pass — root-cause failures, apply minimal fixes, retry. Generic over Python/R/Julia/HPC pipelines. Triggers: 'iterate until tests pass', 'autonomous test loop', 'fix until green', 'overnight test run'. |
+| `tikz` | claude, codex | Use when labels overlap arrows in a TikZ figure, text sits on boxes, or arrows cross each other. Audits and fixes residual TikZ visual collisions in any .tex file using mathematical gap calculations and Bézier depth formulas — no eyeballing. Downstream repair tool; the upstream defense is generating TikZ safely via beamer-deck and tikz_rules.md. |
+| `update-focus` | claude, codex | Use when you need to update current-focus.md with a structured session summary. |
+| `update-project-doc` | claude, codex | Use when you need to update a project's own CLAUDE.md, README.md, or docs/ to reflect current state. |
+| `venue-fork` | claude, codex | Fork an existing conference/journal paper into a second-venue submission variant: verify both CFPs' concurrent-submission policies, create a separate Overleaf project, convert the document class (LIPIcs/LNCS/acmart → target format), refit to the new page budget by relocating content to appendices (never cutting prose), run compile + anonymity + render-level QA, and write back vault submission + atlas output with concurrency/withdrawal clauses. Use for: 'submit this paper also to X', 'concurrent submission', 'make the WINE/EC/conference version', 'reformat for another venue'. NOT for preprints/arXiv (use preprint), NOT for moving a paper to a new target (use retarget-journal), NOT post-acceptance (use camera-ready). |
+| `verify-math` | claude, codex | Use when you need to VERIFY a self-authored mathematical result end-to-end — route each claim to the right rung of the verification spectrum (R0 adversarial review, R1 numerical falsification, R2 symbolic/CAS, R3 Lean proof) and aggregate into one verification report. The umbrella over numerical-check, symbolic-check, lean-check, and the domain-reviewer agent. Triggers: verify-math, 'verify this theorem/proposition/conjecture', 'check all the math in my paper', 'is this result correct'. Use when you have a claim and want the right method(s) chosen and combined; for a single known method, call that skill directly. |
+| `voice-analyzer` | claude, codex | Use when you need to analyze writing samples to create a portable voice profile. Analyze writing samples to create a portable voice profile and style guide. Use when setting up voice-matched editing, onboarding to a new project, or refreshing an outdated style guide. |
+| `voice-editor` | claude, codex | Use when you need to edit content to match a specific voice profile. Edit auto-generated or draft content to match a voice profile. Use when transforming generic AI output into authentic voice-matched content, or when editing drafts to sound more like you. |
+| `weakness-scanner` | claude, codex | Use when you need to identify the weakest arguments across a literature. |
+| `webapp-testing` | claude, codex | Use when you need to interact with or test a local web application using Playwright. |
+| `wiki-curate` | claude, codex | Use when you need to audit the vault wiki (~/vault/concepts/) for fragmentation, missing tags, write-only concepts, and draft/anatomy conformance. Read-only — produces a markdown report at /tmp/wiki-curate-report.md. Companion to wiki-grow (which writes) and wiki-merge (which fixes overlap clusters). |
+| `wiki-grow` | claude, codex | Use when you want to auto-promote project knowledge articles into vault wiki concepts. Saturday cron job — runs the corpus scanner, picks candidates above threshold, copies each source article into ~/vault/concepts/ with auto_generated frontmatter so it surfaces immediately on topic pages. Can also be run interactively for a dry-run preview. |
+| `wiki-merge` | claude, codex | Use when wiki-curate has identified an overlap cluster and you want to collapse it. Takes a canonical winner slug + one or more fold-in slugs; merges bodies, rewrites all [[wikilink]] references in the corpus, deletes losers, denylists them. Dry-run by default; --apply writes. |
+| `wire-shared-package` | claude, codex | Use when you need to wire a shared Python package as an editable dependency across projects. |
+| `xlsx` | claude, codex | Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like "the xlsx in my downloads") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved. |

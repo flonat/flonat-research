@@ -1,6 +1,6 @@
 # Skills
 
-> 94 reusable workflow definitions available across all projects.
+> 93 reusable workflow definitions available across all projects.
 
 Skills are client-neutral instruction sets (`SKILL.md` files). The contract exposes each skill only to clients with the capabilities it requires.
 
@@ -80,7 +80,6 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | `skill-preflight` | Use when you need a pre-flight duplicate check before creating new skills or agents |
 | `split-pdf` | Use when you need to download, split, and deeply read an academic PDF that is NOT in Paperpile (for Paperpile items, prefer paperpile get-pdf-text directly) |
 | `strategic-revision` | Use when you need to turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency mapping, critical-path analysis, and execution blocks |
-| `submission-cover-letter` | Draft, revise, and compile evidence-grounded cover letters for journal and conference submissions. Use whenever a user asks to prepare a submission cover letter, revise an editor letter, adapt a past cover letter to a new venue, migrate editable cover-letter sources into Overleaf for coauthor collaboration, or complete cover-letter items identified by a submission checklist. Inventory the user's past submission correspondence, read the current venue requirements and manuscript metadata, preserve double-blind boundaries, and expose unresolved declarations instead of guessing |
 | `symbolic-check` | Use when you need to symbolically verify a SELF-AUTHORED algebra step, derivative, limit, comparative-static sign, or closed-form identity using a CAS (sympy) — proving or refuting it, not just stress-testing. R2 of the verification spectrum: unlike numerical-check (which only falsifies), symbolic verification can positively PROVE a manipulation. Triggers: symbolic-check, 'verify this algebra', 'is this derivative right', 'check the sign of a comparative static', 'does this closed form equal the original', 'verify the limit'. NOT for a full formal theorem (use lean-check), a probabilistic/distributional claim over a parameter space (use numerical-check), or empirical replication (use cross-language-check) |
 | `sync-permissions` | Use when you need to sync global permissions into the current project |
 | `synthesise-reviews` | Use when you need to synthesise parallel review reports into a prioritised revision plan |

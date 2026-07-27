@@ -206,13 +206,26 @@ The validator checks: frontmatter validity, name format and directory match, des
 
 ## Phase 6: Deploy and Confirm
 
-1. Copy the skill to the deployed location (rsync won't run until next session start):
+1. Add an explicit client/capability row to
+   `config/ai-skill-contracts.yaml`; never rely on a silent `both` default.
+2. Add the new asset to `config/public-ai-contracts.yaml` as
+   `distribution: exclude`. Public inclusion is a separate, user-owned
+   whitelist decision: creating, approving, committing, syncing, or deploying
+   the skill is not approval to publish it. Change it to `include` only after
+   the user explicitly approves that named skill for the public distribution.
+3. Update `docs/components/skills.md`, including the overview, full catalogue,
+   and category subtotal, then run the inventory checker.
+4. Render, validate, and deploy from the canonical control plane:
    ```bash
-   cp -r skills/{name} <skills-root>/{name}
+   uv run python scripts/ai_skill_contracts.py check
+   uv run python scripts/public_framework.py check
+   uv run python scripts/ai-infra-sync.py render
+   uv run python scripts/ai-infra-sync.py deploy --target all --if-changed
+   uv run python scripts/ai-infra-sync.py doctor --target all
    ```
-2. Check that `<skills-root>/{name}/SKILL.md` exists
-3. Tell the user: "Created `/{name}` — [one-line summary]. It's available immediately in all projects."
-4. If the skill is substantial, suggest updating `docs/components/skills.md` with the new entry
+5. Check that each declared client target contains the deployed `SKILL.md`.
+6. Tell the user which clients received the skill and that public distribution
+   remains excluded unless separately approved.
 
 ## What This Skill Does NOT Do
 
