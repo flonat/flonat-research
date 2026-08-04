@@ -881,6 +881,18 @@ assets:
       - shell
       - skill-routing
       reason: selected by the reviewed public distribution
+    venue-guidelines-compliance:
+      path: skills/venue-guidelines-compliance
+      clients:
+      - claude
+      - codex
+      requires:
+      - filesystem
+      - shell
+      - skill-routing
+      - web
+      reason: Portable report-only audit accepting an explicit guide, a project-declared guide, or a live
+        official-source set without requiring a private registry.
     verify-math:
       path: skills/verify-math
       clients:

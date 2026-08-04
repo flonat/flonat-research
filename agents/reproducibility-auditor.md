@@ -112,6 +112,27 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - Is this distinction documented?
 - Could a newcomer accidentally run an exploratory script thinking it's part of the main pipeline?
 
+### 7. Coding / Classification Reliability (when results depend on human or LLM judgment)
+
+Applies when the results rest on **coding, classification, annotation, matching, or crosswalk decisions** — human- or LLM-made judgments — rather than only deterministic code. "Same results on rerun" then means *a second independent coder applying the same protocol reaches the same labels*, which a runnable script does not establish.
+
+- Is there **independent second coding** (or double-coding of a sample) with a reported agreement statistic (Cohen's/Fleiss' κ, %-agreement, α)?
+- Is there a documented **adjudication procedure** for resolving disagreements?
+- Is the coding protocol **preregistered or frozen** before application, or was it adjusted during coding (and if so, is that documented)?
+- **Robustness to alternative coding/matching rules** — do the headline conclusions survive a plausible alternative rule, or is a sensitivity analysis reported?
+- **A public codebook + reproducible decision log is necessary but NOT sufficient** — it documents *what* was decided without establishing that an independent coder would decide the same way. Flag "reproducible decisions" claimed as if they were "reliable classifications" (GAPS FOUND — the matrix would otherwise read as one researcher's judgment encoded in a table).
+
+If the project has no judgment-based coding step (purely deterministic pipeline), mark this dimension N/A — no penalty.
+
+### 8. Empirical Validity & Completeness
+
+Rerunnability is necessary but not sufficient — a pipeline can rerun perfectly and still not support the paper's claims. Check:
+
+- **Artifact accessibility:** every named supplement / artifact / repository URL (OSF, GitHub, Zenodo, data DOI) must actually resolve and contain what is claimed. A dead, empty, or absent link is a GAP — "supporting materials on OSF were inaccessible" defeats reproducibility even if the local code runs.
+- **Real-vs-synthetic external validity:** does *any* result validate against real (non-synthetic/toy) data, or are parameters never fitted to a real system? A fully-rerunnable **synthetic-only** pipeline still leaves external validity unestablished — flag it distinctly from a rerun failure.
+- **Results-withholding / promised-but-unreported:** analyses the paper promises but defers, withholds, or never reports ("robustness and sensitivity results missing"; "promised outcomes unreported") are a transparency/reproducibility gap.
+- **Sensitivity / hyperparameter justification:** load-bearing hyperparameters (bin counts, thresholds, `B=15`) need a sensitivity analysis or justification, else the headline result is an unvalidated single-point artifact.
+
 ---
 
 ## Output
@@ -144,6 +165,11 @@ Write the report to `reviews/<scope>/reproducibility-auditor/<YYYY-MM-DD-HHMM>.m
 | Output traceability | PASS/FAIL | |
 | Exploratory/canonical separation | PASS/FAIL | |
 | Credentials documented (not exposed) | PASS/FAIL | |
+| Coding/classification reliability (if judgment-based) | PASS/FAIL/NA | |
+| Artifact/supplement URLs resolve | PASS/FAIL | |
+| Real-data (not synthetic-only) validation | PASS/FAIL/NA | |
+| Promised analyses reported (no withholding) | PASS/FAIL | |
+| Hyperparameter sensitivity justified | PASS/FAIL/NA | |
 
 ## Replication Blockers (MUST FIX)
 [Issues that prevent rerunnability — ordered by severity]

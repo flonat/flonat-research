@@ -1,12 +1,24 @@
 #!/bin/bash
-# Skip on non-Mac environments (cloud, mobile)
-source "$(dirname "$0")/resolve-task-mgmt.sh" || exit 0
+# No environment gate. This hook needs nothing from the Task-Management
+# config, so it runs everywhere — Mac, cloud and mobile alike. It used to
+# source resolve-task-mgmt.sh, which exits 0 when ~/.config/task-mgmt/path
+# is absent; that silently disabled the guard in every cloud session.
+# See log/audits/2026-08-03-rules-enforcement-audit.md § 1.
 # promise-checker.sh
 # Stop hook — catches "performative compliance": Claude says it remembered/noted/saved
 # something but never actually called Edit or Write.
 #
 # Scans the last assistant turn for promise patterns.
 # If promises found without corresponding Edit/Write tool calls → blocks.
+
+
+# jq is a hard dependency. A Stop hook cannot block, so the honest
+# failure is to say plainly that it did not run rather than exit silently
+# and look like a pass. Code review 2026-08-03, finding 4.
+if ! command -v jq >/dev/null 2>&1; then
+  echo "[promise-checker] did not run: jq is not installed" >&2
+  exit 0
+fi
 
 INPUT=$(cat)
 

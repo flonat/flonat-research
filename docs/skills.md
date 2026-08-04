@@ -1,6 +1,6 @@
 # Skills
 
-> 93 reusable workflow definitions available across all projects.
+> 94 reusable workflow definitions available across all projects.
 
 Skills are client-neutral instruction sets (`SKILL.md` files). The contract exposes each skill only to clients with the capabilities it requires.
 
@@ -36,7 +36,7 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | `interview-me` | Use when you need to conduct a structured interview to extract knowledge or preferences |
 | `knowledge-lint` | Use when you need to check compiled knowledge for contradictions, uncited claims, missing connections, stale articles, and orphaned concepts |
 | `latex` | Use when you need to compile a LaTeX document — includes autonomous error resolution, citation audit, and quality scoring |
-| `latex-diff` | Use when you need to see what changed between two versions of a LaTeX document — two files, two project directories, or two git revisions. Produces a human-readable change summary plus a machine-readable, severity-graded list of semantic changes |
+| `latex-diff` | Use when you need to see what changed between two versions of a LaTeX document — two files, two project directories, or two git revisions. Produces a human-readable change summary plus a machine-readable, severity-graded list of semantic changes, and persists requested diff bundles under the canonical research-project review route |
 | `latex-health-check` | Use when you need to compile all LaTeX projects and check cross-project consistency |
 | `latex-polish` | Use when latex reports a clean build but the document still needs a deeper visual-quality review. Runs the Phase 4 source-pathology lint AND renders selected PDF pages to images for vision-model inspection, catching rendered-output issues that grep cannot — weird title pages, clipped tables, bad float placement, illegible shrunken figures |
 | `latex-posters` | Use when you need to create a research poster in LaTeX (beamerposter, tikzposter, or baposter) |
@@ -71,7 +71,7 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | `replication-audit` | Use when you need to audit which findings in a literature have been replicated or failed |
 | `replication-package` | Use when you need to assemble, anonymize, or audit a replication package |
 | `retarget-journal` | Use when you need to retarget a paper to a different journal (rename, swap bib, update citations) |
-| `review-cluster` | Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 sub-agents) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission' |
+| `review-cluster` | Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, optionally adds clarity-reviewer, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 checks) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission' |
 | `review-response` | Systematic reviewer response workflow: parse comments, classify by severity, develop response strategy, write structured rebuttal. Use when asked to 'write rebuttal', 'respond to reviewers', 'draft review response', or 'handle R&R' |
 | `session-health` | Use when you need to check current context status and session health |
 | `session-log` | Use when you need to create a timestamped progress log for a research session |
@@ -91,6 +91,7 @@ Skills are client-neutral instruction sets (`SKILL.md` files). The contract expo
 | `update-focus` | Use when you need to update current-focus.md with a structured session summary |
 | `update-project-doc` | Use when you need to update a project's own CLAUDE.md, README.md, or docs/ to reflect current state |
 | `venue-fork` | Fork an existing conference/journal paper into a second-venue submission variant: verify both CFPs' concurrent-submission policies, create a separate Overleaf project, convert the document class (LIPIcs/LNCS/acmart → target format), refit to the new page budget by relocating content to appendices (never cutting prose), run compile + anonymity + render-level QA, and write back vault submission + atlas output with concurrency/withdrawal clauses. Use for: 'submit this paper also to X', 'concurrent submission', 'make the WINE/EC/conference version', 'reformat for another venue'. NOT for preprints/arXiv (use preprint), NOT for moving a paper to a new target (use retarget-journal), NOT post-acceptance (use camera-ready) |
+| `venue-guidelines-compliance` | Audit a research paper and its submission package against current official venue requirements for a named journal, conference, workshop, track, article type, cycle, and submission stage. Use for standalone venue-compliance checks, before submission, when page or word limits, templates, anonymity, declarations, and required files must be verified, or as the hard venue gate inside pre-submission-report. Accept an explicit guide, a project-declared guide, or a live official-source set; never assume a private registry or vault |
 | `verify-math` | Use when you need to VERIFY a self-authored mathematical result end-to-end — route each claim to the right rung of the verification spectrum (R0 adversarial review, R1 numerical falsification, R2 symbolic/CAS, R3 Lean proof) and aggregate into one verification report. The umbrella over numerical-check, symbolic-check, lean-check, and the domain-reviewer agent. Triggers: verify-math, 'verify this theorem/proposition/conjecture', 'check all the math in my paper', 'is this result correct'. Use when you have a claim and want the right method(s) chosen and combined; for a single known method, call that skill directly |
 | `voice-analyzer` | >- Use when you need to analyze writing samples to create a portable voice profile. Analyze writing samples to create a portable voice profile and style guide. Use when setting up voice-matched editing, onboarding to a new project, or refreshing an outdated style guide |
 | `voice-editor` | >- Use when you need to edit content to match a specific voice profile. Edit auto-generated or draft content to match a voice profile. Use when transforming generic AI output into authentic voice-matched content, or when editing drafts to sound more like you |

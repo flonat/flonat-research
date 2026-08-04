@@ -176,6 +176,12 @@ These are issues that, if unaddressed, would warrant rejection or major revision
 - **Data and measurement**: Are constructs well-measured? Is the sample appropriate? Are there measurement error concerns?
 - **Internal consistency**: Do the claims in the introduction match the results? Do the conclusions overreach?
 
+**Recurring empirical red-flags (referee-calibrated — actively check each on any empirical/experimental paper; distilled from 152 real soundness complaints, `docs/reference/referee-complaints-v1.md`):**
+- **Statistical rigor:** underpowered design / no power analysis; **pseudo-replication** (within-subject or clustered observations treated as independent); **order, learning, and anchoring effects** from non-randomised block/condition sequence; means reported for skewed data where medians or distribution tests are appropriate; regression assumptions (homoscedasticity, independence, linearity) unvalidated; point estimates reported without effect sizes + CIs.
+- **Baseline adequacy:** only *internal* variants/ablations compared — demand an **external** baseline or a justification for its absence; surface any result where the method loses to, or is statistically indistinguishable from, a simple baseline.
+- **Validation vs sanity check:** distinguish a sanity check from independent validation — flag when the *strongest* experiment merely confirms the setup works, or when evidence is entirely synthetic/toy with no real-world grounding (external validity unestablished).
+- **Assumptions engineered to favour the method:** a modeling choice whose *particular* form is both unjustified and advantages the proposed method (e.g. a utility/cost form that structurally favours the new approach) — name the choice and the advantage it confers.
+
 **"What would change my mind" requirement:** Every Major Concern MUST end with a specific, actionable statement of what evidence, test, revision, or analysis would resolve the concern. Format: `**What would change my mind:** [specific test/evidence/revision]`. This forces precision — vague complaints ("needs more robustness") become concrete demands ("show Oster delta > 1 for the main specification"). If you cannot articulate what would resolve the concern, reconsider whether it is a genuine Major Concern or a TASTE issue.
 
 ### Minor Concerns (numbered)

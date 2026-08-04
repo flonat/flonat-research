@@ -4,7 +4,7 @@ description: "Use when you need all quality checks run before submission, produc
 allowed-tools: Bash(latexmk*, mkdir*, ls*, wc*), Bash(uv:*), Read, Write, Edit, Glob, Grep, Task, Skill
 argument-hint: "[path/to/main.tex or no arguments to auto-detect] [--parallel|--citation-integrity-only]"
 agent-dependencies: [artifact-coherence-auditor, blindspot, claim-verify, clarity-reviewer, code-paper-auditor, domain-reviewer, paper-critic, referee2-reviewer, reproducibility-auditor]
-skill-dependencies: [latex, verify-math]
+skill-dependencies: [latex, verify-math, venue-guidelines-compliance]
 ---
 
 # Pre-Submission Report
@@ -20,7 +20,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Citation-integrity companion:** when citation integrity runs, write `<YYYY-MM-DD-HHMM>.citation-integrity.json` beside the report. It is a typed companion, not a second report or INDEX row.
 - **Never** at project root (`./CRITIC-REPORT.md`-style filenames are forbidden — pre-rule layout).
 - **Idempotency:** if the minute-based timestamp file exists, append a same-run descriptor (`{timestamp}-r2.md`, `{timestamp}-revision.md`) — never overwrite.
-- **Index update:** if `reviews/INDEX.md` exists, write a one-line entry under "Latest per source" pointing at the new file. Otherwise `review-recap` will rebuild the index next time it runs.
+- **Index policy:** the aggregate pre-submission report is an output-only artefact and receives no `Check=pre-submission-report` row. Each reporting gate/check receives its own row with `Trigger=pre-submission-report`.
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
@@ -40,7 +40,7 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 
 ## Citation-Integrity-Only Mode
 
-When invoked with `--citation-integrity-only`, do not run compilation, general quality review, novelty, code, anonymity, or style checks. Read [`../shared/citation-integrity-receipt.md`](../shared/citation-integrity-receipt.md) and perform only this composition workflow:
+When invoked with `--citation-integrity-only`, do not run compilation, venue-guidelines compliance, general quality review, novelty, code, anonymity, or style checks. Read [`../shared/citation-integrity-receipt.md`](../shared/citation-integrity-receipt.md) and perform only this composition workflow:
 
 1. Enumerate every in-scope manuscript `.tex` file and every loaded external `.bib` file. Exclude `out/`, generated files, and `reviews/`.
 2. Resolve the current client's installed skills root. Use `shared/scripts/assemble_integrity_receipt.py manifest` to write a unique `/tmp/citation-integrity-<paper>-<timestamp>.json` with scope `full-manuscript` (or the user's explicit bounded scope).
@@ -65,16 +65,16 @@ If no argument provided, search for the main `.tex` file:
 
 ### 2. Integrity Gate (hard gate — must pass before quality checks)
 
-Run these checks first. If any fail, stop and report — do not proceed to quality checks.
+Run these checks first. If any fail or return an incomplete hard-gate verdict, stop and report — do not proceed to quality checks.
 
 1. **Placeholder scan** — grep the `.tex` file(s) for `TODO`, `FIXME`, `XXX`, `TBD`, `[INSERT`, `PLACEHOLDER`, `Lorem ipsum`. Any match is a FAIL.
 2. **Bibliography integrity** — create/reuse the frozen artifact manifest, then invoke `bib-validate --verify-doi --citation-integrity-manifest <path>` exactly once. Every `\cite{}` key must resolve to a `.bib` entry. Any missing key is a FAIL. Retain this report and component for Step 3; never rerun the bibliography check in the same pre-submission invocation.
 3. **Section completeness** — check that all standard sections exist and are non-empty (Abstract, Introduction, and at least one body section before Conclusion/References). An empty or missing section is a FAIL.
 4. **Broken references** — grep for `??` in the compiled PDF output or `.log` file (undefined `\ref{}` or `\cite{}`). Any `??` in output is a FAIL.
 5. **Anonymity gate (only if the venue is double-blind)** — load `_shared/double-blind-anonymity-checklist.md` and run **all** P1–P8 paper-side checks. Any FAIL is a hard stop. In particular: P4 (self-citation bib must be blinded if cited paper's author list overlaps the submission's) and P5 (body text must not name authors of self-cited works) — these are the CCS 2026 #1328 desk-reject triggers and require the submission's author list to be loaded from the vault submission frontmatter or prompted from the user. If the artifact has been minted via `anonymous-artifact`, also confirm A1–A9 ran clean for that artifact (state file at `<project>/.anonymous-artifact-state.json`). Skip this entire step only when the user explicitly says "single-blind" or "non-blind".
-
-6. **Token conservation vs prior round (advisory — never a FAIL by itself)** — when a prior submitted/reviewed version of the manuscript exists (a `backup/` copy, an as-submitted archive, or a git tag), run `uv run python .scripts/check_token_conservation.py --source <prior>.tex --revision <current>.tex` per main file. List each advisory row (changed number, dropped/added citation, protected-term delta) in the report with whether an authorizing revision item covers it; unexplained deltas are flagged for the human, and claim-bearing rewordings are spot-checked against the claim-strength ladder (`docs/reference/claim-strength-ladder.md`). Skip silently when no prior version exists (first submission).
-7. **Arithmetic forensics (HARD findings block; NOTE/CONDITIONAL advisory)** — run `uv run python .scripts/check_stat_forensics.py <main>.tex` on every empirical paper. It recomputes reported p-values from t/r statistics and df, checks df against reported N, recomputes t from descriptive pairs, and GRIM-checks 2-decimal means at n < 100 — the defect class LLM reviewers demonstrably miss (review-fleet baseline 2026-07-24: 0/4). A HARD finding (impossible p, df ≥ N, t contradicting descriptives) is treated like any other integrity FAIL unless the human confirms a legitimate design explanation (one-tailed test, corrected p, Welch df); CONDITIONAL GRIM rows are surfaced for judgment (integer-valued measures only). Theory-only papers with no reported test statistics: the checker returns CLEAN and costs nothing.
+6. **Venue-guidelines compliance gate** — invoke `venue-guidelines-compliance --trigger pre-submission-report` for the active paper, target venue, content type/track, cycle, and submission stage. Pass any explicit or project-declared guide and official-source URLs already available; otherwise let the compliance skill collect a live official-source set when access permits. It establishes or reuses one current `out/` PDF and binds the report to the PDF and guideline evidence. The gate passes only on exact `PASS`. Treat `FAIL`, `INCOMPLETE`, a missing report, or any artifact/guideline-evidence mismatch as a hard stop. If no target venue is declared or sufficient current official evidence cannot be established, the result is `INCOMPLETE`; do not guess or downgrade this to an advisory.
+7. **Token conservation vs prior round (advisory — never a FAIL by itself)** — when a prior submitted/reviewed version of the manuscript exists (a `backup/` copy, an as-submitted archive, or a git tag), run `uv run python .scripts/check_token_conservation.py --source <prior>.tex --revision <current>.tex` per main file. List each advisory row (changed number, dropped/added citation, protected-term delta) in the report with whether an authorizing revision item covers it; unexplained deltas are flagged for the human, and claim-bearing rewordings are spot-checked against the claim-strength ladder (`docs/reference/claim-strength-ladder.md`). Skip silently when no prior version exists (first submission).
+8. **Arithmetic forensics (HARD findings block; NOTE/CONDITIONAL advisory)** — run `uv run python .scripts/check_stat_forensics.py <main>.tex` on every empirical paper. It recomputes reported p-values from t/r statistics and df, checks df against reported N, recomputes t from descriptive pairs, and GRIM-checks 2-decimal means at n < 100 — the defect class LLM reviewers demonstrably miss (review-fleet baseline 2026-07-24: 0/4). A HARD finding (impossible p, df ≥ N, t contradicting descriptives) is treated like any other integrity FAIL unless the human confirms a legitimate design explanation (one-tailed test, corrected p, Welch df); CONDITIONAL GRIM rows are surfaced for judgment (integer-valued measures only). Theory-only papers with no reported test statistics: the checker returns CLEAN and costs nothing.
 
 **If any check fails:**
 ```
@@ -98,13 +98,13 @@ Two modes:
 
 Run these in order — each depends on a clean state from the previous:
 
-1. **Compilation** — invoke `latex` on the main `.tex` file. Record pass/fail and any remaining warnings.
+1. **Compilation** — reuse the current PDF produced during the venue-guidelines compliance gate when its source hashes still match. Otherwise invoke `latex` on the main `.tex` file. Record pass/fail and any remaining warnings.
 2. **Citation audit** — reuse the `bib-validate` report and component produced by Integrity Gate step 2. Record missing, unused, suspect, unresolved-DOI, retraction/update, and version findings; do not invoke the skill a second time.
 3. **Adversarial review** — launch `paper-critic` agent (via fresh-context sub-agent mechanism). Capture the CRITIC-REPORT.md score and findings.
 
 #### 3b. Parallel comprehensive fan-out (`--parallel` flag)
 
-Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". Runs **14 independent checks** through their canonical skills/agents, dispatching the read-only agent checks in parallel, then consolidates findings.
+Use when (a) the paper is near submission and you want a comprehensive scan, or (b) the user explicitly asks for the "full pre-submission swarm". The venue-guidelines compliance gate runs first and is outside this fan-out. After it passes, run **14 independent checks** through their canonical skills/agents, dispatching the read-only agent checks in parallel, then consolidate findings.
 
 **Hard rules for parallel mode:**
 1. **All sub-agents are read-only with respect to project files under review** — see `subagent-write-guard.md` rule. They do NOT modify the paper, bib, code, or any other artefact under review; the orchestrator (this skill) decides what to fix. **They DO write their own per-agent reports** to `reviews/<paper-slug>/<check>/<YYYY-MM-DD-HHMM>.md` per each agent's "Log to REVIEW-STATE.md (final step)" instruction (where `<paper-slug>` is the paper being reviewed and `<check>` is the agent name, e.g., `paper-critic`, `referee2-reviewer`) — this is the durable record + the INDEX.md stamp that `review-recap` reads. The "read-only" scope is the artefact under review, NOT a prohibition on writing the review report itself.
@@ -165,8 +165,8 @@ findings = consolidate_p0_p1_p2([bib_component, *parallel_tasks])
 
 Sub-agents run concurrently — total wall-clock is bounded by the slowest (typically novelty-reviewer at ~2-3 min via OpenAlex).
 
-**Consolidation:** the orchestrator merges findings from all 13 checks into a single P0/P1/P2 fix list:
-- **P0 (block submission):** anonymity leaks (#11), fabricated bibliography records (#1), materially false or load-bearing unverifiable claims (#2), compilation errors (#12), over-page-limit (#12), code-paper mismatches (#8), prose-replication divergence (#9), **any `FALSIFIED` math obligation (`verify-math`, theory papers)**
+**Consolidation:** the orchestrator merges findings from all 14 checks into a single P0/P1/P2 fix list:
+- **P0 (block submission):** any venue-guidelines compliance verdict other than exact `PASS`, anonymity leaks (#11), fabricated bibliography records (#1), materially false or load-bearing unverifiable claims (#2), compilation errors (#12), over-page-limit (#12), code-paper mismatches (#8), prose-replication divergence (#9), **any `FALSIFIED` math obligation (`verify-math`, theory papers)**
 - **P1 (must fix):** unresolved DOIs (#1), claim-verify failures (#2), novelty threats (#3), critic-report Major issues (#4), domain-review math errors (#5), reproducibility issues (#10), referee2-reviewer concerns (#6), **`INCONCLUSIVE` math obligations (`verify-math`)**
 - **P2 (should consider):** blindspot virtues + minor vices (#7), AI-detect hot zones (#13), critic-report Moderate/Minor issues (#4), novelty positioning (#3)
 
@@ -192,12 +192,21 @@ Save to the canonical `reviews/<paper-slug>/pre-submission-report/<YYYY-MM-DD-HH
 
 ---
 
-## Integrity Gate: PASS / FAIL
+## Integrity Gate: PASS / FAIL / INCOMPLETE
 
 - **Placeholders:** 0 found
 - **Citation integrity:** all keys resolved
 - **Section completeness:** all sections present
 - **Broken references:** none
+- **Venue guidelines compliance:** PASS / FAIL / INCOMPLETE — `<report path>`
+
+## Venue guidelines compliance
+
+- **Verdict:** PASS / FAIL / INCOMPLETE
+- **Canonical guide:** `<path, last_verified_at, SHA-256>`
+- **Audited artifact:** `<PDF path and SHA-256>`
+- **Mandatory requirements:** <passed>/<applicable>
+- **Blockers or unresolved evidence:** <none or concise list>
 
 ---
 
@@ -252,6 +261,8 @@ Load `skills/shared/research-quality-rubric.md` and report the weighted aggregat
 <1-2 sentence summary of what needs to happen before submission>
 ```
 
+The recommendation may be `Submit` only when the venue-guidelines compliance verdict is exact `PASS` and its recorded artifact and guideline evidence match the aggregate report. A quality score cannot override this gate.
+
 ### 5. Present Summary
 
 Display the report path and the summary table to the user. If the recommendation is "Submit", congratulate. If "Revise", list the top 3 issues to fix first.
@@ -261,6 +272,7 @@ Display the report path and the summary table to the user. If the recommendation
 - If compilation fails after `latex`, still run the remaining checks. Mark compilation as FAIL in the report.
 - If `paper-critic` agent fails, note it in the report and base the overall score on compilation + citations only.
 - If either citation component is missing, invalid, or hash-incompatible, mark citation integrity `INCOMPLETE`; never promote the surviving component to a full PASS.
+- If sufficient current official guideline evidence is missing, stale, out of scope, or cannot be tied to the current artifact, record venue-guidelines compliance as `INCOMPLETE`, set the recommendation to `Not ready`, and name the evidence needed to unblock it.
 - Always produce the report file, even if some checks failed.
 
 ## Integration
@@ -268,6 +280,7 @@ Display the report path and the summary table to the user. If the recommendation
 | Skill/Agent | Role in this workflow |
 |-------------|---------------------|
 | `latex` | Compilation + auto-fix |
+| `venue-guidelines-compliance` | Resolves an explicit guide, project-declared guide, or live official-source set, then runs a fresh hard-gate audit; exact `PASS` required |
 | `bib-validate` | Bibliography component: citation inventory, identity/DOI, retraction/update, and version status |
 | `claim-verify` agent | Claims component: claim attachment, strength/scope, source access, and quotation fidelity |
 | `assemble_integrity_receipt.py` | Mechanical validation, exact-hash compatibility check, verdict derivation, and receipt rendering; performs no research checks |
@@ -282,7 +295,7 @@ This skill is an **orchestrator** in the REVIEW-STATE.md schema. As of the 2026-
 
 ### Required orchestrator behaviour
 
-When constructing prompts for any sub-agent that is a logging tool (paper-critic, referee2-reviewer, peer-reviewer, domain-reviewer, claim-verify, blindspot, fatal-error-check, code-paper-auditor, artifact-coherence-auditor, reproducibility-auditor, code-review), include this line in the sub-agent prompt:
+When constructing prompts for any sub-agent that is a logging tool (paper-critic, referee2-reviewer, peer-reviewer, domain-reviewer, claim-verify, blindspot, clarity-reviewer, fatal-error-check, code-paper-auditor, artifact-coherence-auditor, reproducibility-auditor, code-review), include this line in the sub-agent prompt:
 
 > Emit a `review-state-stamp` directive at the end of your final response per the installed shared resource `_shared/stamp-directive-spec.md`. Set `trigger: pre-submission-report` (or omit — this orchestrator overrides). Do not call the stamping helper yourself.
 

@@ -1,6 +1,6 @@
 ---
 name: latex-diff
-description: "Use when you need to see what changed between two versions of a LaTeX document — two files, two project directories, or two git revisions. Produces a human-readable change summary plus a machine-readable, severity-graded list of semantic changes."
+description: "Use when you need to see what changed between two versions of a LaTeX document — two files, two project directories, or two git revisions. Produces a human-readable change summary plus a machine-readable, severity-graded list of semantic changes, and persists requested diff bundles under the canonical research-project review route."
 allowed-tools: Bash(latexdiff-agent:*), Bash(git show:*), Bash(git diff:*), Bash(git worktree:*), Bash(git log:*), Bash(mktemp*), Bash(mkdir*), Bash(ls*), Bash(rm*), Read, Glob, Grep
 argument-hint: "[old] [new] (files, dirs, or git revisions)"
 ---
@@ -35,6 +35,28 @@ Two views from the same canonical diff:
 2. **Machine-readable JSON** — severity-graded `ChangeRecord`s. `semantic_impact:
    true` flags the changes a reviewer should actually read.
 
+For a persistent run inside a research project, these are the mandatory core
+files. Use one timestamp-only basename for the whole run:
+
+```text
+reviews/<scope>/<check>/<YYYY-MM-DD-HHMM>.md
+reviews/<scope>/<check>/<YYYY-MM-DD-HHMM>.changes.json
+```
+
+Here and below, `<check>` is this skill's frontmatter `name`.
+
+Co-locate applicable typed companions with the same basename:
+
+- `.full.json` — unfiltered machine-readable inventory
+- `.changes.md` — full or raw human-readable inventory when the primary report
+  is a shorter curated summary
+- `.diff.tex` and `.diff.pdf` — rendered manuscript comparison
+- `.source.patch` — exact source patch for source-only changes such as citation
+  rekeys
+
+The core pair is stable; companions vary with the comparison. Do not replace
+the core pair with a PDF, patch, or run-specific directory.
+
 Severity ladder: `trivial < low < medium < high < critical`. Change types:
 `formatting_only, text, equation, citation, label_ref, environment,
 section_title, macro_definition, file_add, file_remove, move, other`.
@@ -48,6 +70,14 @@ Full flag reference: [`packages/latex-diff/README.md`](../../packages/latex-diff
 2. **`paper/` is LaTeX-only** — when extracting git revisions to temp dirs, write
    temp copies under `/tmp`, never inside an Overleaf-synced `paper/`.
 3. Clean up any `git worktree` / temp dirs you create.
+4. **Route generated artifacts by provenance.** In a research project, persist
+   them under `reviews/<scope>/<check>/`, where `<scope>` is the target paper
+   slug or `_project` and `<check>` is this skill's frontmatter `name`. Never place generated diff output under
+   `correspondence/`; genuine reviewer/editor/co-author material may be an input,
+   but it remains external correspondence.
+5. **Use a flat, same-stem bundle.** Put files directly in the producer
+   directory with a `YYYY-MM-DD-HHMM` basename. Do not create a timestamped run
+   subdirectory and do not use `README.md`, `summary.md`, or bespoke basenames.
 
 ## Protocol
 
@@ -91,10 +121,39 @@ latexdiff-agent <OLD> <NEW> --compact --semantic-only   # the changes that matte
 ```
 
 Useful filters (compose freely): `--min-severity high`, `--type citation`,
-`--section Methods`, `--file sections/intro.tex`. Add `--json diff.json` /
-`--summary summary.md` to save artefacts when the user asks.
+`--section Methods`, `--file sections/intro.tex`.
 
-### 3. Report
+### 3. Persist a requested diff bundle
+
+If the user asks to generate, create, save, or deliver a diff inside a research
+project, resolve the project root and paper scope, then create the canonical
+destination. A conversational request to explain changes without saving files
+may remain stdout-only.
+
+```bash
+STAMP=$(date '+%Y-%m-%d-%H%M')
+OUT="<project-root>/reviews/<scope>/<check>"
+BASE="$OUT/$STAMP"
+mkdir -p "$OUT"
+latexdiff-agent <OLD> <NEW> --summary "$BASE.md"
+latexdiff-agent <OLD> <NEW> --compact --semantic-only --json "$BASE.changes.json"
+```
+
+Add same-stem companions only when useful:
+
+```bash
+latexdiff-agent <OLD> <NEW> --json "$BASE.full.json"
+latexdiff-agent <OLD> <NEW> --latexdiff "$BASE.diff.tex"
+git diff <OLD> <NEW> > "$BASE.source.patch"  # source-level comparison only
+```
+
+Compile `.diff.tex` through the `latex` workflow when the user requests a visual
+diff; keep intermediate build artifacts in `out/` and copy only the final
+`.diff.pdf` beside the bundle. Record the two stable comparison inputs in the
+Markdown report; never expose disposable `/tmp` paths as the authoritative
+baseline/current identifiers.
+
+### 4. Report
 
 1. Lead with the summary line: total changes, semantic-impact count, impact score.
 2. List the **semantic-impact** changes grouped by section, each with its
@@ -109,6 +168,7 @@ Useful filters (compose freely): `--min-severity high`, `--type citation`,
 | Skill | Relationship |
 |-------|-------------|
 | `latex` | Compiles documents; this skill compares versions of them |
+| `review-artefact-routing` | Governs the scoped producer route and same-stem companion contract |
 | `strategic-revision --external` | Consumes this as evidence for the R&R "summary of changes"; it does not turn internal findings into venue claims |
 | `preprint` | Consumes this for a vN→vN+1 changelog on version bump |
 | `paper-critic` / `referee2-reviewer` | Can take `--semantic-only` JSON to focus a re-review on what changed |

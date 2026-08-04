@@ -83,6 +83,8 @@ For every theorem, proposition, lemma, corollary, and formal claim:
 - **Are assumptions necessary?** Would weakening any single assumption break the conclusion? If so, note which ones are load-bearing.
 - **Are assumptions consistent?** Do any pairs of assumptions contradict each other or create impossible conditions?
 - **Standard assumptions:** Are regularity conditions, measurability, compactness, or similar technical conditions stated when needed?
+- **Statistical assumptions vs data structure:** Do the estimator's assumptions (independence, homoscedasticity, exogeneity) actually hold for the data? Flag independence/i.i.d. claims contradicted by autocorrelated, clustered, or repeated-measures/within-subject data — a recurring referee objection that voids significance claims (pseudo-replication).
+- **Functional-form validity for the claimed regime:** Is the chosen model form valid *where it is applied* — e.g. linear scalarization cannot reach non-convex Pareto fronts; a scale-variant metric on a scale-free quantity is ill-posed. A form that is internally consistent can still be wrong for the regime; flag with an explicit warning of where it breaks.
 
 Flag: Missing assumptions as CRITICAL. Unnecessary assumptions as MINOR. Inconsistent assumptions as CRITICAL.
 
@@ -106,6 +108,8 @@ For every claim attributed to another paper:
 - **Is the result correctly characterised?** Watch for subtle differences (e.g., citing a result for i.i.d. data when the source assumes stationarity).
 - **Is the citation to the right paper?** Cross-reference against `.bib` entries — check author names, year, and title match.
 - **Are conditions from the cited result preserved?** If applying someone else's theorem, are their assumptions satisfied in your setting?
+- **Is the cited source verifiable and actually supporting?** A load-bearing claim resting on a source whose stated result cannot be located/verified — or which does not in fact establish the claim — is unsupported (recurring referee finding: "source [17] cannot be verified; no proof given").
+- **Is required load-bearing prior work engaged?** Foundational or directly-competing work the argument *depends on* being absent signals inadequate rigour — flag the specific must-cite work the claim needs, distinct from a general literature-completeness gripe.
 
 Flag: Misrepresented citations as CRITICAL. Imprecise characterisation as MAJOR. Missing theorem/proposition number as MINOR.
 
@@ -115,6 +119,7 @@ When code exists alongside the paper (in `code/`, `src/`, or project root):
 
 - **Does the code implement the exact formulas from the paper?** Compare variable names, functional forms, and parameter values.
 - **Same model specification?** Check that the code's regression/estimation matches the paper's specification.
+- **Estimand vs fitted model; test-target vs interpretation:** Does the model *actually fitted* match the model *described* (prose says GLMM/hierarchical but a marginal model was fitted; the displayed equation differs from the estimated one)? Does a statistical test's target quantity match the prose (Mann-Whitney compares distributions/stochastic-dominance, not means; report medians for skewed data)? These estimand mismatches recur and invalidate the reported inference — flag as CRITICAL.
 - **Same variable definitions?** Ensure code variable transformations match the paper's definitions.
 - **Output alignment:** Do the code's outputs (tables, figures) match what's reported in the paper?
 - **Random seeds and reproducibility:** Are seeds set? Would different seeds change conclusions?

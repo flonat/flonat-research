@@ -2,7 +2,8 @@
 description: Use when you need to see what changed between two versions of a LaTeX
   document — two files, two project directories, or two git revisions. Produces a
   human-readable change summary plus a machine-readable, severity-graded list of semantic
-  changes.
+  changes, and persists requested diff bundles under the canonical research-project
+  review route.
 ---
 
 # Shared skill adapter

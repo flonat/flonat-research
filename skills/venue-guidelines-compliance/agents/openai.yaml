@@ -1,0 +1,4 @@
+interface:
+  display_name: "Venue Guidelines Compliance"
+  short_description: "Check papers against official venue rules"
+  default_prompt: "Use $venue-guidelines-compliance to check this paper against its venue’s current submission rules."

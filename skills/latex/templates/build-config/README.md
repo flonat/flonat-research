@@ -19,7 +19,7 @@ Single source of truth for LaTeX build config across all projects.
 - Ignores commented commands and rejects conflicting engine requirements
 - Restricts bare `latexmk` to real drivers containing both `\documentclass` and `\begin{document}`
 - Lets `.latexmkrc.local` narrow a bare build through `@default_files` before engine inference, while explicit CLI targets remain authoritative
-- Copies back only the requested PDF, only after a successful build
+- Publishes only the requested PDF after a successful build, using a SHA-256-verified temporary copy and atomic rename
 - Preserves a non-zero latexmk exit status and the last-good source PDF on failure
 - Works with terminal latexmk, the supplied VS Code recipe, and Overleaf-synced folders
 

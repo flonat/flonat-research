@@ -39,6 +39,8 @@ Select the mode from **who authored the source feedback**, not from whether it s
 
 An auto-generated "Reviewer 2" report is **internal mode**. A human venue report pasted by the user is **external mode**. If provenance is unclear, ask before creating files. Never copy AI review text into the venue-correspondence record.
 
+**External mode — reviewer-gap extraction (end of run).** After the plan is built, run `skills/_shared/reviewer-gap-extraction.md` on the venue referee reports: capture any generalizable reviewing pattern the human referees raised that our own review agents don't already cover, as `reviewer-gap` signals for the `feedback-review` skill to propose as agent-contract refinements (Phase 2 of the review-agent calibration loop). Internal mode does NOT emit — those sources are our own agents.
+
 ## Inputs
 
 Gather the shared inputs first:
@@ -97,13 +99,17 @@ reviews/{scope}/strategic-revision/{YYYY-MM-DD-HHMM}/
 ├── analysis/
 │   ├── comment-tracker.md             (atomic findings + verification anchors)
 │   └── review-analysis.md             (cross-review picture + readiness decision)
-└── plan/
-    ├── REVISION_MASTER_PLAN.md
-    ├── revision_tasks.json
-    └── revision_dag_analysis.json
+├── plan/
+│   ├── REVISION_MASTER_PLAN.md
+│   ├── revision_tasks.json
+│   └── revision_dag_analysis.json
+└── snapshots/                         (token-conservation baselines — see below)
+    └── {label}/                       (e.g. pre-revision/, post-block-C/: main.tex + sections/ + .bib)
 ```
 
 Internal mode links to its source reports in place and does not duplicate them. It creates no rebuttal file, venue-response transcription, submission-history event, or alternative-venue analysis unless the user separately requests one. Use a new timestamped package for a materially changed draft; use fold-in versioning for another review of the same draft.
+
+**Snapshot location (mandatory, 2026-08-02).** Token-conservation baselines and any other source snapshots taken during a revision live in the plan package's `snapshots/{label}/` — git-tracked, tied to the plan that uses them. NEVER store revision snapshots under `paper-*/backup/`: that directory is the Overleaf backup automation's mirror surface (rsync `--delete`), and on 2026-07-31/2026-08-02 an unprotected mirror pass in `daily-maintenance.sh` gutted dated snapshot dirs stored there (both the P108 round-1 and round-2 baselines, plus two AIES submission-era archives). The automation's filters have been hardened, but the ownership boundary stands: `paper-*/backup/` belongs to the automation; revision provenance belongs to the plan package.
 
 ## Protocol — 11 Mode-Aware Phases
 

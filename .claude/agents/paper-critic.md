@@ -242,6 +242,8 @@ After hard gates pass, audit these 9 categories (first 6 aligned with `proofread
 - **Sample description consistency:** Is the sample described the same way everywhere (same N, same inclusion criteria, same time period)?
 - **Control variable consistency:** Are the controls listed in the methodology text the same as those appearing in table notes?
 - **Claim-evidence matching:** Does every factual claim in the text have a corresponding table, figure, or citation to support it?
+- **Method/dataset specification completeness:** does the paper actually specify the operational parameters a reader or replicator needs — unit of analysis, temporal cutoff, sample size (N documents / observations / pairs), inclusion/exclusion criteria, and any matching or selection procedure? A core method or corpus *named but not operationally specified* ("a bounded set of matched metrics", "we construct a corpus") is a Major finding — distinct from a mere inconsistency, and distinct from Stage 0 (which checks compliance with a locked spec, not whether the paper specifies enough).
+- **Motivating scenario actually demonstrated:** the paper's central motivating phenomenon must appear in the results, not be defined then never evidenced ("the positive-gap scenario that motivates the paper never appears in results"; "benchmark saturation means there is no gap to analyze on the main test case"). A motivation with no corresponding result is a Major consistency finding.
 - Cross-reference every number that appears more than once. A single mismatch is Major; systematic mismatches are Critical.
 
 ### 8. Tables & Figures
@@ -278,6 +280,10 @@ Systematically audit every causal claim against the paper's identification strat
 - **Generalisation beyond sample** — claims about populations the sample does not represent
 - **"We are the first" assertions** — flag for author verification (often wrong)
 - **Statistical vs. economic significance conflation** — "significant" without specifying which; reporting p-values without discussing effect magnitudes
+- **Novelty over-breadth** — is the novelty claim narrowed to the *specific delta from the closest adjacent work*, or stated broadly enough that a reviewer can answer "that is already known"? Flag any contribution sentence whose claimed novelty exceeds that delta; name the adjacent work if identifiable (or present in KA literature files). "Transparency metrics differ and are hard to compare" is already-known; "a graded portability test applied to matched metric specifications" is a narrowed, defensible claim.
+- **Promissory / not-yet-shown claims** — claims framed as delivered ("we show", "our framework classifies", "the results demonstrate") whose supporting table/figure/proof is **absent from the body**, and pervasive future/aspirational tense ("we will construct", "would show") that blurs planned work into results. Every headline claim must resolve to a present, cited exhibit; a claim without shown evidence is Major (Critical if it is a load-bearing contribution).
+- **Standard-result-restated novelty** — flag when the headline result reduces to a **known theorem or standard technique instantiated** ("this is just standard DP composition"; "follows directly from existing theory"; "incremental/unsurprising given prior work"). The paper must state the delta over that standard result, not restate it as new. This is a contribution-level finding, not a nitpick.
+- **Trivial-proposition-as-theorem** — a formal environment (Proposition/Theorem) whose content is a trivial algebraic step or immediate corollary, dressed in formality that inflates the perceived contribution. Flag the over-formalization and state what substantive claim, if any, remains.
 
 This is the category most likely to generate Critical findings in empirical papers.
 

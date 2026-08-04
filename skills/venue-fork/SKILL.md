@@ -48,6 +48,9 @@ explicitly before doing the work.
    the existing naming convention. Resolve the Dropbox root per `multi-machine.md`.
 2. Copy from the source project: `main.tex`, the bib, figure dirs, any `.bst` the target format
    needs. **Never edit the source project's files** — it is a live submission surface.
+   Copy **files by name only** — never `cp -r` a whole template/source dir into the new Overleaf
+   folder, which would drag a `.git` in and make it a repo on the wrong remote. Confirm
+   `find <new-overleaf-folder> -name .git` is empty. See `.claude/rules/template-scaffold-strip-git.md`.
 3. Project dir: `mkdir <project>/paper-{venue}/` + **relative** symlink
    `paper-{venue}/paper → ../../../../../Apps/Overleaf/<name>` (absolute symlinks break
    cross-machine).

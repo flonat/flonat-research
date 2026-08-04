@@ -9,6 +9,7 @@ $xelatex  = 'xelatex  -interaction=nonstopmode -halt-on-error -synctex=1 %O %S';
 $lualatex = 'lualatex -interaction=nonstopmode -halt-on-error -synctex=1 %O %S';
 
 require Cwd;
+require Digest::SHA;
 require File::Basename;
 require File::Copy;
 require File::Spec;
@@ -384,6 +385,57 @@ else {
     $pdf_mode = defined $flonat_mode ? $flonat_mode : 1;
 }
 
+sub flonat_sha256 {
+    my ($path) = @_;
+    open(my $fh, '<:raw', $path)
+        or die "cannot open '$path' for hashing: $!";
+    my $sha = Digest::SHA->new(256);
+    $sha->addfile($fh);
+    close($fh)
+        or die "cannot close '$path' after hashing: $!";
+    return $sha->hexdigest;
+}
+
+sub flonat_publish_pdf {
+    my ($source, $destination) = @_;
+
+    my $destination_dir = File::Basename::dirname($destination);
+    my $destination_name = File::Basename::basename($destination);
+    my $temporary = File::Spec->catfile(
+        $destination_dir,
+        ".$destination_name.tmp.$$"
+    );
+
+    my $source_before = flonat_sha256($source);
+
+    eval {
+        File::Copy::copy($source, $temporary)
+            or die "cannot copy '$source' to '$temporary': $!";
+
+        my $source_after = flonat_sha256($source);
+        my $temporary_hash = flonat_sha256($temporary);
+
+        die "source PDF changed during copy: '$source'\n"
+            unless $source_before eq $source_after;
+
+        die "temporary PDF does not match source: '$temporary'\n"
+            unless $temporary_hash eq $source_after;
+
+        rename($temporary, $destination)
+            or die "cannot publish '$temporary' as '$destination': $!";
+
+        my $source_final = flonat_sha256($source);
+        my $destination_hash = flonat_sha256($destination);
+
+        die "published PDF does not match source: '$destination'\n"
+            unless $destination_hash eq $source_final;
+    };
+
+    my $error = $@;
+    unlink($temporary) if -e $temporary;
+    die $error if $error;
+}
+
 # Copy only PDFs belonging to requested targets, only after a successful build.
 # Preserve Perl's saved exit status: changing $? in an END block can otherwise
 # turn a failed latexmk invocation into exit code 0.
@@ -419,12 +471,12 @@ END {
                 else {
                     $built_pdf = File::Spec->catfile($out_dir, "$base.pdf");
                 }
-                next unless -f $built_pdf;
+                die "expected built PDF does not exist: '$built_pdf'\n"
+                    unless -f $built_pdf;
 
                 my $destination = File::Spec->catfile($source_dir, "$base.pdf");
                 next if $copied{$destination}++;
-                File::Copy::copy($built_pdf, $destination)
-                    or die "cannot copy '$built_pdf' to '$destination': $!";
+                flonat_publish_pdf($built_pdf, $destination);
             }
         };
         if ($@) {

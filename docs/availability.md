@@ -10,7 +10,7 @@ has an explicit client list, with no implicit `both` default.
 
 | Surface | Shipped | Claude | Codex |
 |---|---:|---:|---:|
-| Skills | 93 | 93 | 90 |
+| Skills | 94 | 94 | 91 |
 | Agents | 15 | 15 | 14 |
 | Rules | 18 | 18 | 18 |
 | Hooks | 3 | 3 | 0 |
@@ -104,6 +104,7 @@ has an explicit client list, with no implicit `both` default.
 | `update-focus` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `update-project-doc` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `venue-fork` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
+| `venue-guidelines-compliance` | Yes | Yes | filesystem, shell, skill-routing, web | Portable report-only audit accepting an explicit guide, a project-declared guide, or a live official-source set without requiring a private registry. |
 | `verify-math` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `voice-analyzer` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |
 | `voice-editor` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |

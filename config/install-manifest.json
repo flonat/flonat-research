@@ -1247,6 +1247,21 @@
     },
     {
       "client": "claude",
+      "source": ".claude/commands/venue-guidelines-compliance.md",
+      "target": ".claude/commands/venue-guidelines-compliance.md"
+    },
+    {
+      "client": "claude",
+      "source": "skills/venue-guidelines-compliance",
+      "target": ".claude/shared-skills/venue-guidelines-compliance"
+    },
+    {
+      "client": "codex",
+      "source": "skills/venue-guidelines-compliance",
+      "target": ".agents/skills/venue-guidelines-compliance"
+    },
+    {
+      "client": "claude",
       "source": ".claude/commands/verify-math.md",
       "target": ".claude/commands/verify-math.md"
     },
