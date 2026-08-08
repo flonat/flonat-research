@@ -1,6 +1,6 @@
 ---
 name: project-safety
-description: "Use when you need to set up safety rules and folder structures for a research project."
+description: "Set up safety rules and folder structures for a research project. Use when the user requests this operation or its stated output."
 argument-hint: "[project-path]"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: retarget-journal
-description: "Use when you need to retarget a paper to a different journal (rename, swap bib, update citations)."
+description: "Retarget a paper to a different journal (rename, swap bib, update citations). Use when the user requests this operation or its stated output."
 allowed-tools: Bash(latexmk*), Bash(pdflatex*), Bash(xelatex*), Bash(mkdir*), Bash(ls*), Bash(cp*), Bash(mv*), Bash(git*), Read, Write, Edit, Glob, Grep, Task
 argument-hint: "[target-journal-name]"
 skill-dependencies: []

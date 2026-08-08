@@ -1,9 +1,8 @@
 ---
-description: Use when you want to auto-promote project knowledge articles into vault
-  wiki concepts. Saturday cron job — runs the corpus scanner, picks candidates above
-  threshold, copies each source article into ~/vault/concepts/ with auto_generated
-  frontmatter so it surfaces immediately on topic pages. Can also be run interactively
-  for a dry-run preview.
+description: Auto-promote eligible project knowledge articles into Research Vault
+  concepts with generated provenance metadata. Use when running the scheduled knowledge-corpus
+  promotion or previewing candidates interactively. Not for consolidating overlapping
+  concepts; use $wiki-merge.
 ---
 
 # Shared skill adapter

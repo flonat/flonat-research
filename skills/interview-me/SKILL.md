@@ -1,6 +1,6 @@
 ---
 name: interview-me
-description: "Use when you need to conduct a structured interview to extract knowledge or preferences."
+description: "Conduct a structured interview to extract knowledge or preferences. Use when the user requests this operation or its stated output."
 disable-model-invocation: true
 argument-hint: "[brief topic or 'start fresh']"
 allowed-tools: Read, Write, Edit

@@ -1,5 +1,6 @@
 ---
-description: Use when you need to generate a Reveal.js HTML presentation from Markdown.
+description: Generate a Reveal.js HTML presentation from Markdown. Use when the user
+  asks to generate a Reveal.js HTML presentation from Markdown.
 ---
 
 # Shared skill adapter

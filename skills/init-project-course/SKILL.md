@@ -1,6 +1,6 @@
 ---
 name: init-project-course
-description: "Use when you need to bootstrap a university course or module folder."
+description: "Bootstrap a university course or module folder. Use when the user requests this operation or its stated output."
 allowed-tools: Bash(mkdir*), Bash(mv*), Bash(ls*), Bash(tree*), Bash(find*), Bash(rm*), Bash(cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion
 argument-hint: "[no arguments — runs in current directory]"
 ---

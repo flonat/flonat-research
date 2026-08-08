@@ -189,6 +189,33 @@ A linter should reject machine-absolute paths, client-home assumptions,
 unqualified native tool names, and undeclared MCP dependencies in assets marked
 for both clients.
 
+### Treat skill descriptions as a routing API
+
+Both clients normally see a skill's short metadata before they decide whether
+to load its instructions. A generic trigger-first description such as “Use when
+you need help with LaTeX” gives the router little more than a keyword match and
+causes broad skills to steal requests from narrower ones. Write the description
+as a compact decision boundary instead:
+
+1. **Capability:** what distinct operation or artefact this skill provides.
+2. **Trigger:** a concrete request or state for which that capability is the
+   right choice.
+3. **Boundary:** the closest plausible alternatives and when to use them
+   instead.
+
+For example, a rendered-document polishing skill should say that it diagnoses
+and repairs visual LaTeX defects, then route source compilation failures to the
+build-health skill and template creation to the scaffold skill. The capability,
+not the shared word “LaTeX,” is what distinguishes the candidates.
+
+Enforce the convention mechanically. Reject boilerplate trigger leads, vague
+capabilities, descriptions without a concrete trigger, and repeated prefixes
+across a catalogue. Add paired positive and negative routing cases for crowded
+families, and run the same metadata-only suite against both clients. Keep this
+evaluation out of ordinary queries: it is a release test, not a per-prompt
+router. If runtime telemetry is retained, store only expected/selected labels
+and outcome categories, never raw user prompts.
+
 ## MCP registrations, CLIs, and credentials
 
 Registrations and credentials are different control planes:

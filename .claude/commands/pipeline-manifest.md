@@ -1,6 +1,6 @@
 ---
-description: Use when you need to map scripts to their inputs, outputs, and paper
-  figures/tables.
+description: Map scripts to their inputs, outputs, and paper figures/tables. Use when
+  the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

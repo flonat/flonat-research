@@ -1,6 +1,6 @@
 ---
-description: Use when you need to retarget a paper to a different journal (rename,
-  swap bib, update citations).
+description: Retarget a paper to a different journal (rename, swap bib, update citations).
+  Use when the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

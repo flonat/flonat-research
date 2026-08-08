@@ -1,6 +1,6 @@
 ---
 name: quarto-deck
-description: "Use when you need to generate a Reveal.js HTML presentation from Markdown."
+description: "Generate a Reveal.js HTML presentation from Markdown. Use when the user asks to generate a Reveal.js HTML presentation from Markdown."
 allowed-tools: Bash(reveal-md*), Bash(npx*), Bash(mkdir*), Bash(ls*), Bash(cp*), Bash(open*), Bash(R*), Bash(Rscript*), Bash(uv:*), Read, Write, Edit, Task
 argument-hint: "[topic, content-path, or project-name]"
 skill-dependencies: [beamer-deck]

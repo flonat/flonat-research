@@ -1,6 +1,6 @@
 ---
-description: Use when you need to conduct a structured interview to extract knowledge
-  or preferences.
+description: Conduct a structured interview to extract knowledge or preferences. Use
+  when the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

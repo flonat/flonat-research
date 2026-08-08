@@ -1,6 +1,6 @@
 ---
-description: Use when you need to generate structurally realistic synthetic datasets
-  for pilot testing or power analysis.
+description: Generate structurally realistic synthetic datasets for pilot testing
+  or power analysis. Use when the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

@@ -1,6 +1,6 @@
 ---
 name: multi-perspective
-description: "Use when you need to explore a research question from multiple independent perspectives."
+description: "Explore a research question through several independent analytical perspectives and synthesize their agreements and disagreements. Use when one line of reasoning is insufficient and distinct viewpoints should be preserved."
 allowed-tools: Read, Write, Edit, Glob, Grep, Task, AskUserQuestion
 argument-hint: "[research question, hypothesis, or design choice]"
 skill-dependencies: [devils-advocate, proofread]

@@ -1,7 +1,8 @@
 ---
-description: Use when you need to archive an exported Claude Code insights HTML report
-  and create a timestamped Beamer presentation. The deck-building workflow works from
-  Claude Code or Codex; the Claude insights export is an input artifact.
+description: Archive an exported Claude Code insights HTML report and turn it into
+  a timestamped Beamer presentation usable from either client. Use when the insights
+  export is the source artifact for a presentation. Not for a general research talk;
+  use $talk-deck.
 ---
 
 # Shared skill adapter

@@ -1,5 +1,6 @@
 ---
-description: Use when you need a pre-flight duplicate check before creating new skills
+description: Deliver a pre-flight duplicate check before creating new skills or agents.
+  Use when the user requests a pre-flight duplicate check before creating new skills
   or agents.
 ---
 

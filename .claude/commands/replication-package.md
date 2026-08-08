@@ -1,5 +1,7 @@
 ---
-description: Use when you need to assemble, anonymize, or audit a replication package.
+description: Assemble, anonymize, validate, or audit a research replication package.
+  Use when preparing code and permitted data for reviewer or public release. Not for
+  auditing code quality alone; use $code-suite or $replication-audit as appropriate.
 ---
 
 # Shared skill adapter

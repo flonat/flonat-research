@@ -1,6 +1,6 @@
 ---
-description: Use when you need to create an academic Beamer presentation with original
-  theme and multi-agent review.
+description: Create an academic Beamer presentation with original theme and multi-agent
+  review. Use when the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

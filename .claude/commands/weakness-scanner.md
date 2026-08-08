@@ -1,5 +1,6 @@
 ---
-description: Use when you need to identify the weakest arguments across a literature.
+description: Identify the weakest arguments across a literature. Use when the user
+  requests this operation or its stated output.
 ---
 
 # Shared skill adapter

@@ -1,6 +1,8 @@
 ---
-description: Use when you need power analysis, pre-analysis plans, QSF parsing, or
-  survey design.
+description: Design empirical studies through power analysis, pre-analysis planning,
+  QSF parsing, and survey architecture. Use when specifying sampling, measurement,
+  treatment, or analysis before data collection. Not for causal identification alone;
+  use $causal-design.
 ---
 
 # Shared skill adapter

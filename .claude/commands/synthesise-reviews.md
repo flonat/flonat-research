@@ -1,6 +1,6 @@
 ---
-description: Use when you need to synthesise parallel review reports into a prioritised
-  revision plan.
+description: Synthesise parallel review reports into a prioritised revision plan.
+  Use when the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

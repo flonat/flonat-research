@@ -1,6 +1,6 @@
 ---
 name: causal-design
-description: "Use when you need to design or audit an identification strategy for an observational study."
+description: "Design or audit the identification strategy for an observational study. Use when the task concerns estimands, causal assumptions, threats to identification, or defensible research design rather than model implementation."
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion, Task
 argument-hint: "[project-path or tex-file] [--mode design|audit]"
 agent-dependencies: [domain-reviewer]

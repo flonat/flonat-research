@@ -1,9 +1,8 @@
 ---
-description: Use when latex reports a clean build but the document still needs a deeper
-  visual-quality review. Runs the Phase 4 source-pathology lint AND renders selected
-  PDF pages to images for vision-model inspection, catching rendered-output issues
-  that grep cannot — weird title pages, clipped tables, bad float placement, illegible
-  shrunken figures.
+description: Inspect a cleanly compiling LaTeX document for source pathologies and
+  rendered visual defects by linting and viewing selected PDF pages. Use when compilation
+  succeeds but title pages, floats, tables, figures, or layout still need publication-quality
+  review. Not for basic compilation health; use $latex-health-check.
 ---
 
 # Shared skill adapter

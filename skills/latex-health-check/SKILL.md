@@ -1,6 +1,6 @@
 ---
 name: latex-health-check
-description: "Use when you need to compile all LaTeX projects and check cross-project consistency."
+description: "Compile all LaTeX projects and report cross-project build consistency. Use when checking whether a collection of papers builds cleanly. Not for rendered visual inspection after a clean build; use $latex-polish."
 allowed-tools:
   - Read
   - Edit

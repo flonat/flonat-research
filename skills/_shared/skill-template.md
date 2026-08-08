@@ -5,7 +5,7 @@ Use this client-neutral structure for a new skill or a substantial rewrite.
 ```markdown
 ---
 name: skill-name
-description: "Use when ..."
+description: "Distinctive capability and output. Use when <specific user intent or task context>. Not for <nearest confusing task>; use $alternative instead."
 allowed-tools: <optional client-supported tools>
 argument-hint: "[optional arguments]"
 ---
@@ -43,4 +43,6 @@ Keep the protocol to three to five named phases. Use `N.M` substeps rather than
 lettered or fractional phases. Resolve sibling resources with relative paths;
 do not embed a client home or machine-specific absolute path in a skill intended
 for both clients. Put output verification inside the final write phase before
-any commit step.
+any commit step. The description is routing metadata: lead with what the skill
+uniquely does, follow with concrete `Use when` contexts, and name the alternative
+when a neighbouring skill is easy to confuse.

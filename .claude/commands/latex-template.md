@@ -1,6 +1,7 @@
 ---
-description: Use when you need to compare a project's LaTeX preamble against the working
-  paper template.
+description: Compare a project's LaTeX preamble and conventions against the canonical
+  working-paper template. Use when diagnosing template drift without converting venue
+  formats or editing prose.
 ---
 
 # Shared skill adapter

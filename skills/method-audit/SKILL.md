@@ -1,6 +1,6 @@
 ---
 name: method-audit
-description: "Use when you need to extract and compare data collection methods across empirical papers."
+description: "Extract and compare data-collection methods across a set of empirical papers. Use when the user needs a cross-paper methods matrix or wants to assess how a literature gathers evidence."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
 skill-dependencies: [causal-design, split-pdf]

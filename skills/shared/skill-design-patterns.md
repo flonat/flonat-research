@@ -247,17 +247,20 @@ The `description` determines when the skill activates. It's always in context. *
 **Good:**
 - `"Analyze datasets using statistical methods. Handles EDA, hypothesis testing, and causal inference. Use when asked to analyze CSV/Excel data or run A/B test analysis."`
 - `"Academic proofreading for LaTeX papers. Grammar, notation consistency, citation format, tone. Report-only — never edits source files."`
+- `"Audit Atlas research content for metadata and portfolio coherence. Use when checking topics, outputs, or submissions. Not for service health or deployment; use $atlas-infra-audit instead."`
 
 **Bad:**
 - `"A helpful skill"` — too vague, triggers on everything
 - `"I can help you process files"` — wrong point-of-view (first person)
 - `"Skill for doing things with files"` — will trigger on every file operation
+- `"Use when you need to work with Atlas"` — the generic prefix hides which Atlas operation this skill owns
 
 **Tips:**
 - Lead with the primary capability
 - Include concrete task types as trigger phrases
-- End with "Use when..." to define activation conditions
-- State what it does NOT do if there's a common confusion
+- Follow with "Use when..." to define activation conditions; never lead with it
+- State what it does NOT do and name the alternative when there is a common confusion
+- Keep the first five words distinctive; clients may truncate catalogue descriptions
 - Max 1024 characters; name max 64 characters (lowercase, hyphens, numbers only)
 
 ### For the Body (System Prompt)

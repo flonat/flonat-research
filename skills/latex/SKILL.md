@@ -1,6 +1,6 @@
 ---
 name: latex
-description: "Use when you need to compile a LaTeX document — includes autonomous error resolution, citation audit, and quality scoring."
+description: "Compile a LaTeX document — includes autonomous error resolution, citation audit, and quality scoring. Use when the user requests this operation or its stated output."
 allowed-tools: Bash(latexmk*), Bash(xelatex*), Bash(pdflatex*), Bash(biber*), Bash(bibtex*), Bash(mkdir*), Bash(ls*), Bash(wc*), Bash(cp*), Bash(cmp*), Bash(head*), Read, Write, Edit, Grep, Glob
 argument-hint: "[tex-file-path]"
 skill-dependencies: []

@@ -1,6 +1,6 @@
 ---
 name: bib-parse
-description: "Use when you need to extract citations from a PDF and generate a validated .bib file. Reads the PDF, identifies referenced works, constructs BibTeX entries, and verifies metadata."
+description: "Extract citations from a PDF and generate a validated .bib file. Use when the user asks to extract citations from a PDF and generate a validated .bib file. Reads the PDF, identifies referenced works, constructs BibTeX entries, and verifies metadata."
 allowed-tools: Read, Glob, Grep, Write, Bash(mkdir*), Bash(ls*), Bash(uv*), WebFetch, WebSearch, Skill(split-pdf), Bash(paperpile*)
 argument-hint: <path-to-pdf>
 skill-dependencies: [split-pdf]

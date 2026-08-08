@@ -1,6 +1,6 @@
 ---
 name: update-project-doc
-description: "Use when you need to update a project's own CLAUDE.md, README.md, or docs/ to reflect current state."
+description: "Update a project's own CLAUDE.md, README.md, or docs/ to reflect current state. Use when the user asks to update a project's own CLAUDE.md, README.md, or docs/ to reflect current state."
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(ls*), Bash(git log*), Bash(git diff*), Bash(readlink*), Bash(wc*), Bash(date*), AskUserQuestion
 argument-hint: (no arguments)
 ---

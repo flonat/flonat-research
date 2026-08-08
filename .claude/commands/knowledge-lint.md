@@ -1,6 +1,7 @@
 ---
-description: Use when you need to check compiled knowledge for contradictions, uncited
-  claims, missing connections, stale articles, and orphaned concepts.
+description: Check compiled knowledge for contradictions, uncited claims, missing
+  connections, stale articles, and orphaned concepts. Use when the user requests this
+  operation or its stated output.
 ---
 
 # Shared skill adapter

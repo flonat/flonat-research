@@ -1,6 +1,6 @@
 ---
 name: review-cluster
-description: "Use when you need a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, optionally adds clarity-reviewer, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 checks) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission'."
+description: "Deliver a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, optionally adds clarity-reviewer, then auto-synthesises into a prioritised revision plan. Use when the user requests a mid-draft adversarial review of a paper — runs paper-critic + domain-reviewer + claim-verify + blindspot in parallel, optionally adds clarity-reviewer, then auto-synthesises into a prioritised revision plan. Distinct from pre-submission-report (final-gate kitchen sink, 14 checks) — this is the active-drafting feedback loop. Triggers: 'review my draft', 'adversarial review', 'cluster review', 'mid-draft critique', 'feedback before pre-submission'."
 allowed-tools: Read, Glob, Grep, Bash(uv*), Bash(ls*), Bash(git*), Task, Skill, AskUserQuestion
 argument-hint: "[paper-path or no-args (auto-detect)] [--clarity] [--no-synthesise]"
 agent-dependencies: [paper-critic, domain-reviewer, claim-verify, blindspot, clarity-reviewer]

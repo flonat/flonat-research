@@ -1,5 +1,6 @@
 ---
-description: 'Use when you need an end-to-end analysis pipeline: EDA, estimation,
+description: 'Deliver an end-to-end analysis pipeline: EDA, estimation, or publication
+  output. Use when the user requests an end-to-end analysis pipeline: EDA, estimation,
   or publication output.'
 ---
 

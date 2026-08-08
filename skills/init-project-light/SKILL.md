@@ -1,6 +1,6 @@
 ---
 name: init-project-light
-description: "Use when you need to bootstrap a lightweight project with minimal structure."
+description: "Bootstrap a lightweight project with minimal structure. Use when the user requests this operation or its stated output."
 allowed-tools: Bash(mkdir*), Bash(ls*), Bash(touch*), Read, Write, Edit, Glob, Grep, AskUserQuestion
 argument-hint: "[no arguments — runs in current directory]"
 ---

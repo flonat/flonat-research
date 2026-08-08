@@ -1,6 +1,7 @@
 ---
-description: Use when you need to capture or integrate improvement ideas for Claude
-  Code infrastructure.
+description: Capture and integrate improvement ideas for the shared Claude Code and
+  Codex infrastructure. Use when recording an infrastructure enhancement for later
+  review rather than implementing it immediately.
 ---
 
 # Shared skill adapter

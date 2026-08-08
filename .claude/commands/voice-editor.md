@@ -1,8 +1,8 @@
 ---
-description: Use when you need to edit content to match a specific voice profile.
-  Edit auto-generated or draft content to match a voice profile. Use when transforming
-  generic AI output into authentic voice-matched content, or when editing drafts to
-  sound more like you.
+description: Edit draft or auto-generated prose to match an existing personal voice
+  profile. Use when transforming generic text into the profiled author's wording,
+  cadence, and style. Not for creating the profile or matching a journal; use $voice-analyzer
+  or $journal-voice.
 ---
 
 # Shared skill adapter

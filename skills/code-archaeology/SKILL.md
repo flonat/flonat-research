@@ -1,6 +1,6 @@
 ---
 name: code-archaeology
-description: "Use when you need to review and understand old code, data, or analysis files."
+description: "Recover the structure, intent, and lineage of old code, data, or analysis files. Use when inherited or dormant research code must be understood before it is changed. Not for a quality review of already-understood code."
 allowed-tools: Bash(ls*), Bash(cp*), Bash(mkdir*), Bash(git*), Read, Write, Edit, Glob, Grep
 argument-hint: "[project-path]"
 ---

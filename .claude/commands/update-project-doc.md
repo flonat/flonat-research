@@ -1,5 +1,6 @@
 ---
-description: Use when you need to update a project's own CLAUDE.md, README.md, or
+description: Update a project's own CLAUDE.md, README.md, or docs/ to reflect current
+  state. Use when the user asks to update a project's own CLAUDE.md, README.md, or
   docs/ to reflect current state.
 ---
 

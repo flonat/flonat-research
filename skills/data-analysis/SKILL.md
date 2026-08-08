@@ -1,6 +1,6 @@
 ---
 name: data-analysis
-description: "Use when you need an end-to-end analysis pipeline: EDA, estimation, or publication output."
+description: "Deliver an end-to-end analysis pipeline: EDA, estimation, or publication output. Use when the user requests an end-to-end analysis pipeline: EDA, estimation, or publication output."
 allowed-tools: Bash(uv*, Rscript*, R*, stata*, julia*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[data-path or project-path] [--mode eda|estimation|full]"
 agent-dependencies: [code-review]

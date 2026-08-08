@@ -1,6 +1,6 @@
 ---
 name: python-env
-description: "Use when you need Python environment management with uv (install, create venv, manage deps)."
+description: "Create and maintain Python environments and dependencies with uv. Use when installing packages, creating a virtual environment, resolving Python dependency state, or migrating away from pip. Not for general Python coding."
 allowed-tools: Bash(uv*), Bash(uv:*), Bash(mkdir*), Bash(ls*)
 ---
 

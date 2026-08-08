@@ -1,7 +1,8 @@
 ---
-description: Use when you need all quality checks run before submission, producing
-  a single dated report. Also provides a citation-integrity-only mode that composes
-  bib-validate and claim-verify without repeating their checks.
+description: Run the final, comprehensive submission-readiness gate and consolidate
+  all checks into one dated report; citation-integrity-only mode is also supported.
+  Use when a paper and submission package are nearly final. Not for a mid-draft adversarial
+  review; use $review-cluster.
 ---
 
 # Shared skill adapter

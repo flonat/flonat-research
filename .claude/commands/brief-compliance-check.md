@@ -1,6 +1,6 @@
 ---
-description: Use when you need to check a LaTeX submission against a PDF assessment
-  brief.
+description: Check a LaTeX submission against a PDF assessment brief. Use when the
+  user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

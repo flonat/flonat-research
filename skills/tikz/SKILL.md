@@ -1,6 +1,6 @@
 ---
 name: tikz
-description: Use when labels overlap arrows in a TikZ figure, text sits on boxes, or arrows cross each other. Audits and fixes residual TikZ visual collisions in any .tex file using mathematical gap calculations and Bézier depth formulas — no eyeballing. Downstream repair tool; the upstream defense is generating TikZ safely via beamer-deck and tikz_rules.md.
+description: "Diagnose and fix residual TikZ label, arrow, box, and Bézier-path collisions with geometric calculations. Use when a generated .tex figure has overlapping labels or crossed arrows. Not for generating a new figure; use $figure or the upstream deck workflow."
 allowed-tools: Bash(pdflatex*), Bash(latexmk*), Bash(grep*), Bash(ls*), Read, Edit, Glob
 argument-hint: '[path/to/file.tex]'
 ---

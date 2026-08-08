@@ -1,6 +1,7 @@
 ---
-description: Use when you need to design or audit an identification strategy for an
-  observational study.
+description: Design or audit the identification strategy for an observational study.
+  Use when the task concerns estimands, causal assumptions, threats to identification,
+  or defensible research design rather than model implementation.
 ---
 
 # Shared skill adapter

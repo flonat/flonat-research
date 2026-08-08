@@ -1,6 +1,6 @@
 ---
 name: skill-preflight
-description: "Use when you need a pre-flight duplicate check before creating new skills or agents."
+description: "Deliver a pre-flight duplicate check before creating new skills or agents. Use when the user requests a pre-flight duplicate check before creating new skills or agents."
 allowed-tools:
   - Read
   - Glob

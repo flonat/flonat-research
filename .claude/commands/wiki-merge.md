@@ -1,8 +1,8 @@
 ---
-description: Use when wiki-curate has identified an overlap cluster and you want to
-  collapse it. Takes a canonical winner slug + one or more fold-in slugs; merges bodies,
-  rewrites all [[wikilink]] references in the corpus, deletes losers, denylists them.
-  Dry-run by default; --apply writes.
+description: Merge an overlap cluster of Vault concepts into one canonical concept,
+  rewrite wikilinks, and preserve a dry-run/apply boundary. Use when $wiki-curate
+  has identified a winner and fold-in slugs. Not for general wiki auditing or automatic
+  article promotion.
 ---
 
 # Shared skill adapter

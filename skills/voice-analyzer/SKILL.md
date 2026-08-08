@@ -1,11 +1,7 @@
 ---
 name: voice-analyzer
 version: 1.0.0
-description: >-
-  Use when you need to analyze writing samples to create a portable voice profile.
-  Analyze writing samples to create a portable voice profile and style guide.
-  Use when setting up voice-matched editing, onboarding to a new project,
-  or refreshing an outdated style guide.
+description: "Analyze representative writing samples into a portable personal voice profile and style guide. Use when establishing voice-matched editing for a new project or refreshing an outdated profile. Not for a target journal's editorial style; use $journal-voice."
 user-invocable: true
 allowed-tools:
   - Read

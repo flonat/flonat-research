@@ -1,6 +1,6 @@
 ---
 name: split-pdf
-description: "Use when you need to download, split, and deeply read an academic PDF that is NOT in Paperpile (for Paperpile items, prefer paperpile get-pdf-text directly)."
+description: "Download, split, and deeply read an academic PDF that is not available through Paperpile. Use when a long external PDF needs page-wise ingestion. For Paperpile items, use the Paperpile text-extraction route instead."
 allowed-tools: Bash(uv:*), Bash(uv*), Bash(curl*), Bash(wget*), Bash(mkdir*), Bash(ls*), Bash(rm*), Read, Write, Edit, WebSearch, WebFetch, Agent, Bash(paperpile*)
 argument-hint: "[pdf-path-or-search-query]"
 ---

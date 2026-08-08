@@ -1,5 +1,6 @@
 ---
-description: Use when you need to bootstrap a university course or module folder.
+description: Bootstrap a university course or module folder. Use when the user requests
+  this operation or its stated output.
 ---
 
 # Shared skill adapter

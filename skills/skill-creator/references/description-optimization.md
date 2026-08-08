@@ -1,8 +1,8 @@
 # Description Optimization
 
-> Optimize skill triggering via eval-driven description tuning. Read when the skill is ready for trigger optimization.
+> Optimize skill routing via eval-driven description tuning. Read when the skill is ready for trigger optimization.
 
-The description field in SKILL.md frontmatter is the primary mechanism that determines whether Claude invokes a skill. After creating or improving a skill, offer to optimize the description for better triggering accuracy.
+The description field in SKILL.md frontmatter is the primary mechanism clients use to decide whether to load a skill. After creating or improving a skill, offer to optimize the description for routing accuracy. The bundled loop exercises Claude specifically; its score is evidence for Claude routing, not proof of Codex parity.
 
 ### Step 1: Generate trigger eval queries
 
@@ -23,7 +23,7 @@ Good: `"ok so my boss just sent me this xlsx file (its in my downloads, called s
 
 For the **should-trigger** queries (8-10), think about coverage. You want different phrasings of the same intent — some formal, some casual. Include cases where the user doesn't explicitly name the skill or file type but clearly needs it. Throw in some uncommon use cases and cases where this skill competes with another but should win.
 
-For the **should-not-trigger** queries (8-10), the most valuable ones are the near-misses — queries that share keywords or concepts with the skill but actually need something different. Think adjacent domains, ambiguous phrasing where a naive keyword match would trigger but shouldn't, and cases where the query touches on something the skill does but in a context where another tool is more appropriate.
+For the **should-not-trigger** queries (8-10), the most valuable ones are the near-misses — queries that share keywords or concepts with the skill but actually need something different. Think adjacent domains, ambiguous phrasing where a naive keyword match would trigger but shouldn't, and cases where the query touches on something the skill does but another named skill is the correct route.
 
 The key thing to avoid: don't make should-not-trigger queries obviously irrelevant. "Write a fibonacci function" as a negative test for a PDF skill is too easy — it doesn't test anything. The negative cases should be genuinely tricky.
 
@@ -61,14 +61,14 @@ Use the model ID from your system prompt (the one powering the current session) 
 
 While it runs, periodically tail the output to give the user updates on which iteration it's on and what the scores look like.
 
-This handles the full optimization loop automatically. It splits the eval set into 60% train and 40% held-out test, evaluates the current description (running each query 3 times to get a reliable trigger rate), then calls Claude with extended thinking to propose improvements based on what failed. It re-evaluates each new description on both train and test, iterating up to 5 times. When it's done, it opens an HTML report in the browser showing the results per iteration and returns JSON with `best_description` — selected by test score rather than train score to avoid overfitting.
+This handles the Claude optimization loop automatically. It splits the eval set into 60% train and 40% held-out test, evaluates the current description (running each query 3 times to get a reliable trigger rate), then calls Claude with extended thinking to propose improvements based on what failed. It re-evaluates each new description on both train and test, iterating up to 5 times. When it's done, it opens an HTML report in the browser showing the results per iteration and returns JSON with `best_description` — selected by test score rather than train score to avoid overfitting.
 
 ### How skill triggering works
 
-Understanding the triggering mechanism helps design better eval queries. Skills appear in the active client's skill catalogue with their name and description, and the client decides whether to consult a skill from that description. Simple, one-step queries like “read this PDF” may not trigger a skill even when the description matches, because the client can handle them directly with basic tools. Complex, multi-step, or specialised queries trigger skills more reliably when the description matches.
+Understanding the triggering mechanism helps design better eval queries. Skills appear in the active client's catalogue with their name and description, and the client decides whether to consult a skill from that metadata. The capability must therefore appear before generic trigger language, especially on surfaces that truncate catalogue descriptions. Simple, one-step queries like “read this PDF” may not trigger a skill even when the description matches, because the client can handle them directly with basic tools. Complex, multi-step, or specialised queries trigger skills more reliably when the description matches.
 
 This means your eval queries should be substantive enough that Claude would actually benefit from consulting a skill. Simple queries like "read file X" are poor test cases — they won't trigger skills regardless of description quality.
 
 ### Step 4: Apply the result
 
-Take `best_description` from the JSON output and update the skill's SKILL.md frontmatter. Show the user before/after and report the scores.
+Take `best_description` from the JSON output and update the skill's SKILL.md frontmatter only if it follows the canonical shape: distinctive capability first, concrete `Use when ...` contexts second, and a named negative boundary where confusion is likely. Show the user before/after and report the Claude score. Validate Codex separately before calling the description cross-client.

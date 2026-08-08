@@ -1,6 +1,6 @@
 ---
 name: devils-advocate
-description: "Use when you need to challenge research assumptions or stress-test arguments."
+description: "Adversarially challenge research assumptions, mechanisms, and arguments in writing. Use when stress-testing a claim or design before committing to it. Not for an interactive oral drill or a full referee report; use $grill-me or a review agent."
 argument-hint: "[paper-or-argument-description]"
 ---
 

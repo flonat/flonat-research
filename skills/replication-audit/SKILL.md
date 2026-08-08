@@ -1,6 +1,6 @@
 ---
 name: replication-audit
-description: "Use when you need to audit which findings in a literature have been replicated or failed."
+description: "Audit which findings in a literature have been replicated or failed. Use when the user requests this operation or its stated output."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
 skill-dependencies: [method-audit]

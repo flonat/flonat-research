@@ -1,8 +1,7 @@
 ---
-description: 'Use when you need to autonomously iterate on a code project until tests
-  pass — root-cause failures, apply minimal fixes, retry. Generic over Python/R/Julia/HPC
-  pipelines. Triggers: ''iterate until tests pass'', ''autonomous test loop'', ''fix
-  until green'', ''overnight test run''.'
+description: Autonomously diagnose a codebase, apply minimal fixes, and rerun tests
+  until they pass or a real blocker is reached. Use when the user explicitly requests
+  an iterative fix-until-green loop across Python, R, Julia, or HPC workflows.
 ---
 
 # Shared skill adapter

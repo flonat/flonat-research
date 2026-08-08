@@ -1,6 +1,7 @@
 ---
-description: Use when you need to explore a research question from multiple independent
-  perspectives.
+description: Explore a research question through several independent analytical perspectives
+  and synthesize their agreements and disagreements. Use when one line of reasoning
+  is insufficient and distinct viewpoints should be preserved.
 ---
 
 # Shared skill adapter

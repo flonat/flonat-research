@@ -1,7 +1,8 @@
 ---
-description: Use when you need to compile raw inputs (literature, meeting notes, session
-  logs, code findings) into a per-project knowledge wiki. Supports --autonomous /
-  -y for end-to-end runs without prompts (used by the Saturday wiki-grow cron).
+description: Compile raw inputs (literature, meeting notes, session logs, code findings)
+  into a per-project knowledge wiki. Use when the user requests this operation or
+  its stated output. Supports --autonomous / -y for end-to-end runs without prompts
+  (used by the Saturday wiki-grow cron).
 ---
 
 # Shared skill adapter

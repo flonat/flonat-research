@@ -1,7 +1,9 @@
 ---
-description: 'Use when you need a fast pre-commit safety scan: file size, anonymity
-  (author / affiliation strings in tex/bib), and hardcoded secrets. Triggers: ''audit
-  before commit'', ''check before push'', ''pre-commit scan'', ''safety check''.'
+description: 'Deliver a fast pre-commit safety scan: file size, anonymity (author
+  / affiliation strings in tex/bib), and hardcoded secrets. Use when the user requests
+  a fast pre-commit safety scan: file size, anonymity (author / affiliation strings
+  in tex/bib), and hardcoded secrets. Triggers: ''audit before commit'', ''check before
+  push'', ''pre-commit scan'', ''safety check''.'
 ---
 
 # Shared skill adapter

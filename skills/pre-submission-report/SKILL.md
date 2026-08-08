@@ -1,6 +1,6 @@
 ---
 name: pre-submission-report
-description: "Use when you need all quality checks run before submission, producing a single dated report. Also provides a citation-integrity-only mode that composes bib-validate and claim-verify without repeating their checks."
+description: "Run the final, comprehensive submission-readiness gate and consolidate all checks into one dated report; citation-integrity-only mode is also supported. Use when a paper and submission package are nearly final. Not for a mid-draft adversarial review; use $review-cluster."
 allowed-tools: Bash(latexmk*, mkdir*, ls*, wc*), Bash(uv:*), Read, Write, Edit, Glob, Grep, Task, Skill
 argument-hint: "[path/to/main.tex or no arguments to auto-detect] [--parallel|--citation-integrity-only]"
 agent-dependencies: [artifact-coherence-auditor, blindspot, claim-verify, clarity-reviewer, code-paper-auditor, domain-reviewer, paper-critic, referee2-reviewer, reproducibility-auditor]

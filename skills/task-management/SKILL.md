@@ -1,6 +1,6 @@
 ---
 name: task-management
-description: "Use for daily planning, weekly reviews, meeting actions, or read/write queries over the Research Vault and research portfolio: tasks, topics, papers, outputs, submissions, venues, people, institutions, and deadlines. Triggers include 'do I have any topics for this venue?', 'which institution-X projects target venue Y?', and 'what is recorded for this paper?'. For venue suitability or recommendations rather than recorded state, query the portfolio first, then use the installed venue-recommendation workflow."
+description: "Query and update recorded planning and research-portfolio state across tasks, topics, papers, outputs, submissions, venues, people, institutions, and deadlines. Use when asking what is already recorded, including institution- or venue-associated topics, or when doing daily planning and weekly review. For venue suitability recommendations, inspect recorded state first and then use the venue-recommendation workflow."
 allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(taskflow-cli *)
 ---
 

@@ -1,6 +1,7 @@
 ---
-description: Use when you need to compare a project .bib against a Paperpile project/topic
-  folder to find uncited papers or unfiled entries.
+description: Compare a project .bib against a Paperpile project/topic folder to find
+  uncited papers or unfiled entries. Use when the user asks to compare a project .bib
+  against a Paperpile project/topic folder to find uncited papers or unfiled entries.
 ---
 
 # Shared skill adapter

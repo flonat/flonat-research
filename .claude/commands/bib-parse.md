@@ -1,7 +1,8 @@
 ---
-description: Use when you need to extract citations from a PDF and generate a validated
-  .bib file. Reads the PDF, identifies referenced works, constructs BibTeX entries,
-  and verifies metadata.
+description: Extract citations from a PDF and generate a validated .bib file. Use
+  when the user asks to extract citations from a PDF and generate a validated .bib
+  file. Reads the PDF, identifies referenced works, constructs BibTeX entries, and
+  verifies metadata.
 ---
 
 # Shared skill adapter

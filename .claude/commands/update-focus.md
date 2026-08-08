@@ -1,6 +1,6 @@
 ---
-description: Use when you need to update current-focus.md with a structured session
-  summary.
+description: Update current-focus.md with a structured session summary. Use when the
+  user asks to update current-focus.md with a structured session summary.
 ---
 
 # Shared skill adapter

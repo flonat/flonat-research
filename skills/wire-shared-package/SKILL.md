@@ -1,6 +1,6 @@
 ---
 name: wire-shared-package
-description: "Use when you need to wire a shared Python package as an editable dependency across projects."
+description: "Wire a shared Python package as an editable dependency across projects. Use when the user requests this operation or its stated output."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(ls*), Bash(mkdir*), AskUserQuestion
 argument-hint: "<package-path> [--downstream project1,project2,...] [--tier 1|2]"
 ---

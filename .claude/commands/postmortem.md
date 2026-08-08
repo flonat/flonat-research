@@ -1,5 +1,6 @@
 ---
-description: Use when you need a structured post-mortem after incidents, mistakes,
+description: Deliver a structured post-mortem after incidents, mistakes, or stuck
+  sessions. Use when the user requests a structured post-mortem after incidents, mistakes,
   or stuck sessions.
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: computational-experiments
-description: "Use when you need to scaffold, run, or publish computational research experiments."
+description: "Scaffold, execute, analyse, and publish computational research experiments through a reproducible staged workflow. Use when a research question requires simulations or computational sweeps rather than a one-off script."
 allowed-tools: Bash(uv*, pytest*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, AskUserQuestion, Skill
 argument-hint: "[project-path] [--mode scaffold|experiment|figures|full] [--budget <minutes>] [--scaffold standard|robustness|replication]"
 agent-dependencies: [code-review]

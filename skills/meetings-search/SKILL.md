@@ -1,6 +1,6 @@
 ---
 name: meetings-search
-description: Search past meeting transcripts and voice memos for specific topics, people, decisions, or ideas. Use this whenever the user asks "what did we discuss about X", "find that meeting where we talked about Y", "what did Alex say", "did we decide on", "what was that idea about", or any question that could be answered by searching their meeting history. Also use for "do I have any notes about" or "check my meetings for".
+description: "Search meeting transcripts and voice memos for people, topics, decisions, commitments, or remembered ideas. Use when the user asks what was discussed, decided, or said across their meeting history. Not for preparing an upcoming meeting; use $meetings-prep."
 user_invocable: true
 ---
 

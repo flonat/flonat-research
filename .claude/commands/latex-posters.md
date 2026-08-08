@@ -1,6 +1,6 @@
 ---
-description: Use when you need to create a research poster in LaTeX (beamerposter,
-  tikzposter, or baposter).
+description: Create a research poster in LaTeX (beamerposter, tikzposter, or baposter).
+  Use when the user requests this operation or its stated output.
 ---
 
 # Shared skill adapter

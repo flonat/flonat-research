@@ -1,6 +1,7 @@
 ---
-description: Use when you need to download, split, and deeply read an academic PDF
-  that is NOT in Paperpile (for Paperpile items, prefer paperpile get-pdf-text directly).
+description: Download, split, and deeply read an academic PDF that is not available
+  through Paperpile. Use when a long external PDF needs page-wise ingestion. For Paperpile
+  items, use the Paperpile text-extraction route instead.
 ---
 
 # Shared skill adapter

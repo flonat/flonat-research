@@ -1,6 +1,6 @@
 ---
 name: skill-creator
-description: "Use when you need to create, modify, or measure performance of skills."
+description: "Create, revise, and evaluate reusable AI workflow skills, including trigger-quality tests. Use when authoring a new skill, repairing an existing skill, or measuring whether its metadata routes correctly."
 allowed-tools: Read, Write, Edit, Bash(uv*, mkdir*, ls*), Glob, Grep, Task, AskUserQuestion
 ---
 
@@ -49,7 +49,7 @@ It's OK to briefly explain terms if you're in doubt, and feel free to clarify te
 
 Start by understanding the user's intent. The current conversation might already contain a workflow the user wants to capture (e.g., they say "turn this into a skill"). If so, extract answers from the conversation history first — the tools used, the sequence of steps, corrections the user made, input/output formats observed. The user may need to fill the gaps, and should confirm before proceeding to the next step.
 
-1. What should this skill enable Claude to do?
+1. What should this skill enable the active AI client to do?
 2. When should this skill trigger? (what user phrases/contexts)
 3. What's the expected output format?
 4. Should we set up test cases to verify the skill works? Skills with objectively verifiable outputs (file transforms, data extraction, code generation, fixed workflow steps) benefit from test cases. Skills with subjective outputs (writing style, art) often don't need them. Suggest the appropriate default based on the skill type, but let the user decide.
@@ -65,7 +65,7 @@ Check available MCPs - if useful for research (searching docs, finding similar s
 Based on the user interview, fill in these components:
 
 - **name**: Skill identifier
-- **description**: When to trigger, what it does. This is the primary triggering mechanism - include both what the skill does AND specific contexts for when to use it. All "when to use" info goes here, not in the body. Note: currently Claude has a tendency to "undertrigger" skills -- to not use them when they'd be useful. To combat this, please make the skill descriptions a little bit "pushy". So for instance, instead of "How to build a simple fast dashboard to display internal Anthropic data.", you might write "How to build a simple fast dashboard to display internal Anthropic data. Make sure to use this skill whenever the user mentions dashboards, data visualization, internal metrics, or wants to display any kind of company data, even if they don't explicitly ask for a 'dashboard.'"
+- **description**: What the skill uniquely does, followed by when it should trigger. This is the primary routing mechanism, so put a distinctive capability first and concrete user intents in a later `Use when ...` clause. If a neighbouring skill is easy to confuse, add a short negative boundary and name the correct alternative. Do not inflate recall with generic or "pushy" keyword lists: false triggers waste a turn and are as important as missed triggers. Keep all routing information here because the body is loaded only after selection.
 - **compatibility**: Required tools, dependencies (optional, rarely needed)
 - **the rest of the skill :)**
 

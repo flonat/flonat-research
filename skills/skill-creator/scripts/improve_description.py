@@ -102,8 +102,9 @@ Based on the failures, write a new and improved description that is more likely 
 Concretely, your description should not be more than about 100-200 words, even if that comes at the cost of accuracy.
 
 Here are some tips that we've found to work well in writing these descriptions:
-- The skill should be phrased in the imperative -- "Use this skill for" rather than "this skill does"
-- The skill description should focus on the user's intent, what they are trying to achieve, vs. the implementation details of how the skill works.
+- Lead with a distinctive statement of the capability and output. Never begin with generic phrases such as "Use when", "Use this skill", or "Use for" because catalogues may truncate the description and many skills otherwise look identical.
+- Follow the capability with a concrete "Use when ..." clause focused on the user's intent rather than implementation details.
+- If a neighbouring skill is a plausible false trigger, add one concise negative boundary and name the correct alternative.
 - The description competes with other skills for Claude's attention — make it distinctive and immediately recognizable.
 - If you're getting lots of failures after repeated attempts, change things up. Try different sentence structures or wordings.
 

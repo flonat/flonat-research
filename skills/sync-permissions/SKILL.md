@@ -1,6 +1,6 @@
 ---
 name: sync-permissions
-description: "Use when you need to sync global permissions into the current project."
+description: "Sync global permissions into the current project. Use when the user requests this operation or its stated output."
 allowed-tools: Bash(jq*), Bash(ls*), Bash(test*), Bash(readlink*), Read, Write, Edit
 argument-hint: (no arguments)
 ---

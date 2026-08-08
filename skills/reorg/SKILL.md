@@ -1,6 +1,6 @@
 ---
 name: reorg
-description: "Use when you need content-aware file reorganisation or deduplication driven by a LOCAL model (Ollama on the Mac Mini) that actually reads each file's contents, not just its name — proposes a folder structure or finds exact/near duplicates, always dry-runs first, and executes only on approval with a full undo. Triggers: 'reorganise this folder', 'tidy up Downloads with the local model', 'reorg', 'find duplicate files', 'dedup this folder', 'sort these files by reading them'."
+description: "Propose and, after approval, execute content-aware file reorganization or deduplication using a local Mac Mini model with a reversible undo record. Use when sorting a folder by file contents or finding exact and near duplicates. Always dry-runs first."
 skill-dependencies: []
 ---
 

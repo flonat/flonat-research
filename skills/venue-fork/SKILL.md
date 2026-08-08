@@ -1,6 +1,6 @@
 ---
 name: venue-fork
-description: "Fork an existing conference/journal paper into a second-venue submission variant: verify both CFPs' concurrent-submission policies, create a separate Overleaf project, convert the document class (LIPIcs/LNCS/acmart → target format), refit to the new page budget by relocating content to appendices (never cutting prose), run compile + anonymity + render-level QA, and write back vault submission + atlas output with concurrency/withdrawal clauses. Use for: 'submit this paper also to X', 'concurrent submission', 'make the WINE/EC/conference version', 'reformat for another venue'. NOT for preprints/arXiv (use preprint), NOT for moving a paper to a new target (use retarget-journal), NOT post-acceptance (use camera-ready)."
+description: "Fork an existing paper into a concurrent second-venue submission variant with policy checks, separate Overleaf ownership, format conversion, budget refit, QA, and Atlas/Vault writeback. Use when submitting the same work concurrently to another permitted venue. Not for preprints, ordinary retargeting, or camera-ready work."
 allowed-tools:
   - Read
   - Glob

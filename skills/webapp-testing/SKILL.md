@@ -1,6 +1,6 @@
 ---
 name: webapp-testing
-description: "Use when you need to interact with or test a local web application using Playwright."
+description: "Exercise and verify a local web application through Playwright, including user flows and rendered behaviour. Use when testing a running local app rather than issuing an isolated browser command. For ad hoc automation, use $playwright-cli."
 license: Complete terms in LICENSE.txt
 allowed-tools: Bash(uv*, mkdir*, ls*, kill*), Read, Write
 skill-dependencies: [playwright-cli]
