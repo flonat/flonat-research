@@ -1,6 +1,6 @@
 ---
 name: task-management
-description: "Query and update recorded planning and research-portfolio state across tasks, topics, papers, outputs, submissions, venues, people, institutions, and deadlines. Use when asking what is already recorded, including institution- or venue-associated topics, or when doing daily planning and weekly review. For venue suitability recommendations, inspect recorded state first and then use the venue-recommendation workflow."
+description: "Query and update recorded planning and research portfolio state across tasks, topics, papers, outputs, submissions, venues, people, institutions, and deadlines. Use when asking what is already recorded, including institution- or venue-associated topics, or when doing daily planning and weekly review. For venue suitability recommendations, inspect recorded state first and then use the venue-recommendation workflow."
 allowed-tools: Read, Write, Edit, AskUserQuestion, Bash(taskflow-cli *)
 ---
 

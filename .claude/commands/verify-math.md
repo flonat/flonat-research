@@ -1,13 +1,10 @@
 ---
-description: 'VERIFY a self-authored mathematical result end-to-end — route each claim
-  to the right rung of the verification spectrum (R0 adversarial review, R1 numerical
-  falsification, R2 symbolic/CAS, R3 Lean proof) and aggregate into one verification
-  report. Use when the user requests this operation or its stated output. The umbrella
-  over numerical-check, symbolic-check, lean-check, and the domain-reviewer agent.
-  Triggers: verify-math, ''verify this theorem/proposition/conjecture'', ''check all
-  the math in my paper'', ''is this result correct''. Use when you have a claim and
-  want the right method(s) chosen and combined; for a single known method, call that
-  skill directly.'
+description: Verify a self-authored mathematical result end to end by routing claims
+  across adversarial review, numerical falsification, symbolic or CAS checks, and
+  Lean, then aggregating one report. Use when a theorem, proposition, conjecture,
+  or paper-wide mathematical argument needs the appropriate combination of verification
+  methods. For one known method, use $numerical-check, $symbolic-check, or $lean-check
+  directly.
 ---
 
 # Shared skill adapter

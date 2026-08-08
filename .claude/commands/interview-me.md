@@ -1,6 +1,8 @@
 ---
-description: Conduct a structured interview to extract knowledge or preferences. Use
-  when the user requests this operation or its stated output.
+description: Conduct an adaptive structured interview that elicits tacit knowledge,
+  requirements, preferences, or decisions and summarizes them explicitly. Use when
+  the needed information is in the user's head and cannot be recovered from project
+  files. Not for adversarial oral examination; use $grill-me.
 ---
 
 # Shared skill adapter

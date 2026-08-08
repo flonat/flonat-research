@@ -1,6 +1,7 @@
 ---
-description: Create a research poster in LaTeX (beamerposter, tikzposter, or baposter).
-  Use when the user requests this operation or its stated output.
+description: Create a large-format academic poster in LaTeX using beamerposter, tikzposter,
+  or baposter. Use when the requested deliverable is a conference or research poster
+  rather than sequential presentation slides. For slide decks, use $beamer-deck.
 ---
 
 # Shared skill adapter

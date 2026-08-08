@@ -1,6 +1,6 @@
 ---
 name: latex-scaffold
-description: "Convert a Markdown draft into a buildable LaTeX project. Use when the user requests this operation or its stated output."
+description: "Convert an existing Markdown manuscript draft into a buildable LaTeX project with canonical structure and build configuration. Use when prose already exists but no LaTeX source tree does. Not for checking template drift in an existing project; use $latex-template."
 argument-hint: "[path/to/draft.md]"
 allowed-tools: Read, Write, Edit, Bash(latexmk*), Bash(mkdir*), Bash(ls*), Glob, Grep
 skill-dependencies: [latex]

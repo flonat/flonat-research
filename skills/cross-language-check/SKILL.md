@@ -1,6 +1,6 @@
 ---
 name: cross-language-check
-description: "Replicate a quantitative analysis in a second language (R↔Python↔Stata↔Julia) to verify correctness. Use when the user requests this operation or its stated output. Level 1 of the verification hierarchy."
+description: "Replicate a quantitative analysis in a second language (R↔Python↔Stata↔Julia) and compare outputs for implementation errors. Use when an existing empirical result needs independent cross-language verification. Not for reviewing one implementation in place; use $code-suite."
 allowed-tools: Bash(uv*, Rscript*, stata*, julia*, diff*, mkdir*, ls*, cp*), Read, Write, Edit, Glob, Grep, Agent
 argument-hint: "<script-path> [--target r|python|stata|julia]"
 ---

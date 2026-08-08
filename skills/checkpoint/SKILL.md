@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: "Save session state to survive context compaction or handoff between sessions. Use when the user requests this operation or its stated output."
+description: "Save a compact continuation checkpoint so current work survives context compaction or a later session. Use when the active context is becoming long or work must pause without changing client or machine ownership. For an explicit cross-session/client transfer, use $handoff."
 allowed-tools: Read, Write, Edit, Bash(git*), Bash(date*), Bash(wc*), Glob
 ---
 

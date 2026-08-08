@@ -1,7 +1,8 @@
 ---
 description: Replicate a quantitative analysis in a second language (R↔Python↔Stata↔Julia)
-  to verify correctness. Use when the user requests this operation or its stated output.
-  Level 1 of the verification hierarchy.
+  and compare outputs for implementation errors. Use when an existing empirical result
+  needs independent cross-language verification. Not for reviewing one implementation
+  in place; use $code-suite.
 ---
 
 # Shared skill adapter

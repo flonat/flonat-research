@@ -1,6 +1,8 @@
 ---
-description: Generate structurally realistic synthetic datasets for pilot testing
-  or power analysis. Use when the user requests this operation or its stated output.
+description: Generate structurally realistic synthetic datasets for pipeline prototyping,
+  test coverage, or prospective power analysis. Use when code or design must be exercised
+  before real data are available or accessible. Never substitute synthetic records
+  for governed raw data.
 ---
 
 # Shared skill adapter

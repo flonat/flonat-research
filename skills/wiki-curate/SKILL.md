@@ -1,6 +1,6 @@
 ---
 name: wiki-curate
-description: "Audit the vault wiki (~/vault/concepts/) for fragmentation, missing tags, write-only concepts, and draft/anatomy conformance. Use when the user requests this operation or its stated output. Read-only — produces a markdown report at /tmp/wiki-curate-report.md. Companion to wiki-grow (which writes) and wiki-merge (which fixes overlap clusters)."
+description: "Audit the Research Vault concept wiki read-only for fragmentation, missing tags, write-only concepts, and draft or anatomy conformance, producing a Markdown report. Use when assessing wiki quality before maintenance. Not for promoting or merging concepts; use $wiki-grow or $wiki-merge."
 allowed-tools: Bash, Read
 argument-hint: "(no arguments)"
 skill-dependencies: [wiki-merge]

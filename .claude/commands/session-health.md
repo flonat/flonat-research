@@ -1,6 +1,8 @@
 ---
-description: Check current context status and session health. Use when the user requests
-  this operation or its stated output.
+description: Check whether the current session has coherent guidance, focus, handoff
+  state, working-tree ownership, and enough context to proceed safely. Use when starting,
+  resuming, or diagnosing a confused session. Not for auditing the machine or deployed
+  AI infrastructure; use $system-audit.
 ---
 
 # Shared skill adapter

@@ -1,6 +1,8 @@
 ---
-description: Identify the weakest arguments across a literature. Use when the user
-  requests this operation or its stated output.
+description: Identify recurring weak arguments, unsupported assumptions, and vulnerable
+  inference patterns across a literature corpus. Use when stress-testing a body of
+  work rather than reviewing one manuscript. For one paper's argument, use the appropriate
+  paper-review workflow.
 ---
 
 # Shared skill adapter

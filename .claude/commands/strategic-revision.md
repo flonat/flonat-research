@@ -1,8 +1,9 @@
 ---
 description: Turn external referee correspondence or internal pre-submission feedback
-  into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependency
-  mapping, critical-path analysis, and execution blocks. Use when the user requests
-  this operation or its stated output.
+  into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependencies,
+  critical path, and execution blocks. Use when feedback exists but must be converted
+  into an approved implementation sequence. Not for drafting the reviewer response
+  itself; use $review-response.
 ---
 
 # Shared skill adapter

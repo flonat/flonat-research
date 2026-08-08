@@ -1,6 +1,6 @@
 ---
 name: brief-compliance-check
-description: "Check a LaTeX submission against a PDF assessment brief. Use when the user requests this operation or its stated output."
+description: "Check a LaTeX coursework submission against the requirements in a supplied PDF assessment brief. Use when verifying format, required sections, word limits, or deliverables before submission. Not for general prose proofreading; use $proofread."
 allowed-tools:
   - Read
   - Glob

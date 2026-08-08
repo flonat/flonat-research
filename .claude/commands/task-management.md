@@ -1,5 +1,5 @@
 ---
-description: Query and update recorded planning and research-portfolio state across
+description: Query and update recorded planning and research portfolio state across
   tasks, topics, papers, outputs, submissions, venues, people, institutions, and deadlines.
   Use when asking what is already recorded, including institution- or venue-associated
   topics, or when doing daily planning and weekly review. For venue suitability recommendations,

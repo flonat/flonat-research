@@ -1,6 +1,6 @@
 ---
 name: session-log
-description: "Create a timestamped progress log for a research session. Use when the user requests this operation or its stated output."
+description: "Create a timestamped research-session progress log that records completed work, evidence, decisions, and next steps. Use when closing or checkpointing substantive project work that needs a durable chronology. Not for saving one reusable finding; use $store-insight."
 allowed-tools: Read, Write, Edit, Bash(mkdir*), Bash(ls*)
 argument-hint: "[project-name-or-path]"
 skill-dependencies: [update-focus]

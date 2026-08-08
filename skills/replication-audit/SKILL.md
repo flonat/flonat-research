@@ -1,6 +1,6 @@
 ---
 name: replication-audit
-description: "Audit which findings in a literature have been replicated or failed. Use when the user requests this operation or its stated output."
+description: "Map claims in a literature to independent replications, robustness checks, failures, and unresolved evidence gaps. Use when assessing the empirical reliability of a body of findings rather than reproducing one project's code. For package rerunnability, use $replication-package."
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(uv*), Bash(uv:*), Task, WebSearch, WebFetch, Bash(paperpile*)
 argument-hint: "[topic, .bib file, or paper directory]"
 skill-dependencies: [method-audit]

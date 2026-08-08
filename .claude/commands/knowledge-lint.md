@@ -1,7 +1,8 @@
 ---
-description: Check compiled knowledge for contradictions, uncited claims, missing
-  connections, stale articles, and orphaned concepts. Use when the user requests this
-  operation or its stated output.
+description: Lint an existing project knowledge base for contradictions, uncited claims,
+  missing connections, stale articles, and orphaned concepts. Use when checking the
+  integrity of already compiled knowledge before relying on or expanding it. Not for
+  compiling raw sources; use $compile-knowledge.
 ---
 
 # Shared skill adapter

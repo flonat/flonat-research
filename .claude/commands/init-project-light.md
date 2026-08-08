@@ -1,6 +1,8 @@
 ---
-description: Bootstrap a lightweight project with minimal structure. Use when the
-  user requests this operation or its stated output.
+description: Bootstrap a lightweight project with minimal guidance, context, and repository
+  structure. Use when a small non-research project needs durable AI collaboration
+  without the full research or course scaffold. Not for formal research projects;
+  use $init-project-research.
 ---
 
 # Shared skill adapter

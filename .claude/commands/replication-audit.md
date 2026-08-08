@@ -1,6 +1,8 @@
 ---
-description: Audit which findings in a literature have been replicated or failed.
-  Use when the user requests this operation or its stated output.
+description: Map claims in a literature to independent replications, robustness checks,
+  failures, and unresolved evidence gaps. Use when assessing the empirical reliability
+  of a body of findings rather than reproducing one project's code. For package rerunnability,
+  use $replication-package.
 ---
 
 # Shared skill adapter
