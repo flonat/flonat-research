@@ -50,15 +50,25 @@ A slug is promoted on a given run if **all** of the following hold:
 
 1. The slug appears as a project knowledge file in at least one
    `<project>/knowledge/` directory.
-2. The slug is mentioned in **≥3 corpus documents** (atlas topics +
-   book chapters + project CLAUDE.md files), per the scanner's
-   Section D ("escaped scope" — present beyond the origin project).
-3. No vault concept already exists at `~/vault/concepts/<slug>.md`.
-4. The slug is **not** in `~/vault/concepts/.denylist`.
+2. The slug is mentioned in **≥1 corpus document** (atlas topics +
+   book chapters + project CLAUDE.md files) — `MIN_CORPUS_MENTIONS`,
+   env-overridable via `WIKI_GROW_MIN_MENTIONS`. A knowledge article the
+   curated corpus never references is project-internal, not a general
+   concept. *(History: the original gate was ≥3, retired 2026-07-03 as
+   empty for this corpus; briefly removed entirely, which over-promoted
+   0-mention project notes; the ≥1 middle ground was set 2026-08-07.)*
+3. The slug is **not** project mechanics (`PROJECT_MECHANICS_RE`: dated
+   notes, `-findings`/`-results`/`-decisions`, `hpc-`, `-roster`, `r1-`,
+   `related-literature`, etc.) — a secondary exclusion applied regardless
+   of mention count.
+4. No vault concept already exists at `~/vault/concepts/<slug>.md`.
+5. The slug is **not** in `~/vault/concepts/.denylist`.
 
-Run cap: at most **8 candidates per run** (`MAX_CANDIDATES_PER_RUN` in
-`wiki-grow.py`). Excess candidates roll over to the next Saturday — by
-which time the denylist has had a chance to filter them.
+Run cap: at most **8 candidates per run** (`MAX_CANDIDATES_PER_RUN`, env
+`WIKI_GROW_MAX`). Excess roll over to the next Saturday. **To scope a
+single manual promotion, set `WIKI_GROW_MAX=1`** — do NOT denylist the
+other candidates, which only frees cap slots for backlog items to
+promote in their place.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
-description: Filter a .bib file to only entries actually cited in a .tex project.
-  Use when the user asks to filter a .bib file to only entries actually cited in a
-  .tex project.
+description: Filter a LaTeX project's bibliography to the entries actually cited,
+  with Overleaf-source resolution, temporary staging, validation, approval-gated canonical
+  replacement, and compilation. Use before submission or after large revisions.
 ---
 
 # Shared skill adapter

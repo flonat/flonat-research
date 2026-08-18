@@ -1,12 +1,7 @@
-"""Multi-provider async LLM client.
+"""OpenRouter-only async LLM client.
 
-OpenAI-compatible wrapper supporting OpenRouter, OpenAI, Anthropic, Gemini,
-and Mistral. Provides structured JSON and raw text chat methods with retry
-logic, reasoning-param unification, and empty-response handling.
-
-Default behavior is OpenRouter (backward compatible with earlier versions).
-To use a native provider, pass ``provider="anthropic"`` (or similar) or call
-``LLMClient.from_env()`` for auto-detection.
+Models may name an upstream vendor, but all external calls use OpenRouter's
+OpenAI-compatible API. Native provider endpoints and credentials are retired.
 """
 
 from __future__ import annotations
@@ -24,25 +19,13 @@ logger = logging.getLogger(__name__)
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 OPENROUTER_CREDITS_URL = "https://openrouter.ai/credits"
 
-# Provider configs: env_var, base_url (None = OpenAI default), model-prefix-to-strip
+# OpenRouter is the sole permitted external LLM API.
 PROVIDERS: dict[str, tuple[str, str | None, str | None]] = {
     "openrouter": ("OPENROUTER_API_KEY", OPENROUTER_BASE_URL, None),
-    "openai": ("OPENAI_API_KEY", None, None),
-    "anthropic": ("ANTHROPIC_API_KEY", "https://api.anthropic.com/v1/", "anthropic/"),
-    "gemini": ("GEMINI_API_KEY", "https://generativelanguage.googleapis.com/v1beta/openai/", "google/"),
-    "mistral": ("MISTRAL_API_KEY", "https://api.mistral.ai/v1", "mistralai/"),
 }
 
 # Auto-detection priority — OpenRouter first (broadest model access)
-PROVIDER_PRIORITY = ["openrouter", "openai", "anthropic", "gemini", "mistral"]
-
-# Model prefix → native provider (for model-aware auto-routing)
-MODEL_VENDOR_TO_PROVIDER = {
-    "anthropic/": "anthropic",
-    "google/": "gemini",
-    "mistralai/": "mistral",
-    "openai/": "openai",
-}
+PROVIDER_PRIORITY = ["openrouter"]
 
 REASONING_EFFORT_RATIO = {
     "none": 0,
@@ -126,38 +109,13 @@ def _resolve_provider(
     model: str | None,
     api_key: str | None,
 ) -> tuple[str, str]:
-    """Return (provider_name, api_key) by resolving explicit → env → model-prefix → priority."""
-    if provider:
-        name = provider.lower().strip()
-        if name not in PROVIDERS:
-            raise ValueError(f"Unknown provider '{provider}'. Available: {', '.join(PROVIDERS)}")
-        env_var = PROVIDERS[name][0]
-        key = api_key or os.environ.get(env_var)
-        if not key:
-            raise ValueError(f"Provider '{name}' selected but {env_var} is not set")
-        return name, key
-
-    # No explicit provider — model-aware auto-detect
-    if model:
-        for prefix, prov_name in MODEL_VENDOR_TO_PROVIDER.items():
-            if model.startswith(prefix):
-                env_var = PROVIDERS[prov_name][0]
-                key = os.environ.get(env_var)
-                if key:
-                    return prov_name, key
-                break  # prefix matched but key missing — fall through to priority
-
-    # Priority fallback
-    for name in PROVIDER_PRIORITY:
-        env_var = PROVIDERS[name][0]
-        key = os.environ.get(env_var)
-        if key:
-            return name, key
-
-    raise ValueError(
-        "No API key found. Set one of: "
-        + ", ".join(PROVIDERS[p][0] for p in PROVIDER_PRIORITY)
-    )
+    """Resolve the sole permitted OpenRouter credential."""
+    if provider and provider.lower().strip() != "openrouter":
+        raise ValueError("Only provider='openrouter' is supported; native provider APIs are retired")
+    key = api_key or os.environ.get("OPENROUTER_API_KEY")
+    if not key:
+        raise ValueError("OPENROUTER_API_KEY is required; native provider credential fallback is retired")
+    return "openrouter", key
 
 
 def _apply_reasoning(
@@ -170,15 +128,7 @@ def _apply_reasoning(
     ratio = REASONING_EFFORT_RATIO.get(reasoning_effort, 0.5)
     budget = max(int(max_tokens * ratio), 1024)
 
-    if provider == "openrouter":
-        kwargs["extra_body"] = {"reasoning": {"max_tokens": budget}}
-    elif provider == "anthropic":
-        kwargs["extra_body"] = {"thinking": {"type": "enabled", "budget_tokens": budget}}
-    elif provider == "openai":
-        kwargs["reasoning_effort"] = reasoning_effort
-    elif provider == "gemini":
-        kwargs["extra_body"] = {"thinking": {"type": "enabled", "budget_tokens": budget}}
-    # Mistral: no reasoning token support
+    kwargs["extra_body"] = {"reasoning": {"max_tokens": budget}}
 
 
 class LLMClient:
@@ -203,9 +153,8 @@ class LLMClient:
         provider: str | None = None,
         base_url: str | None = None,
     ) -> None:
-        # Backward-compat default: if nothing is specified, assume OpenRouter
-        if provider is None and base_url is None and api_key is not None:
-            provider = "openrouter"
+        if base_url and base_url.rstrip("/") != OPENROUTER_BASE_URL.rstrip("/"):
+            raise ValueError("Only the OpenRouter API base URL is supported")
 
         resolved_provider, resolved_key = _resolve_provider(provider, model, api_key)
 
@@ -232,14 +181,7 @@ class LLMClient:
         json_retry_attempts: int = 2,
         provider: str | None = None,
     ) -> LLMClient:
-        """Build a client by auto-detecting provider + key from the environment.
-
-        Resolution order:
-          1. ``provider`` argument
-          2. ``LLM_PROVIDER`` env var (falls back to ``REVIEW_PROVIDER``)
-          3. Model-prefix match (e.g. ``anthropic/claude-*`` → Anthropic)
-          4. First available key in priority order
-        """
+        """Build an OpenRouter-only client from the environment."""
         resolved_provider = (
             provider
             or os.environ.get("LLM_PROVIDER")
@@ -255,9 +197,7 @@ class LLMClient:
         )
 
     def _api_model(self, model: str) -> str:
-        """Strip vendor prefix for native-provider calls."""
-        if self._model_prefix and model.startswith(self._model_prefix):
-            return model[len(self._model_prefix):]
+        """OpenRouter accepts vendor-qualified model identifiers unchanged."""
         return model
 
     async def _complete(

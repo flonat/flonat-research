@@ -6,7 +6,7 @@ Use the user's evidence request—not the presence of a venue name—to choose t
 |---|---|---|
 | Existing portfolio state: “do I have,” “which of my,” “what is recorded” | `task-management` → `taskflow-cli` | Query structured vault records; do not run a recommendation workflow merely because a venue is named. |
 | Topic–venue suitability: “would this fit,” “should I target,” “where should I publish” | Load existing state with `taskflow-cli`, then use the installed venue-recommendation workflow | Label its results as recommendations or inference, never recorded state. |
-| Venue deadline, format, or policy | Vault venue record and `conf-timeline`; verify current policy against the official CFP when needed | Do not infer time-sensitive policy from stored model knowledge. |
+| Venue deadline, format, or policy | Vault venue record and `conf-watch`; verify current policy against the official CFP when needed | Do not infer time-sensitive policy from stored model knowledge. |
 
 ## Evidence order
 
@@ -22,7 +22,7 @@ Use the user's evidence request—not the presence of a venue name—to choose t
 |---|---|
 | “Venue Y: do I have any institution-X topics that list it as a possible venue?” | `task-management` and `taskflow-cli`; filter the structured `institution` field, then join outputs/submissions/venues. |
 | “Which of my institution-X topics should target venue Y?” | Taskflow inventory first, then venue suitability analysis. |
-| “When is the next venue-Y deadline?” | Venue record/conf-timeline plus official verification if freshness matters. |
+| “When is the next venue-Y deadline?” | Venue record/`conf-watch list` plus official verification if freshness matters. |
 | “Audit the visual design of the Atlas venue page.” | `ui-critic`. |
 
 Missing MCP registration is not a routing failure. In Codex, Taskflow is intentionally CLI-first; in Claude, an MCP adapter may coexist with the same portable CLI.

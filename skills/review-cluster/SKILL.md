@@ -4,7 +4,7 @@ description: "Deliver a mid-draft adversarial review of a paper — runs paper-c
 allowed-tools: Read, Glob, Grep, Bash(uv*), Bash(ls*), Bash(git*), Task, Skill, AskUserQuestion
 argument-hint: "[paper-path or no-args (auto-detect)] [--clarity] [--no-synthesise]"
 agent-dependencies: [paper-critic, domain-reviewer, claim-verify, blindspot, clarity-reviewer]
-skill-dependencies: [latex, pre-submission-report, strategic-revision, synthesise-reviews, verify-math]
+skill-dependencies: [latex, pre-submission-report, review-packet, strategic-revision, synthesise-reviews, verify-math]
 ---
 
 # Review Cluster — Mid-Draft Adversarial Feedback
@@ -31,14 +31,15 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 2. **Auto-synthesise via `synthesise-reviews`** (unless `--no-synthesise`). Mid-draft work needs an actionable revision plan, not 4 raw reports.
 3. **Skip if paper isn't compile-ready** — run `latex` first; review on broken builds is misleading. The skill checks compile-status before dispatching.
 4. **Cluster is for the user's own papers.** For external papers, use `peer-reviewer` agent instead.
+5. **Prepare one common review input.** After compile preflight, invoke `review-packet` in `fresh-review` mode unless the user explicitly supplies a verified packet or requests `--no-freeze-input`. Record the packet archive hash and canonical PDF hash in every reviewer prompt and in the consolidated report. Packet creation itself creates no `reviews/INDEX.md` verdict row.
 
 ### Format — catch in review
 
-5. Write one consolidated cluster report at `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = paper slug), in addition to the required per-agent reports and INDEX rows.
-6. Findings tiered M/m/n (Major / moderate / minor) per `severity-gradient.md`.
-7. Show which sub-agent flagged each finding (audit trail for traceability).
-8. **Clarity on request.** With `--clarity` (or when the paper's prior referee reviews contain readability complaints), add `clarity-reviewer` as a 5th parallel agent — reader-experience stall map + the 10 clarity diagnostic classes. Its findings join the synthesis like the others.
-9. **Yardstick continuity on repeat runs.** When a prior cluster report exists for the same paper (`reviews/<scope>/review-cluster/`), the new run reuses the prior run's frozen yardstick — same phase banner (severity-gradient), same rubric set, and the prior findings list passed to the agents as "verify addressedness + new issues only", never a fresh re-derivation of criteria from the revised text (scores across rounds must be comparable; a moved yardstick fakes improvement). If the prior report is unavailable or the user explicitly resets the phase, mark the report `[YARDSTICK-REGENERATED: <reason>]` under the phase banner. (Ported from ARS v3.19 re-review protocol, 2026-07-24.)
+6. Write one consolidated cluster report at `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = paper slug), in addition to the required per-agent reports and INDEX rows.
+7. Findings tiered M/m/n (Major / moderate / minor) per `severity-gradient.md`.
+8. Show which sub-agent flagged each finding (audit trail for traceability).
+9. **Clarity on request.** With `--clarity` (or when the paper's prior referee reviews contain readability complaints), add `clarity-reviewer` as a 5th parallel agent — reader-experience stall map + the 10 clarity diagnostic classes. Its findings join the synthesis like the others.
+10. **Yardstick continuity on repeat runs.** When a prior cluster report exists for the same paper (`reviews/<scope>/review-cluster/`), the new run reuses the prior run's frozen yardstick — same phase banner (severity-gradient), same rubric set, and the prior findings list passed to the agents as "verify addressedness + new issues only", never a fresh re-derivation of criteria from the revised text (scores across rounds must be comparable; a moved yardstick fakes improvement). If the prior report is unavailable or the user explicitly resets the phase, mark the report `[YARDSTICK-REGENERATED: <reason>]` under the phase banner. (Ported from ARS v3.19 re-review protocol, 2026-07-24.)
 
 ## When to Use
 
@@ -62,11 +63,12 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 | `review-cluster <paper-path>` | Same, explicit paper |
 | `review-cluster --no-synthesise` | Run agents in parallel; show 4 raw reports without merging |
 | `review-cluster --clarity` | Add clarity-reviewer as the 5th agent; include its report in stamping and synthesis |
+| `review-cluster --no-freeze-input` | Review the live compile-ready source without sealing a packet; record this weaker snapshot regime explicitly |
 
 ## Architecture
 
 ```
-Phase 1 (preflight) → latex compile check; abort if broken
+Phase 1 (preflight) → latex compile check + decision-ready manuscript review packet; abort if broken
 Phase 2 (dispatch)  → 4 core read-only sub-agents, plus optional clarity-reviewer, in parallel
 Phase 3 (math)      → IF theory paper: verify-math on the model section(s) [orchestrator-run skill]
 Phase 4 (consolidate) → synthesise-reviews merges (incl. math verdict) → revision plan
@@ -115,6 +117,7 @@ Construct the active reviewer set as `paper-critic`, `domain-reviewer`, `claim-v
 - **Read-only with respect to project files under review** — Read, Glob, Grep, Bash (read-only commands only) against the paper / code being reviewed; the agent does NOT modify any project source files
 - **The standard forbid-list** from `subagent-write-guard.md`
 - **Paper path** explicitly named
+- **Frozen review identity** — the common review-packet path, archive SHA-256, and canonical PDF SHA-256. Reviewers may read the project for anchors, but findings must be compatible with that frozen artifact; if live source has drifted, stop and regenerate the packet.
 - **Output target — two-step, both required:**
   1. **Write the per-agent report** to `reviews/<scope>/<source-slug>/<YYYY-MM-DD-HHMM>.md` (scope = paper slug, source-slug = agent name like paper-critic; run `mkdir -p reviews/<scope>/<source-slug>/` first), then emit the standard stamp directive. The orchestrator-side propagation step appends the durable INDEX row.
   2. **Return a structured findings summary** to the orchestrator for the Phase 4 consolidate step.
@@ -158,6 +161,7 @@ Save to `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = p
 
 **Paper:** <path>
 **Compile status:** <PASS / WARN / FAIL>
+**Review packet:** <path, archive SHA-256, canonical PDF SHA-256>
 **Reviewers:** <active reviewer set; include clarity-reviewer when requested>
 
 ## Summary
@@ -187,6 +191,7 @@ Save to `reviews/<scope>/review-cluster/YYYY-MM-DD-cluster-report.md` (scope = p
 | Skill / Agent / Rule | Relationship |
 |---|---|
 | `pre-submission-report --parallel` | Final-gate kitchen sink (14 checks) — this skill is the mid-draft analogue (4-agent core, optional 5th) |
+| `review-packet` | Defines and optionally seals the common manuscript decision surface reviewed by every agent |
 | `synthesise-reviews` | The merge step this skill invokes |
 | `strategic-revision` | After this skill produces a synthesis, optionally hand it to `strategic-revision --internal <synthesis-path>` when interdependent issues need a DAG and critical path |
 | `paper-critic`, `domain-reviewer`, `claim-verify`, `blindspot`, optional `clarity-reviewer` agents | The active reviewer set this skill orchestrates |

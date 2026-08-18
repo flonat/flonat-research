@@ -4,7 +4,7 @@ description: "Run the final, comprehensive submission-readiness gate and consoli
 allowed-tools: Bash(latexmk*, mkdir*, ls*, wc*), Bash(uv:*), Read, Write, Edit, Glob, Grep, Task, Skill
 argument-hint: "[path/to/main.tex or no arguments to auto-detect] [--parallel|--citation-integrity-only]"
 agent-dependencies: [artifact-coherence-auditor, blindspot, claim-verify, clarity-reviewer, code-paper-auditor, domain-reviewer, paper-critic, referee2-reviewer, reproducibility-auditor]
-skill-dependencies: [latex, verify-math, venue-guidelines-compliance]
+skill-dependencies: [latex, review-packet, verify-math, venue-guidelines-compliance]
 ---
 
 # Pre-Submission Report
@@ -52,6 +52,8 @@ When invoked with `--citation-integrity-only`, do not run compilation, venue-gui
 
 Never discover and combine the "latest" component reports implicitly. Reuse is allowed only when the user explicitly supplies both paths and the assembler confirms identical scope, ruleset, and artifact hashes.
 
+Citation-integrity-only mode does not create a manuscript review packet; its frozen citation manifest is the complete bounded artifact contract for that mode.
+
 This mode is an orchestrator only: it does not parse citations, resolve metadata, read sources, judge claims, or change component severities. `bib-validate` and `claim-verify` remain useful individually; each reports its own `PASS|WARN|FAIL` component verdict while correctly marking the combined result `INCOMPLETE`.
 
 ## Steps
@@ -75,6 +77,7 @@ Run these checks first. If any fail or return an incomplete hard-gate verdict, s
 6. **Venue-guidelines compliance gate** — invoke `venue-guidelines-compliance --trigger pre-submission-report` for the active paper, target venue, content type/track, cycle, and submission stage. Pass any explicit or project-declared guide and official-source URLs already available; otherwise let the compliance skill collect a live official-source set when access permits. It establishes or reuses one current `out/` PDF and binds the report to the PDF and guideline evidence. The gate passes only on exact `PASS`. Treat `FAIL`, `INCOMPLETE`, a missing report, or any artifact/guideline-evidence mismatch as a hard stop. If no target venue is declared or sufficient current official evidence cannot be established, the result is `INCOMPLETE`; do not guess or downgrade this to an advisory.
 7. **Token conservation vs prior round (advisory — never a FAIL by itself)** — when a prior submitted/reviewed version of the manuscript exists (a `backup/` copy, an as-submitted archive, or a git tag), run `uv run python .scripts/check_token_conservation.py --source <prior>.tex --revision <current>.tex` per main file. List each advisory row (changed number, dropped/added citation, protected-term delta) in the report with whether an authorizing revision item covers it; unexplained deltas are flagged for the human, and claim-bearing rewordings are spot-checked against the claim-strength ladder (`docs/reference/claim-strength-ladder.md`). Skip silently when no prior version exists (first submission).
 8. **Arithmetic forensics (HARD findings block; NOTE/CONDITIONAL advisory)** — run `uv run python .scripts/check_stat_forensics.py <main>.tex` on every empirical paper. It recomputes reported p-values from t/r statistics and df, checks df against reported N, recomputes t from descriptive pairs, and GRIM-checks 2-decimal means at n < 100 — the defect class LLM reviewers demonstrably miss (review-fleet baseline 2026-07-24: 0/4). A HARD finding (impossible p, df ≥ N, t contradicting descriptives) is treated like any other integrity FAIL unless the human confirms a legitimate design explanation (one-tailed test, corrected p, Welch df); CONDITIONAL GRIM rows are surfaced for judgment (integer-valued measures only). Theory-only papers with no reported test statistics: the checker returns CLEAN and costs nothing.
+9. **Prepare the final-gate review input** — after the current PDF and source hashes are established, invoke `review-packet` in `fresh-review` mode. Record the archive path, archive SHA-256, and canonical PDF SHA-256 when the packet is sealed. All later reviewer prompts and the aggregate report refer to this exact packet. If the source changes, the packet is stale and the gate restarts; this packet is not the human-supplied submission archive.
 
 **If any check fails:**
 ```
@@ -132,7 +135,7 @@ Before starting citation checks, create the frozen artifact manifest described i
 | 11 | **anonymity / double-blind checker** | Apply paper-side checks P1-P8 from `_shared/double-blind-anonymity-checklist.md`; verify `[review]` mode if double-blind venue | Pass/fail + leak list |
 | 12 | **page-limit + LaTeX validator** | Verify page count under venue limit; check for compile warnings; check `out/` is current | Page count + warning summary |
 | 13 | **AI-detection** | If an AI-detection workflow is installed and configured, run it and flag hot zones for an optional humanizing pass; otherwise report `SKIPPED (unavailable)` and perform a manual prose-pattern review | Per-segment scores + hot-zone count, or explicit skip reason |
-| 14 | **clarity-reviewer** | Launch `clarity-reviewer` agent — bounded-context ingestion stress test (Predicted ingestion risks + C1–C10 adjudication; `pass1_validity: UNCONTROLLED` in this single-dispatch form). When the paper's prior referee reviews contain readability complaints, prefer the `clarity-review` skill instead (CONTROLLED, observed events) — run it before the fan-out and reuse its report here. | Clarity report (verdict CLEAR/TIGHTEN/HARD-TO-INGEST + Blockers/Quick wins) |
+| 14 | **clarity-reviewer** | Launch `clarity-reviewer` agent — bounded-context ingestion stress test (Predicted ingestion risks + C1–C11 adjudication, including the terminology/jargon ledger; `pass1_validity: UNCONTROLLED` in this single-dispatch form). When the paper's prior referee reviews contain readability complaints, prefer the `clarity-review` skill instead (CONTROLLED, observed events) — run it before the fan-out and reuse its report here. | Clarity report (verdict CLEAR/TIGHTEN/HARD-TO-INGEST + terminology ledger + Blockers/Quick wins) |
 
 **Conditional — math verification (theory papers):**
 
@@ -189,6 +192,7 @@ Save to the canonical `reviews/<paper-slug>/pre-submission-report/<YYYY-MM-DD-HH
 **Date:** YYYY-MM-DD
 **File:** <path to main.tex>
 **Target:** <venue from project CLAUDE.md, or "not specified">
+**Review packet:** <path, archive SHA-256, canonical PDF SHA-256>
 
 ---
 
@@ -280,6 +284,7 @@ Display the report path and the summary table to the user. If the recommendation
 | Skill/Agent | Role in this workflow |
 |-------------|---------------------|
 | `latex` | Compilation + auto-fix |
+| `review-packet` | Defines and optionally seals the exact manuscript/source decision surface audited by the final gate; distinct from the as-submitted archive |
 | `venue-guidelines-compliance` | Resolves an explicit guide, project-declared guide, or live official-source set, then runs a fresh hard-gate audit; exact `PASS` required |
 | `bib-validate` | Bibliography component: citation inventory, identity/DOI, retraction/update, and version status |
 | `claim-verify` agent | Claims component: claim attachment, strength/scope, source access, and quotation fidelity |

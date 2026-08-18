@@ -87,7 +87,8 @@ Where the verification should come from, by claim type:
 | Venue review style (single/double-blind) | Official CFP |
 | Statistic from a paper | The paper PDF, current session-readable |
 | Author affiliation | Author's institutional page or ORCID |
-| Journal impact factor | OpenAlex `summary_stats.2yr_mean_citedness` or JCR (when access is available) |
+| Journal impact factor | **JCR / Clarivate only** — see [`venue-metrics.md`](venue-metrics.md). **Not OpenAlex**: `summary_stats.2yr_mean_citedness` is a different metric and returns near-zero values when OpenAlex mis-matches the source. If JCR is unavailable, leave the field empty and record SJR from the local SCImago snapshot instead |
+| Journal SJR / quartile / h-index | `scripts/venue-rankings-lookup.py` — local snapshots, no web call |
 
 ## Anti-Patterns
 

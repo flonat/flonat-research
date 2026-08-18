@@ -2,7 +2,7 @@
 name: strategic-revision
 description: "Turn external referee correspondence or internal pre-submission feedback into a provenance-safe, DAG-validated revision master plan with atomic tasks, dependencies, critical path, and execution blocks. Use when feedback exists but must be converted into an approved implementation sequence. Not for drafting the reviewer response itself; use $review-response."
 argument-hint: "[--external <reviews-pdf-or-folder> | --internal <review-or-synthesis-path>]"
-skill-dependencies: [latex-diff, proofread, synthesise-reviews]
+skill-dependencies: [latex-diff, proofread, review-packet, synthesise-reviews]
 ---
 
 # Strategic Revision — Feedback to DAG-Validated Master Plan
@@ -103,11 +103,17 @@ reviews/{scope}/strategic-revision/{YYYY-MM-DD-HHMM}/
 │   ├── REVISION_MASTER_PLAN.md
 │   ├── revision_tasks.json
 │   └── revision_dag_analysis.json
+├── bundle/                            (created at successful closeout)
+│   ├── strategic-revision.bundle.zip
+│   ├── strategic-revision.manifest.json
+│   └── strategic-revision.sha256
 └── snapshots/                         (token-conservation baselines — see below)
     └── {label}/                       (e.g. pre-revision/, post-block-C/: main.tex + sections/ + .bib)
 ```
 
 Internal mode links to its source reports in place and does not duplicate them. It creates no rebuttal file, venue-response transcription, submission-history event, or alternative-venue analysis unless the user separately requests one. Use a new timestamped package for a materially changed draft; use fold-in versioning for another review of the same draft.
+
+When the source feedback was produced from a sealed review packet, `source-manifest.md` records that packet's path, archive SHA-256, canonical artifact SHA-256, and verification receipt. At successful closeout, invoke `review-packet` in `gate-closeout` mode so the exact reviews, analysis, adjudication, DAG, snapshots, and completion receipt form one decision-ready packet. A closeout packet is provenance, not a review verdict, and receives no separate `reviews/INDEX.md` row.
 
 **Snapshot location (mandatory, 2026-08-02).** Token-conservation baselines and any other source snapshots taken during a revision live in the plan package's `snapshots/{label}/` — git-tracked, tied to the plan that uses them. NEVER store revision snapshots under `paper-*/backup/`: that directory is the Overleaf backup automation's mirror surface (rsync `--delete`), and on 2026-07-31/2026-08-02 an unprotected mirror pass in `daily-maintenance.sh` gutted dated snapshot dirs stored there (both the P108 round-1 and round-2 baselines, plus two AIES submission-era archives). The automation's filters have been hardened, but the ownership boundary stands: `paper-*/backup/` belongs to the automation; revision provenance belongs to the plan package.
 
@@ -237,6 +243,7 @@ Do not recommend alternative venues in internal mode unless the user asks for ve
 13. **Do not cross-fold modes.** A new source with different provenance gets its own package; cross-reference completed work without moving or relabelling source material.
 14. **No silent claim-strength moves.** Revision edits touching claim-bearing text follow the claim-strength ladder ([`docs/reference/claim-strength-ladder.md`](../../docs/reference/claim-strength-ladder.md)): any move up or down the epistemic scale — including deleting a hedge, scope caveat, or null result — must be authorized by a task's SourceID, and the executing session states the move in its summary. After a revision block completes, run the token-conservation check on each edited file (`uv run python .scripts/check_token_conservation.py --source <pre-revision> --revision <current>`) and reconcile every advisory row (changed number, dropped/added citation) against the tasks that authorized it.
 15. **Close out with a Fulfillment Ledger.** When execution completes (final block done, or fold-in close), fill the tracker's Fulfillment Ledger: every reviewer commitment gets `fulfilled` / `partial` / `not_fulfilled` / `acknowledgment_only`, verified **against the manuscript** — read/grep the `.tex` for the promised change; never mark `fulfilled` on the response letter's or the tracker's say-so (exception: `acknowledgment_only`, whose evidence is the letter). `partial` and `not_fulfilled` require an explicit rationale + residual action. (Ported from ARS v3.19 commitment ledger.)
+16. **Prepare successful closeout.** After the fulfillment ledger and final DAG validation pass, generate and verify the strategic review packet. Never overwrite an earlier packet or include genuine venue correspondence in an internal packet without explicit authorization.
 
 ## Fold-in mode — second-review extension of an existing DAG
 
@@ -270,6 +277,7 @@ Located in `templates/referee-comments/`:
 - `pre-submission-report` — full quality check before resubmission
 - `paper-critic` agent — self-review of the revised paper
 - `synthesise-reviews` — merge internal review agent reports (different use case — not referee comments)
+- `review-packet` — records the reviewed manuscript identity and prepares a successfully completed strategic-revision run for closeout review
 - `references/phases.md` — detailed 11-phase protocol
 - `references/rr-routing.md` — R&R routing signal words
 - `references/dag-validation.md` — DAG validator usage + Phase 6 details

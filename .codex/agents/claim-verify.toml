@@ -113,19 +113,23 @@ Produce an internal numbered list of claims to verify.
 
 ## Phase 2: Gather Sources
 
-For each cited source, attempt to locate the full text:
+For each cited source, locate the exact full text in this order:
 
-1. **Project's `articles/` folder** — PDFs already gathered.
-2. **`paper/*.bib`** — extract DOIs and use `scholarly unpaywall-find-pdf <doi> --json` to get an OA PDF where possible.
-3. **`scholarly core-get-fulltext <id> --json`** — for open-access papers, fetch full text directly.
-4. **`scholarly scholarly-search "title" --json`** — if not found locally, search and fetch metadata at minimum.
+1. **Paperpile identity and attachments.** Use the exact bibliography key with `paperpile get-item <citekey> --json`. Inspect the complete `attachments` array before reading. The attachment flagged `article_pdf: 1` is the operational default, not automatic proof that it is the authoritative version when multiple PDFs exist.
+2. **Paperpile full-text reader.** Use `paperpile get-pdf-text <citekey> --json` by default; use `get-pdf-section`, `get-pdf-tables`, or `get-pdf-figures` only when the claim requires that structure. Allow enough time for a cold extraction and check the exit status, including empty-output exit 124.
+3. **Transport retry gate.** On a non-Mini host, Paperpile PDF calls may route to the Mini. An error involving SSH, hostname/DNS resolution, Tailscale preferences, denied network access, or another sandbox boundary is a transport failure, not a source-access finding. Retry the exact read-only Paperpile call with the client's permitted host/network access before assigning an access status. Do not repair Tailscale or fetch a web copy merely because a sandboxed probe failed.
+4. **Verified exact local attachment.** If the remote extractor remains unavailable but the exact Paperpile attachment is locally resolvable, use the attachment path returned by the installed Paperpile client or its documented read-only resolver. Compare at minimum its recorded byte size, page count, first-page identity, and version/date before reading it directly. Record the attachment ID or cloud-file ID, filename, size, page count, and SHA-256 in the evidence. Never inspect private client configuration, guess a mirror path, or accept a citekey match alone when multiple files disagree.
+5. **Project-supplied source.** Use a PDF in the project's `articles/` folder only after matching its identity and version to the cited work. Record that it is project-supplied rather than Paperpile-extracted.
+6. **External source only for a genuine library gap.** If no Paperpile record exists, or the resolved record declares no PDF attachment, and the project supplies no exact source, use the DOI from the bibliography with `scholarly unpaywall-find-pdf <doi> --json`, then `scholarly core-get-fulltext <id> --json` for open-access text. Disclose the inspected version. Never replace an attached-but-unreadable Paperpile PDF with a publisher or web copy without the user's explicit choice.
+7. **Metadata fallback.** Use `scholarly scholarly-search "title" --json` only to establish metadata or abstract-level evidence when no full text can be obtained. RefPile may help discover or disambiguate a library record, but neither RefPile search results nor `refpile get-paper` are full-text evidence.
 
 Per source, record status:
 - **AVAILABLE** — full text obtained
 - **PARTIAL** — only abstract available
-- **MISSING** — cannot locate
+- **EXTRACTION FAILED** — the exact attachment exists but remained unreadable after the host-access retry and any verified exact-local attempt
+- **MISSING** — no exact full-text source could be located after completing the route above
 
-If many sources are MISSING, note this in the report header and recommend gathering the missing readings before re-running.
+Record attachment presence separately from readability. A Paperpile record with an `article_pdf` attachment is never "missing" merely because the extraction transport failed. If many sources are MISSING or EXTRACTION FAILED, note this in the report header and recommend the corresponding acquisition or infrastructure action before re-running.
 
 ---
 
@@ -265,7 +269,7 @@ In all cases, note what was NOT checked in the report header.
 
 - **Read-only on source files.** Never modify the paper or the cited PDFs.
 - **Write only your own report and typed companion** to `reviews/<paper-slug>/claim-verify/<YYYY-MM-DD-HHMM>.md` and `<same-stem>.citation-integrity.json`. No other Write targets.
-- **Bash is permitted only for `scholarly`, `paperpile`, `refpile` CLIs** (source fetching), `uv run python <skills-root>/shared/scripts/assemble_integrity_receipt.py` (manifest/validation only), and `mkdir -p` for the declared report directory. No git, no latexmk, no `bash review-state-log.sh` (the orchestrator stamps based on your directive).
+- **Bash is permitted only for `scholarly`, `paperpile`, `refpile` CLIs** (source fetching); read-only exact-attachment verification and reading (`realpath`, `stat`, `shasum -a 256`, `pdfinfo`, and `pdftotext`, or the routed PDF skill); `uv run python <skills-root>/shared/scripts/assemble_integrity_receipt.py` (manifest/validation only); and `mkdir -p` for the declared report directory. No git, no latexmk, no `bash review-state-log.sh` (the orchestrator stamps based on your directive).
 - **When in doubt, flag.** A false positive costs the user 30 seconds to dismiss; a missed inaccuracy costs a reviewer's trust.
 - **Pay special attention to claims in the Abstract and Introduction.** Reviewers read these first; misattributions there compound.
 
@@ -317,5 +321,5 @@ Per `_shared/audit-integrity.md` Rule 2, every finding you report MUST be ground
 
 ## Startup instruction
 
-Locate the paper to audit (LaTeX project root from cwd, or path supplied in launch prompt). Find the .tex / .bib files and use any supplied citation-integrity artifact manifest unchanged. Extract every cited claim. For each, locate the source PDF (project's articles/, paper/*.bib for DOI lookup, or scholarly CLI for fetch). Read each source and verify the claim. Apply the eight verification heuristics (number accuracy, denominator confusion, cross-paper contamination, quote fidelity, directional accuracy, attribution accuracy, temporal/scope accuracy, likely typos in source). Write the Claim Verify Report and its validated citation-integrity component companion.
+Locate the paper to audit (LaTeX project root from cwd, or path supplied in launch prompt). Find the .tex / .bib files and use any supplied citation-integrity artifact manifest unchanged. Extract every cited claim. For each cited source, use the exact bibliography key to inspect the Paperpile record and complete attachments array, then read the designated attached PDF with paperpile get-pdf-text or a narrower get-pdf command. RefPile is for discovery, not full-text reading. If a read-only Paperpile PDF call fails because sandboxed SSH, DNS, preferences, or network access is blocked, retry the exact call with permitted host access before classifying source access; a transport failure is never evidence that a PDF is absent. Read each source and verify the claim. Apply the eight verification heuristics (number accuracy, denominator confusion, cross-paper contamination, quote fidelity, directional accuracy, attribution accuracy, temporal/scope accuracy, likely typos in source). Write the Claim Verify Report and its validated citation-integrity component companion.
 '''

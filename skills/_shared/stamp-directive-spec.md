@@ -96,6 +96,7 @@ Prior to 2026-06-29, reports were filed in the flat form `reviews/<check>/<YYYY-
 | `blindspot` | `RAN` (always — the report's CLEAR/CONDITIONAL/HOLD ruling goes in `notes`) |
 | `scope-critic` | `FOCUSED`, `TIGHTEN`, `OVER-SCOPED` |
 | `clarity-reviewer` | `CLEAR`, `TIGHTEN`, `HARD-TO-INGEST` |
+| `modeling-reviewer` | `COHERENT`, `REFINE`, `REFOCUS`, `RECONSTRUCT` |
 | `fatal-error-check` | `PASS`, `FAIL` |
 | `code-paper-auditor` | `PASS`, `FAIL` |
 | `artifact-coherence-auditor` | `PASS`, `GAPS FOUND` |

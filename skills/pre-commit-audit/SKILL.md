@@ -1,7 +1,7 @@
 ---
 name: pre-commit-audit
-description: "Deliver a fast pre-commit safety scan: file size, anonymity (author / affiliation strings in tex/bib), and hardcoded secrets. Use when the user requests a fast pre-commit safety scan: file size, anonymity (author / affiliation strings in tex/bib), and hardcoded secrets. Triggers: 'audit before commit', 'check before push', 'pre-commit scan', 'safety check'."
-allowed-tools: Read, Bash(git*), Bash(grep*), Bash(find*), Bash(stat*), Bash(numfmt*), Bash(wc*), AskUserQuestion
+description: "Deliver a fast pre-commit safety scan: file size, anonymity (author / affiliation strings in tex/bib), hardcoded secrets, and invisible-Unicode carriers. Use when the user requests a fast pre-commit safety scan: file size, anonymity (author / affiliation strings in tex/bib), hardcoded secrets, and invisible-Unicode carriers. Triggers: 'audit before commit', 'check before push', 'pre-commit scan', 'safety check'."
+allowed-tools: Read, Bash(git*), Bash(grep*), Bash(find*), Bash(stat*), Bash(numfmt*), Bash(wc*), Bash(head*), Bash(uv*), AskUserQuestion
 argument-hint: "[--staged | --unstaged | --all]"
 ---
 
@@ -16,13 +16,14 @@ argument-hint: "[--staged | --unstaged | --all]"
 1. **Size pass blocks anything >10MB unless gitignored OR user explicitly approves.** Threshold matches `block-large-files.sh` hook for consistency.
 2. **Anonymity pass runs only on paper-relevant paths**: `paper-*/`, `*.tex`, `*.bib`, `*.md` inside paper directories. Scope is data-driven — we don't false-flag README authorship.
 3. **Secrets pass uses an entropy heuristic + known-prefix list.** No regex-only matching that misses high-entropy keys. Block on confirmed secret; warn on suspicious-but-uncertain.
-4. **All three passes run on the same file set** (default: staged for commit). Don't mix staged-only size check with all-files anonymity check.
+4. **All four passes run on the same file set** (default: staged for commit). Don't mix staged-only size check with all-files anonymity check.
+5. **The Unicode pass is the one pass that is always in scope**, including infra-only commits. It is identity-blind — it reads codepoints, never names — so it cannot false-flag authorship the way the anonymity pass can.
 
 ### Format — catch in review
 
-5. Output a single consolidated table (file × pass × verdict) — not three separate reports.
-6. Severity tiers: BLOCK (must fix), WARN (proceed with confirm), OK.
-7. Always show the file path and line number when flagging — make it copy-paste-fixable.
+6. Output a single consolidated table (file × pass × verdict) — not four separate reports.
+7. Severity tiers: BLOCK (must fix), WARN (proceed with confirm), OK.
+8. Always show the file path and line number when flagging — make it copy-paste-fixable.
 
 ## When to Use
 
@@ -34,7 +35,7 @@ argument-hint: "[--staged | --unstaged | --all]"
 
 ## When NOT to Use
 
-- Before commits on infrastructure-only changes (skills, hooks, rules) — anonymity scan would false-flag README author lines
+- Before commits on infrastructure-only changes (skills, hooks, rules) — anonymity scan would false-flag README author lines. **Exception: Phase 4 (Unicode) stays valid there** and can be run alone: `pre-commit-audit --unicode-only`
 - Auto-generated commits (CI, dependabot) — they don't need the scan
 - When the change is purely metadata (`.gitignore`, `LICENSE`, etc.)
 
@@ -46,6 +47,7 @@ argument-hint: "[--staged | --unstaged | --all]"
 | `pre-commit-audit --staged` | Same as default |
 | `pre-commit-audit --unstaged` | Modified-but-not-staged files |
 | `pre-commit-audit --all` | Working tree + staged |
+| `pre-commit-audit --unicode-only` | Phase 4 only — safe on infra commits |
 
 ## Architecture
 
@@ -53,7 +55,8 @@ argument-hint: "[--staged | --unstaged | --all]"
 Phase 1 (size)        → find files >10MB; check .gitignore status
 Phase 2 (anonymity)   → grep paper paths for author/affiliation/email
 Phase 3 (secrets)     → entropy + prefix heuristics on all staged files
-Phase 4 (consolidate) → single table; user OK to proceed
+Phase 4 (unicode)     → invisible-carrier scan via check_invisible_unicode.py
+Phase 5 (consolidate) → single table; user OK to proceed
 ```
 
 ## Phase 1: Size
@@ -109,17 +112,49 @@ Skip `.env.template`, `.env.example`, `*.example`, comment lines starting with `
 
 Verdict: BLOCK on any match in a non-template file.
 
-## Phase 4: Consolidate + ask
+## Phase 4: Invisible Unicode
+
+Catches characters that are invisible on screen but change what a machine reads — zero-width carriers, bidi overrides, tag characters, and space homoglyphs. These arrive by paste (Word, PDF, web page, LLM output) and fail *silently*: a `U+200B` inside a citekey makes BibTeX drop the entry with no error, a `U+00A0` makes an exact-match string edit fail on a line that looks identical.
+
+Deterministic — delegate to the script rather than grepping by hand:
+
+```bash
+git diff --cached --name-only --diff-filter=ACM \
+  | while read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done \
+  | xargs -r uv run --no-sync python "<skill-dir>/scripts/check_invisible_unicode.py" --format json
+```
+
+Map the script's severities onto this skill's tiers:
+
+| Script severity | Meaning | Verdict |
+|---|---|---|
+| `critical` | Zero-width / bidi / tag char, **or** any invisible inside a `citekey`, `crossref`, `path`, `url`, `bib_entry_key`, `bib_doi` | **BLOCK** |
+| `warning` | Space homoglyph or soft hyphen in prose — renders fine, breaks exact-match editing and `grep` | WARN |
+| `rescued` | Legitimate emoji ZWJ / VS16 sequence | not reported |
+
+Report `path:line:col`, the `U+XXXX` label, and the containing construct when the JSON carries a `context`. The context is most of the signal: the same `U+00A0` is a WARN in prose and a BLOCK inside `\ref{}`.
+
+Fixes are mechanical, so offer them — but never apply silently (Anti-Patterns below):
+
+```bash
+uv run --no-sync python "<skill-dir>/scripts/check_invisible_unicode.py" <path> --diff    # preview
+uv run --no-sync python "<skill-dir>/scripts/check_invisible_unicode.py" <path> --apply   # write
+```
+
+`--apply` refuses Overleaf-canonical paths unless given `--yes-live-surface`, per `reconcile-before-rewriting.md`; if a flagged file is a live Overleaf surface, surface the finding and let the user fix it in the editor rather than passing that flag on their behalf.
+
+## Phase 5: Consolidate + ask
 
 Single table:
 
 ```
-File                                   Size   Anon   Secrets  Verdict
-─────────────────────────────────────────────────────────────────────
-paper-ccs/paper/main.tex               5KB    OK     OK       OK
-paper-ccs/paper/references.bib         12KB   FAIL   OK       BLOCK   (line 23: the user)
-data/raw/results.parquet               1.3GB  N/A    N/A      BLOCK   (size; not gitignored)
-scripts/sync-creds.sh                  2KB    OK     FAIL     BLOCK   (line 15: hf_<...>)
+File                                   Size   Anon   Secrets  Uni    Verdict
+────────────────────────────────────────────────────────────────────────────
+paper-ccs/paper/main.tex               5KB    OK     OK       OK     OK
+paper-ccs/paper/references.bib         12KB   FAIL   OK       FAIL   BLOCK   (line 23: the user; line 8: U+200B in bib_entry_key)
+data/raw/results.parquet               1.3GB  N/A    N/A      N/A    BLOCK   (size; not gitignored)
+scripts/sync-creds.sh                  2KB    OK     FAIL     OK     BLOCK   (line 15: hf_<...>)
+notes/from-word.md                     4KB    OK     OK       WARN   WARN    (4x U+00A0)
 ```
 
 If any BLOCK rows: ask `the available structured-question mechanism`:
@@ -135,6 +170,8 @@ If all OK: print "Pre-commit clean ✓" and exit silently.
 | Skill / Hook / Rule | Relationship |
 |---|---|
 | `block-large-files.sh` hook | Runtime enforcement of Phase 1 (this skill is the manual / verbose counterpart) |
+| `scripts/check_invisible_unicode.py` | Bundled deterministic engine behind Phase 4. Codepoint tables adapted from `guillaumemeyer/watermarks-remover` (MIT); severity tiers, LaTeX-context detection, and emoji rescue are local |
+| `reconcile-before-rewriting.md` rule | Governs Phase 4's `--apply` on live Overleaf surfaces |
 | `anonymous-artifact` | The anonymity-on-publish workflow; this skill is the pre-commit equivalent |
 | `session-close` Phase 4 | Can invoke this skill as part of pre-commit verification |
 | `mark-unverified.md` rule | Verbal counterpart for content claims; this skill handles file content |
@@ -145,4 +182,6 @@ If all OK: print "Pre-commit clean ✓" and exit silently.
 - **Don't** rely solely on regex for secret detection — entropy heuristics catch keys with novel prefixes.
 - **Don't** auto-fix issues — surface them for the user to handle. Auto-replacement of names risks breaking acknowledgements.
 - **Don't** skip the .gitignore check — large gitignored files staged anyway are a signal of `git add -A` mistakes.
-- **Don't** require this skill on infra-only commits. Add a path filter or let the user opt out for those.
+- **Don't** require this skill on infra-only commits. Add a path filter or let the user opt out for those — but `--unicode-only` remains safe and useful there.
+- **Don't** run Phase 4's `--apply` as part of the audit. The audit reports; the user decides. Auto-rewriting bytes in a file the user is mid-edit on is the exact failure `reconcile-before-rewriting.md` exists to prevent.
+- **Don't** flag visible non-ASCII. Accented names (`López-Ibáñez`), em dashes, and `→` are legitimate and the script deliberately ignores them; a pass that flags them will be muted within a week.
