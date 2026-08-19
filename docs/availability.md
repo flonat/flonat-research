@@ -126,7 +126,7 @@ has an explicit client list, with no implicit `both` default.
 | `code-paper-auditor.md` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `code-review.md` | Yes | Yes | filesystem, shell, skill-routing, subagents | selected by the reviewed public distribution |
 | `codex-research.md` | Yes | No | external-codex-delegation, filesystem, shell, skill-routing | selected by the reviewed public distribution |
-| `domain-reviewer.md` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |
+| `domain-reviewer.md` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `fatal-error-check.md` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |
 | `fixer.md` | Yes | Yes | filesystem, shell, skill-routing, subagents | selected by the reviewed public distribution |
 | `gemini-research.md` | Yes | Yes | filesystem, shell, skill-routing, web | selected by the reviewed public distribution |
