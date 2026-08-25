@@ -67,6 +67,99 @@ Per `rules/review-artefact-routing.md` (auto-loads in research projects (path-sc
 - **Infrastructure repos** (Task-Management, atlas-workspace, etc.): this section does not apply — the path-scoped rule won't load there.
 
 
+## Shared References
+
+- Object-reality preflight: `~/.claude/shared-skills/shared/object-reality-preflight.md` — run BEFORE any correctness lens; is the construction already named, is the central quantity non-degenerate, does every category actually occur, is the submitted artifact sound
+
+---
+
+## Step 0 — Object-reality preflight (MANDATORY, before any other lens)
+
+Four checks on whether the object of study is real. Each is a **procedure**, not a
+prompt for an opinion. Do the operation, then report in the required shape. A paper can
+be internally flawless and fail every one.
+
+**These checks have produced confident false PASSes.** Both failures below are real and
+were caught by re-testing against a paper with known defects. Do not repeat them.
+
+### Q1 — Is it named?
+
+**Do:** take the paper's core construction, strip the paper's own coinage, and search for
+the standard term (literature search, or your own knowledge of the field). Name the closest
+existing class.
+
+**Report:** `Q1: <closest existing class, or "no match found"> — <PASS|FAIL>`
+FAIL if the construction is an instance of a named class the paper does not cite. A
+rediscovery can be entirely correct and still carry no contribution.
+
+### Q2 — Is the COMPARATOR degenerate?
+
+Not "is the mechanism interesting". The object is the quantity that denominators,
+baselines, or normalised results are computed against — the comparator, benchmark,
+control arm, reference distribution.
+
+**This verdict is not yours to judge.** It is produced by
+`scripts/object-reality-check.py comparator`, which fails if the comparator is constant
+across rows or equals an author-chosen constant in most of them.
+
+**Where the verdict comes from, in order:**
+1. **Supplied by the orchestrator** in your launch prompt as `Q2 check: ... -> exit N`.
+   This is the normal path. Report it as given.
+2. **No supplied verdict** → `UNVERIFIED`. Name the comparator, quote its line, trace the
+   chain by hand (`comparator <- term <- term <- terminates in: ...`), and say the
+   deterministic check did not run. **Do not substitute your own PASS.**
+
+**Report:**
+
+```
+Q2 comparator: <name>  @ <file:line or eq. ref>
+Q2 check:      <command, or "supplied by orchestrator", or "not run">  -> exit <0|1|2|n/a>
+Q2 verdict:    PASS | PINNED (to <what>) | CIRCULAR (<X> via <Y> via <X>) | UNVERIFIED (<why>)
+```
+
+Report the verdict as given. Do **not** downgrade a FAIL to a caveat: an agent that found
+a circular definition and filed it as "one latent bootstrap-stability edge case" is why
+this check is mechanical.
+
+### Q3 — Is any category empty?
+
+**This verdict is not yours to judge.** It is produced by
+`scripts/object-reality-check.py categories`, which enumerates every string the classifier
+can return (from its AST) and fails on any that never fires. Enumerating from the results
+table is circular — categories that never fire are invisible there by construction.
+
+**Where the verdict comes from, in order:**
+1. **Supplied by the orchestrator** in your launch prompt as a category table plus
+   `Q3 verdict: ...`. Report it verbatim.
+2. **No supplied verdict** → enumerate the emittable set from the classifier definition by
+   hand, count instances, report the zeros, and mark `UNVERIFIED`.
+
+**Report:** the category table, then
+`Q3 verdict: PASS | EMPTY (<names>) | UNVERIFIED (<why>)`.
+
+"Deliberately empty" is not a pass — a category the classifier can emit but never does is
+a mis-specified instrument.
+
+### Q4 — Is the artifact sound as submitted?
+
+**Do:** open the compiled artifact reviewers received (the PDF, not the source). Search for
+unresolved cross-references (`??`), missing figures, and placeholder text. If only the
+source is available, say so — do not infer that the artifact was clean.
+
+**Report:** `Q4: <what you opened> — <PASS|FAIL: what you found>`
+
+### Reporting Step 0
+
+All four verdicts go at the TOP of the report, before any lens. If Q2 or Q3 fails, state
+which downstream results are contaminated — for a pinned or circular comparator that is
+normally **every reported ratio**, and you must say so rather than filing it as one issue
+among many.
+
+A PASS you cannot evidence with the required block is not a PASS. If you could not do the
+operation, write `UNVERIFIED` and why.
+
+---
+
 ## Review Dimensions
 
 ### 1. Entry Points
@@ -123,6 +216,11 @@ Applies when the results rest on **coding, classification, annotation, matching,
 - **A public codebook + reproducible decision log is necessary but NOT sufficient** — it documents *what* was decided without establishing that an independent coder would decide the same way. Flag "reproducible decisions" claimed as if they were "reliable classifications" (GAPS FOUND — the matrix would otherwise read as one researcher's judgment encoded in a table).
 
 If the project has no judgment-based coding step (purely deterministic pipeline), mark this dimension N/A — no penalty.
+
+### 7b. Calibration vs Validation
+
+- **Calibration is not validation.** Parameters drawn from a real source establish plausible magnitudes; they do NOT show that simulated behaviour resembles the real behaviour modelled.
+- **Is a stated calibration exhibited?** A claim that baselines "reproduce reported empirical magnitudes" needs the comparison shown, not asserted.
 
 ### 8. Empirical Validity & Completeness
 

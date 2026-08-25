@@ -12,11 +12,27 @@ paths:
 
 ## What Belongs in `paper/`
 
-- LaTeX source files: `.tex`, `.sty`, `.cls`, `.bst`, `.bbl`
+- LaTeX source files: `.tex`, `.sty`, `.cls`, `.bst`
 - Bibliography files: `.bib`
-- Figures for the paper: `.pdf`, `.png`, `.eps`, `.jpg`, `.svg`, `.tikz`
+- Figures for the paper: `.png`, `.eps`, `.jpg`, `.svg`, `.tikz`, and figure `.pdf`
 - LaTeX config: `.latexmkrc`, `latexmkrc`
 - Build output directory: `out/`
+
+### Root artifacts are governed elsewhere — do not restate them here
+
+**[`overleaf-canonical-source.md`](overleaf-canonical-source.md) § Research-project source
+boundary is the single authority on what may sit at the Overleaf project root.** This rule
+covers the *code/data* boundary and deliberately does not duplicate that list.
+
+In short: the canonical `.latexmkrc` legitimately produces **both** `out/` and a published
+`<basename>.pdf` beside the source, and **neither is a finding**. The hazard is a hand-placed
+copy under a name the build would never produce — `wine-submission.pdf` beside the sources —
+which belongs in `paper-<arm>/submission/archive/<date>-<event>/` instead.
+
+*Why the pointer:* on 2026-08-19 an audit found this rule's file-type list had drifted from the
+root-artifact clause in `overleaf-canonical-source.md`, and because this list is what
+`audit-project-research` and `atlas-audit` mirrored, both audits inherited the drift. One fact
+stated in two places diverged. It is now stated once, there.
 
 ## What NEVER Belongs in `paper/`
 

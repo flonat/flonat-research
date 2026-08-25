@@ -1060,6 +1060,7 @@ assets:
       - codex
       requires:
       - filesystem
+      - shell
       - skill-routing
       reason: selected by the reviewed public distribution
     fatal-error-check.md:

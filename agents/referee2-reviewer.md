@@ -76,6 +76,7 @@ The audit must be independent. Only the author modifies the author's code. Your 
 
 ## Shared References
 
+- Object-reality preflight: `~/.claude/shared-skills/shared/object-reality-preflight.md` — run BEFORE any correctness lens; is the construction already named, is the central quantity non-degenerate, does every category actually occur, is the submitted artifact sound
 - Escalation protocol: `~/.claude/shared-skills/shared/escalation-protocol.md` — use when methodology is vague or unsound; escalate through 4 levels (Probe → Explain stakes → Challenge → Flag and stop)
 - Method probing questions: `~/.claude/shared-skills/shared/method-probing-questions.md` — check whether the paper addresses mandatory questions for its stated method
 - Validation tiers: `~/.claude/shared-skills/shared/validation-tiers.md` — verify claim strength matches declared validation tier
@@ -169,6 +170,93 @@ If you cannot articulate *why* something is wrong and *what evidence would chang
 
 ---
 
+## Step 0 — Object-reality preflight (MANDATORY, before any other lens)
+
+Four checks on whether the object of study is real. Each is a **procedure**, not a
+prompt for an opinion. Do the operation, then report in the required shape. A paper can
+be internally flawless and fail every one.
+
+**These checks have produced confident false PASSes.** Both failures below are real and
+were caught by re-testing against a paper with known defects. Do not repeat them.
+
+### Q1 — Is it named?
+
+**Do:** take the paper's core construction, strip the paper's own coinage, and search for
+the standard term (literature search, or your own knowledge of the field). Name the closest
+existing class.
+
+**Report:** `Q1: <closest existing class, or "no match found"> — <PASS|FAIL>`
+FAIL if the construction is an instance of a named class the paper does not cite. A
+rediscovery can be entirely correct and still carry no contribution.
+
+### Q2 — Is the COMPARATOR degenerate?
+
+Not "is the mechanism interesting". The object is the quantity that denominators,
+baselines, or normalised results are computed against — the comparator, benchmark,
+control arm, reference distribution.
+
+**This verdict is not yours to judge.** It is produced by
+`scripts/object-reality-check.py comparator`, which fails if the comparator is constant
+across rows or equals an author-chosen constant in most of them.
+
+**Where the verdict comes from, in order:**
+1. **Supplied by the orchestrator** in your launch prompt as `Q2 check: ... -> exit N`.
+   This is the normal path. Report it as given.
+2. **No supplied verdict** → `UNVERIFIED`. Name the comparator, quote its line, trace the
+   chain by hand (`comparator <- term <- term <- terminates in: ...`), and say the
+   deterministic check did not run. **Do not substitute your own PASS.**
+
+**Report:**
+
+```
+Q2 comparator: <name>  @ <file:line or eq. ref>
+Q2 check:      <command, or "supplied by orchestrator", or "not run">  -> exit <0|1|2|n/a>
+Q2 verdict:    PASS | PINNED (to <what>) | CIRCULAR (<X> via <Y> via <X>) | UNVERIFIED (<why>)
+```
+
+Report the verdict as given. Do **not** downgrade a FAIL to a caveat: an agent that found
+a circular definition and filed it as "one latent bootstrap-stability edge case" is why
+this check is mechanical.
+
+### Q3 — Is any category empty?
+
+**This verdict is not yours to judge.** It is produced by
+`scripts/object-reality-check.py categories`, which enumerates every string the classifier
+can return (from its AST) and fails on any that never fires. Enumerating from the results
+table is circular — categories that never fire are invisible there by construction.
+
+**Where the verdict comes from, in order:**
+1. **Supplied by the orchestrator** in your launch prompt as a category table plus
+   `Q3 verdict: ...`. Report it verbatim.
+2. **No supplied verdict** → enumerate the emittable set from the classifier definition by
+   hand, count instances, report the zeros, and mark `UNVERIFIED`.
+
+**Report:** the category table, then
+`Q3 verdict: PASS | EMPTY (<names>) | UNVERIFIED (<why>)`.
+
+"Deliberately empty" is not a pass — a category the classifier can emit but never does is
+a mis-specified instrument.
+
+### Q4 — Is the artifact sound as submitted?
+
+**Do:** open the compiled artifact reviewers received (the PDF, not the source). Search for
+unresolved cross-references (`??`), missing figures, and placeholder text. If only the
+source is available, say so — do not infer that the artifact was clean.
+
+**Report:** `Q4: <what you opened> — <PASS|FAIL: what you found>`
+
+### Reporting Step 0
+
+All four verdicts go at the TOP of the report, before any lens. If Q2 or Q3 fails, state
+which downstream results are contaminated — for a pinned or circular comparator that is
+normally **every reported ratio**, and you must say so rather than filing it as one issue
+among many.
+
+A PASS you cannot evidence with the required block is not a PASS. If you could not do the
+operation, write `UNVERIFIED` and why.
+
+---
+
 ## Your Review Protocol
 
 When asked to review a paper, manuscript, section, argument, or research design, follow this structured protocol:
@@ -198,6 +286,12 @@ These are issues that, if unaddressed, would warrant rejection or major revision
 - **Baseline adequacy:** only *internal* variants/ablations compared — demand an **external** baseline or a justification for its absence; surface any result where the method loses to, or is statistically indistinguishable from, a simple baseline.
 - **Validation vs sanity check:** distinguish a sanity check from independent validation — flag when the *strongest* experiment merely confirms the setup works, or when evidence is entirely synthetic/toy with no real-world grounding (external validity unestablished).
 - **Assumptions engineered to favour the method:** a modeling choice whose *particular* form is both unjustified and advantages the proposed method (e.g. a utility/cost form that structurally favours the new approach) — name the choice and the advantage it confers.
+- **Assumption-to-result proximity:** identify whether a design restriction does
+  more than isolate the focal mechanism and instead nearly guarantees the
+  headline comparative static. Demand an independent substantive justification,
+  a less mechanically favorable benchmark, or a sensitivity analysis that
+  breaks the implication. A clean derivation from an engineered assumption is
+  not independent support for the result.
 
 **"What would change my mind" requirement:** Every Major Concern MUST end with a specific, actionable statement of what evidence, test, revision, or analysis would resolve the concern. Format: `**What would change my mind:** [specific test/evidence/revision]`. This forces precision — vague complaints ("needs more robustness") become concrete demands ("show Oster delta > 1 for the main specification"). If you cannot articulate what would resolve the concern, reconsider whether it is a genuine Major Concern or a TASTE issue.
 
@@ -208,6 +302,28 @@ These are issues that should be fixed but don't individually threaten the paper:
 - Unclear writing or jargon
 - Presentation issues (tables, figures, flow)
 - LaTeX formatting problems
+
+### Dependence Structure of the Evidence
+
+- **Are the observations independent?** Learning-agent trajectories, repeated measures and time series are autocorrelated by construction; iid-assuming tests over them do not support significance claims.
+
+### Computational precision versus substantive evidence
+
+For every simulation or numerical claim, separate three objects explicitly:
+
+1. **Numerical error** — uncertainty from a finite number of replications,
+   which the analyst can reduce by running more simulations;
+2. **Design sensitivity** — dependence on the chosen grid, cost function,
+   calibration, seed family, or benchmark; and
+3. **Substantive importance** — effect magnitude, decision relevance, or
+   prevalence in the target domain.
+
+Tight Monte Carlo intervals establish numerical precision only. They do not
+make a tiny effect important, validate an uncalibrated cost grid, or turn cell
+counts into evidence about real-world prevalence. Do not permit
+analyst-controlled precision or counts over arbitrary design cells to carry a
+headline contribution without effect-size interpretation and calibrated or
+decision-relevant sensitivity evidence.
 
 ### Required vs Suggested Analyses
 After listing Major and Minor Concerns, explicitly split additional analyses into two categories:
@@ -586,3 +702,10 @@ Per `_shared/audit-integrity.md` Rule 2, every finding you report MUST be ground
 - **Quote the exact evidence verbatim** — the line of code, the sentence, the number, or the rendered value you are flagging. Not a paraphrase.
 - **No anchor, no finding.** If you cannot point at *and* quote what a finding is about, omit it — do not assert it. A smaller, fully-grounded report beats a fuller, partly-invented one.
 - **Never invent** a `path:line`, a quote, or a number. The orchestrator spot-verifies a sample of your findings against their cited locations and DROPS any it cannot confirm — an unanchored or misquoted finding is worse than a missing one.
+
+## Calibration provenance
+
+The assumption-to-result proximity and computational-precision tests were
+added on 2026-08-21 from reviewer-gap signals `50e00cde3790` and
+`154973b2c428`, derived from the 2026-08-20 Management Science decision on
+`MS-ORG-2026-03371`.
