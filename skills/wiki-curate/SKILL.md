@@ -111,7 +111,7 @@ The `status:` frontmatter field is the lifecycle axis: `draft`
 concept anatomy). Status is read from frontmatter with the same
 fallback as atlas-workspace (`auto_generated: true` → draft, else
 curated) so pages predating the field classify correctly. The
-anatomy is defined in `packages/atlas-vault/schema.md` → "Concept
+anatomy is defined in `packages/research-atlas-schema/schema.md` → "Concept
 File Schema":
 
 - `## In one line` — required definition block (machine-anchored).

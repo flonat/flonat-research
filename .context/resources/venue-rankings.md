@@ -31,11 +31,11 @@ Both `wbs60.csv` and `ft50.csv` are **membership lists** (no internal tier — a
 
 | Column | Meaning |
 |--------|---------|
-| `title` | Canonical title from `packages/atlas-workspace/src/atlas/data/venue_lists.py` |
+| `title` | Canonical title from `packages/research-atlas/src/atlas/data/venue_lists.py` |
 | `print_issn`, `e_issn`, `field`, `ajg_2024` | AJG-enriched columns (empty for venues outside AJG scope, e.g., Nature, Science, PNAS) |
 | `on_wbs60` / `on_ft50` | Membership flag (always `1` for entries in the file) |
 
-These CSVs are **derived from** `packages/atlas-workspace/src/atlas/data/venue_lists.py` (the canonical Python source). To regenerate after editing the lists, import `WBS_60` / `FT_50` from `atlas.data.venue_lists` and emit CSVs with the schema above.
+These CSVs are **derived from** `packages/research-atlas/src/atlas/data/venue_lists.py` (the canonical Python source). To regenerate after editing the lists, import `WBS_60` / `FT_50` from `atlas.data.venue_lists` and emit CSVs with the schema above.
 
 ### SJR CSV schema
 

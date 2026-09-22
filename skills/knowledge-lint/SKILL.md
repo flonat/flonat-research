@@ -107,7 +107,7 @@ Project knowledge articles are the upstream source that `wiki-grow`
 promotes into vault concepts (`~/vault/concepts/`). Articles
 that escape their origin project (mentioned in ≥3 corpus docs) get
 auto-promoted as `status: draft` and later curated to the **concept
-anatomy** (`packages/atlas-vault/schema.md` → "Concept File Schema"):
+anatomy** (`packages/research-atlas-schema/schema.md` → "Concept File Schema"):
 a lead `## In one line` definition, encyclopedia-voice body, and a
 `## In my portfolio` section for project-specific prose.
 
