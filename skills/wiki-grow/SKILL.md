@@ -183,5 +183,5 @@ existing pages don't need migration.
 | Skill | Relationship |
 |-------|-------------|
 | `compile-knowledge` | Upstream — writes the project knowledge articles wiki-grow promotes from. Must run first to seed candidates. |
-| `atlas-audit` | Checks vault concept coverage as part of its routine audits. |
+| `research-atlas-audit` | Checks vault concept coverage as part of its routine audits. |
 | `process-inbox` | Triages the weekly summary item. |

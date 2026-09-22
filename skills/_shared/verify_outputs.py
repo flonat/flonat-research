@@ -53,19 +53,31 @@ def verify_manifest(manifest_path: Path, project_root: Path) -> VerifyResult:
     return VerifyResult(ok=not missing, missing=missing, manifest=data)
 
 
+def _bounded(value: str, limit: int) -> str:
+    """Strip control characters and truncate, so a row can never fail schema validation."""
+    cleaned = "".join(c for c in str(value or "") if ord(c) >= 32 and ord(c) != 127)
+    return cleaned[:limit]
+
+
 def log_outcome(skill: str, project: str, ok: bool, note: str) -> None:
+    """Append one schema-valid outcome row.
+
+    `skill` and `project` must be non-empty per rules/skill-outcome-logging.md —
+    an empty value makes the row invalid and wedges `sync-push-memory.sh` for
+    every later session, so both fall back rather than write through blank.
+    """
     path = Path.home() / ".local" / "state" / "ai-workflows" / "skill-outcomes.jsonl"
     path.parent.mkdir(parents=True, exist_ok=True)
     entry = {
-        "skill": skill,
+        "skill": _bounded(skill, 128).strip() or "unknown",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "outcome": "success" if ok else "error",
-        "session": os.environ.get("AI_SESSION_ID", os.environ.get("CLAUDE_SESSION_ID", "")),
-        "project": project,
-        "note": note,
+        "session": _bounded(os.environ.get("AI_SESSION_ID", os.environ.get("CLAUDE_SESSION_ID", "")), 160),
+        "project": _bounded(project, 256).strip() or "_no-project",
+        "note": _bounded(note, 1024),
     }
     with path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(entry) + "\n")
+        f.write(json.dumps(entry, ensure_ascii=False, separators=(",", ":")) + "\n")
 
 
 def main() -> int:
@@ -80,8 +92,14 @@ def main() -> int:
         return 2
 
     result = verify_manifest(args.manifest, args.project_root)
-    skill = result.manifest.get("skill", "unknown")
-    project = result.manifest.get("project", args.project_root.name)
+    # `.get(key, default)` returns a present-but-empty value, so fall through explicitly:
+    # a manifest carrying "project": "" is exactly what produced the invalid rows.
+    skill = str(result.manifest.get("skill") or "").strip() or "unknown"
+    project = (
+        str(result.manifest.get("project") or "").strip()
+        or args.project_root.name
+        or "_no-project"
+    )
 
     if result.ok:
         print(f"[verify-outputs] OK — all {len(result.manifest.get('claimed_outputs', []))} "

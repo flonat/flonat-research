@@ -177,5 +177,5 @@ Write `correspondence/internal-reviews/KNOWLEDGE-LINT-REPORT.md` (create directo
 |-------|-------------|
 | `compile-knowledge` | Run this first to build/update the wiki |
 | `store-insight` | Use to fix individual gaps found by lint |
-| `atlas-coherence` | Complementary — checks topic-level connections, not article-level |
+| `research-atlas-coherence` | Complementary — checks topic-level connections, not article-level |
 | `wiki-curate` | Downstream — audits the vault concepts these articles promote into (anatomy, lifecycle, overlap) |

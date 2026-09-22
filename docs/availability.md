@@ -10,7 +10,7 @@ has an explicit client list, with no implicit `both` default.
 
 | Surface | Shipped | Claude | Codex |
 |---|---:|---:|---:|
-| Skills | 94 | 94 | 91 |
+| Skills | 87 | 87 | 84 |
 | Agents | 15 | 15 | 14 |
 | Rules | 18 | 18 | 18 |
 | Hooks | 3 | 3 | 0 |
@@ -58,13 +58,6 @@ has an explicit client list, with no implicit `both` default.
 | `lean-check` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `math-proof` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |
 | `mcp-builder` | Yes | Yes | filesystem, shell, subagents, web | selected by the reviewed public distribution |
-| `meetings-cleanup` | Yes | Yes | filesystem, shell | selected by the reviewed public distribution |
-| `meetings-debrief` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
-| `meetings-list` | Yes | Yes | filesystem, shell | selected by the reviewed public distribution |
-| `meetings-prep` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
-| `meetings-recap` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
-| `meetings-search` | Yes | Yes | filesystem, shell | selected by the reviewed public distribution |
-| `meetings-weekly` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `method-audit` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `multi-perspective` | Yes | Yes | filesystem, skill-routing, subagents | selected by the reviewed public distribution |
 | `numerical-check` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
@@ -197,7 +190,6 @@ must not present them as available.
 | skills | `init-paper-book` | Requires private Atlas book services and registration scripts. |
 | skills | `init-project-research` | Requires private Atlas, Overleaf, template, and Git-hook infrastructure. |
 | skills | `literature` | Pipeline mode requires the private Atlas and council/search toolchain. |
-| skills | `meetings-verify` | Requires the private meeting-transcription package installation. |
 | skills | `memory-cleanup` | Requires the private ai-context memory engine and store. |
 | skills | `preprint` | Requires a private Overleaf registry and template checkout. |
 | skills | `preregister` | Requires private Atlas topic metadata. |

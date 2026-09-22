@@ -182,7 +182,7 @@ Include a Drift Log table where Phase 0 appends detected drift with timestamps.
 Add cross-references in skills that commonly cause drift:
 
 ```markdown
-| `atlas-audit` | **Drift trigger:** new topics change count — see drift-checks.md |
+| `research-atlas-audit` | **Drift trigger:** new topics change count — see drift-checks.md |
 ```
 
 This ensures the person (or agent) running the triggering skill is aware that downstream skills may need updating.
@@ -191,7 +191,7 @@ This ensures the person (or agent) running the triggering skill is aware that do
 
 **When to skip:** Skills that derive all values at runtime (no hardcoded references to external state).
 
-**Example:** `atlas-audit` — topic count, theme list, vault schemas, stage mappings, rules count all drift. Phase 0 detects and self-heals; `references/drift-checks.md` tracks 8 drift-prone values.
+**Example:** `research-atlas-audit` — topic count, theme list, vault schemas, stage mappings, rules count all drift. Phase 0 detects and self-heals; `references/drift-checks.md` tracks 8 drift-prone values.
 
 ### Graceful Degradation (Multi-Agent Skills)
 
@@ -220,7 +220,7 @@ When a skill spawns multiple sub-agents (council mode, parallel analysis, autono
 - `literature` (pipeline mode with parallel Phase 2 agents)
 - `multi-perspective` (3+ perspective agents)
 - `computational-experiments` (autonomous sweep with parallel agent batches)
-- `atlas-audit` (parallel sub-agent auditors)
+- `research-atlas-audit` (parallel sub-agent auditors)
 - Council mode in any skill
 
 ### Progressive Disclosure
@@ -247,7 +247,7 @@ The `description` determines when the skill activates. It's always in context. *
 **Good:**
 - `"Analyze datasets using statistical methods. Handles EDA, hypothesis testing, and causal inference. Use when asked to analyze CSV/Excel data or run A/B test analysis."`
 - `"Academic proofreading for LaTeX papers. Grammar, notation consistency, citation format, tone. Report-only — never edits source files."`
-- `"Audit Atlas research content for metadata and portfolio coherence. Use when checking topics, outputs, or submissions. Not for service health or deployment; use $atlas-infra-audit instead."`
+- `"Audit Atlas research content for metadata and portfolio coherence. Use when checking topics, outputs, or submissions. Not for service health or deployment; use $research-atlas-infra-audit instead."`
 
 **Bad:**
 - `"A helpful skill"` — too vague, triggers on everything

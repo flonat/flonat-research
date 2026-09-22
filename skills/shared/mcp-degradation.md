@@ -69,7 +69,7 @@ These skills should reference this pattern:
 | `init-project-research` | `taskflow-cli` | Pipeline entry creation |
 | `literature` | `scholarly` CLI | Citation search, DOI verification |
 |  | `scholarly` CLI | Bibliometric queries |
-| `atlas-audit` | vault | Pipeline cross-reference |
+| `research-atlas-audit` | vault | Pipeline cross-reference |
 
 ## When to Apply
 
