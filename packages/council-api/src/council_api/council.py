@@ -208,6 +208,7 @@ class CouncilService:
             system_prompt, user_msg, assessments, peer_reviews,
             chairman_model,
             custom_prompt_builder=stage3_prompt_builder,
+            aggregate_rankings=aggregate_rankings,
         )
         stage3_ms = int((perf_counter() - t3) * 1000)
 
@@ -384,6 +385,7 @@ Now provide your evaluation and ranking:"""
         chairman_model: str,
         *,
         custom_prompt_builder: object | None = None,
+        aggregate_rankings: list[dict] | None = None,
     ) -> tuple[dict, bool]:
         if custom_prompt_builder and callable(custom_prompt_builder):
             chairman_prompt = custom_prompt_builder(assessments, peer_reviews, user_msg)
@@ -428,9 +430,20 @@ You MUST respond with valid JSON matching the EXACT SAME SCHEMA as the individua
             return result, False
         except Exception:
             logger.exception("Council Stage 3: chairman %s failed", chairman_model)
-            if assessments:
-                return assessments[0].result_json, True
-            return {}, True
+            fallback = self._top_ranked_assessment(assessments, aggregate_rankings or [])
+            return (fallback.result_json if fallback else {}), True
+
+    @staticmethod
+    def _top_ranked_assessment(
+        assessments: list[CouncilAssessment],
+        aggregate_rankings: list[dict],
+    ) -> CouncilAssessment | None:
+        """The peer-review winner, or the first assessment if nothing was ranked."""
+        by_label = {a.label: a for a in assessments}
+        for entry in aggregate_rankings:  # sorted best first
+            if entry.get("label") in by_label:
+                return by_label[entry["label"]]
+        return assessments[0] if assessments else None
 
     # ------------------------------------------------------------------
     # Ranking utilities

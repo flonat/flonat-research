@@ -243,7 +243,7 @@ class CouncilMeta(BaseModel):
     total_ms: int = 0                            # Total wall-clock time
     reused_model: str | None = None              # Model whose result was reused (if any)
     aggregate_rankings: list[dict] = Field(...)  # Sorted by average_rank
-    stage3_fallback: bool = False                # True if chairman failed → used the first assessment
+    stage3_fallback: bool = False                # True if chairman failed → used the top-ranked assessment
 ```
 
 **`aggregate_rankings`** — computed from all peer reviews:
@@ -415,11 +415,11 @@ Lower-level methods: `save_stage1/2/3`, `load_stage1/2/3`,
 
 ### Fallback Handling
 
-If the chairman model fails (network error, malformed response), the council falls back to the **first successful Stage 1 assessment**, in the order the models were listed. It is not the top-ranked one; check `meta.aggregate_rankings` if you need that:
+If the chairman model fails (network error, malformed response), the council falls back to the **top-ranked assessment** from the Stage 2 peer review (the first entry in `meta.aggregate_rankings`). If nothing was ranked, for example because every peer review failed, it uses the first successful Stage 1 assessment:
 
 ```python
 if result.meta.stage3_fallback:
-    print("Warning: Chairman synthesis failed — result is one model's unreviewed assessment")
+    print("Warning: Chairman synthesis failed — using the top-ranked assessment")
 ```
 
 ## CLI
@@ -495,7 +495,7 @@ council_api/
 - **Schema-agnostic** — the council doesn't know what JSON schema you're using. It passes through whatever Stage 1 returns. Your application defines the schema via the system prompt.
 - **Anonymous peer review** — assessments are labeled "Assessment A/B/C" during Stage 2. Model identities are only revealed in metadata.
 - **Parallel execution** — Stage 1 and Stage 2 queries run concurrently via `asyncio.gather`. Wall-clock time is limited by the slowest model, not the sum.
-- **Graceful degradation** — if a Stage 1 model fails, the council continues with the remaining assessments. If the chairman fails, it falls back to the first successful assessment and sets `meta.stage3_fallback`.
+- **Graceful degradation** — if a Stage 1 model fails, the council continues with the remaining assessments. If the chairman fails, it falls back to the top-ranked assessment (or the first one if nothing was ranked) and sets `meta.stage3_fallback`.
 
 ## Cost Estimate
 
