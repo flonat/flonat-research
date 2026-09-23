@@ -245,7 +245,7 @@ A distinct mosh-server failure, not an IP-change one: mid-session, every shell a
 | [`docs/setup/terminal-setup/terminal-setup.tex`](../../docs/setup/terminal-setup/terminal-setup.tex) | Full terminal-stack manual including § Mosh for Resilient Connections (UDP ports 60000–61000, SSH-keepalive config to prevent Tailscale NAT idleness), § Non-interactive Shell PATH (the `mosh-server` zshenv gotcha — see Related Failure Mode above), and SSH ProxyCommand pitfalls |
 | [`docs/reference/terminal.md`](../../docs/reference/terminal.md) | Quick reference for the terminal stack (iTerm2, zsh, starship, tmux); config locations and which files sync across machines |
 | [`docs/guides/tmux-config.md`](../../docs/guides/tmux-config.md) | tmux per-host config; mouse mode is what makes scrollback work through mosh (mosh has no scrollback of its own — tmux underneath holds it) |
-| [`docs/setup/vps-setup.md`](../../docs/setup/vps-setup.md), [`docs/setup/claw-setup.md`](../../docs/setup/claw-setup.md) | Sibling host setups; same Homebrew-Tailscale-mosh pattern adapted to Linux VPS |
+| [`docs/setup/vps-setup.md`](../../docs/setup/vps-setup.md), [`docs/guides/hermes.md`](../../docs/guides/hermes.md) | Sibling host setups; same Homebrew-Tailscale-mosh pattern adapted to Linux VPS |
 | [`docs/guides/cross-machine-parity.md`](../../docs/guides/cross-machine-parity.md) | Multi-machine baseline; explains why all four hosts (Mini, UOS, VPS, claw) source `packages/dotfiles/shared.zsh` |
 | [`docs/guides/troubleshooting.md`](../../docs/guides/troubleshooting.md) | Generic infrastructure troubleshooting — Tailscale/mosh failures get a pointer here from this skill |
 

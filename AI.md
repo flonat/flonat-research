@@ -124,7 +124,7 @@ private Task Management guides from the public framework.
 <!-- COMPONENTS:START -->
 ## Skills Available
 
-109 skills in `skills/` folder. See [`docs/skills.md`](docs/skills.md) for the full catalogue.
+87 skills in `skills/` folder. See [`docs/skills.md`](docs/skills.md) for the full catalogue.
 
 ## Agents
 
@@ -149,7 +149,7 @@ Canonical policy lives in `rules/`. the AI assistant receives rule files and Cod
 | `overleaf-separation.md` | The `paper/` directory (Overleaf symlink inside `paper-{venue}/paper/`) is for LaTeX source files ONLY. |
 | `paper-code-consistency.md` | Before committing edits to §experiments or §methods, grep the actual code against the prose claim. |
 | `plan-first.md` | Plan Before Implementing |
-| `python-uv.md` | Never use bare `python`, `python3`, or `pip`. |
+| `python-uv.md` | Never invoke a machine-specific `python`, `python3`, or `pip` directly. |
 | `read-docs-first.md` | Never explore when documentation already answers your question. |
 | `scope-discipline.md` | Only make changes the user explicitly requested. |
 | `severity-gradient.md` | Calibrate critique intensity to the document's maturity. |
@@ -159,7 +159,7 @@ Canonical policy lives in `rules/`. the AI assistant receives rule files and Cod
 
 ## Hooks
 
-9 hook scripts in `hooks/`. See [`docs/hooks.md`](docs/hooks.md) for the full table.
+3 hook scripts in `hooks/`. See [`docs/hooks.md`](docs/hooks.md) for the full table.
 <!-- COMPONENTS:END -->
 
 ## After Every Session
@@ -187,13 +187,10 @@ Update `.context/current-focus.md` (what we worked on, where left off, what's ne
 | `.context/` | AI context library (profile, focus, projects, workflows, preferences) |
 | `agents/` | Neutral agent definitions (15 agents) |
 | `rules/` | Canonical policy rules (18 rules) |
-| `skills/` | 109 skill definitions |
-| `hooks/` | 9 hook scripts |
-| `.scripts/` | CLI tools for Notion task management |
+| `skills/` | 87 skill definitions |
+| `hooks/` | 3 hook scripts |
+| `packages/cli-council/` | cli-council |
 | `packages/council-api/` | Multi-model council via OpenRouter API |
-| `packages/council-cli/` | Multi-model council via local CLI tools |
-| `packages/mcp-scholarly/` | mcp-scholarly |
-| `packages/scholarly/` | Multi-source scholarly search MCP server (OpenAlex + Scopus + WoS) |
 | `log/` | Session logs |
 | `docs/` | Documentation |
 <!-- FILE-STRUCTURE:END -->
