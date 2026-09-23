@@ -73,6 +73,16 @@
 % Source mapping to clean Paperpile exports
 \DeclareSourcemap{
   \maps[datatype=bibtex]{
+    % Drop Paperpile export fields that never print. Left in place, an
+    % unescaped % inside an abstract comments out the closing brace of
+    % \field{abstract}{...} in the .bbl ("File ended while scanning use
+    % of \field", 2026-09-20). Sibling of the \AtEveryBibitem clears below.
+    \map{
+      \step[fieldset=abstract, null]
+      \step[fieldset=keywords, null]
+      \step[fieldset=file, null]
+      \step[fieldset=annote, null]
+    }
     % Remove prefix patterns like "1~"
     \map{
         \step[fieldsource=month, match=\regexp{^\s*\d+~\s*}, replace={}]

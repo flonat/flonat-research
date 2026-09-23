@@ -58,4 +58,4 @@ uv run python scripts/task.py     # Run a project script
 
 ## On [HPC cluster] HPC
 
-Avon uses **Miniconda3 + Lmod** (not uv) because cluster users need to compose with `module load CUDA/12.6.0` and other pre-built modules. The project-specific pattern is `hpc/env-setup.sh` (conda create + pip install) — see [`docs/guides/hpc.md`](../../docs/guides/hpc.md) and reference implementations under `Projects/NLP/{example-project-a,benchmark-gaming-llm-safety}/hpc/env-setup.sh`. The local dev env still uses uv; HPC gets its own conda env with identical pins. Don't try to port uv to Avon — the module system assumes conda.
+[HPC cluster] uses **Miniconda3 + Lmod** (not uv) because cluster users need to compose with `module load CUDA/12.6.0` and other pre-built modules. The project-specific pattern is `hpc/env-setup.sh` (conda create + pip install) — see [`docs/guides/hpc.md`](../../docs/guides/hpc.md) and reference implementations under `Projects/NLP/{example-project-a,example-project-b}/hpc/env-setup.sh`. The local dev env still uses uv; HPC gets its own conda env with identical pins. Don't try to port uv to [HPC cluster] — the module system assumes conda.

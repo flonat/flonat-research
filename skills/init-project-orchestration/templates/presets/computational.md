@@ -13,7 +13,7 @@ research contribution.
 
 Use `write_policy.git: forbidden` unless the user explicitly expands a role.
 Separate core-code ownership from experiment execution. If the project requires
-large sweeps or GPU work, follow the canonical HPC guide and keep every Avon
+large sweeps or GPU work, follow the canonical HPC guide and keep every [HPC cluster]
 workflow in a named remote tmux session.
 
 ## Suggested commands

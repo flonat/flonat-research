@@ -8,7 +8,7 @@ skill-dependencies: [computational-experiments]
 
 # Test-Iterate Loop — Autonomous Bug Fix Cycle
 
-> Autonomous loop: run tests → root-cause failures → apply minimal fix → retry. Bounded by iteration cap and same-error-repeat detector. Never commits — leaves clean working tree + markdown report. Generic across Python (pytest), R (testthat), Julia (Pkg.test), and HPC pipelines (mock-Avon Docker).
+> Autonomous loop: run tests → root-cause failures → apply minimal fix → retry. Bounded by iteration cap and same-error-repeat detector. Never commits — leaves clean working tree + markdown report. Generic across Python (pytest), R (testthat), Julia (Pkg.test), and HPC pipelines (mock-HPC Docker).
 
 ## Hard Rules
 
@@ -28,7 +28,7 @@ skill-dependencies: [computational-experiments]
 ## When to Use
 
 - A pipeline / library has failing tests and you want them fixed autonomously
-- Pre-flight before submitting an HPC job (catch torch/transformers/CUDA mismatches in mock-Avon Docker before the real job queues)
+- Pre-flight before submitting an HPC job (catch torch/transformers/CUDA mismatches in mock-HPC Docker before the real job queues)
 - Refactor cycles: change → run tests → fix breaks → repeat
 - Reproducing a failure on a fresh checkout
 
@@ -45,7 +45,7 @@ skill-dependencies: [computational-experiments]
 |---|---|
 | `test-iterate-loop` | Auto-detects test runner; iterates up to 10 |
 | `test-iterate-loop --max-iter 5` | Lower iteration cap |
-| `test-iterate-loop --mock-hpc` | Run tests inside the mock-Avon Docker container (catches HPC-specific torch/CUDA bugs pre-submission) |
+| `test-iterate-loop --mock-hpc` | Run tests inside the mock-HPC Docker container (catches HPC-specific torch/CUDA bugs pre-submission) |
 | `test-iterate-loop --container <image>` | Custom Docker image |
 | `test-iterate-loop --no-fix` | Run tests once, root-cause failures, stop without applying fixes (diagnostic mode) |
 
@@ -105,7 +105,7 @@ Per iteration:
    - **New failure** → fresh hypothesis next iteration.
    - **Same failure (3rd time consecutively)** → exit loop, terminal state STUCK.
 
-5. **Memory-bug check** — if this iteration's fix added a `from <model>` import, a `.cuda()` call, an `os.environ[]` set, or a version pin (`torch==X.Y`), flag in the log with `[MEMORY-BUG-RISK]`. These are the patterns that bit past Avon runs.
+5. **Memory-bug check** — if this iteration's fix added a `from <model>` import, a `.cuda()` call, an `os.environ[]` set, or a version pin (`torch==X.Y`), flag in the log with `[MEMORY-BUG-RISK]`. These are the patterns that bit past [HPC cluster] runs.
 
 ## Phase 4: Termination + report
 
@@ -149,15 +149,15 @@ Clean (no commits made). User decides whether to commit, what to amend, or what 
 
 ## HPC mock mode (`--mock-hpc`)
 
-Use when iterating before submitting to [HPC cluster]. Runs inside a Docker container that mirrors Avon's environment:
+Use when iterating before submitting to [HPC cluster]. Runs inside a Docker container that mirrors [HPC cluster]'s environment:
 
-- Default image: `user/avon-mock:latest` (built from `scripts/hpc/Dockerfile.avon-mock`)
-- Container has same CUDA, torch, transformers, slurm-mock as Avon
+- Default image: `user/hpc-mock:latest` (built from `scripts/hpc/Dockerfile.hpc-mock`)
+- Container has same CUDA, torch, transformers, slurm-mock as [HPC cluster]
 - Test command runs inside the container; failures bubble out to the iteration log
 
 **Hard rule:** never run `--mock-hpc` against a project whose data lives outside the project directory — the Docker mount won't see it. Verify data paths first.
 
-If `user/avon-mock:latest` doesn't exist on the current machine, print the build instructions and exit.
+If `user/hpc-mock:latest` doesn't exist on the current machine, print the build instructions and exit.
 
 ## Standard forbid-list (when dispatching sub-agents)
 
