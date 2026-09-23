@@ -2,7 +2,7 @@
 
 A Python package for multi-model LLM deliberation (formerly `llm-council`). Orchestrates independent assessments from multiple AI models, conducts anonymous peer review, and synthesises consensus through a chairman model.
 
-Routes across **OpenRouter, OpenAI, Anthropic, Gemini, and Mistral** via OpenAI-compatible endpoints — use a single OpenRouter key for everything, or mix native provider keys.
+Routes every model through **OpenRouter** with a single `OPENROUTER_API_KEY`. Native provider APIs (OpenAI, Anthropic, Gemini, Mistral) are retired: the client refuses any other provider or base URL.
 
 ## The 3-Stage Protocol
 
@@ -91,7 +91,7 @@ asyncio.run(main())
 
 ### LLMClient
 
-Generic async LLM client supporting multiple providers.
+Async LLM client for OpenRouter (the only supported provider).
 
 ```python
 client = LLMClient(
@@ -100,15 +100,12 @@ client = LLMClient(
     max_tokens: int = 4096,
     json_retry_attempts: int = 2,
     *,
-    provider: str | None = None,     # "openrouter"|"openai"|"anthropic"|"gemini"|"mistral"
-    base_url: str | None = None,     # Override the provider's base URL
+    provider: str | None = None,     # only "openrouter"; anything else raises ValueError
+    base_url: str | None = None,     # only the OpenRouter base URL; anything else raises ValueError
 )
 ```
 
-**Provider resolution** (when `provider` is not set explicitly):
-
-1. Model-prefix match — `anthropic/claude-*` → Anthropic if `ANTHROPIC_API_KEY` set
-2. Priority fallback — OpenRouter > OpenAI > Anthropic > Gemini > Mistral (first available key)
+**Credentials:** the key comes from `api_key` or `OPENROUTER_API_KEY`; a missing key raises `ValueError`. Model IDs are vendor-qualified OpenRouter IDs (for example `anthropic/claude-opus-4-7`) and are passed through unchanged.
 
 Or use the `from_env()` factory for pure environment-driven auto-detection:
 
@@ -125,15 +122,7 @@ client = LLMClient.from_env(model="anthropic/claude-opus-4-7")
 | `chat_text(system, user_msg, *, model=None, max_tokens=None, reasoning_effort=None)` | `str` | Send message, return raw text |
 | `close()` | `None` | Close the async HTTP client |
 
-**Reasoning tokens** (`reasoning_effort` = `"low"` | `"medium"` | `"high"`) are mapped to each provider's native parameter:
-
-| Provider | Parameter |
-|----------|-----------|
-| OpenRouter | `extra_body.reasoning.max_tokens` (budget computed from ratio) |
-| Anthropic | `extra_body.thinking.budget_tokens` |
-| OpenAI | `reasoning_effort` string |
-| Gemini | `extra_body.thinking.budget_tokens` |
-| Mistral | not supported (silently ignored) |
+**Reasoning tokens** (`reasoning_effort` = `"low"` | `"medium"` | `"high"`) become OpenRouter's `extra_body.reasoning.max_tokens`, a budget computed as a ratio of `max_tokens` (minimum 1024).
 
 If reasoning consumes all output tokens (empty response), the client auto-retries up to 3 times with doubled `max_tokens`.
 
@@ -254,7 +243,7 @@ class CouncilMeta(BaseModel):
     total_ms: int = 0                            # Total wall-clock time
     reused_model: str | None = None              # Model whose result was reused (if any)
     aggregate_rankings: list[dict] = Field(...)  # Sorted by average_rank
-    stage3_fallback: bool = False                # True if chairman failed → used top assessment
+    stage3_fallback: bool = False                # True if chairman failed → used the first assessment
 ```
 
 **`aggregate_rankings`** — computed from all peer reviews:
@@ -426,11 +415,11 @@ Lower-level methods: `save_stage1/2/3`, `load_stage1/2/3`,
 
 ### Fallback Handling
 
-If the chairman model fails (network error, malformed response), the council falls back to the top-ranked assessment from Stage 2:
+If the chairman model fails (network error, malformed response), the council falls back to the **first successful Stage 1 assessment**, in the order the models were listed. It is not the top-ranked one; check `meta.aggregate_rankings` if you need that:
 
 ```python
 if result.meta.stage3_fallback:
-    print("Warning: Chairman synthesis failed — using top-ranked assessment")
+    print("Warning: Chairman synthesis failed — result is one model's unreviewed assessment")
 ```
 
 ## CLI
@@ -493,6 +482,7 @@ Defaults are persisted to `~/.config/council-api/config.json` and used automatic
 council_api/
 ├── __init__.py      # Public API exports
 ├── __main__.py      # CLI entry point
+├── checkpoint.py    # CouncilCheckpointer (per-stage checkpoints, resume)
 ├── client.py        # LLMClient + error classes
 ├── models.py        # Pydantic models (CouncilResult, etc.)
 ├── config.py        # Model registry, pricing, defaults
@@ -501,11 +491,11 @@ council_api/
 
 ## Design Decisions
 
-- **OpenRouter default, native providers available** — one `OPENROUTER_API_KEY` accesses all models. Pass `provider="anthropic"` (or set `LLM_PROVIDER=anthropic`) to route to native APIs when you want lower latency, larger context windows, or direct billing.
+- **OpenRouter only** — one `OPENROUTER_API_KEY` accesses all models. Native provider routing was retired; `provider=` and `LLM_PROVIDER` accept only `openrouter`.
 - **Schema-agnostic** — the council doesn't know what JSON schema you're using. It passes through whatever Stage 1 returns. Your application defines the schema via the system prompt.
 - **Anonymous peer review** — assessments are labeled "Assessment A/B/C" during Stage 2. Model identities are only revealed in metadata.
 - **Parallel execution** — Stage 1 and Stage 2 queries run concurrently via `asyncio.gather`. Wall-clock time is limited by the slowest model, not the sum.
-- **Graceful degradation** — if a Stage 1 model fails, the council continues with the remaining assessments. If the chairman fails, it falls back to the top-ranked assessment.
+- **Graceful degradation** — if a Stage 1 model fails, the council continues with the remaining assessments. If the chairman fails, it falls back to the first successful assessment and sets `meta.stage3_fallback`.
 
 ## Cost Estimate
 
