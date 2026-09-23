@@ -180,7 +180,7 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 mosh --server=/opt/homebrew/bin/mosh-server mini -- tmux a -t <session>
 ```
 
-Canonical reference: [`docs/setup/terminal-setup/terminal-setup.tex`](../../../docs/setup/terminal-setup/terminal-setup.tex) § Mosh for Resilient Connections → Non-interactive Shell PATH.
+Canonical reference: `docs/setup/terminal-setup/terminal-setup.tex` § Mosh for Resilient Connections → Non-interactive Shell PATH.
 
 ### Origin
 

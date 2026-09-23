@@ -51,4 +51,4 @@ the user's context library (`.context/`) is specifically designed to give you ev
 
 ## Failure modes prevented
 
-- **D3** re-search instead of read-docs — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
+- **D3** re-search instead of read-docs — see `docs/reference/failure-modes.md`

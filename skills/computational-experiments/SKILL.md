@@ -120,7 +120,7 @@ Read `references/algorithm-templates.md` for skeleton code. Read `references/pac
 5. **Runner script:** Config → initialize → loop → collect → save. Reads config, runs `n_seeds` repetitions, saves per-seed results.
 6. **Baseline implementations:** Same interface as main algorithm, registered in config
 7. **Result aggregation:** Per-seed CSV → aggregated stats (mean ± std). Canonical column naming.
-8. **Parallelization:** `concurrent.futures.ProcessPoolExecutor` for independent seeds/configs. **For large sweeps (10+ configs × 10+ seeds, GPU-bound, or >30-min runs):** move to [HPC cluster] HPC — see [`docs/guides/hpc.md`](../../docs/guides/hpc.md) in Task Management and copy `templates/slurm/{array,gpu}.sbatch` into `hpc/` with `sync-up.sh` / `sync-down.sh`. Recent reference implementations: `Projects/NLP/{example-project-a,example-project-b}/hpc/`.
+8. **Parallelization:** `concurrent.futures.ProcessPoolExecutor` for independent seeds/configs. **For large sweeps (10+ configs × 10+ seeds, GPU-bound, or >30-min runs):** move to [HPC cluster] HPC — see `docs/guides/hpc.md` in Task Management and copy `templates/slurm/{array,gpu}.sbatch` into `hpc/` with `sync-up.sh` / `sync-down.sh`. Recent reference implementations: `Projects/NLP/{example-project-a,example-project-b}/hpc/`.
 9. **Checkpointing:** Save intermediate results to allow resume on crash
 10. **Dual output:** Dated archive + "latest" symlink for quick access (see `references/experiment-patterns.md`)
 

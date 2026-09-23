@@ -108,4 +108,4 @@ Build artifacts clutter source dirs, pollute git history, and break Overleaf syn
 
 ## Failure modes prevented
 
-- **L4** build artifacts in source dir — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
+- **L4** build artifacts in source dir — see `docs/reference/failure-modes.md`

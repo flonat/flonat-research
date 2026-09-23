@@ -96,4 +96,4 @@ This rule exists because planning loops were the single biggest friction source 
 
 ## Failure modes prevented
 
-- **E2** re-planning approved plan — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
+- **E2** re-planning approved plan — see `docs/reference/failure-modes.md`

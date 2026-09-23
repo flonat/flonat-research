@@ -74,7 +74,7 @@ Full workflow: [`references/audit-workflow.md`](references/audit-workflow.md)
 
 ### HPC-run results
 
-If the project used [HPC cluster] (`hpc/` directory with `*.sbatch`), the results in `out/<jobid>/` should include `git-sha.txt` + `git-status.txt` (written by the sbatch templates before `srun`). Audit must verify these exist and the SHA matches a commit in the repo — this is the compute-reproducibility equivalent of Script order + Dependencies for HPC runs. The Assemble README should document the `hpc/` entry point and the HF/conda env-setup script alongside `code/` + `data/`. See Task Management [`docs/guides/hpc.md`](../../docs/guides/hpc.md).
+If the project used [HPC cluster] (`hpc/` directory with `*.sbatch`), the results in `out/<jobid>/` should include `git-sha.txt` + `git-status.txt` (written by the sbatch templates before `srun`). Audit must verify these exist and the SHA matches a commit in the repo — this is the compute-reproducibility equivalent of Script order + Dependencies for HPC runs. The Assemble README should document the `hpc/` entry point and the HF/conda env-setup script alongside `code/` + `data/`. See Task Management `docs/guides/hpc.md`.
 
 ---
 

@@ -46,4 +46,4 @@ Fixing issues before seeing the full picture caused multiple sessions where Clau
 
 ## Failure modes prevented
 
-- **E3** fix-before-inventory — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
+- **E3** fix-before-inventory — see `docs/reference/failure-modes.md`

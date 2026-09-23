@@ -171,6 +171,8 @@ result = await council.run_council(
     existing_model: str | None = None,        # Which model produced existing_result
     stage2_system: str | None = None,         # Custom peer review prompt
     stage3_prompt_builder: Callable | None = None,  # Custom chairman prompt builder
+    checkpoint_dir: str | Path | None = None, # Save each stage (see Checkpointing)
+    resume: bool = False,                     # Continue the latest checkpointed run
 )
 ```
 
@@ -186,6 +188,8 @@ result = await council.run_council(
 | `existing_model` | No | Model ID that produced `existing_result` |
 | `stage2_system` | No | Override the default peer review system prompt |
 | `stage3_prompt_builder` | No | Callable `(assessments, peer_reviews, user_msg) -> str` |
+| `checkpoint_dir` | No | Directory for per-stage checkpoints; off when omitted (see [Checkpointing and resume](#checkpointing-and-resume)) |
+| `resume` | No | With `checkpoint_dir`, reload the latest run's completed stages instead of re-querying |
 
 **Returns:** `CouncilResult` (see [Data Models](#data-models)).
 
@@ -386,6 +390,39 @@ result = await council.run_council(
     stage3_prompt_builder=my_chairman_prompt,
 )
 ```
+
+### Checkpointing and resume
+
+`CouncilCheckpointer` saves each stage to disk, so a council that dies part
+way through can resume without paying for Stage 1 again. It is off unless
+you pass `checkpoint_dir`, and the CLI has no flag for it.
+
+```python
+result = await council.run_council(..., checkpoint_dir=".council")               # writes checkpoints
+result = await council.run_council(..., checkpoint_dir=".council", resume=True)  # continues the latest run
+```
+
+- **Files.** Each run gets a UTC timestamp ID and writes
+  `<run_id>-stage1.json`, `-stage2.json` and `-stage3.json`. Writes are atomic
+  (temp file, fsync, rename). A corrupt file is logged and treated as missing.
+- **Resume.** With `resume=True`, the service picks the newest run in the
+  directory, reloads its completed Stage 1 and Stage 2 results, and runs the
+  rest. Stage 3 always runs again. With no earlier run, it starts fresh.
+- **Resume does not check the prompt or the models.** It reloads the newest
+  run whatever it was asked. Resuming with a different `user_msg` mixes old
+  assessments with new reviews. Use one directory per question, or call
+  `clean()` first.
+- **Stage 3 is saved even on fallback.** If the chairman fails, the saved
+  Stage 3 file holds the fallback result (see
+  [Fallback Handling](#fallback-handling)). Resume ignores it because Stage 3
+  always re-runs. Code that reads `load_stage3()` directly, however, cannot
+  tell a fallback from a real synthesis. Use the returned
+  `CouncilResult.meta.stage3_fallback`.
+- Keep the directory out of version control (conventionally `.council/`).
+
+Lower-level methods: `save_stage1/2/3`, `load_stage1/2/3`,
+`last_completed_stage()`, `find_latest_run()`, `pending_participants()` and
+`clean()`.
 
 ### Fallback Handling
 

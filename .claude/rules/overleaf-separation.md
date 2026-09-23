@@ -20,7 +20,7 @@ paths:
 
 ### Root artifacts are governed elsewhere — do not restate them here
 
-**[`overleaf-canonical-source.md`](overleaf-canonical-source.md) § Research-project source
+**`overleaf-canonical-source.md` § Research-project source
 boundary is the single authority on what may sit at the Overleaf project root.** This rule
 covers the *code/data* boundary and deliberately does not duplicate that list.
 

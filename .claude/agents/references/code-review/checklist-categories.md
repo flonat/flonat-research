@@ -10,7 +10,7 @@ Detailed specifications for Phase 2 baseline checklist.
 | Relative paths | No hardcoded absolute paths (e.g., `<HOME>/...` or `<DRIVE>:\<USERPROFILE>\...`) |
 | Working directory | Script does not `setwd()` / `os.chdir()` — uses project-relative paths |
 | Session info | Script prints session info at end (`sessionInfo()` / `sys.version`) or documents environment |
-| HPC SHA logging | If project has `hpc/*.sbatch`: every sbatch writes `git-sha.txt` + `git-status.txt` to `OUT_DIR` before `srun` (pins results to code version). Missing SHA log = P1 reproducibility deduction. See [`docs/guides/hpc.md`](../../docs/guides/hpc.md). |
+| HPC SHA logging | If project has `hpc/*.sbatch`: every sbatch writes `git-sha.txt` + `git-status.txt` to `OUT_DIR` before `srun` (pins results to code version). Missing SHA log = P1 reproducibility deduction. See the HPC guide (`docs/guides/hpc.md` in Task Management). |
 | HPC account/partition | If `*.sbatch` present: `--account=wbs` set, partition matches workload (compute/gpu/hmem/devel), no hardcoded user paths |
 
 ## 2. Script Structure

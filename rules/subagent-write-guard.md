@@ -57,9 +57,9 @@ you were about to do in your final summary. The orchestrator decides.
 
 ## Failure modes prevented
 
-- **S2** unauthorised sub-agent commit — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
-- **S3** unauthorised sub-agent build — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
-- **S5** sub-agent touches project docs — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
+- **S2** unauthorised sub-agent commit — see `docs/reference/failure-modes.md`
+- **S3** unauthorised sub-agent build — see `docs/reference/failure-modes.md`
+- **S5** sub-agent touches project docs — see `docs/reference/failure-modes.md`
 
 ## Cross-References
 

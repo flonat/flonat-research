@@ -29,4 +29,4 @@ Scope overreach forces reverts, wastes time, and erodes trust. Doing less than a
 
 ## Failure modes prevented
 
-- **S1** scope overreach — see [`docs/reference/failure-modes.md`](../docs/reference/failure-modes.md)
+- **S1** scope overreach — see `docs/reference/failure-modes.md`

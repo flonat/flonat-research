@@ -61,7 +61,7 @@ Severity ladder: `trivial < low < medium < high < critical`. Change types:
 `formatting_only, text, equation, citation, label_ref, environment,
 section_title, macro_definition, file_add, file_remove, move, other`.
 
-Full flag reference: [`packages/latex-diff/README.md`](../../packages/latex-diff/README.md).
+Full flag reference: `packages/latex-diff/README.md`.
 
 ## Critical rules
 

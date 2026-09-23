@@ -1,6 +1,6 @@
 # Meeting action extraction
 
-Plaud is the primary provider; the Mini imports source-labelled records into the Syncthing-backed Vault. The local transcription fallback remains available. Resolve current paths and operations from [the meeting guide](../../docs/guides/minutes.md).
+Plaud is the primary provider; the Mini imports source-labelled records into the Syncthing-backed Vault. The local transcription fallback remains available. Resolve current paths and operations from the meeting guide.
 
 | Intent | Skill |
 |---|---|
@@ -13,7 +13,7 @@ Plaud is the primary provider; the Mini imports source-labelled records into the
 | Manage storage | meetings-storage |
 | Diagnose import/transcription | meetings-verify |
 
-Use [the retrieval contract](../../skills/meetings-find/references/retrieval.md) for scoped source selection, provider identity, and linked cleaned documents. Do not mix the user's affiliations in a university-specific output or assume the compatibility minutes CLI searches linked project text.
+Use the retrieval contract for scoped source selection, provider identity, and linked cleaned documents. Do not mix the user's affiliations in a university-specific output or assume the compatibility minutes CLI searches linked project text.
 
 Extract explicit commitments, requests, agreed next steps, and stated deadlines. Distinguish a request from its acceptance. Capture task, supported owner/due date, project, source recording ID/date/version, and context. Unknown values stay unknown; absence of completion evidence does not prove a task is open.
 

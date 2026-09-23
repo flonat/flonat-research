@@ -91,7 +91,7 @@ Check for existing `.bib` files in the project. If citations are needed, note th
 
 1. **Choose rhetoric balance** based on audience (see table above)
 2. **Outline slide sequence** with assertion titles — write each title as a claim
-3. **Plan narrative arc** — consult [`docs/reference/talk-design.md`](../../docs/reference/talk-design.md) for format-specific arcs (empirical, structural, theory, descriptive) and audience calibration
+3. **Plan narrative arc** — consult `docs/reference/talk-design.md` for format-specific arcs (empirical, structural, theory, descriptive) and audience calibration
 4. **Choose institution option** for `user-beamer` — colours and fonts are set by the template
 5. **Identify figures needed** — which need to be generated via code?
 
