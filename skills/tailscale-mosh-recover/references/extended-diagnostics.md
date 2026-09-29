@@ -120,7 +120,7 @@ This flushes the DNS cache and reloads the resolver. `tailscale set --accept-dns
 As a durable workaround if you can't reliably flush, write Tailscale FQDNs into `~/.ssh/config` rather than bare names:
 
 ```ssh-config
-Host uos
+Host laptop
     HostName my-laptop.<tailnet>.ts.net   # full tailnet FQDN — resolves even when bare-hostname routing is stuck
 ```
 

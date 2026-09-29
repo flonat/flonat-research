@@ -246,7 +246,7 @@ A distinct mosh-server failure, not an IP-change one: mid-session, every shell a
 | `docs/reference/terminal.md` | Quick reference for the terminal stack (iTerm2, zsh, starship, tmux); config locations and which files sync across machines |
 | `docs/guides/tmux-config.md` | tmux per-host config; mouse mode is what makes scrollback work through mosh (mosh has no scrollback of its own — tmux underneath holds it) |
 | `docs/setup/vps-setup.md`, `docs/guides/hermes.md` | Sibling host setups; same Homebrew-Tailscale-mosh pattern adapted to Linux VPS |
-| `docs/guides/cross-machine-parity.md` | Multi-machine baseline; explains why all four hosts (Mini, UOS, VPS, claw) source `packages/dotfiles/shared.zsh` |
+| `docs/guides/cross-machine-parity.md` | Multi-machine baseline; explains why all four hosts (Mini, laptop, VPS, claw) source `packages/dotfiles/shared.zsh` |
 | `docs/guides/troubleshooting.md` | Generic infrastructure troubleshooting — Tailscale/mosh failures get a pointer here from this skill |
 
 ### Related skills

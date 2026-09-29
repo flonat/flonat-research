@@ -135,6 +135,24 @@ For each claim, **quote the exact text** and trace it to a specific table cell, 
 
 **Produce:** Claims checklist with VERIFIED / UNVERIFIED / DISCREPANCY status.
 
+### Phase 3b: Methods-Description Audit
+
+Numbers are not the only claims that can drift from the code. Read the setup, methods, harness and threats-to-validity sections, and find every **qualitative** claim about how the study was run:
+- Tools, frameworks, scaffolds or libraries used ("the agent scaffold is SWE-agent")
+- Models, versions and settings ("the model policy is held fixed")
+- What is recorded or logged, and how ("we record per-step git diffs")
+- Execution environment ("tasks run in a containerized environment")
+- Procedures performed ("two independent coders, adjudicated disagreement, inter-rater agreement")
+- Study status ("pre-registered", "frozen before", "held-out")
+
+For each claim, **quote the exact text** and find the evidence in the code **and** the run artifacts: the import or dependency that proves a tool is used, the function that records the data, a call site that actually invokes it (a defined-but-never-called function is not evidence), and the output files showing the event or record exists. Check the artifacts as well as the code: a logging function can exist while the traces contain none of its events.
+
+Treat a protocol or design document as the source of a claim, never as evidence for it. Text copied from a plan describes what was intended, not what ran.
+
+**Status labels:** `IMPLEMENTED` (code and artifacts agree with the prose) / `PARTIAL` (a weaker version ran, e.g. final diffs only) / `PLANNED-ONLY` (in the protocol or code but not executed) / `CONTRADICTED` (the implementation differs, e.g. a different scaffold) / `NOT_FOUND`.
+
+**Produce:** A methods-claims checklist with a status and evidence (file:line or artifact path) for each claim. Anything other than `IMPLEMENTED` goes under Discrepancies.
+
 ### Phase 4: Code Review
 
 Read every script in execution order. This is an analytical pipeline audit, not just a syntax check.
@@ -252,6 +270,9 @@ Write the report to `reviews/<paper>/code-paper-auditor/<YYYY-MM-DD-HHMM>.md` in
 ## Inline Claims Results
 [from Phase 3 — include exact quotes]
 
+## Methods-Description Results
+[from Phase 3b — each qualitative claim, its status label, and file:line / artifact evidence]
+
 ## Code Review Findings
 [from Phase 4]
 
@@ -282,6 +303,7 @@ Write the report to `reviews/<paper>/code-paper-auditor/<YYYY-MM-DD-HHMM>.md` in
 - Modify the author's code — you only READ and REPORT
 - Skip numbers because "they look right"
 - Mark something as PASS without tracing it to source
+- Accept a protocol, plan or design document as evidence that a method was implemented
 - Modify `data/raw/` — it is read-only
 - Write output files to `paper/` — reports go to project root or `tests/`
 

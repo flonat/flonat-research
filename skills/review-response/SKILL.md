@@ -23,6 +23,7 @@ Systematic workflow for responding to reviewer comments on academic papers. Cove
 ```
 1. Receive reviewer comments
 2. Parse and classify each comment (Major / Minor / Typo / Misunderstanding)
+2b. Re-audit the paper against its artifact (empirical papers)
 3. Develop response strategy per comment (Accept / Defend / Clarify / Experiment)
 4. Write structured responses
 5. Tone check — every response must pass the tone checklist
@@ -50,6 +51,16 @@ Read all reviewer comments and classify each one:
 **Priority order:** Major > Misunderstanding > Minor > Typo
 
 Present the full classification table to the user before proceeding to strategy.
+
+### Step 1b: Re-audit the paper against its artifact (empirical papers)
+
+Before assigning any strategy, check the submitted paper against the code, the run outputs and the replication package. Reviewers see the artifact too. A rebuttal that defends a claim the artifact contradicts does more damage than the original error.
+
+- **Every reviewer claim about the artifact.** Check each one directly against the files (model, framework, environment, "the code does not do X"). Classify it as reviewer-correct, reviewer-misread or ambiguous in the paper, with file:line evidence.
+- **Qualitative methods claims.** Check the paper's descriptions of tools, models, what was logged, procedures performed and pre-registration status against the code and artifacts. Treat protocol or plan documents as the source of those claims, never as evidence for them.
+- **Headline numbers.** Recompute them from the saved outputs, and spot-read the raw records behind any extraction or matching step (parsers, path or ID normalisers). Treat any anomaly a reviewer points to, or any count that looks too convenient, as a lead to follow.
+
+If the re-audit finds a genuine error, stop and present it to the user before drafting, with the corrected figures and the claims that no longer hold. Whether and how to disclose it is his decision. When the audit was prompted by a reviewer's scrutiny, credit that scrutiny without implying the reviewer found the error. Trigger incident: `2026-09-23` ICSE #1402. A re-audit prompted by one reviewer's code inspection found a result-changing bug and four protocol-vs-implementation drifts that 25 logged pre-submission review passes (12 distinct checks) had missed.
 
 ## Step 2: Develop Response Strategy
 
