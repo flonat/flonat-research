@@ -1,6 +1,6 @@
 {
   "name": "flonat-research",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Client-neutral academic research infrastructure for Claude Code and Codex, with managed skills, agents, rules, hooks, and files-first context.",
   "author": "the user",
   "license": "MIT",

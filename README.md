@@ -37,11 +37,17 @@ available to each client and why an exclusion exists.
 
 ## Installation
 
+### Install with npm
+
+```bash
+npx flonat-research --client both
+```
+
+Use `--client claude` or `--client codex` for a single-client installation.
+
 ### Install from the repository
 
-The currently published npm release (`0.2.1`) predates the dual-client
-managed-copy installer. Until `0.3.0` is published, use the repository install
-below rather than `npx flonat-research`.
+Alternatively, clone the repository and run the installer directly.
 
 #### macOS / Linux
 
@@ -320,7 +326,7 @@ flonat-research/
 | [Python 3.11+](https://www.python.org/) | Hooks and MCP servers | `brew install python@3.12` | `apt install python3.12` | `winget install Python.Python.3.12` |
 | [uv](https://docs.astral.sh/uv/) | Fast Python package manager — isolates dependencies, replaces `pip` | `brew install uv` | `curl -LsSf https://astral.sh/uv/install.sh \| sh` | `winget install astral-sh.uv` |
 | [Git](https://git-scm.com/) | Version control | Included | `apt install git` | `winget install Git.Git` |
-| [Node.js 18+](https://nodejs.org/) | Optional npm launcher after the `0.3.0` release | `brew install node` | Use your distribution package | `winget install OpenJS.NodeJS.LTS` |
+| [Node.js 18+](https://nodejs.org/) | Optional `npx flonat-research` launcher | `brew install node` | Use your distribution package | `winget install OpenJS.NodeJS.LTS` |
 | [TeX Live](https://tug.org/texlive/) | LaTeX compilation (`proofread`, `latex`) | `brew install --cask mactex` | `apt install texlive-full` | [install guide](https://tug.org/texlive/windows.html) |
 
 Also available as a [VS Code extension](https://marketplace.visualstudio.com/items?itemName=anthropics.claude-code), [JetBrains plugin](https://plugins.jetbrains.com/plugin/27189-claude-code), [web app](https://claude.ai/code), or [desktop app](https://claude.ai/download).
