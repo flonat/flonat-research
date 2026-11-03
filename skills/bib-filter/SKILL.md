@@ -1,6 +1,6 @@
 ---
 name: bib-filter
-description: "Filter a LaTeX project's bibliography to the entries actually cited, with Overleaf-source resolution, temporary staging, validation, approval-gated canonical replacement, and compilation. Use before submission or after large revisions."
+description: "Filter a LaTeX project's bibliography to the entries actually cited, with Overleaf-source resolution, temporary staging, validation, approval-gated canonical replacement, and compilation. Use when a manuscript's bibliography carries uncited entries, typically before submission or after a large revision. Not for checking citation keys or DOIs; use $bib-validate."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(ls*), Bash(wc*), Bash(realpath*), Bash(readlink*), Bash(shasum*), Bash(uv*), Bash(latexmk*), Bash(mv*), Bash(rm*), Bash(mktemp*), Skill, AskUserQuestion
 argument-hint: "[path-to-tex-or-project-dir]"
 ---

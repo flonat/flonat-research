@@ -19,7 +19,7 @@ without access to the author's reasoning.
 | `domain-reviewer` | Research-focused substantive correctness agent |
 | `fatal-error-check` | Fast pre-review check for fatal errors in LaTeX papers |
 | `fixer` | Generic fix implementer for any critic report |
-| `gemini-research` | Web research agent that delegates to Gemini CLI in headless mode |
+| `gemini-research` | Web research agent that delegates to Gemini 4 Argon through the Antigravity\ \ CLI (agy) in headless mode |
 | `paper-critic` | Adversarial auditor for LaTeX papers |
 | `peer-reviewer` | Use this agent when you need to review someone else's paper — as a\ \ peer reviewer, discussant, or for reading group preparation |
 | `proposal-reviewer` | Use this agent when you need to review a research proposal, extended\ \ abstract, conference submission outline, or pre-paper plan — either his own or\ \ someone else's |

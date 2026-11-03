@@ -11,6 +11,6 @@
     { "name": "latexmk (.latexmkrc)", "tools": ["latexmk"] }
   ],
   "latex-workshop.latex.outDir": "%DIR%/out",
-  "latex-workshop.latex.build.forceRecipeUsage": true,
+  "latex-workshop.latex.build.enableMagicComments": false,
   "latex-workshop.view.pdf.viewer": "tab"
 }

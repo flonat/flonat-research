@@ -1,0 +1,82 @@
+/*-- scss:defaults --*/
+
+// quarto-deck starter theme: quiet canvas, one accent, readable sizes on a
+// 1280x720 slide. Swap the palette for one from shared/palettes.md or a
+// course/institution theme; keep the layout classes below.
+
+$deck-ink: #111827;      // titles
+$deck-body: #374151;     // body text
+$deck-muted: #6b7280;    // captions, sources
+$deck-accent: #1d4ed8;   // one accent colour: emphasis, numbers, rules
+$deck-rule: #e5e7eb;
+$deck-wash: #f8fafc;
+
+$body-bg: #ffffff;
+$body-color: $deck-body;
+$link-color: $deck-accent;
+$selection-bg: $deck-accent;
+
+$font-family-sans-serif: "Inter", "Helvetica Neue", Arial, sans-serif;
+$presentation-heading-font: "Inter", "Helvetica Neue", Arial, sans-serif;
+$presentation-heading-color: $deck-ink;
+$presentation-heading-font-weight: 650;
+$presentation-heading-text-transform: none;
+$presentation-heading-line-height: 1.15;
+
+$presentation-font-size-root: 32px;
+$presentation-h1-font-size: 1.9em;
+$presentation-h2-font-size: 1.35em;
+$presentation-h3-font-size: 1.1em;
+
+/*-- scss:rules --*/
+
+.reveal .slides section { text-align: left; }
+.reveal h1, .reveal h2, .reveal h3 { text-align: left; }
+.reveal p, .reveal li { line-height: 1.4; }
+
+// Title slide aligned with the rest of the deck.
+// Same selectors as Quarto's own title-block rules, so these (later) ones win.
+div.reveal div.slides section.quarto-title-block { text-align: left; }
+.reveal .quarto-title-block .quarto-title-authors { justify-content: flex-start; }
+.reveal .quarto-title-block .quarto-title-authors .quarto-title-author { padding-left: 0; }
+
+// Emphasis by weight or colour, never underline.
+.reveal u { text-decoration: none; font-weight: 650; color: $deck-accent; }
+.accent { color: $deck-accent; font-weight: 650; }
+.muted { color: $deck-muted; }
+
+// Source line under a figure, table or number. Required for any statistic.
+.source { font-size: 0.55em; color: $deck-muted; margin-top: 0.6em; }
+
+// Card and numbered step card (use inside .columns for a 3-step process).
+.card {
+  background: $deck-wash;
+  border: 1px solid $deck-rule;
+  border-radius: 10px;
+  padding: 0.8em 0.9em;
+  height: 100%;
+  box-sizing: border-box;
+  h3 { margin-top: 0; }
+  p { font-size: 0.85em; margin-bottom: 0; }
+}
+.step-card {
+  @extend .card;
+  border-top: 5px solid $deck-accent;
+  .step-number { font-size: 1.3em; font-weight: 800; color: $deck-accent; }
+}
+
+// One big number with its caption and source.
+.stat {
+  text-align: center;
+  padding: 1em 0;
+  .number { font-size: 3.6em; font-weight: 800; line-height: 1; color: $deck-accent; }
+  .caption { font-size: 1em; color: $deck-body; max-width: 30em; margin: 0.4em auto 0; }
+}
+
+// Closing takeaway box.
+.takeaway {
+  border-left: 6px solid $deck-accent;
+  padding: 0.4em 0 0.4em 0.8em;
+  font-size: 1.15em;
+  color: $deck-ink;
+}

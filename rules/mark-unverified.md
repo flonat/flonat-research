@@ -42,6 +42,7 @@ Format: best-known bibliographic line → provenance → searches tried (dated) 
 
 A derived claim you *write into a paper* is subject to this rule exactly as a citation is. A comparative static, monotonicity/limit claim, threshold-existence claim, or closed form counts as **unverified until you have actually derived or checked it** — solved the recurrence, taken the derivative, evaluated the limit — not merely asserted it from intuition. **Clean LaTeX compilation is not verification** (it checks syntax, not truth), and neither is user approval of the prose. Until checked, mark `[UNVERIFIED]` or state the result explicitly as a conjecture. Watch in particular the **transient-vs-stationary conflation**: a learning/adjustment *rate* governs how fast a system reaches its fixed point, not where the fixed point is — so if the rate is meant to be the operative variable, the quantity must be evaluated on a finite horizon, not at the stationary limit. This is `mark-unverified` applied to your own mathematics, and the write-time complement to `paper-code-consistency.md` (which is review-time and code-focused). Trigger incident: `2026-07-03` paper-philtech Appendix A shipped "$C(\lambda)$ decreasing in $\lambda$" when the stationary $v^\infty=\phi(e)$ is $\lambda$-independent (caught by `review-cluster`).
 
+
 ## Self-produced measurements
 
 The empirical sibling of the section above. A number **you generated** — a benchmark, a peak-memory figure, a timing, a recall score, a cache hit-rate — is a claim about the world and is **unverified until it has reproduced**. A single run is an observation, not a measurement, and a recommendation built on one is a guess wearing a number.
@@ -98,18 +99,4 @@ Where the verification should come from, by claim type:
 - **Don't** quote a paper from memory without re-checking the actual claim. Hallucinated quotes are a top failure mode.
 - **Don't** strip `[UNVERIFIED]` flags during editing without actually verifying. The flag is the trail of unfinished work.
 
-## Trigger incidents
-
-This rule was promoted to a global rule on 2026-05-10 after recurring incidents:
-- Phantom citation numbers in literature notes
-- Fabricated "double-blind option" claim about a venue
-- Hallucinated bib entries that wasted a verification cycle
-
-## Failure modes prevented
-
-- **F1** fabricated citation — see `docs/reference/failure-modes.md`
-- **F2** hallucinated venue policy — see `docs/reference/failure-modes.md`
-- **F3** phantom quote from memory — see `docs/reference/failure-modes.md`
-- **F4** invented bib key — see `docs/reference/failure-modes.md`
-- **F6** stripped `[UNVERIFIED]` flag — see `docs/reference/failure-modes.md`
-- **F10** single-run measurement drove a recommendation — a self-produced number acted on before it reproduced, or reported without naming the instrument (2026-07-25 meeting-transcribe: three successive fixes each refuted by the next measurement)
+**Failure modes:** F1, F2, F3, F4, F6, F10 (registry) · **Background:** incidents and full cross-references

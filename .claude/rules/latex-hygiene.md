@@ -70,10 +70,10 @@ Latexmk reads rc files before processing `-cd`, so `-cd` alone does not load a c
 ## Missing Packages
 
 ```bash
-sudo tlmgr install <package-name>
+tlmgr install <package-name>
 ```
 
-If `sudo` requires an interactive password prompt (which it does inside Claude Code), ask the user to run the command themselves:
+TeX Live on both Macs is a user-owned install (`/usr/local/texlive/2026basic`, owner `user`, checked 2026-10-06), so `tlmgr` needs no `sudo`: run it directly. Only if it fails with a permission error, for example on a new machine with a root-owned install, ask the user:
 
 > "Missing package `<name>`. Please run: `! sudo tlmgr install <name>`"
 
@@ -90,13 +90,13 @@ If `sudo` requires an interactive password prompt (which it does inside Claude C
 
 **Diagnose:** `kpsewhich <macro-file>`; compare `array.sty`/`latex.ltx` mtime against the format's. If `fmtutil` itself fails (e.g. `! I can't find file 'glyphtounicode-cmex'`), a pdftex support file is missing too.
 
-**Fix (needs sudo — ask the user to run with `!`):**
+**Fix:** no `sudo` needed on the user-owned install:
 
 ```
-! sudo tlmgr install --reinstall pdftex && sudo fmtutil-sys --all
+tlmgr install --reinstall pdftex && fmtutil-sys --all
 ```
 
-If that still errors, `sudo tlmgr update --self --all` first, then re-run. Never mask the symptom with `\providecommand{\vcenter@text}{}` or similar — that silently garbles the affected tables. The actual submission compiles on Overleaf regardless (separate, healthy TeX install), so this only blocks *local* verification. (Incident: 2026-06-02/03, Mac Mini, competency-trap-dynamics.)
+If that still errors, run `tlmgr update --self --all` first, then re-run. Fall back to asking the user to run it with `! sudo` only on a permission error. Never mask the symptom with `\providecommand{\vcenter@text}{}` or similar — that silently garbles the affected tables. The actual submission compiles on Overleaf regardless (separate, healthy TeX install), so this only blocks *local* verification. (Incident: 2026-06-02/03, Mac Mini, competency-trap-dynamics.)
 
 ## Applies To
 

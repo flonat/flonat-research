@@ -1,72 +1,87 @@
 ---
 name: quarto-deck
-description: "Generate a Reveal.js HTML presentation from Markdown. Use when the user asks to generate a Reveal.js HTML presentation from Markdown."
-allowed-tools: Bash(reveal-md*), Bash(npx*), Bash(mkdir*), Bash(ls*), Bash(cp*), Bash(open*), Bash(R*), Bash(Rscript*), Bash(uv:*), Read, Write, Edit, Task
+description: "Build a Quarto Reveal.js presentation (.qmd → HTML, optional PDF) with assertion titles, a narrative arc, a theme with layout classes, optional live R/Python cells, a mechanical lint, a rhetoric review and a visual check of every slide. Use when the user asks for a Quarto, Reveal.js or HTML slide deck, or teaching slides; a one-off deck, not a course website."
+allowed-tools: Bash(quarto*), Bash(uv*), Bash(bash*), Bash(node*), Bash(npm*), Bash(pdftoppm*), Bash(pdfinfo*), Bash(mkdir*), Bash(ls*), Bash(cp*), Bash(open*), Bash(R*), Bash(Rscript*), Read, Write, Edit, Task
 argument-hint: "[topic, content-path, or project-name]"
 skill-dependencies: [beamer-deck]
 ---
 
-# Reveal.js Deck Skill
+# Quarto Deck
 
-> Generate HTML presentations from Markdown using reveal-md. Applies the same rhetoric framework as `beamer-deck` but outputs browser-native slides ideal for teaching, informal talks, and web sharing.
+> Build browser-native slide decks with Quarto Reveal.js. Same rhetoric framework
+> as `beamer-deck`, HTML output that can be shared as a URL, run live code, and
+> still print to PDF.
 
 ## Purpose
 
-Create polished Reveal.js presentations from Markdown files. Every deck gets assertion-driven titles, narrative arc, and rhetoric review. Output is an HTML presentation that runs in any browser — no LaTeX needed.
+Create one presentation as a `.qmd` file: assertion titles, a three-act arc, a
+theme with reusable layout classes, speaker notes, figures generated from code,
+and a deck that has been linted, reviewed and looked at slide by slide.
 
-**Use this for:** Teaching, informal research talks, web-shareable presentations, interactive demos.
-**Use `beamer-deck` for:** Conference talks, formal seminars, supervisor meetings, anything that needs PDF-native output.
-
-## When to Use
-
-- Teaching lectures (undergraduate or PhD) — interactive, live in browser
-- Informal research presentations or lab meetings
-- Talks where you want to share a URL instead of a PDF
-- Presentations with live code demos or embedded content
-- Quick decks where LaTeX overhead isn't justified
-
-**Python:** Always use `uv run python`. Never bare `python`, `python3`, `pip`, or `pip3`.
+**Use this for:** teaching (workshops and classes), informal research talks,
+web-shared decks, decks with live R/Python cells.
+**Use `beamer-deck` for:** conference talks, seminars and anything that must be
+PDF-native. Slides default to Beamer unless the user asks for Quarto or HTML.
+**Use `quarto-course` for:** a course website with many lectures and exercises.
 
 ## Prerequisites
 
-- `reveal-md` (installed globally): `npm install -g reveal-md`
-- Node.js 18+ (via nvm)
+- Quarto ≥ 1.4 (`quarto --version`; 1.10 on the Mini).
+- R with knitr for R chunks; `uv` for Python.
+- For PDF export: Node.js and Google Chrome (set `CHROME` to the browser binary to override the macOS
+  default). `puppeteer-core` installs itself once into
+  `${XDG_CACHE_HOME:-~/.cache}/quarto-deck-print`; it downloads no browser.
+- For page images: `pdftoppm` (poppler).
+
+Bundled resources, referenced as `<this-skill>/...` (the directory holding this file):
+
+| Path | What |
+|---|---|
+| `templates/deck.qmd`, `templates/theme.scss` | starter deck with every layout pattern, and its theme |
+| `scripts/init-deck.sh` | scaffold a deck (never overwrites; respects an existing Quarto project) |
+| `scripts/lint_deck.py` | mechanical lint, exit 1 on errors |
+| `scripts/export-pdf.sh` (+ `print-pdf.mjs`, `package.json`) | render, print to PDF, write page images |
+| `references/quarto-revealjs.md` | syntax: layout, fragments, notes, figures, live code, handouts |
+| `references/chart-selection.md` | which chart for which claim |
+| `references/quality-rubric.md` | deductions for the quality score |
 
 ---
 
 ## Critical Rules
 
-0. **Python: ALWAYS use `uv run python` or `uv pip install`.** Never use bare `python`, `python3`, `pip`, or `pip3`. Include this instruction in any sub-agent prompts that may run Python.
-1. **One Markdown file = one presentation.** All slides live in a single `.md` file with `---` separators.
-2. **Titles are assertions, not labels.** "Distance increases abortion rates" — not "Results". Every slide title states a claim.
-3. **One idea per slide.** Not a guideline. A law. If a slide has two ideas, split it.
-4. **Speaker notes use the `Note:` keyword.** Place after slide content, before the next `---`.
-5. **Custom CSS goes in a separate file.** Never inline styles in the Markdown.
-6. **Figures first, slides second.** Generate figures via R or Python scripts before referencing them.
-7. **Test in browser before finalising.** Run `reveal-md <file>.md` and check every slide.
+0. **Python: ALWAYS use `uv run python` or `uv pip install`.** Never bare `python`, `python3`, `pip` or `pip3`. Include this in any sub-agent prompt that may run Python.
+1. **One `.qmd` file = one deck.** `#` for section slides (act boundaries), `##` for content slides.
+2. **Titles are assertions, not labels.** "Distance raises abortion costs", not "Results". The title states the slide's claim.
+3. **One idea per slide.** If a slide makes two points, split it.
+4. **Every number, quote and claim of fact is sourced** on the slide (`.source` line or `@citekey`). Never invent a statistic, and never leave a template placeholder in a delivered deck.
+5. **Speaker notes in `::: notes`.** The slide anchors; the notes carry what is said.
+6. **Styling lives in the theme `.scss`.** Use classes (`{.accent}`, `{.step-card}`); no inline `style=`.
+7. **Figures first, from code, with alt text.** Scripts in `scripts/`, output in `figures/`, `fig-alt` on every image. Choose the chart with `references/chart-selection.md`.
+8. **Build up with `.fade-in-then-semi-out` or `.incremental`**, never `.semi-fade-out` (it starts fully visible).
+9. **Inside an existing Quarto project, follow its `_quarto.yml`.** Do not add a second theme or override its formats (e.g. the PB130/PB230 workshop decks: `live-revealjs` with webR, plus a `handout` profile).
+10. **Nothing is done until it has been rendered and looked at.** Lint, then export page images and inspect them (Phase 4).
+
+Academic exceptions: tables, equations and code may exceed the lint's word
+limit. Split the slide rather than shrinking text below readable size.
 
 ---
 
 ## Rhetoric Principles
 
-Same framework as `beamer-deck`. Full reference (Three Laws, MB/MC, Aristotelian Triad, Narrative Arc, Pyramid Principle, Devil's Advocate, audience-specific guidance): [`../shared/rhetoric-principles.md`](../shared/rhetoric-principles.md)
+Same framework as `beamer-deck`. Full reference (Three Laws, MB/MC, Aristotelian
+Triad, Narrative Arc, Pyramid Principle, Devil's Advocate, audience-specific
+guidance): [`../shared/rhetoric-principles.md`](../shared/rhetoric-principles.md)
 
----
+Reference palettes (Professional, Energetic, Academic) with CSS variants:
+[`../shared/palettes.md`](../shared/palettes.md)
 
 ## Quality Scoring
-
-Apply numeric quality scoring using the shared framework and skill-specific rubric:
 
 - **Framework:** [`../shared/quality-scoring.md`](../shared/quality-scoring.md) — severity tiers, thresholds, verdict rules
 - **Rubric:** [`references/quality-rubric.md`](references/quality-rubric.md) — issue-to-deduction mappings for this skill
 
-Start at 100, deduct per issue found, apply verdict. Compute the score in Phase 6 and report it in the final output.
-
-## Reveal.js Markdown Format
-
-Full format reference with basic structure, vertical slides, fragments, custom themes, and CSS examples: [`references/markdown-format.md`](references/markdown-format.md)
-
-**Reference palettes** (Professional, Energetic, Academic) with both LaTeX and CSS variants: [`../shared/palettes.md`](../shared/palettes.md)
+Start at 100, deduct per issue found, apply the verdict. Compute the score in
+Phase 6 and report it in the final output.
 
 ---
 
@@ -74,154 +89,119 @@ Full format reference with basic structure, vertical slides, fragments, custom t
 
 ```
 You (orchestrator)
-├── Phase 1: Gather context        (direct)
-├── Phase 2: Design structure       (direct)
-├── Phase 3: Build deck             (direct)
-├── Phase 4: Preview & fix          (direct)
-├── Phase 5: Rhetoric review        (sub-agent — Explore)
-└── Phase 6: Apply & finalise       (direct)
+├── Phase 1: Gather context         (direct)
+├── Phase 2: Design structure        (direct; the user approves the outline)
+├── Phase 3: Build the deck          (direct)
+├── Phase 4: Lint and visual check   (direct)
+├── Phase 5: Rhetoric review         (sub-agent, fresh context)
+└── Phase 6: Apply and finalise      (direct)
 ```
 
-### Phase 1: Gather Context (Direct)
+### Phase 1: Gather context
 
-Read project files, content sources, and audience brief. Ask the user:
+Read the project files, content sources and audience brief. Check whether the
+target folder sits inside a Quarto project (`_quarto.yml` in it or a parent).
+Ask the user:
 
-- **Audience**: Teaching? Lab meeting? Informal talk?
-- **Duration**: How long?
-- **Content source**: Paper draft? Notes? Existing slides?
-- **Special requirements**: Code demos? Interactive elements? Specific theme?
-- **Export needs**: Browser only, or also need static HTML/PDF?
+- **Audience and goal**: teaching, lab meeting, informal talk? What should they believe or do afterwards?
+- **Duration**: sets the slide budget (roughly one content slide per 1–2 minutes).
+- **Content source**: paper draft, notes, existing slides?
+- **Live code**: should students run code in the browser (quarto-live)?
+- **Output**: URL only, or also a PDF or handout?
 
-### Phase 2: Design Structure (Direct)
+### Phase 2: Design structure
 
-1. **Choose rhetoric balance** based on audience
-2. **Outline slide sequence** with assertion titles
-3. **Plan narrative arc** — identify Act I/II/III transitions
-4. **Choose colour palette** — create `custom.css`
-5. **Identify figures needed** — which need code generation?
+1. Choose the rhetoric balance for the audience.
+2. Outline the slide sequence with assertion titles, grouped into three acts.
+3. Mark which slides need a figure, a number (with its source) or live code.
+4. Pick the palette, or the project's existing theme.
 
-Present outline to the user for approval.
+Present the outline to the user for approval before building.
 
-### Phase 3: Build Deck (Direct)
+### Phase 3: Build the deck
 
-1. **Generate figures first** — R/Python scripts, save to `figures/`
-2. **Write the `.md` file** with YAML frontmatter and slide content
-3. **Write `custom.css`** if custom theming is needed
-4. **Test locally**: `reveal-md deck.md`
-5. **Add speaker notes** using `Note:` blocks
+1. **Scaffold** a standalone deck: `bash <this-skill>/scripts/init-deck.sh <dir> <name>`.
+   In an existing project it copies only the `.qmd`; align its `format:` block with the project or delete it to inherit.
+2. **Generate figures** from scripts into `figures/`.
+3. **Write the slides** with the layout patterns in `references/quarto-revealjs.md`; replace every template placeholder.
+4. **Add speaker notes** to every content slide that carries an argument.
+5. Preview with `quarto preview <deck>.qmd`.
 
-### Phase 4: Preview and Fix (Direct)
+### Phase 4: Lint and visual check
 
-1. Run `reveal-md deck.md` to preview in browser
-2. Check every slide for:
-   - Text overflow or cramped content
-   - Figure sizing and alignment
-   - Math rendering (MathJax)
-   - Code highlighting
-   - Transitions between slides
-3. Fix issues and re-preview
+1. **Lint:** `uv run python <this-skill>/scripts/lint_deck.py <deck>.qmd`.
+   Fix every ERROR (missing images, placeholders). Treat WARNs as review prompts:
+   label titles, text-heavy slides, long lists, inline styles, missing alt text,
+   `.semi-fade-out`. INFO lines list slides without notes and unsourced percentages.
+2. **Render and image every page:** `bash <this-skill>/scripts/export-pdf.sh <deck>.qmd --png <dir>/pages`
+   (add `--profile handout` for a project's static profile).
+3. **Look at every page image.** Read them in small batches or tile them into a
+   contact sheet under 1,500 px. Check for overflow, clipped figures, unreadable
+   axis text, collisions with the logo or footer, and broken maths. Fix and re-run.
 
-### Phase 5: Rhetoric Review (Sub-Agent — Explore)
+### Phase 5: Rhetoric review (sub-agent, fresh context)
 
-Launch the same rhetoric review as `beamer-deck`, adapted for Markdown:
+Launch a read-only reviewer that did not write the deck:
 
 ```
 subagent_type: Explore
 prompt: |
-  You are a rhetoric reviewer for an academic Reveal.js presentation.
+  You are a rhetoric reviewer for an academic Quarto Reveal.js presentation.
+  Read the file at: [PATH TO .qmd]. Speaker notes are in `::: notes` blocks.
+  Do not edit any file. Evaluate:
 
-  Read the file at: [PATH TO .md FILE]
+  1. Narrative arc: three acts (Problem → Investigation → Resolution)? Strong
+     opening (question, number, or bold claim)? One memorable closing takeaway?
+  2. MB/MC balance: is cognitive load spread evenly? Overloaded or empty slides?
+  3. Titles: is every content-slide title an assertion (a claim), not a label?
+  4. One idea per slide: list any slide carrying two ideas.
+  5. Transitions: does the audience always know where they are in the argument?
+  6. Pyramid principle: conclusion before support?
+  7. Evidence: is every number and factual claim sourced on the slide?
 
-  Evaluate against these criteria:
-
-  ## 1. Narrative Arc
-  - Three-act structure (Problem → Investigation → Resolution)?
-  - Opening: provocative question, statistic, or bold claim?
-  - Closing: single memorable takeaway?
-
-  ## 2. MB/MC Balance
-  - Cognitive load distributed smoothly?
-  - Overloaded or underloaded slides?
-
-  ## 3. Title Quality
-  - Every title an assertion (a claim), not a label?
-
-  ## 4. One Idea Per Slide
-  - Any slide trying to convey multiple ideas?
-
-  ## 5. Transitions
-  - Are transitions between slides explicit?
-  - Does the audience know where they are in the argument?
-
-  ## 6. Pyramid Principle
-  - Conclusions before support?
-
-  Return structured markdown with ratings and specific slide suggestions.
+  Return structured markdown with a rating per criterion and concrete,
+  slide-numbered suggestions.
 ```
 
-### Phase 6: Apply and Finalise (Direct)
+### Phase 6: Apply and finalise
 
-1. Incorporate rhetoric review feedback
-2. Re-preview in browser
-3. **Compute quality score** — read `references/quality-rubric.md`, log all issues from Phases 4-5, compute score and verdict
-4. **Export if needed:**
-   - Static HTML: `reveal-md deck.md --static _site`
-   - PDF: `reveal-md deck.md --print deck.pdf`
-5. Confirm all files are in place
-
----
-
-## Commands Reference
-
-| Command | What it does |
-|---------|-------------|
-| `reveal-md deck.md` | Live preview with hot reload (default port 1948) |
-| `reveal-md deck.md --css custom.css` | Preview with custom CSS |
-| `reveal-md deck.md --static _site` | Export to static HTML (shareable folder) |
-| `reveal-md deck.md --print deck.pdf` | Export to PDF (uses Puppeteer) |
-| `reveal-md deck.md --port 3000` | Preview on custom port |
-| `reveal-md deck.md --theme moon` | Use built-in theme (moon, night, serif, etc.) |
-
-Press `s` during preview to open **speaker notes view**.
-Press `f` for fullscreen. Press `o` for slide overview.
+1. Apply the review feedback; re-run the lint and the page-image check.
+2. **Compute the quality score** from `references/quality-rubric.md`, listing every issue from Phases 4–5.
+3. Export what was asked for: the HTML (`quarto render`; add `embed-resources: true` for a single file without live code), the PDF, or the handout profile.
+4. Confirm all files are in place and report the score and verdict.
 
 ---
 
 ## Output Checklist
 
-A completed deck directory should contain:
-
 ```
-project/
-├── deck.md               # Markdown presentation
-├── custom.css             # Custom theme (if used)
-├── figures/               # Generated figures (if any)
-│   ├── figure_1.png
-│   └── ...
-├── scripts/               # R/Python scripts for figures (if any)
-│   ├── figure_1.R
-│   └── ...
-├── _site/                 # Static HTML export (if generated)
-└── deck.pdf               # PDF export (if generated)
+deck-folder/
+├── <deck>.qmd          # the presentation
+├── theme.scss          # standalone decks only; projects use their own theme
+├── figures/            # generated figures
+├── scripts/            # R/Python scripts that make the figures
+├── <deck>.html         # rendered deck (or the project's output-dir)
+└── <deck>.pdf          # if a PDF or handout was asked for
 ```
 
-- [ ] All slide titles are assertions
-- [ ] One idea per slide
-- [ ] Narrative arc: Problem → Investigation → Resolution
-- [ ] Rhetoric review completed (Phase 5)
-- [ ] Speaker notes present for key slides
-- [ ] Math renders correctly (if used)
-- [ ] Tested in browser — no overflow or layout issues
+- [ ] Every content-slide title is an assertion
+- [ ] One idea per slide; three-act arc with a single closing takeaway
+- [ ] Every number, quote and fact sourced on the slide; no placeholders left
+- [ ] Lint: 0 errors; every warning fixed or deliberately kept
+- [ ] Every page image inspected; no overflow or clipping
+- [ ] Alt text on every figure; palette readable in greyscale
+- [ ] Speaker notes on every argument-carrying slide
+- [ ] Rhetoric review (Phase 5) applied
 - [ ] Quality score computed and reported
-
----
 
 ## Cross-References
 
-| Skill | When to use instead/alongside |
+| Skill | When to use instead or alongside |
 |-------|-------------------------------|
-| `beamer-deck` | For formal academic presentations (conferences, seminars) that need PDF-native output |
-| `project-deck` | For project status updates (supervisor meetings, coauthor handoffs) |
-| `proofread` | For post-hoc review of text quality |
-| `literature` | For finding and verifying citations to include |
-| `quarto-course` | For full course websites with multiple lectures, exercises, and navigation |
+| `beamer-deck` | Formal academic talks that need PDF-native output |
+| `talk-deck` | A conference or seminar talk for a paper, with speaker script and talk page |
+| `quarto-course` | A course website with many lectures, exercises and navigation |
+| `translate-to-quarto` | Converting an existing Beamer deck to Quarto |
+| `project-deck` | Project status updates (supervisor meetings, coauthor handoffs) |
+| `proofread` | Post-hoc review of text quality |
+| `literature` | Finding and verifying citations to include |

@@ -27,7 +27,7 @@ use the project's inbox-processing workflow. This skill is general-purpose file 
 
 First `hostname`:
 
-- **On the Mac Mini** (`[server]`): the `reorg` shim is on PATH — call `reorg …` directly.
+- **On the Mac Mini** (hostname contains `Mac-mini`): the `reorg` shim is on PATH — call `reorg …` directly.
 - **Anywhere else** (MacBook, etc.): run the installed Mini wrapper over SSH:
   `ssh mini '~/.local/bin/reorg <args>'`
 

@@ -4,18 +4,18 @@
 
 ## What This Is
 
-Uses an external LLM CLI (Codex or Gemini) to get a **fresh, independent perspective** from a competing model on Claude Code infrastructure. This extends the agents-vs-skills principle: not just fresh Claude context, but an entirely different model reviewing the work.
+Uses an external LLM CLI (Codex, or Gemini through the Antigravity CLI `agy`) to get a **fresh, independent perspective** from a competing model on Claude Code infrastructure. This extends the agents-vs-skills principle: not just fresh Claude context, but an entirely different model reviewing the work.
 
 **Key difference from `system-audit`:** System audit uses Claude sub-agents for mechanical checks (counts, symlinks, broken links). External audits are **qualitative** — architecture coherence, design quality, redundancy, missing capabilities, improvement suggestions.
 
-**Model selection:** Pass `--model codex` or `--model gemini` (default: gemini). Running both triangulates — different training and reasoning patterns produce more reliable findings than either alone.
+**Model selection:** Pass `--model codex` or `--model gemini` (default: gemini). `gemini` runs Gemini 4 Argon through `agy`; the old Gemini CLI (`gemini`) is retired and must not be called. Running both triangulates — different training and reasoning patterns produce more reliable findings than either alone.
 
 ## Model Commands
 
 | Model | CLI | Execute command | Install |
 |-------|-----|----------------|---------|
 | Codex | `codex` | `codex exec --full-auto "{prompt}"` | `npm install -g @openai/codex` + `codex login` |
-| Gemini | `gemini` | `gemini -p "{prompt}" --yolo` | `npm install -g @google/gemini-cli` |
+| Gemini | `agy` | `agy -p "{prompt}" --model gemini-4-argon-high --sandbox --print-timeout 600s` | `curl -fsSL https://antigravity.google/cli/install.sh \| bash`, then run `agy` once to sign in |
 
 ## Pre-Flight
 
@@ -23,7 +23,7 @@ Before anything else:
 
 1. **Verify the CLI is installed:**
    ```bash
-   which {model} && {model} --version
+   which {cli} && {cli} --version   # {cli} is codex or agy
    ```
    If not found, stop and tell the user with install instructions (see table above).
 
@@ -124,10 +124,12 @@ cd <CWD> && timeout 600 codex exec --full-auto "$(cat /tmp/external-audit-prompt
 
 **Gemini:**
 ```bash
-cd <CWD> && timeout 600 gemini -p "$(cat /tmp/external-audit-prompt-{scope}.md)" --yolo 2>&1
+cd <CWD> && agy -p "$(cat /tmp/external-audit-prompt-{scope}.md)" --model gemini-4-argon-high --sandbox --print-timeout 600s 2>&1
 ```
 
 **Capture the full output** — both stdout and stderr.
+
+In headless print mode `agy` auto-denies every tool that needs approval, so it can read but not write files, and `--sandbox` restricts its terminal. Do not use `--mode plan`, which returns a plan for approval instead of findings, and never add `--dangerously-skip-permissions`. `agy` exits 0 even when it produced nothing: treat empty output (not signed in) or a line starting `jetski: no output produced` (a tool permission auto-denied in headless mode) as a failure.
 
 **If the model fails or times out:**
 - Log the error
@@ -136,7 +138,7 @@ cd <CWD> && timeout 600 gemini -p "$(cat /tmp/external-audit-prompt-{scope}.md)"
 
 ## Phase 4: Safety Check
 
-> **Critical warning:** Both Codex and Gemini are agentic coding tools designed to make changes. Despite read-only instructions, they may create, modify, or delete files. Gemini has a documented tendency to do this. **Always assume the model touched something** and verify thoroughly. This check is not optional.
+> **Critical warning:** Both Codex and `agy` are agentic coding tools designed to make changes. Despite read-only instructions, they may create, modify, or delete files; the retired Gemini CLI had a documented tendency to do this. Headless `agy --sandbox` refused a file write in testing (2026-10-20), but **always assume the model touched something** and verify thoroughly. This check is not optional.
 
 **Immediately after the model returns**, verify nothing was modified:
 

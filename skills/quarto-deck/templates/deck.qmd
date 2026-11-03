@@ -1,0 +1,105 @@
+---
+title: "[Assertion: the one thing the audience should leave believing]"
+subtitle: "[Venue or course · date]"
+author: "[Presenter]"
+format:
+  revealjs:
+    theme: [default, theme.scss]
+    width: 1280
+    height: 720
+    slide-number: true
+    hash-type: number
+    transition: fade
+    footer: "[Short deck name]"
+---
+
+# [Act I: the problem]
+
+## [Claim: why the problem matters, stated as a sentence]
+
+[One sentence or one figure carrying the claim. Everything else goes in the notes.]
+
+::: notes
+[What you say here; the slide only anchors it.]
+:::
+
+## [Claim backed by one number]
+
+::: {.stat}
+[[XX%]]{.number}
+
+[[What the number measures, in one line.]]{.caption}
+:::
+
+[Source: [author, year or @citekey]]{.source}
+
+::: notes
+[Never ship this slide with a placeholder. Every number needs a real, checked source.]
+:::
+
+# [Act II: what we did]
+
+## [Claim about the approach, in three steps]
+
+:::: {.columns}
+::: {.column width="32%"}
+::: {.step-card}
+[01]{.step-number}
+
+### [Step]
+[One line.]
+:::
+:::
+::: {.column width="32%"}
+::: {.step-card}
+[02]{.step-number}
+
+### [Step]
+[One line.]
+:::
+:::
+::: {.column width="32%"}
+::: {.step-card}
+[03]{.step-number}
+
+### [Step]
+[One line.]
+:::
+:::
+::::
+
+## [Claim the figure shows]
+
+:::: {.columns}
+::: {.column width="62%"}
+![](figures/[figure].png){fig-alt="[What the figure shows, for screen readers]"}
+:::
+::: {.column width="38%"}
+- [Point that reads the figure]
+- [Second point, if needed]
+:::
+::::
+
+[Source: [data or @citekey]]{.source}
+
+## [Claim built up point by point]
+
+::: {.fragment .fade-in-then-semi-out}
+[First point: appears, then dims when the next one arrives.]
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+[Second point.]
+:::
+
+::: {.fragment}
+[Last point stays at full strength.]
+:::
+
+# [Act III: what it means]
+
+## [The single takeaway, as a sentence]
+
+::: {.takeaway}
+[One sentence the audience can repeat tomorrow.]
+:::

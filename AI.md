@@ -189,7 +189,6 @@ Update `.context/current-focus.md` (what we worked on, where left off, what's ne
 | `rules/` | Canonical policy rules (18 rules) |
 | `skills/` | 87 skill definitions |
 | `hooks/` | 3 hook scripts |
-| `packages/cli-council/` | cli-council |
 | `packages/council-api/` | Multi-model council via OpenRouter API |
 | `log/` | Session logs |
 | `docs/` | Documentation |

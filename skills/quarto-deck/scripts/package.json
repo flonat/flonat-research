@@ -1,0 +1,10 @@
+{
+  "name": "quarto-deck-print",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Prints a rendered Reveal.js deck to PDF with the locally installed Chrome (export-pdf.sh). Downloads no browser.",
+  "dependencies": {
+    "puppeteer-core": "^25.12.0"
+  }
+}
