@@ -2,6 +2,10 @@
 
 Canonical lookup and filing sequence for all bibliography skills (`literature`, `bib-validate`, `bib-parse`, `bib-coverage`). Reference this module instead of reimplementing lookup logic.
 
+## Mode first: export or live
+
+Run `bash scripts/bib/paperpile-mode.sh status` (shows mode and export age). Everything below is the **export** flow. In **live** mode the Paperpile connector is the authority for existence, keys and writes, but only in the main session; BibTeX text (`export-bib`), the offline checks and everything in scripts or sub-agents stay export-backed. Where a step below differs in live mode it carries a **Live mode** note; the full matrix, the pending-export state and the fallback rule are in [`paperpile-access.md`](paperpile-access.md).
+
 ## Resolution Order (Lookup)
 
 When resolving a reference (checking if it exists, finding metadata, verifying DOIs), search in this order:
@@ -20,7 +24,7 @@ When resolving a reference (checking if it exists, finding metadata, verifying D
 For **every** candidate reference — however it was found (Paperpile search, scholarly search, citing-works/snowball walk, or hand-typed classics) — before it can be tagged `NEW`:
 
 1. **Collect its DOI** (verify the DOI itself first if unsure — a wrong DOI fails the lookup and produces a false `NEW`).
-2. **Check membership by DOI:** `paperpile lookup-by-doi --doi <DOI> --json`. **Batch ≥6 candidates** — dispatch one Bash sub-agent that loops the lookups and returns a merged `{doi: citekey-or-null}` map (per [`_shared/cli-dispatch-policy.md`](../_shared/cli-dispatch-policy.md)), so the main context isn't flooded by per-call banners.
+2. **Check membership by DOI:** `paperpile lookup-by-doi --doi <DOI> --json`. **Live mode:** call the connector's `get_references_from_library` with `dois=[…]` first (up to 100 per call, so no sub-agent batching is needed in the main session); a connector hit is held even when this CLI lookup misses, and its key is citable now. Run the CLI lookup as the cross-check, and use it alone in sub-agents or after a failed live call. **Batch ≥6 candidates** — dispatch one Bash sub-agent that loops the lookups and returns a merged `{doi: citekey-or-null}` map (per [`_shared/cli-dispatch-policy.md`](../_shared/cli-dispatch-policy.md)), so the main context isn't flooded by per-call banners.
 3. **Match → in Paperpile.** Use the returned citekey and pull the canonical entry with `paperpile export-bib --citekeys <key> --json`. Reconcile per "Key Reconciliation" below — do NOT invent a key or re-type metadata.
 4. **No match → genuinely `NEW`.** Only now stage it for import and generate a BBT-style placeholder key.
 5. **Mark every assembled `.bib` entry** `% IN PAPERPILE (<key>)` or `% NEW — add to Paperpile`, and report the IN-PAPERPILE / NEW split counts.
@@ -58,7 +62,7 @@ When the helper (or a manual fallback) finds a Paperpile match, reconcile the lo
 
 1. **Copy the Paperpile citekey into the local entry** — replace the locally-generated Better BibTeX key with the Paperpile `citekey` so `\cite{}` resolves against the user's library. This is the default behaviour, not optional.
 2. **Backfill the DOI** from Paperpile if the local entry lacks one (`paperpile export-bib --citekeys <key>` / `lookup-by-doi` carries DOIs the source PDF often doesn't print).
-3. **Treat the helper's retained local fields as transitional only.** `reconcile_bib.py` maps keys and backfills DOIs without destructively replacing a working file. After the mapping is accepted, regenerate the committed active bibliography through `scripts/bib/rebuild_paperpile_bib.py`, which uses the schema-aware Paperpile exporter (normalized `pubtype`, full authors, and venue/volume/issue/pages/publisher/booktitle when present). If the canonical item lacks a required field, report it for correction in Paperpile; do not preserve a hand-authored override in the committed `.bib`.
+3. **Treat the helper's retained local fields as transitional only.** `reconcile_bib.py` maps keys and backfills DOIs without destructively replacing a working file. After the mapping is accepted, regenerate the committed active bibliography through `scripts/bib/rebuild_paperpile_bib.py`, which uses the schema-aware Paperpile exporter (normalized `pubtype`, full authors, and venue/volume/issue/pages/publisher/booktitle when present) and then cleans the export with `clean_paperpile_bib.py`. If the canonical item lacks a required field, report it for correction in Paperpile; do not preserve a hand-authored override in the committed `.bib` (rendering exceptions belong in `bib-clean.toml`).
 4. **Leave a temporary breadcrumb** — the helper adds `note = {key reconciled to Paperpile <key>}` so the transition is auditable. The note may disappear when the active bibliography is canonically rebuilt.
 
 Working-paper → published **year drift** (e.g. local SSRN/NBER 2023 vs Paperpile published 2025) is a genuine match, not a conflict: adopt the Paperpile (published) key — it's the version the user will cite.
@@ -87,13 +91,17 @@ Based on where a reference is found, assign one of these statuses:
 | No | Yes | `DRIFT` | In local .bib but not in Paperpile — stage BibTeX for import |
 | No | No | `MISSING` | Not found anywhere — add via filing sequence below |
 
+**Live mode:** "Paperpile" means the connector. A reference the connector holds but the local export does not yet has the extra status `PENDING_EXPORT`: informational, citable now, `.bib` entry from `export-bib` after the next export. It is never `DRIFT` or `MISSING`.
+
 ## Filing Sequence (Adding Items)
 
 When a skill needs to add a reference, follow this sequence:
 
-### 1. Stage under `.paperpile-import/`
+### 1. Stage under `.paperpile-import/` (or, in live mode, save)
 
-Write the entry's BibTeX into a `.bib` file under a `.paperpile-import/` directory in the project (create it if absent). If the reference is cited in a draft, use a build-blocking `\CiteTodo{slug}{title; authors; year; DOI}` placeholder instead of a guessed key. The user imports the staged `.bib` into Paperpile manually — the CLI is **read-only** for the library (no import command; `paperpile write-bib --citekeys` only *exports* entries already in the library). After import, the user drops the minted Paperpile export (carrying the canonical key) back into `.paperpile-import/`; the `\CiteTodo` is then swapped to that key and the active `.bib` rebuilt. See `rules/paperpile-citations.md`.
+**Live mode (main session):** verify the DOI with `lookup_papers`, show the list, and on the user's yes call `save_to_library`, then read the key back with `get_references_from_library`. The key is citable at once; the `.bib` text waits for the export (no BibTeX from the plugin). If a save fails or the live call errors, fall back to staging below, in one line.
+
+Staging (export mode, and the live-mode fallback): write the entry's BibTeX into a `.bib` file under a `.paperpile-import/` directory in the project (create it if absent). If the reference is cited in a draft, use a build-blocking `\CiteTodo{slug}{title; authors; year; DOI}` placeholder instead of a guessed key. The user imports the staged `.bib` into Paperpile manually — the CLI is **read-only** for the library (no import command; `paperpile write-bib --citekeys` only *exports* entries already in the library). After import, the user drops the minted Paperpile export (carrying the canonical key) back into `.paperpile-import/`; the `\CiteTodo` is then swapped to that key and the active `.bib` rebuilt. See `rules/paperpile-citations.md`.
 
 **Convention:** stage under `.paperpile-import/` (the staging dir, excluded from the active bib by `rebuild_paperpile_bib.py`) — NOT a `paperpile-stage-*.bib` in the project root (the old convention, superseded).
 

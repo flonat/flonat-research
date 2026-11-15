@@ -51,6 +51,8 @@ request or derive the full path; never silently choose one.
 
 **Graceful degradation:** If the `paperpile` CLI is unavailable, skip with a warning — report .bib-only stats.
 
+**Live mode (main session; `paperpile-mode.sh status`):** the folder listing above comes from the local export, which lags up to a day, so a paper filed or saved since then looks like "Cited but Not in Folder". For each item that would land in that bucket, confirm with the connector before reporting it as needing filing: look the items up with `get_references_from_library` by `citekeys`/`dois` (up to 100 per call), and for folder membership list the folder directly with `get_references_from_library` and `folder_id` (page with the returned `cursor`; find the ID with `get_collections_from_library`, and use IDs, never names, because several folders share a name). Label connector-confirmed items `pending export`. The folder listing route follows the tool schema and has not been exercised here; if it misbehaves, fall back to the export result with a caveat. A failed live call falls back to the export result with a one-line caveat. See [`shared/paperpile-access.md`](../shared/paperpile-access.md).
+
 ### 3. Compare
 
 Produce three lists:

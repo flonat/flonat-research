@@ -598,8 +598,8 @@ assets:
       - shell
       - skill-routing
       reason: selected by the reviewed public distribution
-    retarget-journal:
-      path: skills/retarget-journal
+    retarget-venue:
+      path: skills/retarget-venue
       clients:
       - claude
       - codex

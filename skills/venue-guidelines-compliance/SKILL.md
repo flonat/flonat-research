@@ -199,6 +199,6 @@ No numeric quality score, critic recommendation, or successful compilation may o
 
 - Use a separate guideline-maintenance workflow when the user wants a persistent reusable guide; this skill can instead build an in-report official-source ledger for one audit.
 - Use `brief-compliance-check` for coursework and assessment briefs.
-- Use `retarget-journal` or `venue-fork` to change the manuscript for another venue.
+- Use `retarget-venue` or `venue-fork` to change the manuscript for another venue.
 - Use `camera-ready` for authorized post-acceptance changes.
 - Report all findings before any fix. Do not modify the paper automatically.

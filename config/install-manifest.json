@@ -847,18 +847,18 @@
     },
     {
       "client": "claude",
-      "source": ".claude/commands/retarget-journal.md",
-      "target": ".claude/commands/retarget-journal.md"
+      "source": ".claude/commands/retarget-venue.md",
+      "target": ".claude/commands/retarget-venue.md"
     },
     {
       "client": "claude",
-      "source": "skills/retarget-journal",
-      "target": ".claude/shared-skills/retarget-journal"
+      "source": "skills/retarget-venue",
+      "target": ".claude/shared-skills/retarget-venue"
     },
     {
       "client": "codex",
-      "source": "skills/retarget-journal",
-      "target": ".agents/skills/retarget-journal"
+      "source": "skills/retarget-venue",
+      "target": ".agents/skills/retarget-venue"
     },
     {
       "client": "claude",

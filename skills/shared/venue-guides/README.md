@@ -37,7 +37,7 @@ Writing style guides, reviewer expectations, and formatting requirements for aca
 
 | Skill / Agent | What it uses |
 |---------------|-------------|
-| `retarget-journal` | Formatting requirements + writing style when switching venues |
+| `retarget-venue` | Formatting requirements + writing style when switching venues |
 | `paper-critic` agent | Reviewer expectations when evaluating paper quality |
 | `referee2-reviewer` agent | Reviewer expectations for venue-appropriate critique |
 

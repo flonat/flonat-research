@@ -33,6 +33,9 @@ they would seem like a natural next step:
 - Do NOT run any build command (`latexmk`, `pdflatex`, `Rscript`,
   `uv run python <script>` for non-utility scripts, etc.) unless the
   task explicitly requires it. The orchestrator handles builds.
+- Do NOT run `uv run --project <dir>` in a project that has no `uv.lock`:
+  it creates `uv.lock` and `.venv` there. For read-only work use
+  `uv run --no-project --with <deps>`.
 - Do NOT edit `.context/` files. The orchestrator handles session context.
 - Do NOT edit `MEMORY.md`, `CLAUDE.md`, `README.md`, or any project-level
   documentation file. The orchestrator handles project state.
@@ -73,6 +76,7 @@ you were about to do in your final summary. The orchestrator decides.
 - **Don't** assume "drafted a paper → compile + commit" is the natural sub-agent flow. It isn't. The orchestrator decides.
 - **Don't** rely on the sub-agent reading global rules — they don't auto-load in sub-agent context. Inline the forbid-list.
 - **Don't** dispatch a sub-agent with `Bash` and Edit access without an explicit forbid-list. Default permissions enable harmful side-effects.
+- **Don't** hand a read-only agent a run command that writes. `uv run --project <dir>` creates `uv.lock` and `.venv` in a project without a lock; give it `uv run --no-project --with <deps>` instead (2026-11-10: a code audit left both in a research project's root).
 
 ## Citation forbid-list clause (drafting sub-agents)
 

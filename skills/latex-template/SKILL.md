@@ -17,7 +17,7 @@ allowed-tools:
   - AskUserQuestion
   - Skill
 argument-hint: "[project-path] [--apply]"
-skill-dependencies: [latex, retarget-journal]
+skill-dependencies: [latex, retarget-venue]
 ---
 
 # Template Compliance
@@ -197,7 +197,7 @@ After applying changes:
 - **Does not check content quality.** The separate `proofread` workflow covers
   prose quality when that additional review is wanted.
 - **Does not manage `.bib` files.** Use an installed bibliography validator, or perform direct cite-key and metadata checks.
-- **Does not handle journal-specific formatting.** Use `retarget-journal` for that.
+- **Does not handle venue-specific formatting.** Use `retarget-venue` for that.
 - **Does not compare across projects.** Checks one project at a time against the template.
 
 ---
@@ -238,4 +238,4 @@ Run on each project individually. This skill checks one project at a time.
 - **Installed bibliography validator** — optional complement for citation keys and metadata; this skill checks bibliography system configuration
 - **`init-project-research`** — creates projects from the template; this skill
   verifies ongoing compliance
-- **`retarget-journal`** — handles journal-specific formatting (different concern)
+- **`retarget-venue`** — handles venue-specific formatting (different concern)

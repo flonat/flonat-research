@@ -15,7 +15,7 @@ allowed-tools:
 # Venue Fork: Second-Venue Submission Variant
 
 Fork a paper for a second venue while the original submission keeps living. A fork is a **copy**
-(both venues track independently), unlike `retarget-journal` (a move) and `preprint` (a
+(both venues track independently), unlike `retarget-venue` (a move) and `preprint` (a
 non-archival variant that must NOT get a vault submission entry).
 
 ## When to Use

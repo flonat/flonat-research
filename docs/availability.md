@@ -76,7 +76,7 @@ has an explicit client list, with no implicit `both` default.
 | `reorg` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `replication-audit` | Yes | Yes | filesystem, shell, skill-routing, subagents, web | selected by the reviewed public distribution |
 | `replication-package` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
-| `retarget-journal` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
+| `retarget-venue` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
 | `review-cluster` | Yes | Yes | filesystem, shell, skill-routing, subagents | selected by the reviewed public distribution |
 | `review-response` | Yes | Yes | filesystem, skill-routing | selected by the reviewed public distribution |
 | `session-health` | Yes | Yes | filesystem, shell, skill-routing | selected by the reviewed public distribution |
